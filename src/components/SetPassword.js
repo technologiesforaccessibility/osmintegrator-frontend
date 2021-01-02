@@ -1,20 +1,15 @@
 import React, {Component} from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink} from "react-router-dom";
 import axios from 'axios';
-import './login.scss';
+import './setPassword.scss';
 
-const { REACT_APP_BACKEND_HOST } = process.env;
-const { REACT_APP_LOGIN_PATH } = process.env;
-const { REACT_APP_HTTP } = process.env;
-
-class Login extends Component {
+class SetPassword extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
             email: '',
-            password: '',
         };
 
         this.change = this.change.bind(this);
@@ -26,11 +21,21 @@ class Login extends Component {
             [e.target.name]: e.target.value
         })
     }
+
+    comparePasswords = () => {
+        return (this.state.password1 === this.state.password2)
+    }
+
+    isPasswordStrong = () => {
+        const testedPassword = this.state.password1;
+        const pattern = /^\S{8,}$/g;
+        return testedPassword.match(pattern);
+    }
+
     submit(e) {
         e.preventDefault();
-        const url = REACT_APP_HTTP + REACT_APP_BACKEND_HOST + REACT_APP_LOGIN_PATH;
-        console.log(url);
-        axios.post(url,
+        if (this.comparePasswords() && this.isPasswordStrong()) {
+                    axios.post('https://localhost:44388/api/Account/Login',
             {
                 "UserName": this.state.email,
                 "Password": this.state.password
@@ -49,6 +54,10 @@ class Login extends Component {
             .catch(error => {
                 console.log(error.resp);
             });
+        } else {
+        //
+        }
+
     }
 
     render() {
@@ -56,28 +65,31 @@ class Login extends Component {
             <React.Fragment>
                 <div className="auth-area">
                     <div className="form-div">
-                        <h1 id="title-login">Welcome</h1>
-                        <form name="login-form" onSubmit={e => this.submit(e)}>
+                        <h1 id="title-login">Recover your password</h1>
+                        <form name="recover-form" onSubmit={e => this.submit(e)}>
                             <div className="field-area">
-                                <input type="text" name="email" id="email-input" placeholder="E-mail"
+                                <input type="text" name="password1" id="email-input" placeholder="New password"
                                        onChange={e => {
                                            this.change(e)
                                        }}/>
                             </div>
                             <div className="field-area">
-                                <input type="password" name="password" id="password-input" placeholder="Password"
+                                <input type="text" name="password2" id="email-input" placeholder="Confirm password"
                                        onChange={e => {
                                            this.change(e)
                                        }}/>
                             </div>
                             <div className="login-button-area">
-                                <button type="submit" id="button-login">Log in</button>
+                                <button type="submit" id="button-login">Set new password</button>
+                            </div>
+                        </form>
+                        <div className="info-placeholder" value=""></div>
+                        <div className="login-button-area">
+                                <NavLink to = "/auth/setpassword">
+                                    <button type="submit" id="button-login" onClick={e => this.submit(e)}>Enter your reset code</button>
+                                </NavLink>
                             </div>
 
-                        </form>
-                        <div className="link"><NavLink to="/auth/recover">Forgot Username / Password ?</NavLink></div>
-                        <div className="link"><NavLink to="/">Create an account? Sign up</NavLink></div>
-                        <div className="info-placeholder" value=""></div>
                     </div>
                 </div>
             </React.Fragment>
@@ -85,4 +97,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default SetPassword;

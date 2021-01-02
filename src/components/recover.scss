@@ -1,0 +1,7 @@
+@import './colors';
+@import './authMixins';
+
+.field-area {
+  border-bottom: 1px solid $color-internal-border;
+  padding: 10px;
+}

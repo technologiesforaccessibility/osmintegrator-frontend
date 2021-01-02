@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom'
 import MapView from './MapView';
 import Login from './Login';
+import Auth from './Auth';
 
 
 class App extends Component {
@@ -13,7 +14,8 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path="/Login" component={Login} />
+          {/*<Route path="/Login" component={Login} />*/}
+          <Route path="/auth" component={Auth} />
           <Route path="/" exact component={MapView} />
         </Switch>
       </BrowserRouter>     
