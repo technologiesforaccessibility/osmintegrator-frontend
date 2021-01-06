@@ -16,7 +16,7 @@ class Auth extends Component {
                 <Switch>
                     <Route path="/auth/login" component={Login}/>
                     <Route path="/auth/recover" component={Recover}/>
-                    <Route path="/auth/setpassword" component={SetPassword}/>
+                    <Route path="/auth/ResetPassword" component={SetPassword}/>
                 </Switch>
             </React.Fragment>
         )

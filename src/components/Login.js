@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import './login.scss';
 
-const { REACT_APP_BACKEND_HOST } = process.env;
-const { REACT_APP_LOGIN_PATH } = process.env;
-const { REACT_APP_HTTP } = process.env;
+
+const {REACT_APP_LOGIN_PATH} = process.env;
 
 class Login extends Component {
 
@@ -15,10 +15,15 @@ class Login extends Component {
         this.state = {
             email: '',
             password: '',
+            isMessageShown: false,
+            message: ''
         };
 
         this.change = this.change.bind(this);
         this.submit = this.submit.bind(this);
+    }
+
+    componentDidMount() {
     }
 
     change(e) {
@@ -26,10 +31,26 @@ class Login extends Component {
             [e.target.name]: e.target.value
         })
     }
+
+    showMessage = (msg) => {
+        this.setState({
+            isMessageShown: true,
+            message: msg
+        })
+    }
+
+    hideMessage = () => {
+        if (this.state.isMessageShown) {
+            this.setState({
+                isMessageShown: false,
+                message: ''
+            })
+        }
+    }
+
     submit(e) {
         e.preventDefault();
-        const url = REACT_APP_HTTP + REACT_APP_BACKEND_HOST + REACT_APP_LOGIN_PATH;
-        console.log(url);
+        const url = REACT_APP_LOGIN_PATH;
         axios.post(url,
             {
                 "UserName": this.state.email,
@@ -39,12 +60,18 @@ class Login extends Component {
                 headers: {
                     'Cache-Control': 'no-cache',
                     'Content-Type': 'application/json',
-                    "Access-Control-Allow-Origin": "*"
+
                 }
             })
             .then(resp => {
-                console.log(resp);
-                localStorage.setItem('tokenData', resp.data.tokenData);
+                // console.log("Response: ", resp);
+                if (!resp.data.isSuccess) {
+                    this.showMessage(resp.data.errorMsg);
+                } else {
+                    console.log("resp.data.isSuccess: ", resp.data.isSuccess);
+                    localStorage.setItem('tokenData', resp.data.tokenData);
+                    // this.props.history.push("/");
+                }
             })
             .catch(error => {
                 console.log(error.resp);
@@ -62,22 +89,21 @@ class Login extends Component {
                                 <input type="text" name="email" id="email-input" placeholder="E-mail"
                                        onChange={e => {
                                            this.change(e)
-                                       }}/>
+                                       }} onClick={this.hideMessage}/>
                             </div>
                             <div className="field-area">
                                 <input type="password" name="password" id="password-input" placeholder="Password"
                                        onChange={e => {
                                            this.change(e)
-                                       }}/>
+                                       }} onClick={this.hideMessage}/>
                             </div>
                             <div className="login-button-area">
                                 <button type="submit" id="button-login">Log in</button>
                             </div>
-
                         </form>
                         <div className="link"><NavLink to="/auth/recover">Forgot Username / Password ?</NavLink></div>
-                        <div className="link"><NavLink to="/">Create an account? Sign up</NavLink></div>
-                        <div className="info-placeholder" value=""></div>
+                        <div className="auth-info-placeholder" value="">{this.state.isMessageShown &&
+                        <span style={{color: "maroon"}}>{this.state.message}</span>}</div>
                     </div>
                 </div>
             </React.Fragment>

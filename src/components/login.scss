@@ -2,19 +2,11 @@
 @import './authMixins';
 
 .auth-area {
-  height: 100%;
-  height: 100vh;
-  width: 100%;
-  width: 100vw;
-  display: grid;
-  place-items: center;
+  @include auth-area;
 }
 
 .form-div {
-  width: 100%;
-  height: 100%;
-  background-color: $color-login-form-background;
-  margin: auto auto;
+  @include form-div;
   @include font-type;
 }
 
@@ -23,6 +15,9 @@
   text-align: center;
   padding-top: 10px;
 }
+
+
+
 
 .field-area {
   border-bottom: 1px solid $color-internal-border;
@@ -53,12 +48,6 @@
   @include font-size;
 }
 
-
-.info-placeholder {
-  height: 50px;
-}
-
-
 .link {
 padding: 10px;
   text-align: center;
@@ -81,7 +70,7 @@ a:hover {
 @media screen and (orientation: landscape) {
   .form-div {
     width: 400px;
-    height: 500px;
+    height: 350px;
     border-radius: 20px;
   }
 }

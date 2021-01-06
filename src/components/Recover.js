@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 import {NavLink} from "react-router-dom";
 import axios from 'axios';
 import './recover.scss';
+import {sentResetLinkText} from "./utilities-texts";
+
+const {REACT_APP_RESET_PASS_PATH} = process.env;
+
 
 class Recover extends Component {
 
@@ -10,6 +14,9 @@ class Recover extends Component {
 
         this.state = {
             email: '',
+            isMessageShown: false,
+            message: '',
+            messageColor: ''
         };
 
         this.change = this.change.bind(this);
@@ -22,11 +29,35 @@ class Recover extends Component {
         })
     }
 
+    showMessage = (msg) => {
+        this.setState({
+            isMessageShown: true,
+            message: msg
+        })
+    }
+
+    setMessageColor = (color) => {
+        this.setState({messageColor: color})
+    }
+
+    showSuccessMessage = () => {
+        this.setState({isMessageShown: true});
+    };
+
+    hideMessage = () => {
+        if (this.state.isMessageShown) {
+            this.setState({
+                isMessageShown: false,
+                message: ''
+            })
+        }
+    }
+
     submit(e) {
         e.preventDefault();
-        // const url = {{host}} + '/api/Account/ForgotPassword';
+        const url = REACT_APP_RESET_PASS_PATH;
 
-        axios.post('https://localhost:44388/api/Account/Login',
+        axios.post(url,
             {
                 "Email": this.state.email,
             },
@@ -39,7 +70,13 @@ class Recover extends Component {
             })
             .then(resp => {
                 console.log(resp);
-                localStorage.setItem('tokenData', resp.data.tokenData);
+                if (resp.data.isSuccess) {
+                    this.setMessageColor("#134a1e")
+                    this.showMessage(sentResetLinkText());
+                } else {
+                    this.setMessageColor("maroon")
+                    this.showMessage(resp.data.errorMsg);
+                }
             })
             .catch(error => {
                 console.log(error.resp);
@@ -58,19 +95,14 @@ class Recover extends Component {
                                 <input type="text" name="email" id="email-input" placeholder="Email"
                                        onChange={e => {
                                            this.change(e)
-                                       }}/>
+                                       }} onClick={this.hideMessage}/>
                             </div>
                             <div className="login-button-area">
                                 <button type="submit" id="button-login">Reset your password</button>
                             </div>
                         </form>
-                        <div className="info-placeholder" value=""></div>
-                        <div className="login-button-area">
-                                <NavLink to = "/auth/setpassword">
-                                    <button type="submit" id="button-login" onClick={e => this.submit(e)}>Enter your reset code</button>
-                                </NavLink>
-                            </div>
-
+                        <div className="centered auth-info-placeholder" value="">{this.state.isMessageShown &&
+                        <span style={{color: this.state.messageColor}}>{this.state.message}</span>}</div>
                     </div>
                 </div>
             </React.Fragment>

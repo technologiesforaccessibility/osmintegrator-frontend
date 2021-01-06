@@ -5,3 +5,24 @@
 @mixin font-size {
   font-size: 20px;
 }
+
+@mixin auth-area {
+  height: 100%;
+  height: 100vh;
+  width: 100%;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+}
+
+@mixin form-div {
+  width: 100%;
+  height: 100%;
+  background-color: $color-login-form-background;
+  margin: auto auto;
+}
+
+@mixin centered-text {
+  margin: auto;
+  text-align: center;
+}

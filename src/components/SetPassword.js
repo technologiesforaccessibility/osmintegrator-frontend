@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {NavLink} from "react-router-dom";
 import axios from 'axios';
 import './setPassword.scss';
+import {comparePasswords, isPasswordStrong, getEmailFromPath, getTokenFromPath} from "./utilities";
+import { changedPasswordText, expiredTokenText, invalidPasswordsText} from "./utilities-texts";
+const { REACT_APP_SET_PASS_PATH } = process.env;
 
 class SetPassword extends Component {
 
@@ -9,7 +12,9 @@ class SetPassword extends Component {
         super(props);
 
         this.state = {
-            email: '',
+            isMessageShown: '',
+            message: '',
+            messageColor: ''
         };
 
         this.change = this.change.bind(this);
@@ -22,23 +27,36 @@ class SetPassword extends Component {
         })
     }
 
-    comparePasswords = () => {
-        return (this.state.password1 === this.state.password2)
+    showMessage = (msg) => {
+        this.setState({
+            isMessageShown: true,
+            message: msg
+        })
     }
 
-    isPasswordStrong = () => {
-        const testedPassword = this.state.password1;
-        const pattern = /^\S{8,}$/g;
-        return testedPassword.match(pattern);
+    hideMessage = () => {
+        if (this.state.isMessageShown) {
+            this.setState({
+                isMessageShown: false,
+                message: ''
+            })
+        }
+    }
+
+    setMessageColor = (color) => {
+        this.setState({messageColor: color})
     }
 
     submit(e) {
         e.preventDefault();
-        if (this.comparePasswords() && this.isPasswordStrong()) {
-                    axios.post('https://localhost:44388/api/Account/Login',
+        if (comparePasswords(this.state.password1, this.state.password2) && isPasswordStrong(this.state.password1)) {
+                    const url = REACT_APP_SET_PASS_PATH;
+                    axios.post(url,
             {
-                "UserName": this.state.email,
-                "Password": this.state.password
+                "Email": getEmailFromPath(window.location.href),
+                "Password": this.state.password1,
+                "ConfirmPassword": this.state.password2,
+                "Token": getTokenFromPath(window.location.href)
             },
             {
                 headers: {
@@ -49,13 +67,20 @@ class SetPassword extends Component {
             })
             .then(resp => {
                 console.log(resp);
-                localStorage.setItem('tokenData', resp.data.tokenData);
+                if (resp.data.isSuccess) {
+                    this.setMessageColor("#134a1e")
+                    this.showMessage(changedPasswordText());
+                } else {
+                    this.setMessageColor("maroon")
+                    this.showMessage(expiredTokenText());
+                }
             })
             .catch(error => {
                 console.log(error.resp);
             });
         } else {
-        //
+            this.setMessageColor("maroon")
+            this.showMessage(invalidPasswordsText());
         }
 
     }
@@ -65,31 +90,26 @@ class SetPassword extends Component {
             <React.Fragment>
                 <div className="auth-area">
                     <div className="form-div">
-                        <h1 id="title-login">Recover your password</h1>
+                        <h1 id="title-login">Set a new password</h1>
+                        <h3 className="subtitle">{getEmailFromPath(window.location.href)}</h3>
                         <form name="recover-form" onSubmit={e => this.submit(e)}>
                             <div className="field-area">
-                                <input type="text" name="password1" id="email-input" placeholder="New password"
+                                <input type="password" name="password1" id="email-input" placeholder="New password"
                                        onChange={e => {
                                            this.change(e)
-                                       }}/>
+                                       }} onClick={this.hideMessage}/>
                             </div>
                             <div className="field-area">
-                                <input type="text" name="password2" id="email-input" placeholder="Confirm password"
+                                <input type="password" name="password2" id="email-input" placeholder="Confirm password"
                                        onChange={e => {
                                            this.change(e)
-                                       }}/>
+                                       }} onClick={this.hideMessage}/>
                             </div>
                             <div className="login-button-area">
                                 <button type="submit" id="button-login">Set new password</button>
                             </div>
                         </form>
-                        <div className="info-placeholder" value=""></div>
-                        <div className="login-button-area">
-                                <NavLink to = "/auth/setpassword">
-                                    <button type="submit" id="button-login" onClick={e => this.submit(e)}>Enter your reset code</button>
-                                </NavLink>
-                            </div>
-
+                        <div className="centered auth-info-placeholder" value="">{this.state.isMessageShown && <span style={{color: this.state.messageColor}}>{this.state.message}</span>}</div>
                     </div>
                 </div>
             </React.Fragment>
