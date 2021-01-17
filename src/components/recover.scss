@@ -1,37 +1,10 @@
-@import './colors';
+@import './colors.module';
 @import './authMixins';
 
 .field-area {
   border-bottom: 1px solid $color-internal-border;
   padding: 10px;
 }
-
-//.auth-area {
-//  @include auth-area;
-//}
-//
-//.form-div {
-//  @include form-div;
-//  @include font-type;
-//}
-
-
-//.auth-area {
-//  height: 100%;
-//  height: 100vh;
-//  width: 100%;
-//  width: 100vw;
-//  display: grid;
-//  place-items: center;
-//}
-//
-//.form-div {
-//  width: 100%;
-//  height: 100%;
-//  background-color: $color-login-form-background;
-//  margin: auto auto;
-//  @include font-type;
-//}
 
 .centered {
   display: flex;

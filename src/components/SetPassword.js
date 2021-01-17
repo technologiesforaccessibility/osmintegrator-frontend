@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
-import {NavLink} from "react-router-dom";
 import axios from 'axios';
+
 import './setPassword.scss';
+import colors from './colors.module.scss';
+
 import {comparePasswords, isPasswordStrong, getEmailFromPath, getTokenFromPath} from "./utilities";
-import { changedPasswordText, expiredTokenText, invalidPasswordsText} from "./utilities-texts";
-const { REACT_APP_SET_PASS_PATH } = process.env;
+import {changedPasswordText, expiredTokenText, invalidPasswordsText} from "./utilities-texts";
+import {postDefaultHeaders} from '../config/apiConfig';
+
+const {REACT_APP_SET_PASS_PATH} = process.env;
 
 class SetPassword extends Component {
 
@@ -50,36 +54,32 @@ class SetPassword extends Component {
     submit(e) {
         e.preventDefault();
         if (comparePasswords(this.state.password1, this.state.password2) && isPasswordStrong(this.state.password1)) {
-                    const url = REACT_APP_SET_PASS_PATH;
-                    axios.post(url,
-            {
-                "Email": getEmailFromPath(window.location.href),
-                "Password": this.state.password1,
-                "ConfirmPassword": this.state.password2,
-                "Token": getTokenFromPath(window.location.href)
-            },
-            {
-                headers: {
-                    'Cache-Control': 'no-cache',
-                    'Content-Type': 'application/json',
-                    "Access-Control-Allow-Origin": "*"
-                }
-            })
-            .then(resp => {
-                console.log(resp);
-                if (resp.data.isSuccess) {
-                    this.setMessageColor("#134a1e")
-                    this.showMessage(changedPasswordText());
-                } else {
-                    this.setMessageColor("maroon")
-                    this.showMessage(expiredTokenText());
-                }
-            })
-            .catch(error => {
-                console.log(error.resp);
-            });
+            const url = REACT_APP_SET_PASS_PATH;
+            axios.post(url,
+                {
+                    "Email": getEmailFromPath(window.location.href),
+                    "Password": this.state.password1,
+                    "ConfirmPassword": this.state.password2,
+                    "Token": getTokenFromPath(window.location.href)
+                },
+                {
+                    headers: postDefaultHeaders()
+                })
+                .then(resp => {
+                    console.log(resp);
+                    if (resp.data.isSuccess) {
+                        this.setMessageColor(colors['colorMessageSuccess'])
+                        this.showMessage(changedPasswordText());
+                    } else {
+                        this.setMessageColor(colors['colorMessageFail'])
+                        this.showMessage(expiredTokenText());
+                    }
+                })
+                .catch(error => {
+                    console.log(error.resp);
+                });
         } else {
-            this.setMessageColor("maroon")
+            this.setMessageColor(colors['colorMessageFail'])
             this.showMessage(invalidPasswordsText());
         }
 
@@ -109,7 +109,8 @@ class SetPassword extends Component {
                                 <button type="submit" id="button-login">Set new password</button>
                             </div>
                         </form>
-                        <div className="centered auth-info-placeholder" value="">{this.state.isMessageShown && <span style={{color: this.state.messageColor}}>{this.state.message}</span>}</div>
+                        <div className="centered auth-info-placeholder" value="">{this.state.isMessageShown &&
+                        <span style={{color: this.state.messageColor}}>{this.state.message}</span>}</div>
                     </div>
                 </div>
             </React.Fragment>

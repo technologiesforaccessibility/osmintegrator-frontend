@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
-import {NavLink} from "react-router-dom";
 import axios from 'axios';
+
 import './recover.scss';
+import colors from './colors.module.scss';
+
 import {sentResetLinkText} from "./utilities-texts";
+import {postDefaultHeaders} from '../config/apiConfig';
 
 const {REACT_APP_RESET_PASS_PATH} = process.env;
 
@@ -62,19 +65,15 @@ class Recover extends Component {
                 "Email": this.state.email,
             },
             {
-                headers: {
-                    'Cache-Control': 'no-cache',
-                    'Content-Type': 'application/json',
-                    "Access-Control-Allow-Origin": "*"
-                }
+                headers: postDefaultHeaders()
             })
             .then(resp => {
                 console.log(resp);
                 if (resp.data.isSuccess) {
-                    this.setMessageColor("#134a1e")
+                    this.setMessageColor(colors['colorMessageSuccess'])
                     this.showMessage(sentResetLinkText());
                 } else {
-                    this.setMessageColor("maroon")
+                    this.setMessageColor(colors['colorMessageFail'])
                     this.showMessage(resp.data.errorMsg);
                 }
             })

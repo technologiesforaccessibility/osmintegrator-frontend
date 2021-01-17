@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
-// import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import './login.scss';
 
+import './login.scss';
+import colors from './colors.module.scss';
+
+import {postDefaultHeaders} from '../config/apiConfig';
 
 const {REACT_APP_LOGIN_PATH} = process.env;
 
@@ -57,20 +59,15 @@ class Login extends Component {
                 "Password": this.state.password
             },
             {
-                headers: {
-                    'Cache-Control': 'no-cache',
-                    'Content-Type': 'application/json',
-
-                }
+                headers: postDefaultHeaders()
             })
             .then(resp => {
-                // console.log("Response: ", resp);
                 if (!resp.data.isSuccess) {
                     this.showMessage(resp.data.errorMsg);
                 } else {
                     console.log("resp.data.isSuccess: ", resp.data.isSuccess);
-                    localStorage.setItem('tokenData', resp.data.tokenData);
-                    // this.props.history.push("/");
+                    localStorage.setItem('token', resp.data.tokenData.token);
+                    localStorage.setItem('tokenRefresh', resp.data.tokenData.refreshToken);
                 }
             })
             .catch(error => {
@@ -103,7 +100,7 @@ class Login extends Component {
                         </form>
                         <div className="link"><NavLink to="/auth/recover">Forgot Username / Password ?</NavLink></div>
                         <div className="auth-info-placeholder" value="">{this.state.isMessageShown &&
-                        <span style={{color: "maroon"}}>{this.state.message}</span>}</div>
+                        <span style={{color: colors['colorMessageFail']}}>{this.state.message}</span>}</div>
                     </div>
                 </div>
             </React.Fragment>
