@@ -4,7 +4,7 @@ import axios from 'axios';
 import './recover.scss';
 import colors from './colors.module.scss';
 
-import {sentResetLinkText} from "./utilities-texts";
+import {formError400Text, sentResetLinkText} from "./utilities-texts";
 import {postDefaultHeaders} from '../config/apiConfig';
 
 const {REACT_APP_RESET_PASS_PATH} = process.env;
@@ -28,7 +28,7 @@ class Recover extends Component {
 
     change(e) {
         this.setState({
-            [e.target.name]: e.target.value
+            [e.target.id]: e.target.value
         })
     }
 
@@ -62,23 +62,26 @@ class Recover extends Component {
 
         axios.post(url,
             {
-                "Email": this.state.email,
+                "Email": this.state.recoverEmail,
             },
             {
                 headers: postDefaultHeaders()
             })
             .then(resp => {
-                console.log(resp);
-                if (resp.data.isSuccess) {
-                    this.setMessageColor(colors['colorMessageSuccess'])
+                if (resp.status === 200) {
+                    this.setMessageColor(colors['colorMessageSuccess']);
                     this.showMessage(sentResetLinkText());
-                } else {
-                    this.setMessageColor(colors['colorMessageFail'])
-                    this.showMessage(resp.data.errorMsg);
                 }
             })
             .catch(error => {
-                console.log(error.resp);
+                this.setMessageColor(colors['colorMessageFail'])
+                if (error.response.status === 401) {
+                    this.showMessage(error.response.data.message);
+                } else if (error.response.status === 400) {
+                    this.showMessage(formError400Text())
+                } else {
+                    console.warn("Undefined error");
+                }
             });
 
     }
@@ -86,24 +89,20 @@ class Recover extends Component {
     render() {
         return (
             <React.Fragment>
-                <div className="auth-area">
-                    <div className="form-div">
-                        <h1 id="title-login">Recover your password</h1>
+                        <h1 className="auth-title">Recover your password</h1>
                         <form name="recover-form" onSubmit={e => this.submit(e)}>
-                            <div className="field-area">
-                                <input type="text" name="email" id="email-input" placeholder="Email"
+                            <div className="inputbox-spacer">
+                                <input type="text" id="recoverEmail" placeholder="Email"
                                        onChange={e => {
                                            this.change(e)
                                        }} onClick={this.hideMessage}/>
                             </div>
-                            <div className="login-button-area">
-                                <button type="submit" id="button-login">Reset your password</button>
+                            <div className="recover-button-area">
+                                <button type="submit" id="button-reset">Reset your password</button>
                             </div>
                         </form>
                         <div className="centered auth-info-placeholder" value="">{this.state.isMessageShown &&
                         <span style={{color: this.state.messageColor}}>{this.state.message}</span>}</div>
-                    </div>
-                </div>
             </React.Fragment>
         );
     }

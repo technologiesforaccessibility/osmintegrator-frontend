@@ -13,3 +13,7 @@ export function expiredTokenText() {
 export function invalidPasswordsText() {
         return "Provided passwords must be the same and have 8+ chars"
     }
+
+export function formError400Text() {
+        return "Provided values must be valid"
+    }

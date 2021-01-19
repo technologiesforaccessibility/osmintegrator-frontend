@@ -1,12 +1,20 @@
 @import './colors.module';
 @import './authMixins';
 
-.field-area {
-  border-bottom: 1px solid $color-internal-border;
-  padding: 10px;
+
+#recoverEmail {
+  @include input-textbox;
+  @include font-type;
+  @include font-size;
 }
 
-.centered {
-  display: flex;
-  justify-content: center;
+.recover-button-area {
+  @include auth-button-area;
 }
+
+#button-reset {
+  @include auth-button;
+  @include font-type;
+  @include font-size;
+}
+

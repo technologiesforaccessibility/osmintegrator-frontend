@@ -1,3 +1,5 @@
+@import './colors.module';
+
 @mixin font-type {
   font-family: Ubuntu, Helvetica, sans-serif;
 }
@@ -15,6 +17,12 @@
   place-items: center;
 }
 
+@mixin auth-title {
+  margin: auto;
+  text-align: center;
+  padding-top: 10px;
+}
+
 @mixin form-div {
   width: 100%;
   height: 100%;
@@ -22,7 +30,27 @@
   margin: auto auto;
 }
 
+@mixin input-textbox {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
 @mixin centered-text {
   margin: auto;
   text-align: center;
 }
+
+@mixin auth-button-area {
+  padding: 10px;
+  margin: auto;
+}
+
+@mixin auth-button {
+  padding: 10px;
+  width: 100%;
+  font-weight: bold;
+}
+

@@ -6,6 +6,7 @@ import './login.scss';
 import colors from './colors.module.scss';
 
 import {postDefaultHeaders} from '../config/apiConfig';
+import {formError400Text} from "./utilities-texts";
 
 const {REACT_APP_LOGIN_PATH} = process.env;
 
@@ -15,8 +16,8 @@ class Login extends Component {
         super(props);
 
         this.state = {
-            email: '',
-            password: '',
+            loginEmail: '',
+            loginPassword: '',
             isMessageShown: false,
             message: ''
         };
@@ -30,7 +31,7 @@ class Login extends Component {
 
     change(e) {
         this.setState({
-            [e.target.name]: e.target.value
+            [e.target.id]: e.target.value
         })
     }
 
@@ -55,41 +56,43 @@ class Login extends Component {
         const url = REACT_APP_LOGIN_PATH;
         axios.post(url,
             {
-                "UserName": this.state.email,
-                "Password": this.state.password
+                "Email": this.state.loginEmail,
+                "Password": this.state.loginPassword
             },
             {
                 headers: postDefaultHeaders()
             })
             .then(resp => {
-                if (!resp.data.isSuccess) {
-                    this.showMessage(resp.data.errorMsg);
-                } else {
-                    console.log("resp.data.isSuccess: ", resp.data.isSuccess);
-                    localStorage.setItem('token', resp.data.tokenData.token);
-                    localStorage.setItem('tokenRefresh', resp.data.tokenData.refreshToken);
+                if (resp.status === 200) {
+                    console.log("Authentication success");
+                    localStorage.setItem('token', resp.data.token);
+                    localStorage.setItem('tokenRefresh', resp.data.refreshToken);
                 }
             })
-            .catch(error => {
-                console.log(error.resp);
+            .catch( (error) => {
+                if (error.response.status === 401) {
+                    this.showMessage(error.response.data.message)
+                } else if (error.response.status === 400) {
+                    this.showMessage(formError400Text())
+                } else {
+                    console.warn("Undefined authentication problem")
+                }
             });
     }
 
     render() {
         return (
             <React.Fragment>
-                <div className="auth-area">
-                    <div className="form-div">
-                        <h1 id="title-login">Welcome</h1>
+                        <h1 className="auth-title">Welcome</h1>
                         <form name="login-form" onSubmit={e => this.submit(e)}>
-                            <div className="field-area">
-                                <input type="text" name="email" id="email-input" placeholder="E-mail"
+                            <div className="inputbox-spacer">
+                                <input type="text" id="loginEmail" placeholder="E-mail"
                                        onChange={e => {
                                            this.change(e)
                                        }} onClick={this.hideMessage}/>
                             </div>
-                            <div className="field-area">
-                                <input type="password" name="password" id="password-input" placeholder="Password"
+                            <div className="inputbox-spacer">
+                                <input type="password" id="loginPassword" placeholder="Password"
                                        onChange={e => {
                                            this.change(e)
                                        }} onClick={this.hideMessage}/>
@@ -99,10 +102,8 @@ class Login extends Component {
                             </div>
                         </form>
                         <div className="link"><NavLink to="/auth/recover">Forgot Username / Password ?</NavLink></div>
-                        <div className="auth-info-placeholder" value="">{this.state.isMessageShown &&
+                        <div className="auth-info-placeholder centered" value="">{this.state.isMessageShown &&
                         <span style={{color: colors['colorMessageFail']}}>{this.state.message}</span>}</div>
-                    </div>
-                </div>
             </React.Fragment>
         );
     }

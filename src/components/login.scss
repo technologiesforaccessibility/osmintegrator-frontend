@@ -1,49 +1,19 @@
 @import './colors.module';
 @import './authMixins';
 
-.auth-area {
-  @include auth-area;
-}
 
-.form-div {
-  @include form-div;
-  @include font-type;
-}
-
-#title-login {
-  margin: auto;
-  text-align: center;
-  padding-top: 10px;
-}
-
-
-
-
-.field-area {
-  border-bottom: 1px solid $color-internal-border;
-  padding: 10px;
-}
-
-#email-input, #password-input {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
+#loginEmail, #loginPassword {
+  @include input-textbox;
   @include font-type;
   @include font-size;
-
 }
 
 .login-button-area {
-  padding: 10px;
-  margin: auto;
+  @include auth-button-area;
 }
 
 #button-login {
-  padding: 10px;
-  width: 100%;
-  font-weight: bold;
+  @include auth-button;
   @include font-type;
   @include font-size;
 }
@@ -57,22 +27,14 @@ padding: 10px;
 a {
   text-decoration: none;
   color: $color-link-default;
-
 }
 
 a:hover {
-  text-decoration: none;
   color: $color-link-hover;
   text-decoration-line: underline;
 
 }
 
-@media screen and (orientation: landscape) {
-  .form-div {
-    width: 400px;
-    height: 350px;
-    border-radius: 20px;
-  }
-}
+
 
 
