@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink, Redirect} from 'react-router-dom';
 import axios from 'axios';
 
 import './login.scss';
@@ -19,7 +19,8 @@ class Login extends Component {
             loginEmail: '',
             loginPassword: '',
             isMessageShown: false,
-            message: ''
+            message: '',
+            shouldRedirect: false
         };
 
         this.change = this.change.bind(this);
@@ -67,9 +68,10 @@ class Login extends Component {
                     console.log("Authentication success");
                     localStorage.setItem('token', resp.data.token);
                     localStorage.setItem('tokenRefresh', resp.data.refreshToken);
+                    this.setState({shouldRedirect: true});
                 }
             })
-            .catch( (error) => {
+            .catch((error) => {
                 if (error.response.status === 401) {
                     this.showMessage(error.response.data.message)
                 } else if (error.response.status === 400) {
@@ -81,29 +83,32 @@ class Login extends Component {
     }
 
     render() {
+        if (this.state.shouldRedirect) {
+            return <Redirect to="/"/>
+        }
         return (
             <React.Fragment>
-                        <h1 className="auth-title">Welcome</h1>
-                        <form name="login-form" onSubmit={e => this.submit(e)}>
-                            <div className="inputbox-spacer">
-                                <input type="text" id="loginEmail" placeholder="E-mail"
-                                       onChange={e => {
-                                           this.change(e)
-                                       }} onClick={this.hideMessage}/>
-                            </div>
-                            <div className="inputbox-spacer">
-                                <input type="password" id="loginPassword" placeholder="Password"
-                                       onChange={e => {
-                                           this.change(e)
-                                       }} onClick={this.hideMessage}/>
-                            </div>
-                            <div className="login-button-area">
-                                <button type="submit" id="button-login">Log in</button>
-                            </div>
-                        </form>
-                        <div className="link"><NavLink to="/auth/recover">Forgot Username / Password ?</NavLink></div>
-                        <div className="auth-info-placeholder centered" value="">{this.state.isMessageShown &&
-                        <span style={{color: colors['colorMessageFail']}}>{this.state.message}</span>}</div>
+                <h1 className="auth-title">Welcome</h1>
+                <form name="login-form" onSubmit={e => this.submit(e)}>
+                    <div className="inputbox-spacer">
+                        <input type="text" id="loginEmail" placeholder="E-mail"
+                               onChange={e => {
+                                   this.change(e)
+                               }} onClick={this.hideMessage}/>
+                    </div>
+                    <div className="inputbox-spacer">
+                        <input type="password" id="loginPassword" placeholder="Password"
+                               onChange={e => {
+                                   this.change(e)
+                               }} onClick={this.hideMessage}/>
+                    </div>
+                    <div className="login-button-area">
+                        <button type="submit" id="button-login">Log in</button>
+                    </div>
+                </form>
+                <div className="link"><NavLink to="/auth/recover">Forgot Username / Password ?</NavLink></div>
+                <div className="auth-info-placeholder centered" value="">{this.state.isMessageShown &&
+                <span style={{color: colors['colorMessageFail']}}>{this.state.message}</span>}</div>
             </React.Fragment>
         );
     }

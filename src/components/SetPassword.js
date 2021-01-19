@@ -7,6 +7,7 @@ import colors from './colors.module.scss';
 import {comparePasswords, isPasswordStrong, getEmailFromPath, getTokenFromPath} from "./utilities";
 import {changedPasswordText, expiredTokenText, invalidPasswordsText} from "./utilities-texts";
 import {postDefaultHeaders} from '../config/apiConfig';
+import {Redirect} from "react-router-dom";
 
 const {REACT_APP_SET_PASS_PATH} = process.env;
 
@@ -18,7 +19,8 @@ class SetPassword extends Component {
         this.state = {
             isMessageShown: '',
             message: '',
-            messageColor: ''
+            messageColor: '',
+            shouldRedirect: false
         };
 
         this.change = this.change.bind(this);
@@ -68,6 +70,7 @@ class SetPassword extends Component {
                     if (resp.status === 200) {
                         this.setMessageColor(colors['colorMessageSuccess'])
                         this.showMessage(changedPasswordText());
+                        setTimeout(() => this.setState({ shouldRedirect: true }), 5000);
                     }
                 })
                 .catch(error => {
@@ -86,6 +89,9 @@ class SetPassword extends Component {
     }
 
     render() {
+        if (this.state.shouldRedirect) {
+            return <Redirect to="/auth/login"/>
+        }
         return (
             <React.Fragment>
                         <h1 className="auth-title">Set a new password</h1>
@@ -97,7 +103,7 @@ class SetPassword extends Component {
                                            this.change(e)
                                        }} onClick={this.hideMessage}/>
                             </div>
-                            <div className="field-area">
+                            <div className="inputbox-spacer">
                                 <input type="password" id="password2Reset" placeholder="Confirm password"
                                        onChange={e => {
                                            this.change(e)
