@@ -1,0 +1,37 @@
+@import './colors.module';
+@import './authMixins';
+
+.auth-area {
+  @include auth-area;
+}
+
+.form-div {
+  @include form-div;
+  @include font-type;
+}
+
+@media screen and (orientation: landscape) {
+  .form-div {
+    width: 400px;
+    height: 350px;
+    border-radius: 20px;
+  }
+}
+
+.auth-title {
+  @include auth-title;
+}
+
+.auth-info-placeholder {
+  height: 50px;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+}
+
+.inputbox-spacer {
+  border-bottom: 1px solid $color-internal-border;
+  padding: 10px;
+}

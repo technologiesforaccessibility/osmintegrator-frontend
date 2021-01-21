@@ -1,7 +1,14 @@
 import React, {Component} from 'react';
-import { NavLink } from 'react-router-dom';
+import {NavLink, Redirect} from 'react-router-dom';
 import axios from 'axios';
+
 import './login.scss';
+import colors from './colors.module.scss';
+
+import {postDefaultHeaders} from '../config/apiConfig';
+import {formError400Text} from "./utilities-texts";
+
+const {REACT_APP_LOGIN_PATH} = process.env;
 
 class Login extends Component {
 
@@ -9,72 +16,100 @@ class Login extends Component {
         super(props);
 
         this.state = {
-            email: '',
-            password: '',
+            loginEmail: '',
+            loginPassword: '',
+            isMessageShown: false,
+            message: '',
+            shouldRedirect: false
         };
 
         this.change = this.change.bind(this);
         this.submit = this.submit.bind(this);
     }
 
+    componentDidMount() {
+    }
+
     change(e) {
         this.setState({
-            [e.target.name]: e.target.value
+            [e.target.id]: e.target.value
         })
+    }
+
+    showMessage = (msg) => {
+        this.setState({
+            isMessageShown: true,
+            message: msg
+        })
+    }
+
+    hideMessage = () => {
+        if (this.state.isMessageShown) {
+            this.setState({
+                isMessageShown: false,
+                message: ''
+            })
+        }
     }
 
     submit(e) {
         e.preventDefault();
-
-        axios.post('https://localhost:44388/api/Account/Login',
+        const url = REACT_APP_LOGIN_PATH;
+        axios.post(url,
             {
-                "UserName": this.state.email,
-                "Password": this.state.password
+                "Email": this.state.loginEmail,
+                "Password": this.state.loginPassword
             },
             {
-                headers: {
-                    'Cache-Control': 'no-cache',
-                    'Content-Type': 'application/json',
-                    "Access-Control-Allow-Origin": "*"
-                }
+                headers: postDefaultHeaders()
             })
             .then(resp => {
-                console.log(resp);
-                localStorage.setItem('tokenData', resp.data.tokenData);
+                if (resp.status === 200) {
+                    console.log("Authentication success");
+                    localStorage.setItem('token', resp.data.token);
+                    localStorage.setItem('tokenRefresh', resp.data.refreshToken);
+                    this.setState({shouldRedirect: true});
+                }
             })
-            .catch(error => {
-                console.log(error.resp);
+            .catch((error) => {
+                if (error.response.status === 401) {
+                    this.showMessage(error.response.data.message)
+                } else if (error.response.status === 400) {
+                    this.showMessage(formError400Text())
+                } else {
+                    console.warn("Undefined authentication problem")
+                }
             });
     }
 
     render() {
+        if (this.state.shouldRedirect) {
+            return <Redirect to="/"/>
+        }
         return (
-
-            <div className="login-area">
-                <div className="form-div">
-                    <h1 id="title-login">Welcome</h1>
-                    <form onSubmit={e => this.submit(e)}>
-                        <div className="field-area">
-                            <input type="text" name="email" id="username-input" placeholder="User name" onChange={e => {
-                                this.change(e)
-                            }}/>
-                        </div>
-                        <div className="field-area">
-                            <input type="password" name="password" id="password-input" placeholder="Password"
-                                   onChange={e => {
-                                       this.change(e)
-                                   }}/>
-                        </div>
-                        <div className="login-button-area">
-                            <button type="submit" id="button-login">Log in</button>
-                        </div>
-
-                    </form>
-                    <div className="link"><NavLink to="/">Forgot Username / Password ?</NavLink></div>
-                    <div className="link"><NavLink to="/">Create an account? Sign up</NavLink></div>
-                    <div className="info-placeholder" value=""></div>
-                </div>
-            </div>
+            <React.Fragment>
+                <h1 className="auth-title">Welcome</h1>
+                <form name="login-form" onSubmit={e => this.submit(e)}>
+                    <div className="inputbox-spacer">
+                        <input type="text" id="loginEmail" placeholder="E-mail"
+                               onChange={e => {
+                                   this.change(e)
+                               }} onClick={this.hideMessage}/>
+                    </div>
+                    <div className="inputbox-spacer">
+                        <input type="password" id="loginPassword" placeholder="Password"
+                               onChange={e => {
+                                   this.change(e)
+                               }} onClick={this.hideMessage}/>
+                    </div>
+                    <div className="login-button-area">
+                        <button type="submit" id="button-login">Log in</button>
+                    </div>
+                </form>
+                <div className="link"><NavLink to="/auth/recover">Forgot Username / Password ?</NavLink></div>
+                <div className="auth-info-placeholder centered" value="">{this.state.isMessageShown &&
+                <span style={{color: colors['colorMessageFail']}}>{this.state.message}</span>}</div>
+            </React.Fragment>
         );
     }
 }

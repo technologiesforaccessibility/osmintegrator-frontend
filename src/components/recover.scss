@@ -1,0 +1,20 @@
+@import './colors.module';
+@import './authMixins';
+
+
+#recoverEmail {
+  @include input-textbox;
+  @include font-type;
+  @include font-size;
+}
+
+.recover-button-area {
+  @include auth-button-area;
+}
+
+#button-reset {
+  @include auth-button;
+  @include font-type;
+  @include font-size;
+}
+
