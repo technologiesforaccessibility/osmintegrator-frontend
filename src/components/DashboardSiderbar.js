@@ -16,19 +16,19 @@ class DashboardSiderbar extends Component {
                                     <li className="nav-item">
                                         <a className="nav-link active" aria-current="page" href="/">
                                             <span data-feather="home"></span>
-                                            OSM Integrator
+                                            Map
                                         </a>
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link" href="/">
                                             <span data-feather="file"></span>
-                                            My Activity
+                                            Settings
                                         </a>
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link" href="/">
                                             <span data-feather="users"></span>
-                                            Account
+                                            History
                                         </a>
                                     </li>
                                     <li className="nav-item">

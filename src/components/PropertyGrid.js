@@ -6,9 +6,9 @@ class PropertyGrid extends Component {
         super(props);
         this.state = {
             properties: [
-                {propkey: "stop", propvalue: "Katowice Dworzec fsdjlfdsjlfsd fjdslfdsflsd lfsdfjsldf"},
+                {propkey: "stop", propvalue: "Katowice Dworzec"},
                 {propkey: "city", propvalue: "Katowice"},
-                {propkey: "specialID fjsklfasdjkf fldkjfsldf", propvalue: "4"}
+                {propkey: "specialID", propvalue: "4"}
             ]
         }
     }
