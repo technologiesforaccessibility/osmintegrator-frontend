@@ -35,12 +35,16 @@ class Dashboard extends Component {
                 if (resp.status === 200) {
                     console.log("Protected");
                     this.setState({isLoggedIn: true});
-                }
-                else {
+                } else {
                     console.log("Token error")
                 }
             })
+            .catch((error) => {
+                if (error.response.status === 401) {
+                    console.log("Another token error")
 
+                }
+            })
     }
 
 

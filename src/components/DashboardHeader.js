@@ -6,6 +6,12 @@ class DashboardHeader extends Component {
         constructor(props) {
         super(props);
     }
+
+    proceedLogOut = () => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('tokenRefresh');
+    }
+
     render() {
         return (
             <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
@@ -19,7 +25,7 @@ class DashboardHeader extends Component {
                            aria-label="Search"/>
                     <ul className="navbar-nav px-3">
                         <li className="nav-item text-nowrap">
-                            {this.props.isLoggedIn ? <a className="nav-link" href={REACT_APP_LOGOUT_PATH} >Sign out</a> : <a className="nav-link" href={REACT_APP_LOGIN_PATH} >Log in</a>}
+                            {this.props.isLoggedIn ? <a className="nav-link" href={REACT_APP_LOGOUT_PATH} onClick={this.proceedLogOut()} >Sign out</a> : <a className="nav-link" href={REACT_APP_LOGIN_PATH} >Log in</a>}
                         </li>
                     </ul>
                 </header>
