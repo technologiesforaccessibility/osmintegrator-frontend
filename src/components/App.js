@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import MapView from './MapView';
+import Dashboard from './Dashboard';
 import Auth from './Auth';
 
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
+
 
   render() {
     return (
@@ -15,7 +13,7 @@ class App extends Component {
       <BrowserRouter>
         <Switch>
           <Route path={["/auth", "/Account"]} component={Auth} />
-          <Route path="/" exact component={MapView} />
+          <Route path="/" exact component={Dashboard} />
         </Switch>
       </BrowserRouter>
     );

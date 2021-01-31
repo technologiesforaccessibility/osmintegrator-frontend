@@ -8,7 +8,7 @@ import colors from './colors.module.scss';
 import {postDefaultHeaders} from '../config/apiConfig';
 import {formError400Text} from "./utilities-texts";
 
-const {REACT_APP_LOGIN_PATH} = process.env;
+const {REACT_APP_BACKEND_LOGIN_PATH} = process.env;
 
 class Login extends Component {
 
@@ -54,7 +54,7 @@ class Login extends Component {
 
     submit(e) {
         e.preventDefault();
-        const url = REACT_APP_LOGIN_PATH;
+        const url = REACT_APP_BACKEND_LOGIN_PATH;
         axios.post(url,
             {
                 "Email": this.state.loginEmail,
