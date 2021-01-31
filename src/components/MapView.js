@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
+import {MapContainer, TileLayer, Marker, Popup, Polyline} from 'react-leaflet';
 import {Icon} from "leaflet";
 import "./mapView.scss"
 
@@ -16,19 +16,26 @@ let busStopPointerBlackIcon2 = new Icon({
     iconUrl: icon2,
     shadowUrl: iconShadow,
     iconSize: [70, 65],
-    iconAnchor: [1, 55],
+    iconAnchor: [35, 55],
     shadowSize: [68, 60],
     shadowAnchor: [-10, 55]
 });
+
+const polyline = [
+  [50.27011, 19.03011],
+  [50.23011, 18.98011]
+]
+
+const purpleOptions = { color: 'purple' }
 
 class MapView extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            currentLocation: {lat: 51.505, lng: -0.09},
+            currentLocation: {lat: 50.25, lng: 19.01},
             zoom: 12,
-            markers: [[51.505, -0.09], [52.501, -0.0889]]
+            markers: [[50.27011, 19.03011], [50.23011, 18.98011]]
         };
     }
 
@@ -48,6 +55,7 @@ class MapView extends Component {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                     />
+                    <Polyline pathOptions={purpleOptions} positions={polyline} />
                     {this.state.markers.map((position, idx) =>
                         <Marker key={`marker-${idx}`} position={position} icon={busStopPointerBlackIcon2}>
                             <Popup>
@@ -55,6 +63,7 @@ class MapView extends Component {
                             </Popup>
                         </Marker>
                     )}
+
                 </MapContainer>
             </div>
 

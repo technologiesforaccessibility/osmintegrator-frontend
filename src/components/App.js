@@ -5,9 +5,7 @@ import Auth from './Auth';
 
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
+
 
   render() {
     return (

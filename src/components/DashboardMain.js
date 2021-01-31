@@ -18,9 +18,9 @@ class DashboardMain extends Component {
                                     Choose tale to work with
                                 </button>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a className="dropdown-item" href="#">Katowice</a>
-                                    <a className="dropdown-item" href="#">Gliwice</a>
-                                    <a className="dropdown-item" href="#">Bytom</a>
+                                    <a className="dropdown-item" href="/">Katowice</a>
+                                    <a className="dropdown-item" href="/">Gliwice</a>
+                                    <a className="dropdown-item" href="/">Bytom</a>
                                 </div>
                             </div>
                             <button type="button" className="btn btn-sm btn-secondary">Save

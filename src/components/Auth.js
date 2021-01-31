@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
-import {BrowserRouter, Switch, Route} from 'react-router-dom'
+import {Switch, Route} from 'react-router-dom'
 import Login from './Login';
 import Recover from './Recover';
 import SetPassword from './SetPassword';
 import './auth.scss';
 
 class Auth extends Component {
-    constructor(props) {
-        super(props);
-    }
+
 
     render() {
         return (
