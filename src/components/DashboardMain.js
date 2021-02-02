@@ -15,7 +15,7 @@ class DashboardMain extends Component {
                                 <button className="btn btn-secondary dropdown-toggle" type="button"
                                         id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
-                                    Choose tale to work with
+                                    Choose tile to work with
                                 </button>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a className="dropdown-item" href="/">Katowice</a>

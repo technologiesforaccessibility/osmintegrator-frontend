@@ -6,7 +6,7 @@
 
 
 .sidebar {
-  height: 92vh ;
+  height: calc(100vh - 48px) ;
   z-index: 100; /* Behind the navbar */
   padding: 0px 0 0; /* Height of navbar */
   //border: solid 1px red;
