@@ -1,5 +1,16 @@
 import React, {Component} from 'react';
-import {MapContainer, TileLayer, Marker, Popup, Polyline, LayersControl, AttributionControl} from 'react-leaflet';
+import {
+    MapContainer,
+    TileLayer,
+    Marker,
+    Popup,
+    Polyline,
+    LayersControl,
+    AttributionControl,
+    Rectangle,
+    SVGOverlay,
+    Tooltip
+} from 'react-leaflet';
 import {Icon} from "leaflet";
 import "./mapView.scss"
 
@@ -10,8 +21,12 @@ import 'leaflet/dist/leaflet.css';
 //import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import icon2 from '../assets/bus_stop_icon_black.png';
+import axios from "axios";
+import {postDefaultHeaders} from "../config/apiConfig";
+import {getDefaultHeadersWithToken} from '../config/apiConfig';
+import {formError400Text} from "./utilities-texts";
 
-
+const {REACT_APP_BACKEND_ALL_TILES_GET} = process.env;
 
 const purpleOptions = {color: 'purple'}
 
@@ -26,9 +41,31 @@ class MapView extends Component {
             visiblePolylines: [],
             newPolylineStartPoint: [],
             osmStops: [],
-            ztmStops: []
+            ztmStops: [],
+            tiles: []
         };
     }
+
+    componentDidMount() {
+        const url = REACT_APP_BACKEND_ALL_TILES_GET;
+        axios.get(url, {
+            headers: getDefaultHeadersWithToken(localStorage.token)
+        })
+            .then(resp => {
+                if (resp.status === 200) {
+                    console.log("Tiles are fetched");
+                    this.setState({tiles: resp.data});
+                }
+            })
+            .catch((error) => {
+                if (error.response.status === 401) {
+                    this.showMessage(error.response.data.message)
+                } else {
+                    console.warn("Undefined tile problem");
+                }
+            });
+    }
+
 
     addMarker = (e) => {
         const {markers} = this.state
@@ -79,6 +116,13 @@ class MapView extends Component {
                     {this.state.visiblePolylines.map((position, index) =>
                         <Polyline pathOptions={purpleOptions} positions={position}/>
                     )}
+                    {this.state.tiles.map((tile, index) => (
+                        <Rectangle key={tile.id} bounds={[[tile.maxLat, tile.maxLon], [tile.minLat, tile.minLon]]}
+                                   pathOptions={{color: 'black'}}>
+                            <Tooltip direction="top" >x ={tile.x}, y={tile.y}</Tooltip>
+                        </Rectangle>
+                    ))}
+
                     {this.state.markers.map((position, idx) =>
                         <Marker key={`marker-${idx}`} position={position} icon={busStopPointerBlackIcon2}
                                 eventHandlers={{
