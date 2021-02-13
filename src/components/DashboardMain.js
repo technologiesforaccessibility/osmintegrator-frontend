@@ -36,7 +36,7 @@ class DashboardMain extends Component {
                 </div>
                 <div>
                     <div className="forMapView">
-                        <MapView/>
+                        <MapView canConnectBusStops={this.props.canConnectBusStops}/>
                     </div>
                 </div>
 
