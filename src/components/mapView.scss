@@ -1,4 +1,8 @@
 .leaflet-container {
+  position: relative;
   height: calc(100vh - 138px);
+}
+.mapprompt {
+  background-color: red;
 }
 

@@ -12,7 +12,8 @@ class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoggedIn: false
+            isLoggedIn: false,
+            canConnectStops: false,
         }
     }
 
@@ -47,6 +48,10 @@ class Dashboard extends Component {
             })
     }
 
+    canConnectBusStops = (bool) => {
+        this.setState({canConnectStops: bool})
+    }
+
 
     render() {
         return (
@@ -56,8 +61,9 @@ class Dashboard extends Component {
                 <div className="container-fluid">
                     <div className="row">
 
-                        <DashboardSiderbar isLoggedIn={this.state.isLoggedIn}/>
-                        <DashboardMain/>
+                        <DashboardSiderbar isLoggedIn={this.state.isLoggedIn}
+                                           connectBusStops={this.canConnectBusStops}/>
+                        <DashboardMain canConnectBusStops={this.state.canConnectStops}/>
 
                     </div>
                 </div>
