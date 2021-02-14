@@ -1,5 +1,16 @@
 import React, {Component} from 'react';
-import {MapContainer, TileLayer, Marker, Popup, Polyline, LayersControl, AttributionControl} from 'react-leaflet';
+import {
+    MapContainer,
+    TileLayer,
+    Marker,
+    Popup,
+    Polyline,
+    LayersControl,
+    AttributionControl,
+    Rectangle,
+    SVGOverlay,
+    Tooltip
+} from 'react-leaflet';
 import {Icon} from "leaflet";
 import "./mapView.scss"
 
@@ -9,9 +20,12 @@ import 'leaflet/dist/leaflet.css';
 
 //import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-import icon2 from '../assets/bus_stop_icon_black.png';
+import iconBlack from '../assets/bus_stop_icon_black.png';
+import axios from "axios";
+import {getDefaultHeadersWithToken} from '../config/apiConfig';
+import {formError400Text} from "./utilities-texts";
 
-
+const {REACT_APP_BACKEND_ALL_TILES_GET} = process.env;
 
 const purpleOptions = {color: 'purple'}
 
@@ -25,10 +39,32 @@ class MapView extends Component {
             markers: [[50.27011, 19.03011], [50.23011, 18.98011], [50.27311, 19.03017], [50.27351, 19.03067]],
             visiblePolylines: [],
             newPolylineStartPoint: [],
-            osmStops: [],
-            ztmStops: []
+            tiles: [],
+            allStops: [],
+            showSingleTile: false
         };
     }
+
+    componentDidMount() {
+        const url = REACT_APP_BACKEND_ALL_TILES_GET;
+        axios.get(url, {
+            headers: getDefaultHeadersWithToken(localStorage.token)
+        })
+            .then(resp => {
+                if (resp.status === 200) {
+                    console.log("Tiles are fetched");
+                    this.setState({tiles: resp.data});
+                }
+            })
+            .catch((error) => {
+                if (error.response.status === 401) {
+                    this.showMessage(error.response.data.message)
+                } else {
+                    console.warn("Undefined tile problem");
+                }
+            });
+    }
+
 
     addMarker = (e) => {
         const {markers} = this.state
@@ -39,8 +75,6 @@ class MapView extends Component {
     connectPointer = (e) => {
         const coordinates = [e.target._latlng.lat, e.target._latlng.lng];
         const newPolyline = [...this.state.newPolylineStartPoint, coordinates];
-        console.log(coordinates);
-        console.log(newPolyline);
         if (this.state.newPolylineStartPoint.length === 1) {
             console.log("ewPolylineStartPoint.length = 1 ");
             const polylines = [...this.state.visiblePolylines, newPolyline];
@@ -49,20 +83,57 @@ class MapView extends Component {
                 newPolylineStartPoint: []
             });
         } else {
-            console.log("ewPolylineStartPoint.length = 0 ");
             this.setState({newPolylineStartPoint: newPolyline});
         }
     }
 
+    getTileStops = (id) => {
+        const url = REACT_APP_BACKEND_ALL_TILES_GET + "/" + id;
+        axios.get(url, {
+            headers: getDefaultHeadersWithToken(localStorage.token)
+        })
+            .then(resp => {
+                if (resp.status === 200) {
+                    console.log("Bus stops are fetched");
+                    console.log(resp.data);
+                    this.setState({allStops: resp.data.stops});
+                }
+            })
+            .catch((error) => {
+                if (error.response.status === 401) {
+                    this.showMessage(error.response.data.message);
+                } else {
+                    console.warn("Undefined bus stops problem");
+                }
+            });
+
+
+    }
+
+    showPropertyGrid = () => {
+
+    }
+
     render() {
-        let busStopPointerBlackIcon2 = new Icon({
-            iconUrl: icon2,
+      let busStopIconBlack = new Icon({
+            iconUrl: iconBlack,
             shadowUrl: iconShadow,
             iconSize: [70, 65],
             iconAnchor: [35, 55],
             shadowSize: [68, 60],
             shadowAnchor: [-10, 55]
         });
+
+        let busStopIconPurple = new Icon({
+            iconUrl: iconBlack,
+            shadowUrl: iconShadow,
+            iconSize: [70, 65],
+            iconAnchor: [35, 55],
+            shadowSize: [68, 60],
+            shadowAnchor: [-10, 55]
+        });
+
+
 
         const {currentLocation, zoom} = this.state;
 
@@ -79,19 +150,32 @@ class MapView extends Component {
                     {this.state.visiblePolylines.map((position, index) =>
                         <Polyline pathOptions={purpleOptions} positions={position}/>
                     )}
-                    {this.state.markers.map((position, idx) =>
-                        <Marker key={`marker-${idx}`} position={position} icon={busStopPointerBlackIcon2}
+                    {this.state.tiles.map((tile, index) => (
+                        <Rectangle bounds={[[tile.maxLat, tile.maxLon], [tile.minLat, tile.minLon]]}
+                                   pathOptions={{color: 'black'}} eventHandlers={{
+                            click: () => {
+                                this.getTileStops(tile.id);
+                            },
+                        }}>
+                            <Tooltip direction="top">x ={tile.x}, y={tile.y}</Tooltip>
+                        </Rectangle>
+                    ))}
+
+                    {this.state.allStops.map((busStop) =>
+                        <Marker key={busStop.id} position={[busStop.lat, busStop.lon]} icon={busStopIconBlack}
                                 eventHandlers={{
                                     click: (e) => {
                                         if (this.props.canConnectBusStops === true) {
                                             this.connectPointer(e);
+                                        } else {
+                                            this.showPropertyGrid(busStop);
                                         }
-                                        console.log(e.target._latlng);
                                     },
                                 }}>
-
+                    <Tooltip direction="top">{busStop.name} {busStop.number}</Tooltip>
                         </Marker>
                     )}
+
                 </MapContainer>
             </div>
 
