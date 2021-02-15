@@ -12,8 +12,9 @@ class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoggedIn: false,
+            isLoggedIn: true,
             canConnectStops: false,
+            propertyGrid: null
         }
     }
 
@@ -52,6 +53,15 @@ class Dashboard extends Component {
         this.setState({canConnectStops: bool})
     }
 
+    setPropertyGrid = (busStopProps) => {
+        if (busStopProps) {
+            this.setState({propertyGrid : busStopProps})
+        } else {
+            this.setState({propertyGrid : null})
+        }
+    }
+
+
 
     render() {
         return (
@@ -62,8 +72,9 @@ class Dashboard extends Component {
                     <div className="row">
 
                         <DashboardSiderbar isLoggedIn={this.state.isLoggedIn}
-                                           connectBusStops={this.canConnectBusStops}/>
-                        <DashboardMain canConnectBusStops={this.state.canConnectStops}/>
+                                           connectBusStops={this.canConnectBusStops}
+                                           propertyGrid={this.state.propertyGrid}/>
+                        <DashboardMain canConnectBusStops={this.state.canConnectStops} setPropertyGrid={this.setPropertyGrid}/>
 
                     </div>
                 </div>

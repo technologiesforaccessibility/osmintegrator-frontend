@@ -4,9 +4,7 @@ import PropertyGrid from './PropertyGrid';
 class DashboardSiderbar extends Component {
     constructor(props) {
         super(props);
-
     }
-
     render() {
         return (
             <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
@@ -73,9 +71,7 @@ class DashboardSiderbar extends Component {
                         </label>
 
                     </div>
-
-                    {this.props.isLoggedIn ? <PropertyGrid/> : null}
-
+                    {this.props.propertyGrid ? <PropertyGrid propertyGrid={this.props.propertyGrid}/> : null}
                 </div>
             </nav>
         );

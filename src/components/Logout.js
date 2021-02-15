@@ -6,14 +6,20 @@ class Logout extends Component {
     constructor(props) {
         super(props);
 
-        this.state= {
+        this.state = {
             message: "You will be redirect to login page soon."
         }
     }
 
 
     componentDidMount() {
-        setTimeout(() => this.setState({ shouldRedirect: true }), 7000);
+        setTimeout(() => this.proceedLogOut(), 7000);
+    }
+
+    proceedLogOut = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenRefresh');
+        this.setState({shouldRedirect: true})
     }
 
     render() {
@@ -25,7 +31,8 @@ class Logout extends Component {
             <React.Fragment>
                 <h1 className="auth-title">You have been logged out</h1>
                 <div className="auth-info-placeholder centered" value="">
-                <span style={{paddingTop: "10px", color: colors['colorMessageSuccess']}}>{this.state.message}</span></div>
+                    <span style={{paddingTop: "10px", color: colors['colorMessageSuccess']}}>{this.state.message}</span>
+                </div>
             </React.Fragment>
         );
     }
