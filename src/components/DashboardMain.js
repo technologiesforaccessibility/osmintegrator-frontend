@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 import MapView from "./MapView";
 
 class DashboardMain extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return (
 
@@ -36,7 +40,7 @@ class DashboardMain extends Component {
                 </div>
                 <div>
                     <div className="forMapView">
-                        <MapView canConnectBusStops={this.props.canConnectBusStops}/>
+                        <MapView canConnectBusStops={this.props.canConnectBusStops} setPropertyGrid={this.props.setPropertyGrid}/>
                     </div>
                 </div>
 
