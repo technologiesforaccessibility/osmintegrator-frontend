@@ -13,15 +13,25 @@ export function isPasswordStrong(password) {
     return password.match(pattern);
 }
 
-export function getTokenFromPath(url_string) {
-    const url = new URL(url_string);
-    const rawToken = url.searchParams.get("token");
-    return rawToken.split(" ").join("+");
+export function getTokenFromPath(urlString) {
+    try {
+        const url = new URL(urlString);
+        const rawToken = url.searchParams.get("token");
+        return rawToken.split(" ").join("+");
+    }
+    catch(err) {
+        return err.message;
+    }
 }
 
-export function getEmailFromPath(url_string) {
-    const url = new URL(url_string);
-    return url.searchParams.get("email");
+export function getEmailFromPath(urlString) {
+    try {
+        const url = new URL(urlString);
+        return url.searchParams.get("email");
+    }
+    catch(err) {
+        return err.message;
+    }
 }
 
 export function getBusStopIcon(busStopPropeties) {
