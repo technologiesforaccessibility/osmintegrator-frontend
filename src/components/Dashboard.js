@@ -5,6 +5,13 @@ import DashboardHeader from "./DashboardHeader";
 import DashboardSiderbar from "./DashboardSiderbar";
 import DashboardMain from "./DashboardMain";
 import axios from "axios";
+import {Route, Switch} from "react-router-dom";
+import Login from "./Login";
+import Recover from "./Recover";
+import Logout from "./Logout";
+import SetPassword from "./SetPassword";
+import ProfilePanel from "./ProfilePanel";
+import ProfileRouter from "./ProfileRouter";
 
 const {REACT_APP_HAS_ACCESS_PATH} = process.env;
 
@@ -55,12 +62,11 @@ class Dashboard extends Component {
 
     setPropertyGrid = (busStopProps) => {
         if (busStopProps) {
-            this.setState({propertyGrid : busStopProps})
+            this.setState({propertyGrid: busStopProps})
         } else {
-            this.setState({propertyGrid : null})
+            this.setState({propertyGrid: null})
         }
     }
-
 
 
     render() {
@@ -74,8 +80,11 @@ class Dashboard extends Component {
                         <DashboardSiderbar isLoggedIn={this.state.isLoggedIn}
                                            connectBusStops={this.canConnectBusStops}
                                            propertyGrid={this.state.propertyGrid}/>
-                        <DashboardMain canConnectBusStops={this.state.canConnectStops} setPropertyGrid={this.setPropertyGrid}/>
-
+                        <Switch>
+                            <Route path="/profile" component={ProfileRouter}/>
+                            <Route path="/" component={DashboardMain} canConnectBusStops={this.state.canConnectStops}
+                                   setPropertyGrid={this.setPropertyGrid}/>
+                        </Switch>
                     </div>
                 </div>
 
