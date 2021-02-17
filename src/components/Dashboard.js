@@ -6,11 +6,6 @@ import DashboardSiderbar from "./DashboardSiderbar";
 import DashboardMain from "./DashboardMain";
 import axios from "axios";
 import {Route, Switch} from "react-router-dom";
-import Login from "./Login";
-import Recover from "./Recover";
-import Logout from "./Logout";
-import SetPassword from "./SetPassword";
-import ProfilePanel from "./ProfilePanel";
 import ProfileRouter from "./ProfileRouter";
 
 const {REACT_APP_HAS_ACCESS_PATH} = process.env;
@@ -82,8 +77,12 @@ class Dashboard extends Component {
                                            propertyGrid={this.state.propertyGrid}/>
                         <Switch>
                             <Route path="/profile" component={ProfileRouter}/>
-                            <Route path="/" component={DashboardMain} canConnectBusStops={this.state.canConnectStops}
-                                   setPropertyGrid={this.setPropertyGrid}/>
+                            <Route path="/"
+                                   render={() => (
+                                       <DashboardMain canConnectBusStops={this.state.canConnectStops}
+                                                      setPropertyGrid={this.setPropertyGrid}/>
+                                   )}
+                            />
                         </Switch>
                     </div>
                 </div>
