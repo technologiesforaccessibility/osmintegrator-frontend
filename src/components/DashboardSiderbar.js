@@ -1,39 +1,29 @@
 import React, {Component} from 'react';
 import PropertyGrid from './PropertyGrid';
+import {NavLink} from "react-router-dom";
 
 class DashboardSiderbar extends Component {
     constructor(props) {
         super(props);
     }
+
     render() {
         return (
             <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
                 <div className="full-height position-sticky pt-3">
 
                     <ul className="nav flex-column">
-                        <li className="nav-item">
-                            <a className="nav-link active" aria-current="page" href="/">
-                                <span data-feather="home"></span>
-                                Map
-                            </a>
+                        <li className="nav-item nav-link active">
+                            <NavLink to="/"><span data-feather="home"></span>Map</NavLink>
                         </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/">
-                                <span data-feather="file"></span>
-                                Settings
-                            </a>
+                        <li className="nav-item nav-link active">
+                            <NavLink to="/profile"><span data-feather="file"></span>Profile</NavLink>
                         </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/">
-                                <span data-feather="users"></span>
-                                History
-                            </a>
+                        <li className="nav-item nav-link active">
+                            <NavLink to="/"><span data-feather="users"></span>History</NavLink>
                         </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/">
-                                <span data-feather="layers"></span>
-                                Contact
-                            </a>
+                        <li className="nav-item nav-link active">
+                            <NavLink to="/"><span data-feather="layers"></span>Contact</NavLink>
                         </li>
                     </ul>
 

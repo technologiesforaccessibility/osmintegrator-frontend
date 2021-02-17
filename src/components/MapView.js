@@ -120,11 +120,12 @@ class MapView extends Component {
 
             <div className="map-container">
 
-                <MapContainer center={currentLocation} zoom={zoom}>
+                <MapContainer center={currentLocation} zoom={zoom} maxZoom={23}>
                     onClick={this.addMarker}
                     <TileLayer
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+                        maxZoom={23}
                     />
                     {this.state.visiblePolylines.map((position) =>
                         <Polyline pathOptions={purpleOptions} positions={position}/>

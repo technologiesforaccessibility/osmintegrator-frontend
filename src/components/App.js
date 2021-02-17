@@ -13,7 +13,7 @@ class App extends Component {
       <BrowserRouter>
         <Switch>
           <Route path={["/auth", "/Account"]} component={Auth} />
-          <Route path="/" exact component={Dashboard} />
+          <Route path={["/profile", "/"]} component={Dashboard} />
         </Switch>
       </BrowserRouter>
     );
