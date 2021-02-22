@@ -14,6 +14,7 @@ import {getDefaultHeadersWithToken} from '../config/apiConfig';
 import {getBusStopIcon} from "./utilities";
 
 const {REACT_APP_BACKEND_ALL_TILES_GET} = process.env;
+const {REACT_APP_BACKEND_TILE_STOPS_GET} = process.env;
 const purpleOptions = {color: 'purple'}
 
 class MapView extends Component {
@@ -73,7 +74,7 @@ class MapView extends Component {
     }
 
     getTileStops = (id) => {
-        const url = REACT_APP_BACKEND_ALL_TILES_GET + "/" + id;
+        const url = REACT_APP_BACKEND_TILE_STOPS_GET + "/" + id;
         axios.get(url, {
             headers: getDefaultHeadersWithToken(localStorage.token)
         })
