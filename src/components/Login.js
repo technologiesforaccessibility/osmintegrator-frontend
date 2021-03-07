@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
 import {NavLink, Redirect} from 'react-router-dom';
-import axios from 'axios';
 
 import './login.scss';
 import colors from './colors.module.scss';
 
 import {postDefaultHeaders} from '../config/apiConfig';
 import {formError400Text} from "./utilities-texts";
-
-const {REACT_APP_BACKEND_LOGIN_PATH} = process.env;
+import {Api} from "../api/apiClient";
 
 class Login extends Component {
 
@@ -52,34 +50,33 @@ class Login extends Component {
         }
     }
 
-    submit(e) {
+    async submit(e) {
         e.preventDefault();
-        const url = REACT_APP_BACKEND_LOGIN_PATH;
-        axios.post(url,
-            {
-                "Email": this.state.loginEmail,
-                "Password": this.state.loginPassword
-            },
-            {
-                headers: postDefaultHeaders()
-            })
-            .then(resp => {
-                if (resp.status === 200) {
-                    console.log("Authentication success");
-                    localStorage.setItem('token', resp.data.token);
-                    localStorage.setItem('tokenRefresh', resp.data.refreshToken);
-                    this.setState({shouldRedirect: true});
-                }
-            })
-            .catch((error) => {
-                if (error.response.status === 401) {
-                    this.showMessage(error.response.data.message)
-                } else if (error.response.status === 400) {
-                    this.showMessage(formError400Text())
-                } else {
-                    console.warn("Undefined authentication problem")
-                }
-            });
+        const client = new Api();
+
+        try {
+            const response = await client.api.accountLoginCreate({
+                    email: this.state.loginEmail,
+                    password: this.state.loginPassword
+                },
+                {headers: postDefaultHeaders()});
+            if (response.status === 200) {
+                console.log("Authentication success");
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('tokenRefresh', response.data.refreshToken);
+                this.setState({shouldRedirect: true});
+            } else {
+                console.log("Authentication problem")
+            }
+        } catch (error) {
+            if (error.status === 401) {
+                this.showMessage(error.error.message)
+            } else if (error.status === 400) {
+                this.showMessage(formError400Text())
+            } else {
+                console.warn("Undefined authentication problem")
+            }
+        }
     }
 
     render() {
