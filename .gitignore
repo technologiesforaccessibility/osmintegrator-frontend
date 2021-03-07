@@ -23,3 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 .idea/
+
+#file generated via npm start when typeScript api client is being used
+react-app-env.d.ts
