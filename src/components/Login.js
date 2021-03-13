@@ -6,7 +6,7 @@ import colors from './colors.module.scss';
 
 import {postDefaultHeaders} from '../config/apiConfig';
 import {formError400Text} from "./utilities-texts";
-import {Api} from "../api/apiClient";
+import client from "../api/apiInstance";
 
 class Login extends Component {
 
@@ -52,7 +52,6 @@ class Login extends Component {
 
     async submit(e) {
         e.preventDefault();
-        const client = new Api();
 
         try {
             const response = await client.api.accountLoginCreate({
