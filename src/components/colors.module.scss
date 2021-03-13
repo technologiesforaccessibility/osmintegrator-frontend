@@ -4,9 +4,13 @@ $color-link-hover: maroon;
 $color-internal-border: #e6e6e6;
 $color-message-success: #134a1e;
 $color-message-fail: maroon;
+$color-tile-all: black;
+$color-tile-active: olivedrab;
 
 
 :export {
     colorMessageFail: $color-message-fail;
     colorMessageSuccess: $color-message-success;
+    colorTileAll: $color-tile-all;
+    colorTileActive: $color-tile-active;
 }

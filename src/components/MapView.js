@@ -11,6 +11,7 @@ import "./mapView.scss"
 import 'leaflet/dist/leaflet.css';
 import {getDefaultHeadersWithToken} from '../config/apiConfig';
 import {getBusStopIcon} from "./utilities";
+import colors from './colors.module.scss';
 
 import client from "../api/apiInstance";
 
@@ -28,6 +29,7 @@ class MapView extends Component {
             tiles: [],
             allStops: [],
             showSingleTile: false,
+            activeTile: [],
             activeBusStopId: null,
         };
 
@@ -77,7 +79,10 @@ class MapView extends Component {
 
             })
             if (response.status === 200) {
-                this.setState({allStops: response.data});
+                this.setState({
+                    allStops: response.data,
+                    showSingleTile: true
+                });
             }
         } catch (error) {
             if (error.status === 401) {
@@ -106,35 +111,43 @@ class MapView extends Component {
 
 
     render() {
-
         const {currentLocation, zoom} = this.state;
-        const tileColor = 'black';
+        const showSingleTile = this.state.showSingleTile;
+        let tiles;
+        if (showSingleTile) {
+            tiles = <Rectangle bounds={[
+                [this.state.activeTile.maxLat, this.state.activeTile.maxLon],
+                [this.state.activeTile.minLat, this.state.activeTile.minLon]
+            ]}
+                               pathOptions={{color: colors['colorTileActive']}}/>;
+        } else {
+            tiles = this.state.tiles.map((tile) => (
+                <Rectangle bounds={[[tile.maxLat, tile.maxLon], [tile.minLat, tile.minLon]]}
+                           pathOptions={{color: colors['colorTileAll']}} eventHandlers={{
+                    click: () => {
+                        this.setState({activeTile: tile},
+                            () => {this.getTileStops(tile.id)})
+                    },
+                }}>
+                    <Tooltip direction="top">x ={tile.x}, y={tile.y}</Tooltip>
+                </Rectangle>
+            ));
+        }
 
         return (
 
             <div className="map-container">
 
-                <MapContainer center={currentLocation} zoom={zoom} maxZoom={23}>
-                    onClick={this.addMarker}
+                <MapContainer center={currentLocation} zoom={zoom} maxZoom={19}>
                     <TileLayer
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-                        maxZoom={23}
+                        maxZoom={19}
                     />
                     {this.state.visiblePolylines.map((position) =>
                         <Polyline pathOptions={purpleOptions} positions={position}/>
                     )}
-                    {this.state.tiles.map((tile) => (
-                        <Rectangle bounds={[[tile.maxLat, tile.maxLon], [tile.minLat, tile.minLon]]}
-                                   pathOptions={{color: tileColor}} eventHandlers={{
-                            click: () => {
-                                this.getTileStops(tile.id);
-                            },
-                        }}>
-                            <Tooltip direction="top">x ={tile.x}, y={tile.y}</Tooltip>
-                        </Rectangle>
-                    ))}
-
+                    {tiles}
                     {this.state.allStops.map((busStop) =>
                         <Marker key={busStop.id} position={[busStop.lat, busStop.lon]} icon={getBusStopIcon(busStop)}
                                 eventHandlers={{
