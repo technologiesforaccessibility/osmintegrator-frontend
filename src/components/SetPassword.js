@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 
 import './setPassword.scss';
 import colors from './colors.module.scss';
@@ -9,7 +8,7 @@ import {changedPasswordText, expiredTokenText, invalidPasswordsText} from "./uti
 import {postDefaultHeaders} from '../config/apiConfig';
 import {Redirect} from "react-router-dom";
 
-const {REACT_APP_SET_PASS_PATH} = process.env;
+import client from "../api/apiInstance";
 
 class SetPassword extends Component {
 
@@ -53,39 +52,33 @@ class SetPassword extends Component {
         this.setState({messageColor: color})
     }
 
-    submit(e) {
+    async submit(e) {
         e.preventDefault();
-        if (comparePasswords(this.state.password1Reset, this.state.password2Reset) && isPasswordStrong(this.state.password1Reset)) {
-            const url = REACT_APP_SET_PASS_PATH;
-            axios.post(url,
-                {
-                    "Email": getEmailFromPath(window.location.href),
-                    "Password": this.state.password1Reset,
-                    "Token": getTokenFromPath(window.location.href)
-                },
-                {
+
+        if (comparePasswords(this.state.password1Reset, this.state.password2Reset)
+            && isPasswordStrong(this.state.password1Reset)) {
+            try {
+                const response = await client.api.accountResetPasswordCreate({
+                    email: getEmailFromPath(window.location.href),
+                    password: this.state.password1Reset,
+                    token: getTokenFromPath(window.location.href)
+                }, {
                     headers: postDefaultHeaders()
                 })
-                .then(resp => {
-                    if (resp.status === 200) {
-                        this.setMessageColor(colors['colorMessageSuccess'])
-                        this.showMessage(changedPasswordText());
-                        setTimeout(() => this.setState({ shouldRedirect: true }), 5000);
-                    }
-                })
-                .catch(error => {
-                    if (error.response.status === 400) {
-                        this.setMessageColor(colors['colorMessageFail'])
-                        this.showMessage(expiredTokenText());
-                    } else {
-                        console.warn("Undefined error")
-                    }
-                });
-        } else {
-            this.setMessageColor(colors['colorMessageFail'])
-            this.showMessage(invalidPasswordsText());
+                if (response.status === 200) {
+                    this.setMessageColor(colors['colorMessageSuccess'])
+                    this.showMessage(changedPasswordText());
+                    setTimeout(() => this.setState({shouldRedirect: true}), 5000);
+                }
+            } catch (error) {
+                if (error.status === 400) {
+                    this.setMessageColor(colors['colorMessageFail'])
+                    this.showMessage(expiredTokenText());
+                } else {
+                    console.warn("Undefined error")
+                }
+            }
         }
-
     }
 
     render() {
@@ -94,27 +87,27 @@ class SetPassword extends Component {
         }
         return (
             <React.Fragment>
-                        <h1 className="auth-title">Set a new password</h1>
-                        <h3 className="subtitle">{getEmailFromPath(window.location.href)}</h3>
-                        <form name="recover-form" onSubmit={e => this.submit(e)}>
-                            <div className="inputbox-spacer">
-                                <input type="password" id="password1Reset" placeholder="New password"
-                                       onChange={e => {
-                                           this.change(e)
-                                       }} onClick={this.hideMessage}/>
-                            </div>
-                            <div className="inputbox-spacer">
-                                <input type="password" id="password2Reset" placeholder="Confirm password"
-                                       onChange={e => {
-                                           this.change(e)
-                                       }} onClick={this.hideMessage}/>
-                            </div>
-                            <div className="setPassword-button-area">
-                                <button type="submit" id="button-set-password">Set new password</button>
-                            </div>
-                        </form>
-                        <div className="centered auth-info-placeholder" value="">{this.state.isMessageShown &&
-                        <span style={{color: this.state.messageColor}}>{this.state.message}</span>}</div>
+                <h1 className="auth-title">Set a new password</h1>
+                <h3 className="subtitle">{getEmailFromPath(window.location.href)}</h3>
+                <form name="recover-form" onSubmit={e => this.submit(e)}>
+                    <div className="inputbox-spacer">
+                        <input type="password" id="password1Reset" placeholder="New password"
+                               onChange={e => {
+                                   this.change(e)
+                               }} onClick={this.hideMessage}/>
+                    </div>
+                    <div className="inputbox-spacer">
+                        <input type="password" id="password2Reset" placeholder="Confirm password"
+                               onChange={e => {
+                                   this.change(e)
+                               }} onClick={this.hideMessage}/>
+                    </div>
+                    <div className="setPassword-button-area">
+                        <button type="submit" id="button-set-password">Set new password</button>
+                    </div>
+                </form>
+                <div className="centered auth-info-placeholder" value="">{this.state.isMessageShown &&
+                <span style={{color: this.state.messageColor}}>{this.state.message}</span>}</div>
             </React.Fragment>
         );
     }

@@ -9,12 +9,11 @@ import {
 } from 'react-leaflet';
 import "./mapView.scss"
 import 'leaflet/dist/leaflet.css';
-import axios from "axios";
 import {getDefaultHeadersWithToken} from '../config/apiConfig';
 import {getBusStopIcon} from "./utilities";
 
-const {REACT_APP_BACKEND_ALL_TILES_GET} = process.env;
-const {REACT_APP_BACKEND_TILE_STOPS_GET} = process.env;
+import client from "../api/apiInstance";
+
 const purpleOptions = {color: 'purple'}
 
 class MapView extends Component {
@@ -29,27 +28,25 @@ class MapView extends Component {
             tiles: [],
             allStops: [],
             showSingleTile: false,
-            activeBusStopId : null,
+            activeBusStopId: null,
         };
+
+        this.getTileStops = this.getTileStops.bind(this);
     }
 
-    componentDidMount() {
-        const url = REACT_APP_BACKEND_ALL_TILES_GET;
-        axios.get(url, {
-            headers: getDefaultHeadersWithToken(localStorage.token)
-        })
-            .then(resp => {
-                if (resp.status === 200) {
-                    this.setState({tiles: resp.data});
-                }
-            })
-            .catch((error) => {
-                if (error.response.status === 401) {
-                    console.log("Authentication problem")
-                } else {
-                    console.warn("Undefined tile problem");
-                }
-            });
+    async componentDidMount() {
+        try {
+            const response = await client.api.tileGetAllTilesList({headers: getDefaultHeadersWithToken(localStorage.token)})
+            if (response.status === 200) {
+                this.setState({tiles: response.data});
+            }
+        } catch (error) {
+            if (error.status === 401) {
+                console.log("Authentication problem")
+            } else {
+                console.warn("Undefined tile problem");
+            }
+        }
     }
 
 
@@ -73,25 +70,22 @@ class MapView extends Component {
         }
     }
 
-    getTileStops = (id) => {
-        const url = REACT_APP_BACKEND_TILE_STOPS_GET + "/" + id;
-        axios.get(url, {
-            headers: getDefaultHeadersWithToken(localStorage.token)
-        })
-            .then(resp => {
-                if (resp.status === 200) {
-                    this.setState({allStops: resp.data.stops});
-                }
+    async getTileStops(id) {
+        try {
+            const response = await client.api.tileGetStopsDetail(id, {
+                headers: getDefaultHeadersWithToken(localStorage.token)
+
             })
-            .catch((error) => {
-                if (error.response.status === 401) {
-                    console.log(error.response.data.message);
-                } else {
-                    console.warn("Undefined bus stops problem");
-                }
-            });
-
-
+            if (response.status === 200) {
+                this.setState({allStops: response.data});
+            }
+        } catch (error) {
+            if (error.status === 401) {
+                console.log("Tile problem")
+            } else {
+                console.warn("Undefined bus stops problem");
+            }
+        }
     }
 
     isActiveStopClicked = (clickedStopId) => {
@@ -101,15 +95,14 @@ class MapView extends Component {
 
 
     clickBusStop = (gridProperties) => {
-        this.setState({activeBusStopId : gridProperties.id});
+        this.setState({activeBusStopId: gridProperties.id});
         this.props.setPropertyGrid(gridProperties);
     }
 
     unclickBusStop = () => {
-        this.setState({activeBusStopId : null});
+        this.setState({activeBusStopId: null});
         this.props.setPropertyGrid(null);
     }
-
 
 
     render() {
@@ -149,11 +142,11 @@ class MapView extends Component {
                                         if (this.props.canConnectBusStops === true) {
                                             this.connectPointer(e);
                                         } else {
-                                            (this.isActiveStopClicked(busStop.id)? this.unclickBusStop() : this.clickBusStop(busStop));
+                                            (this.isActiveStopClicked(busStop.id) ? this.unclickBusStop() : this.clickBusStop(busStop));
                                         }
                                     },
                                 }}>
-                    <Tooltip direction="bottom">{busStop.name} {busStop.number}</Tooltip>
+                            <Tooltip direction="bottom">{busStop.name} {busStop.number}</Tooltip>
                         </Marker>
                     )}
 

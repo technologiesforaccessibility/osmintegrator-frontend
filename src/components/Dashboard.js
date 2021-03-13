@@ -4,11 +4,12 @@ import "./dashboard.scss"
 import DashboardHeader from "./DashboardHeader";
 import DashboardSiderbar from "./DashboardSiderbar";
 import DashboardMain from "./DashboardMain";
-import axios from "axios";
 import {Route, Switch} from "react-router-dom";
 import ProfileRouter from "./ProfileRouter";
 
-const {REACT_APP_HAS_ACCESS_PATH} = process.env;
+import client from "../api/apiInstance";
+import {getDefaultHeadersWithToken} from '../config/apiConfig';
+
 
 class Dashboard extends Component {
     constructor(props) {
@@ -18,37 +19,28 @@ class Dashboard extends Component {
             canConnectStops: false,
             propertyGrid: null
         }
+
+        this.hasAccess = this.hasAccess.bind(this);
     }
 
     componentDidMount() {
         this.hasAccess();
     }
 
-    hasAccess = () => {
-        const url = REACT_APP_HAS_ACCESS_PATH;
-        axios.get(url,
+    async hasAccess() {
+        try {
+            const response = await client.api.accountIsTokenValidList({
+                headers: getDefaultHeadersWithToken(localStorage.token)
+            })
+            if (response.status === 200) {
+                console.log("Valid token");
+                this.setState({isLoggedIn: true});
+            }
+        } catch (error) {
             {
-                headers: {
-                    Authorization: `Bearer ${localStorage.token}`,
-                    'Cache-Control': 'no-cache',
-                    'Content-Type': 'application/json',
-                    "Access-Control-Allow-Origin": "*"
-                }
-            })
-            .then(resp => {
-                if (resp.status === 200) {
-                    console.log("Protected");
-                    this.setState({isLoggedIn: true});
-                } else {
-                    console.log("Token error")
-                }
-            })
-            .catch((error) => {
-                if (error.response.status === 401) {
-                    console.log("Another token error")
-
-                }
-            })
+                console.log("Token validation error")
+            }
+        }
     }
 
     canConnectBusStops = (bool) => {
