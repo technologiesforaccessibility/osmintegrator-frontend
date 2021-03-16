@@ -55,6 +55,10 @@ class Dashboard extends Component {
         }
     }
 
+    updatePropertyGrid = (newGrid) => {
+        this.setState({propertyGrid: newGrid})
+    }
+
 
     render() {
         return (
@@ -66,7 +70,8 @@ class Dashboard extends Component {
 
                         <DashboardSiderbar isLoggedIn={this.state.isLoggedIn}
                                            connectBusStops={this.canConnectBusStops}
-                                           propertyGrid={this.state.propertyGrid}/>
+                                           propertyGrid={this.state.propertyGrid}
+                                           updatePropertyGrid={this.updatePropertyGrid}/>
                         <Switch>
                             <Route path="/profile" component={ProfileRouter}/>
                             <Route path="/"

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropertyGrid from './PropertyGrid';
 import {NavLink} from "react-router-dom";
+import SidebarListItem from "./SidebarListItem";
 
 class DashboardSiderbar extends Component {
     constructor(props) {
@@ -13,18 +14,10 @@ class DashboardSiderbar extends Component {
                 <div className="full-height position-sticky pt-3">
 
                     <ul className="nav flex-column">
-                        <li className="nav-item nav-link active">
-                            <NavLink to="/"><span data-feather="home"></span>Map</NavLink>
-                        </li>
-                        <li className="nav-item nav-link active">
-                            <NavLink to="/profile"><span data-feather="file"></span>Profile</NavLink>
-                        </li>
-                        <li className="nav-item nav-link active">
-                            <NavLink to="/"><span data-feather="users"></span>History</NavLink>
-                        </li>
-                        <li className="nav-item nav-link active">
-                            <NavLink to="/"><span data-feather="layers"></span>Contact</NavLink>
-                        </li>
+                        <SidebarListItem name = "Map" dataFeather="Home" link="/"/>
+                        <SidebarListItem name = "Profile" dataFeather="file" link="/profile" />
+                        <SidebarListItem name = "History" dataFeather="users" link="/" />
+                        <SidebarListItem name = "Contact" dataFeather="layers" link="/" />
                     </ul>
 
 
@@ -35,21 +28,11 @@ class DashboardSiderbar extends Component {
                         </a>
                     </h6>
                     <ul className="nav flex-column mb-2">
-                        <li className="nav-item">
-                            <a className="nav-link" href="/">
-                                <span data-feather="file-text"></span>
-                                Tile 1
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/">
-                                <span data-feather="file-text"></span>
-                                Tile 2
-                            </a>
-                        </li>
+                        <SidebarListItem name = "Tile 1" dataFeather="file-text" link="/"/>
+                        <SidebarListItem name = "Tile 2" dataFeather="file-text" link="/"/>
                     </ul>
 
-                    <div className="form-check">
+                    <div className="form-check" style={{paddingBottom: "1.25rem"}}>
                         <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault"
                                onClick={e => {
                                    this.props.connectBusStops(e.target.checked)
@@ -61,7 +44,10 @@ class DashboardSiderbar extends Component {
                         </label>
 
                     </div>
-                    {this.props.propertyGrid ? <PropertyGrid propertyGrid={this.props.propertyGrid}/> : null}
+                    {this.props.propertyGrid
+                        ? <PropertyGrid propertyGrid={this.props.propertyGrid}
+                                        updatePropertyGrid={this.props.updatePropertyGrid}
+                        /> : null}
                 </div>
             </nav>
         );
