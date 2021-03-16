@@ -100,6 +100,8 @@ class MapView extends Component {
 
 
     clickBusStop = (gridProperties) => {
+        console.log("property grid type: ", typeof(gridProperties))
+        console.log(gridProperties)
         this.setState({activeBusStopId: gridProperties.id});
         this.props.setPropertyGrid(gridProperties);
     }

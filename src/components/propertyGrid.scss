@@ -5,6 +5,7 @@
   padding: 3px 7px;
   overflow-x :scroll;
   white-space: nowrap;
+  height: 2rem;
   /* Hide scrollbar for IE, Edge and Firefox */
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
@@ -24,6 +25,7 @@
 
 .propertyGrid-key {
     width: 30%;
+    font-weight: bold;
 }
 
 .propertyGrid-value {
