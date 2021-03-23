@@ -9,6 +9,7 @@ import ProfileRouter from "./ProfileRouter";
 
 import client from "../api/apiInstance";
 import {getDefaultHeadersWithToken} from '../config/apiConfig';
+import ManagementPanel from "./ManagementPanel";
 
 
 class Dashboard extends Component {
@@ -74,6 +75,7 @@ class Dashboard extends Component {
                                            updatePropertyGrid={this.updatePropertyGrid}/>
                         <Switch>
                             <Route path="/profile" component={ProfileRouter}/>
+                            <Route path="/manage" component={ManagementPanel}/>
                             <Route path="/"
                                    render={() => (
                                        <DashboardMain canConnectBusStops={this.state.canConnectStops}

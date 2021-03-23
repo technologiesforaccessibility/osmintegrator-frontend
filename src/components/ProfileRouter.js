@@ -4,6 +4,7 @@ import DashboardMain from "./DashboardMain";
 import ChangeEmail from "./ChangeEmail";
 import ChangePassword from "./ChangePassword";
 import ProfilePanel from "./ProfilePanel";
+import ManagementPanel from "./ManagementPanel";
 
 class ProfileRouter extends Component {
     render() {
@@ -18,6 +19,7 @@ class ProfileRouter extends Component {
                         <Route path="/profile/change-email" exact component={ChangeEmail}/>
                         <Route path="/profile/change-password" exact component={ChangePassword}/>
                         <Route path="/profile" exact component={ProfilePanel}/>
+                        <Route path="/manage" exact component={ManagementPanel}/>
                     </Switch>
                 </div>
 

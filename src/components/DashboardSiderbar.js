@@ -18,6 +18,7 @@ class DashboardSiderbar extends Component {
                         <SidebarListItem name = "Profile" dataFeather="file" link="/profile" />
                         <SidebarListItem name = "History" dataFeather="users" link="/" />
                         <SidebarListItem name = "Contact" dataFeather="layers" link="/" />
+                        <SidebarListItem name = "Management dashboard" dataFeather="layers" link="/manage" />
                     </ul>
 
 
