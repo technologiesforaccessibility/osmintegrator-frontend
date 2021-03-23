@@ -635,13 +635,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Roles
-     * @name RolesCreate
-     * @request POST:/api/Roles
+     * @name RolesUpdate
+     * @request PUT:/api/Roles
      */
-    rolesCreate: (data: RoleUser[] | null, params: RequestParams = {}) =>
+    rolesUpdate: (data: RoleUser[] | null, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Roles`,
-        method: "POST",
+        method: "PUT",
         body: data,
         type: ContentType.Json,
         ...params,
@@ -666,12 +666,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Tile
-     * @name TileGetAllTilesList
-     * @request GET:/api/Tile/GetAllTiles
+     * @name TileGetTilesList
+     * @request GET:/api/Tile/GetTiles
      */
-    tileGetAllTilesList: (params: RequestParams = {}) =>
+    tileGetTilesList: (params: RequestParams = {}) =>
       this.request<Tile[], ProblemDetails>({
-        path: `/api/Tile/GetAllTiles`,
+        path: `/api/Tile/GetTiles`,
         method: "GET",
         format: "json",
         ...params,

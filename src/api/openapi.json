@@ -367,7 +367,7 @@
                     }
                 }
             },
-            "post": {
+            "put": {
                 "tags": [
                     "Roles"
                 ],
@@ -433,7 +433,7 @@
                 }
             }
         },
-        "/api/Tile/GetAllTiles": {
+        "/api/Tile/GetTiles": {
             "get": {
                 "tags": [
                     "Tile"
