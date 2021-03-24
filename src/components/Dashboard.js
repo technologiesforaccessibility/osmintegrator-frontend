@@ -38,9 +38,7 @@ class Dashboard extends Component {
                 this.setState({isLoggedIn: true});
             }
         } catch (error) {
-            {
                 console.log("Token validation error")
-            }
         }
     }
 

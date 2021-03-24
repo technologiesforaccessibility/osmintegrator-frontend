@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {NavLink, Redirect} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 import colors from "./colors.module.scss";
 
 class Logout extends Component {

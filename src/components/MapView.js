@@ -38,7 +38,7 @@ class MapView extends Component {
 
     async componentDidMount() {
         try {
-            const response = await client.api.tileGetAllTilesList({headers: getDefaultHeadersWithToken(localStorage.token)})
+            const response = await client.api.tileGetTilesList({headers: getDefaultHeadersWithToken(localStorage.token)})
             if (response.status === 200) {
                 this.setState({tiles: response.data});
             }
@@ -117,7 +117,7 @@ class MapView extends Component {
         const showSingleTile = this.state.showSingleTile;
         let tiles;
         if (showSingleTile) {
-            tiles = <Rectangle bounds={[
+            tiles = <Rectangle key={`${this.state.activeTile.maxLat}-${this.state.activeTile.maxLon}`} bounds={[
                 [this.state.activeTile.maxLat, this.state.activeTile.maxLon],
                 [this.state.activeTile.minLat, this.state.activeTile.minLon]
             ]}
@@ -147,7 +147,7 @@ class MapView extends Component {
                         maxZoom={19}
                     />
                     {this.state.visiblePolylines.map((position) =>
-                        <Polyline pathOptions={purpleOptions} positions={position}/>
+                        <Polyline key={position.newPolylineStartPoint} pathOptions={purpleOptions} positions={position}/>
                     )}
                     {tiles}
                     {this.state.allStops.map((busStop) =>

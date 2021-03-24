@@ -3,9 +3,6 @@ import React, {Component} from 'react';
 const {REACT_APP_LOGIN_PATH, REACT_APP_LOGOUT_PATH} = process.env;
 
 class DashboardHeader extends Component {
-        constructor(props) {
-        super(props);
-    }
 
 
     render() {
