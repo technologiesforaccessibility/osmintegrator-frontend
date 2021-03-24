@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {NavLink, Route, Switch} from "react-router-dom";
-import DashboardMain from "./DashboardMain";
+import {Route, Switch} from "react-router-dom";
 import ChangeEmail from "./ChangeEmail";
 import ChangePassword from "./ChangePassword";
 import ProfilePanel from "./ProfilePanel";

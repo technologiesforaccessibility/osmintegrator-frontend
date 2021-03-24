@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 import MapView from "./MapView";
 
 class DashboardMain extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (

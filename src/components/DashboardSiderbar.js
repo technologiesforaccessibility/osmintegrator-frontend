@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import PropertyGrid from './PropertyGrid';
-import {NavLink} from "react-router-dom";
 import SidebarListItem from "./SidebarListItem";
 
 class DashboardSiderbar extends Component {
+    // eslint-disable-next-line no-useless-constructor
     constructor(props) {
         super(props);
     }

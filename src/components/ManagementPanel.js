@@ -2,29 +2,23 @@ import React, {useEffect, useState} from 'react';
 import client from "../api/apiInstance";
 import {getDefaultHeadersWithToken} from "../config/apiConfig";
 
-import {MapContainer, Marker, Polyline, Rectangle, TileLayer, Tooltip} from "react-leaflet";
-import {getBusStopIcon} from "./utilities";
+import {MapContainer, Rectangle, TileLayer, Tooltip} from "react-leaflet";
+
 
 import './managementPanel.scss';
 import colors from "./colors.module.scss";
 
 
-function ManagementPanel(props) {
+function ManagementPanel() {
 
     const [editors, setEditors] = useState([]);
     const [selectedEditor, setSelectedEditor] = useState(["Choose User"]);
     const [tiles, setTiles] = useState([]);
     const [selectedTile, setSelectedTile] = useState(["Choose tile to assign"]);
 
-    const [currentLocation, setCurrentLocation] = useState({lat: 50.29, lng: 19.01})
-    const [zoom, setZoom] = useState(9)
+    const currentLocation = {lat: 50.29, lng: 19.01}
+    const zoom = 9
 
-    console.log("Whatever")
-    useEffect(() => {
-        getEditors().then(editors => {
-            setEditors(editors)
-        });
-    }, []);
 
     useEffect(() => {
         getTiles().then(tiles => {
@@ -33,18 +27,9 @@ function ManagementPanel(props) {
     }, []);
 
 
-    async function getEditors() {
-        const response = await client.api.rolesList(
-            {headers: getDefaultHeadersWithToken(localStorage.token)})
-        if (response.status === 200) {
-            return response.data
-        } else {
-            console.log("Use List problem")
-        }
-    }
 
     const users = (editors.length > 0)
-        ? (editors.map((editor) => <button className="dropdown-item"
+        ? (editors.map((editor) => <button key={`users-${editor.userName}`} className="dropdown-item"
             // style={(editor.userName === selectedEditor) && {backgroundColor: "gray"} }
                                            onClick={() => (setSelectedEditor(editor.userName))}
         >{editor.userName}</button>))
@@ -62,13 +47,23 @@ function ManagementPanel(props) {
     }
 
     const tilesList = (tiles.length > 0)
-        ? (tiles.map((tile) => <button className="dropdown-item"
-                                       onClick={() => (setSelectedTile(tile.id.slice(0, 13)))}
+        ? (tiles.map((tile) => <button key={`tile-dropdown-${tile.id}`} className="dropdown-item"
+                                       onClick={async() => {
+                                           const response = await client.api.tileGetUsersDetail(tile.id);
+                                           if (response.data.length > 1) {
+                                               setEditors(response.data)
+                                           } else {
+                                               setSelectedEditor("Unassigned");
+                                               setEditors([]);
+                                           }
+                                           setSelectedTile(`X: ${tile.x}, Y: ${tile.y}`);
+                                       }}
         >{tile.id}; gtfsStopsCount: {tile.gtfsStopsCount}; osmStopsCount:{tile.osmStopsCount}</button>))
         : null
 
     const mapTiles = tiles.map((tile) => (
-        <Rectangle bounds={[[tile.maxLat, tile.maxLon], [tile.minLat, tile.minLon]]}
+        <Rectangle key={`map-${tile.id}`}
+                   bounds={[[tile.maxLat, tile.maxLon], [tile.minLat, tile.minLon]]}
                    pathOptions={{color: colors['colorTileAll']}} eventHandlers={{
             click: () => {
                 setSelectedTile(tile.id.slice(0, 13))
@@ -92,22 +87,12 @@ function ManagementPanel(props) {
 
 
                     <div>
+
                         <div
                             className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                             <h4>Assign user to tile</h4>
                         </div>
-                        <div className="dropdown d-inline-block ">
-                            <button className="btn btn-lg btn-secondary dropdown-toggle customInlineButton"
-                                    type="button"
-                                    id="dropdownMenuButton"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {selectedEditor}
-                            </button>
-                            <div className="dropdown-menu scrollable-dropdown" aria-labelledby="dropdownMenuButton">
-                                {users}
-                            </div>
 
-                        </div>
 
                         <div className="dropdown d-inline-block ">
                             <button className="btn btn-lg btn-secondary dropdown-toggle customInlineButton"
@@ -121,6 +106,21 @@ function ManagementPanel(props) {
                             </div>
 
                         </div>
+
+                        <div className="dropdown d-inline-block ">
+                            <button className="btn btn-lg btn-secondary dropdown-toggle customInlineButton"
+                                    type="button"
+                                    id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {selectedEditor}
+                            </button>
+                            <div className="dropdown-menu scrollable-dropdown" aria-labelledby="dropdownMenuButton">
+                                {users}
+                            </div>
+
+                        </div>
+
+
                         <button type="button" className="btn btn-lg btn-secondary customInlineButton">Assign</button>
                     </div>
 
