@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.5.0",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.0-alpha1",
+    "bootstrap-icons": "^1.4.0",
     "leaflet": "^1.7.1",
     "node-sass": "^4.14.1",
     "popper.js": "^1.16.1",
@@ -51,6 +52,7 @@
   "devDependencies": {
     "@types/leaflet": "^1.5.19",
     "css-loader": "^5.0.1",
+    "prettier": "^2.2.1",
     "sass-loader": "^10.1.1",
     "style-loader": "^2.0.0"
   },
