@@ -1,18 +1,32 @@
-.customInlineButton {
+@import './colors.module';
+
+.management-panel {
+  color: $color-link-default;
+}
+
+.management-panel__button {
   margin-left: 8px;
   margin-right: 8px;
   margin-bottom: 15px;
 }
 
-//.leaflet-container {
-//  position: relative;
-//  height: calc(100vh - 350px);
-//}
-.mapprompt {
-  background-color: red;
+.management-panel__button--40p {
+  width: 40%;
 }
 
-.scrollable-dropdown {
+.management-panel__button--30p {
+  width: 30%;
+}
+
+.management-panel__button--15p {
+  width: 15%;
+}
+
+.management-panel__button--use-all-width {
+  width: 100%;
+}
+
+.management-panel__scrollable-dropdown {
     height: auto;
     max-height: 300px;
     overflow-x: hidden;
