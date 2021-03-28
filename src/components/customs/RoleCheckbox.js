@@ -1,6 +1,8 @@
 import React from 'react';
 
-function RoleCheckbox({role}, {id}) {
+// function RoleCheckbox({role}, {id}, {hasRole= true}) {
+function RoleCheckbox(props) {
+    const checkValue =  (!!props.hasRole) ? "checked": "";
     return (
         <div
             className="d-inline-block form-check management-panel__check-box"
@@ -8,9 +10,9 @@ function RoleCheckbox({role}, {id}) {
             <input
                 className="form-check-input"
                 type="checkbox"
-                id={id}
+                checked={checkValue}
                 value="option1"
-                onClick={console.log(role, id)}
+                onClick={ () => {}}
                 style={{margin: '0 auto'}}
             />
         </div>

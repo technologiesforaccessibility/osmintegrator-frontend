@@ -6,6 +6,7 @@ import H3Title from "./customs/H3Title";
 import H4Title from "./customs/H4Title";
 import NameBox from "./customs/NameBox";
 import RoleCheckbox from "./customs/RoleCheckbox";
+import CheckboxRow from "./customs/CheckboxRow";
 
 import {MapContainer, Rectangle, TileLayer, Tooltip} from 'react-leaflet';
 
@@ -35,9 +36,10 @@ function ManagementPanel() {
 
     useEffect(() => {
         getUserRoles().then(roles => {
+            // console.log(roles);
             setUserRolesInitial(roles);
-            setUserRolesModified(roles);
             setRoleList(Object.keys(roles[0].roles));
+            setUserRolesModified(roles);
         });
     }, []);
 
@@ -148,7 +150,7 @@ function ManagementPanel() {
     ));
 
     const assignToTile = async ({id, userName, isAssigned}, tile) => {
-        console.log(tile.id);
+        // console.log(tile.id);
         const response = await client.api.tileUpdateUsersCreate(
             {
                 id: tile.id,
@@ -164,19 +166,27 @@ function ManagementPanel() {
                 headers: getDefaultHeadersWithToken(localStorage.token),
             },
         );
-        console.log(response.status);
+        // console.log(response.status);
         if (response.status === 200) {
             const resp = await getTileUserAssignmentInfo(tile.id);
             await setEditors(resp.data.users);
         }
     };
 
-    const roleHeaders = roleList.map(role => <div className="d-inline-block management-panel__role-header"><div>
-        {role}
-    </div>
-
+    const roleHeaders = roleList.map(role => <div className="d-inline-block management-panel__role-header">
+        <div>
+            {role}
+        </div>
     </div>)
 
+    const rolePanel = userRolesModified !== []
+        ? userRolesModified.map( ({id, userName, roles}) => {
+        // return (<CheckboxRow roles={roleList} statuses={roles} id={id} />)
+           return (<React.Fragment>
+               <NameBox name={userName}/> <CheckboxRow roles={roleList} statuses={roles} id={id} />
+           </React.Fragment>)
+    })
+        : null;
 
 
     return (
@@ -259,16 +269,15 @@ function ManagementPanel() {
 
 
                             <div className="form-group">
-
-                                <NameBox name="Hello"/>
-                                <RoleCheckbox role="rola" id="superId"/>
-                                <RoleCheckbox role="rola" id="superId2"/>
-                                <RoleCheckbox role="rola" id="superId3"/>
-                                <RoleCheckbox role="rola" id="superId4"/>
-                                <RoleCheckbox role="rola" id="superId5"/>
+                                {rolePanel}
+                                {/*<NameBox name="Hello"/>*/}
+                                {/*<RoleCheckbox role="rola" id="superId"/>*/}
+                                {/*<RoleCheckbox role="rola" id="superId2"/>*/}
+                                {/*<RoleCheckbox role="rola" id="superId3"/>*/}
+                                {/*<RoleCheckbox role="rola" id="superId4"/>*/}
+                                {/*<RoleCheckbox role="rola" id="superId5"/>*/}
 
                             </div>
-
 
 
                         </div>
