@@ -31,3 +31,37 @@
     max-height: 300px;
     overflow-x: hidden;
 }
+
+.management-panel__scrollable-area {
+  width: 100%;
+  max-height: 500px;
+  overflow-x: hidden;
+}
+
+.management-panel__role-header {
+    width: 90px;
+    font-weight: bold;
+    border: 1px solid $color-link-default;
+}
+
+.management-panel__check-box {
+  width: 90px;
+  border: 1px solid $color-link-default;
+  margin-bottom: 0;
+}
+.management-panel__name-header {
+    width: 90px;
+    font-weight: bold;
+    border: 1px solid $color-link-default;
+}
+
+.management-panel__name-item {
+  width: 90px;
+  font-weight: bold;
+  border: 1px solid $color-link-default;
+
+}
+.checkbox-wrapper {
+  //display: grid;
+  //grid-template-columns: repeat(5, 0fr);
+}

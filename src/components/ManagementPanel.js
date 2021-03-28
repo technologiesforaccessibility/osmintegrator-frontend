@@ -4,6 +4,8 @@ import {getDefaultHeadersWithToken} from '../config/apiConfig';
 import CheckIcon from './customs/CheckIcon';
 import H3Title from "./customs/H3Title";
 import H4Title from "./customs/H4Title";
+import NameBox from "./customs/NameBox";
+import RoleCheckbox from "./customs/RoleCheckbox";
 
 import {MapContainer, Rectangle, TileLayer, Tooltip} from 'react-leaflet';
 
@@ -17,12 +19,25 @@ function ManagementPanel() {
     const [tiles, setTiles] = useState([]);
     const [selectedTile, setSelectedTile] = useState(['Choose tile to assign']);
     const [selectedTileData, setSelectedTileData] = useState(null);
+    const [userRolesInitial, setUserRolesInitial] = useState([]);
+    const [userRolesModified, setUserRolesModified] = useState([]);
+    const [roleList, setRoleList] = useState([]);
+
+
     const currentLocation = {lat: 50.29, lng: 19.01};
     const zoom = 9;
 
     useEffect(() => {
         getTiles().then(tiles => {
             setTiles(tiles);
+        });
+    }, []);
+
+    useEffect(() => {
+        getUserRoles().then(roles => {
+            setUserRolesInitial(roles);
+            setUserRolesModified(roles);
+            setRoleList(Object.keys(roles[0].roles));
         });
     }, []);
 
@@ -65,6 +80,17 @@ function ManagementPanel() {
         }
     }
 
+    async function getUserRoles() {
+        try {
+            const response = await client.api.rolesList({
+                headers: getDefaultHeadersWithToken(localStorage.token),
+            });
+            return response.data;
+        } catch {
+            console.log('User Role List problem');
+        }
+    }
+
     const tilesList =
         tiles.length > 0
             ? tiles.map(({id, x, y, gtfsStopsCount, osmStopsCount}) => (
@@ -95,19 +121,21 @@ function ManagementPanel() {
                 [maxLat, maxLon],
                 [minLat, minLon],
             ]}
-            pathOptions={{color: selectedTileData === null
+            pathOptions={{
+                color: selectedTileData === null
                     ? colors.colorTileAll
                     : (selectedTileData.id === id
                         ? colors.colorTileActiveExplicit
-                        :  colors.colorTileAll) }}
+                        : colors.colorTileAll)
+            }}
             eventHandlers={{
                 click: async () => {
                     const response = await getTileUserAssignmentInfo(id);
                     if (response.status !== 200) {
-                            setSelectedEditor('Unassigned');
-                            setEditors([]);
-                            return console.log('Api problem');
-                        }
+                        setSelectedEditor('Unassigned');
+                        setEditors([]);
+                        return console.log('Api problem');
+                    }
                     await setEditors(response.data.users);
                     setSelectedTile(`X: ${x}, Y: ${y}`);
                     setSelectedTileData({id, x, y});
@@ -142,6 +170,14 @@ function ManagementPanel() {
             await setEditors(resp.data.users);
         }
     };
+
+    const roleHeaders = roleList.map(role => <div className="d-inline-block management-panel__role-header"><div>
+        {role}
+    </div>
+
+    </div>)
+
+
 
     return (
         <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -210,6 +246,41 @@ function ManagementPanel() {
 
                     <div className="management-panel">
                         <H4Title title="Assign role to user"/>
+
+                        <div className="management-panel__scrollable-area">
+                            <div>
+
+                                <div className="d-inline-block management-panel__name-header">
+                                    Name
+                                </div>
+                                {roleHeaders}
+
+                            </div>
+
+
+                            <div className="form-group">
+
+                                <NameBox name="Hello"/>
+                                <RoleCheckbox role="rola" id="superId"/>
+                                <RoleCheckbox role="rola" id="superId2"/>
+                                <RoleCheckbox role="rola" id="superId3"/>
+                                <RoleCheckbox role="rola" id="superId4"/>
+                                <RoleCheckbox role="rola" id="superId5"/>
+
+                            </div>
+
+
+
+                        </div>
+
+                        <button
+                            type="button"
+                            className="btn btn-secondary management-panel__button--use-all-width"
+                            onClick={() => {
+                            }
+                            }>
+                            Save changes
+                        </button>
 
                     </div>
                 </div>
