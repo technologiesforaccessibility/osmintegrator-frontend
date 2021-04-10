@@ -63,7 +63,7 @@ export interface ResetPassword {
 
 export interface User {
   /** @format uuid */
-  id?: string | null;
+  id: string;
   userName?: string | null;
   email?: string | null;
   roles?: string[] | null;
@@ -174,19 +174,6 @@ export interface Stop {
   tileId?: string;
   tile?: Tile;
   outsideSelectedTile?: boolean;
-}
-
-export interface TileUser {
-  /** @format uuid */
-  id: string;
-  userName: string;
-  isAssigned: boolean;
-}
-
-export interface TileWithUsers {
-  /** @format uuid */
-  id: string;
-  users: TileUser[];
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -548,77 +535,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @tags Permissions
-     * @name PermissionsRolesList
-     * @request GET:/api/Permissions/Roles
-     */
-    permissionsRolesList: (params: RequestParams = {}) =>
-      this.request<string[], void>({
-        path: `/api/Permissions/Roles`,
-        method: "GET",
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Permissions
-     * @name PermissionsAddAdminRoleList
-     * @request GET:/api/Permissions/AddAdminRole
-     */
-    permissionsAddAdminRoleList: (params: RequestParams = {}) =>
-      this.request<void, void>({
-        path: `/api/Permissions/AddAdminRole`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Permissions
-     * @name PermissionsOnlyAdminList
-     * @request GET:/api/Permissions/OnlyAdmin
-     */
-    permissionsOnlyAdminList: (params: RequestParams = {}) =>
-      this.request<void, void>({
-        path: `/api/Permissions/OnlyAdmin`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Permissions
-     * @name PermissionsAdminAndUserList
-     * @request GET:/api/Permissions/AdminAndUser
-     */
-    permissionsAdminAndUserList: (params: RequestParams = {}) =>
-      this.request<void, void>({
-        path: `/api/Permissions/AdminAndUser`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Permissions
-     * @name PermissionsOnlyUserList
-     * @request GET:/api/Permissions/OnlyUser
-     */
-    permissionsOnlyUserList: (params: RequestParams = {}) =>
-      this.request<void, void>({
-        path: `/api/Permissions/OnlyUser`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
      * @tags Roles
      * @name RolesList
      * @request GET:/api/Roles
@@ -711,15 +627,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Tile
-     * @name TileUpdateUsersCreate
-     * @request POST:/api/Tile/UpdateUsers
+     * @name TileRemoveUserDelete
+     * @request DELETE:/api/Tile/RemoveUser/{id}
      */
-    tileUpdateUsersCreate: (data: TileWithUsers, params: RequestParams = {}) =>
-      this.request<Tile, ProblemDetails>({
-        path: `/api/Tile/UpdateUsers`,
-        method: "POST",
-        body: data,
-        type: ContentType.Json,
+    tileRemoveUserDelete: (id: string | null, params: RequestParams = {}) =>
+      this.request<string, ProblemDetails>({
+        path: `/api/Tile/RemoveUser/${id}`,
+        method: "DELETE",
         format: "json",
         ...params,
       }),
@@ -728,13 +642,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Tile
-     * @name TileGetAssignedUsersDetail
-     * @request GET:/api/Tile/GetAssignedUsers/{id}
+     * @name TileUpdateUserUpdate
+     * @request PUT:/api/Tile/UpdateUser/{id}
      */
-    tileGetAssignedUsersDetail: (id: string | null, params: RequestParams = {}) =>
-      this.request<Tile, ProblemDetails>({
-        path: `/api/Tile/GetAssignedUsers/${id}`,
-        method: "GET",
+    tileUpdateUserUpdate: (id: string | null, data: User, params: RequestParams = {}) =>
+      this.request<string, ProblemDetails>({
+        path: `/api/Tile/UpdateUser/${id}`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
