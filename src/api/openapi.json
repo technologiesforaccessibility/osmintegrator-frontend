@@ -251,91 +251,6 @@
                 }
             }
         },
-        "/api/Permissions/Roles": {
-            "get": {
-                "tags": [
-                    "Permissions"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    }
-                }
-            }
-        },
-        "/api/Permissions/AddAdminRole": {
-            "get": {
-                "tags": [
-                    "Permissions"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    }
-                }
-            }
-        },
-        "/api/Permissions/OnlyAdmin": {
-            "get": {
-                "tags": [
-                    "Permissions"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    }
-                }
-            }
-        },
-        "/api/Permissions/AdminAndUser": {
-            "get": {
-                "tags": [
-                    "Permissions"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    }
-                }
-            }
-        },
-        "/api/Permissions/OnlyUser": {
-            "get": {
-                "tags": [
-                    "Permissions"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    }
-                }
-            }
-        },
         "/api/Roles": {
             "get": {
                 "tags": [
@@ -545,56 +460,8 @@
                 }
             }
         },
-        "/api/Tile/UpdateUsers": {
-            "post": {
-                "tags": [
-                    "Tile"
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/TileWithUsers"
-                            }
-                        },
-                        "text/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/TileWithUsers"
-                            }
-                        },
-                        "application/*+json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/TileWithUsers"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Tile"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/Tile/GetAssignedUsers/{id}": {
-            "get": {
+        "/api/Tile/RemoveUser/{id}": {
+            "delete": {
                 "tags": [
                     "Tile"
                 ],
@@ -615,7 +482,66 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Tile"
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Tile/UpdateUser/{id}": {
+            "put": {
+                "tags": [
+                    "Tile"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -883,12 +809,14 @@
                 "additionalProperties": false
             },
             "User": {
+                "required": [
+                    "id"
+                ],
                 "type": "object",
                 "properties": {
                     "id": {
                         "type": "string",
-                        "format": "uuid",
-                        "nullable": true
+                        "format": "uuid"
                     },
                     "userName": {
                         "type": "string",
@@ -1119,47 +1047,6 @@
                     },
                     "outsideSelectedTile": {
                         "type": "boolean"
-                    }
-                },
-                "additionalProperties": false
-            },
-            "TileUser": {
-                "required": [
-                    "id",
-                    "isAssigned",
-                    "userName"
-                ],
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "userName": {
-                        "type": "string"
-                    },
-                    "isAssigned": {
-                        "type": "boolean"
-                    }
-                },
-                "additionalProperties": false
-            },
-            "TileWithUsers": {
-                "required": [
-                    "id",
-                    "users"
-                ],
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "users": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/TileUser"
-                        }
                     }
                 },
                 "additionalProperties": false

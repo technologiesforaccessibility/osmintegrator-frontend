@@ -24,5 +24,7 @@ yarn-error.log*
 
 .idea/
 
+.eslintcache
+
 #file generated via npm start when typeScript api client is being used
 react-app-env.d.ts
