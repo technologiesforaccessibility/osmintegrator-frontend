@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {MapContainer, Rectangle, TileLayer, Tooltip} from 'react-leaflet';
 
 import client from '../api/apiInstance';
@@ -13,15 +13,20 @@ import './managementPanel.scss';
 import colors from './colors.module.scss';
 
 function ManagementPanel() {
-    const [tileUsers, setTileUsers] = useState([]);
     const [userButtonTile, setUserButtonTile] = useState(['Choose User']);
-    const [selectedEditorData, setSelectedEditorData] = useState({});
+    const [tileButtonTile, setTileButtonTile] = useState([
+        'Choose tile to assign',
+    ]);
     const [tiles, setTiles] = useState([]);
-    const [selectedTile, setSelectedTile] = useState(['Choose tile to assign']);
+    const [tileUsers, setTileUsers] = useState([]);
     const [selectedTileData, setSelectedTileData] = useState(null);
-    const [userRolesInitial, setUserRolesInitial] = useState([]);
+    const [selectedEditorData, setSelectedEditorData] = useState({});
+
+    const [userButtonRole, setUserButtonRole] = useState(['Choose User']);
+    const [userRoles, setUserRoles] = useState([]);
     const [userRolesModified, setUserRolesModified] = useState([]);
     const [roleList, setRoleList] = useState([]);
+    const [selectedUserData, setSelectedUserData] = useState({});
 
     const currentLocation = {lat: 50.29, lng: 19.01};
     const zoom = 9;
@@ -34,9 +39,8 @@ function ManagementPanel() {
 
     useEffect(() => {
         getUserRoles().then(roles => {
-            setUserRolesInitial(roles);
+            setUserRoles(roles);
             setRoleList(Object.keys(roles[0].roles));
-            setUserRolesModified(roles);
         });
     }, []);
 
@@ -104,7 +108,7 @@ function ManagementPanel() {
                               return console.log('Api problem');
                           }
                           await setTileUsers(response.data.users);
-                          setSelectedTile(`X: ${x}, Y: ${y}`);
+                          setTileButtonTile(`X: ${x}, Y: ${y}`);
                           setSelectedTileData({id, x, y});
                           setUserButtonTile(['Choose User']);
                           setSelectedEditorData({});
@@ -139,7 +143,7 @@ function ManagementPanel() {
                         return console.log('Api problem');
                     }
                     await setTileUsers(response.data.users);
-                    setSelectedTile(`X: ${x}, Y: ${y}`);
+                    setTileButtonTile(`X: ${x}, Y: ${y}`);
                     setSelectedTileData({id, x, y});
                 },
             }}>
@@ -172,28 +176,50 @@ function ManagementPanel() {
         }
     };
 
-    const roleHeaders = roleList.map(role => (
-        <div className="d-inline-block management-panel__role-header">
-            <div>{role}</div>
-        </div>
-    ));
-
-    const rolePanel =
-        userRolesModified !== []
-            ? userRolesModified.map(({id, userName, roles}) => {
-                  // return (<CheckboxRow roles={roleList} statuses={roles} id={id} />)
+    const userList =
+        userRoles.length > 0
+            ? userRoles.map(({id, userName, roles}) => {
                   return (
-                      <React.Fragment>
-                          <NameBox name={userName} />{' '}
-                          <CheckboxRow
-                              roles={roleList}
-                              statuses={roles}
-                              id={id}
-                          />
-                      </React.Fragment>
+                      <button
+                          key={userName}
+                          className="dropdown-item"
+                          onClick={() => {
+                              setUserButtonRole(userName);
+                              setSelectedUserData({id, userName, roles});
+                          }}>
+                          {userName}
+                      </button>
                   );
               })
             : null;
+
+    // const my_mock = {
+    //     id: 'e06b45c4-2090-4bba-83f0-ae4cfeaf6669',
+    //     userName: 'supervisor3',
+    //     roles: {
+    //         Admin: false,
+    //         Coordinator: false,
+    //         Editor: true,
+    //     },
+    // };
+    // console.log(Object.entries(my_mock.roles));
+
+    const roleCbs =
+        selectedUserData.hasOwnProperty('roles')
+        // selectedUserData !== {}
+        // my_mock !== {}
+            ? Object.entries(selectedUserData.roles).map(( item) => <p>`${item}`</p> )
+        //
+        //     : // Object.keys(selectedUserData.roles).map(key => {
+        //       //       console.log(key);
+        //       //       return (
+        //       //           <Fragment>
+        //       //               <label htmlFor="vehicle1">{key}</label>
+        //       //               <input type="checkbox" key={key} value="True"></input>
+        //       //           </Fragment>
+        //       //       );
+        //       //   })
+              :null;
 
     return (
         <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -203,6 +229,7 @@ function ManagementPanel() {
                 <div className="col-md-5">
                     <div className="management-panel">
                         <H4Title title="Assign user to tile" />
+
                         <div className="dropdown d-inline-block management-panel__button management-panel__button--40p">
                             <button
                                 className="btn btn-secondary dropdown-toggle management-panel__button--use-all-width"
@@ -211,7 +238,7 @@ function ManagementPanel() {
                                 data-toggle="dropdown"
                                 aria-haspopup="true"
                                 aria-expanded="false">
-                                {selectedTile}
+                                {tileButtonTile}
                             </button>
                             <div
                                 className="dropdown-menu management-panel__scrollable-dropdown"
@@ -269,14 +296,16 @@ function ManagementPanel() {
                                 data-toggle="dropdown"
                                 aria-haspopup="true"
                                 aria-expanded="false">
-                                {userButtonTile}
+                                {userButtonRole}
                             </button>
                             <div
                                 className="dropdown-menu management-panel__scrollable-dropdown"
                                 aria-labelledby="dropdownTileUserButton">
-                                {users}
+                                {userList}
                             </div>
                         </div>
+
+                        {roleCbs}
 
                         <button
                             type="button"
