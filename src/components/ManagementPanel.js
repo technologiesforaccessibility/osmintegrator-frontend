@@ -23,6 +23,7 @@ function ManagementPanel() {
     const [userButtonRole, setUserButtonRole] = useState(['Choose User']);
     const [userRoleList, setUserRoleList] = useState([]);
     const [selectedUserData, setSelectedUserData] = useState({});
+    const [selectedUserRoles, setSelectedUserRoles] = useState([]);
 
     const currentLocation = {lat: 50.29, lng: 19.01};
     const zoom = 9;
@@ -38,6 +39,12 @@ function ManagementPanel() {
             setUserRoleList(userList);
         });
     }, []);
+
+
+    useEffect(() => {
+        console.log('userRoleList has changed!!')
+    }, [userRoleList]);
+
 
     const getTileUserAssignmentInfo = async id => {
         return await client.api.tileGetUsersDetail(id, {
@@ -171,6 +178,7 @@ function ManagementPanel() {
         }
     };
 
+
     const usersForRoleAssignment =
         userRoleList.length > 0
             ? userRoleList.map(({id, userName, roles}) => {
@@ -181,8 +189,11 @@ function ManagementPanel() {
                           onClick={() => {
                               setUserButtonRole(userName);
                               console.log('OLD user data: ', selectedUserData);
-                              console.log('FUTURE userData: ', {id, userName, roles});
-                              setSelectedUserData({id, userName, roles});
+                              console.log('Future user data: ', {id, userName});
+                              console.log('OLD user data: ', selectedUserRoles);
+                              console.log('Future user data: ', roles);
+                              setSelectedUserData({id, userName});
+                              setSelectedUserRoles(roles);
 
                           }}>
                           {userName}
@@ -191,30 +202,48 @@ function ManagementPanel() {
               })
             : null;
 
-    const handleCbChange = (e, index) => {
-        console.log('target value: ', e.target.value)
-        let userData = selectedUserData
-        userData.roles[index].value = !userData.roles[index].value;
-        console.log('NewUserData', userData);
-        setSelectedEditorData(userData);
+    const handleCbChange = (value, index) => {
+        let userData = [...selectedUserRoles]
+        userData[index].value = !value;
+        console.log('NEW userdata: ', userData);
+        setSelectedUserRoles(userData);
     }
 
-    const roleCheckboxes =
-        selectedUserData.roles
-            ? selectedUserData.roles.map(({name, value}, index) => {
+
+    const roleCheckboxes = selectedUserRoles.length > 0
+            ? selectedUserRoles.map(({name, value}, index) => {
                 return (
                     <div key={name} className="management-panel__checkbox-wrapper">
                         <input type="checkbox"
-                               value={value}
                                checked={value}
-                               onClick={(e) => handleCbChange(e, index)}
+                               onChange={() => handleCbChange(value, index)}
                                />
-                        <label className="management-panel__checkbox-label">{name}</label>
+                        <label className="management-panel__checkbox-label">{name}</label> {value.toString()}
                     </div>
                 )
             })
             : <p>You havent chosen user yet</p>
 
+
+    const assignRole = async() => {
+        let jsonRaw = [{
+            ...selectedUserData, roles: selectedUserRoles
+        }]
+        console.log(jsonRaw);
+
+        try {
+            await client.api.rolesUpdate(jsonRaw, {headers: getDefaultHeadersWithToken(localStorage.token),})
+            const userList = await getUserList()
+            setUserRoleList(userList);
+            setUserButtonRole(['Choose User']);
+            setSelectedUserData({})
+            setSelectedUserRoles([])
+        } catch {
+            console.log('Update role problem');
+        }
+
+
+    }
 
     return (
         <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -310,11 +339,28 @@ function ManagementPanel() {
                         <button
                             type="button"
                             className="btn btn-secondary management-panel__button--use-all-width"
-                            onClick={() => {console.log(selectedUserData)}}>
+                            onClick={() => assignRole()}>
                             Save changes
                         </button>
+
+                        <button
+                            type="button"
+                            className="btn btn-secondary management-panel__button--use-all-width"
+                            onClick={() => {console.log(selectedUserRoles)}}>
+                            Changed roles of active user
+                        </button>
+                        <button
+                            type="button"
+                            className="btn btn-secondary management-panel__button--use-all-width"
+                            onClick={() => {console.log(userRoleList[0].roles)}}>
+                            Primary roles of user 0
+                        </button>
                     </div>
+
+
                 </div>
+
+
 
 
 
