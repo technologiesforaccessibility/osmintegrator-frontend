@@ -65,3 +65,20 @@
   //display: grid;
   //grid-template-columns: repeat(5, 0fr);
 }
+
+
+.management-panel__checkbox-wrapper{
+  display: block;
+  padding-left: 35px;
+  margin-bottom: 12px;;
+  //font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.management-panel__checkbox-label{
+  padding-left: 10px;
+}
+

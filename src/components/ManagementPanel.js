@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {MapContainer, Rectangle, TileLayer, Tooltip} from 'react-leaflet';
 
 import client from '../api/apiInstance';
@@ -6,22 +6,24 @@ import {getDefaultHeadersWithToken} from '../config/apiConfig';
 import CheckIcon from './customs/CheckIcon';
 import H3Title from './customs/H3Title';
 import H4Title from './customs/H4Title';
-import NameBox from './customs/NameBox';
-import CheckboxRow from './customs/CheckboxRow';
 
 import './managementPanel.scss';
 import colors from './colors.module.scss';
 
 function ManagementPanel() {
-    const [tileUsers, setTileUsers] = useState([]);
     const [userButtonTile, setUserButtonTile] = useState(['Choose User']);
-    const [selectedEditorData, setSelectedEditorData] = useState({});
+    const [tileButtonTile, setTileButtonTile] = useState([
+        'Choose tile to assign',
+    ]);
     const [tiles, setTiles] = useState([]);
-    const [selectedTile, setSelectedTile] = useState(['Choose tile to assign']);
+    const [tileUsers, setTileUsers] = useState([]);
     const [selectedTileData, setSelectedTileData] = useState(null);
-    const [userRolesInitial, setUserRolesInitial] = useState([]);
-    const [userRolesModified, setUserRolesModified] = useState([]);
-    const [roleList, setRoleList] = useState([]);
+    const [selectedEditorData, setSelectedEditorData] = useState({});
+
+    const [userButtonRole, setUserButtonRole] = useState(['Choose User']);
+    const [userRoleList, setUserRoleList] = useState([]);
+    const [selectedUserData, setSelectedUserData] = useState({});
+    const [selectedUserRoles, setSelectedUserRoles] = useState([]);
 
     const currentLocation = {lat: 50.29, lng: 19.01};
     const zoom = 9;
@@ -32,13 +34,11 @@ function ManagementPanel() {
         });
     }, []);
 
-    useEffect(() => {
-        getUserRoles().then(roles => {
-            setUserRolesInitial(roles);
-            setRoleList(Object.keys(roles[0].roles));
-            setUserRolesModified(roles);
-        });
-    }, []);
+
+
+
+
+
 
     const getTileUserAssignmentInfo = async id => {
         return await client.api.tileGetUsersDetail(id, {
@@ -46,7 +46,7 @@ function ManagementPanel() {
         });
     };
 
-    const users =
+    const usersForTileAssignment =
         tileUsers.length > 0
             ? tileUsers.map(({id, userName, isAssigned}) => {
                   const name = isAssigned ? (
@@ -79,16 +79,7 @@ function ManagementPanel() {
         }
     }
 
-    async function getUserRoles() {
-        try {
-            const response = await client.api.rolesList({
-                headers: getDefaultHeadersWithToken(localStorage.token),
-            });
-            return response.data;
-        } catch {
-            console.log('User Role List problem');
-        }
-    }
+
 
     const tilesList =
         tiles.length > 0
@@ -104,7 +95,7 @@ function ManagementPanel() {
                               return console.log('Api problem');
                           }
                           await setTileUsers(response.data.users);
-                          setSelectedTile(`X: ${x}, Y: ${y}`);
+                          setTileButtonTile(`X: ${x}, Y: ${y}`);
                           setSelectedTileData({id, x, y});
                           setUserButtonTile(['Choose User']);
                           setSelectedEditorData({});
@@ -139,7 +130,7 @@ function ManagementPanel() {
                         return console.log('Api problem');
                     }
                     await setTileUsers(response.data.users);
-                    setSelectedTile(`X: ${x}, Y: ${y}`);
+                    setTileButtonTile(`X: ${x}, Y: ${y}`);
                     setSelectedTileData({id, x, y});
                 },
             }}>
@@ -172,28 +163,95 @@ function ManagementPanel() {
         }
     };
 
-    const roleHeaders = roleList.map(role => (
-        <div className="d-inline-block management-panel__role-header">
-            <div>{role}</div>
-        </div>
-    ));
 
-    const rolePanel =
-        userRolesModified !== []
-            ? userRolesModified.map(({id, userName, roles}) => {
-                  // return (<CheckboxRow roles={roleList} statuses={roles} id={id} />)
+    useEffect(() => {
+        getUserList().then(userList => {
+            setUserRoleList(userList);
+        });
+    }, []);
+
+    useEffect(() => {
+        console.log('For Info Only -> userRoleList has changed!!')
+    }, [userRoleList]);
+
+    async function getUserList() {
+        try {
+            const response = await client.api.rolesList({
+                headers: getDefaultHeadersWithToken(localStorage.token),
+            });
+            return response.data;
+        } catch {
+            console.log('User Role List problem');
+        }
+    }
+
+
+    const usersForRoleAssignment =
+        userRoleList.length > 0
+            ? userRoleList.map(({id, userName, roles}) => {
                   return (
-                      <React.Fragment>
-                          <NameBox name={userName} />{' '}
-                          <CheckboxRow
-                              roles={roleList}
-                              statuses={roles}
-                              id={id}
-                          />
-                      </React.Fragment>
+                      <button
+                          key={userName}
+                          className="dropdown-item"
+                          onClick={() => {
+                              setUserButtonRole(userName);
+
+                              // roles in new memory location ?
+                              const copiedRoles = [...roles];
+                              setSelectedUserData({id, userName});
+                              setSelectedUserRoles(copiedRoles);
+
+                          }}>
+                          {userName}
+                      </button>
                   );
               })
             : null;
+
+    const handleCbChange = (value, index) => {
+        let userData = [...selectedUserRoles]
+        userData[index].value = !value;
+        console.log('NEW userdata: ', userData);
+        setSelectedUserRoles(userData);
+    }
+
+
+    const roleCheckboxes = selectedUserRoles.length > 0
+            ? selectedUserRoles.map(({name, value}, index) => {
+                return (
+                    <div key={name} className="management-panel__checkbox-wrapper">
+                        <input type="checkbox"
+                               checked={value}
+                               onChange={() => handleCbChange(value, index)}
+                               />
+                        <label className="management-panel__checkbox-label">{name}</label> {value.toString()}
+                    </div>
+                )
+            })
+            : <p>You havent chosen user yet</p>
+
+
+
+
+    const assignRole = async() => {
+        let jsonRaw = [{
+            ...selectedUserData, roles: selectedUserRoles
+        }]
+        console.log(jsonRaw);
+
+        try {
+            await client.api.rolesUpdate(jsonRaw, {headers: getDefaultHeadersWithToken(localStorage.token),})
+            const userList = await getUserList()
+            setUserRoleList(userList);
+            setUserButtonRole(['Choose User']);
+            setSelectedUserData({})
+            setSelectedUserRoles([])
+        } catch {
+            console.log('Update role problem');
+        }
+
+
+    }
 
     return (
         <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -203,6 +261,7 @@ function ManagementPanel() {
                 <div className="col-md-5">
                     <div className="management-panel">
                         <H4Title title="Assign user to tile" />
+
                         <div className="dropdown d-inline-block management-panel__button management-panel__button--40p">
                             <button
                                 className="btn btn-secondary dropdown-toggle management-panel__button--use-all-width"
@@ -211,7 +270,7 @@ function ManagementPanel() {
                                 data-toggle="dropdown"
                                 aria-haspopup="true"
                                 aria-expanded="false">
-                                {selectedTile}
+                                {tileButtonTile}
                             </button>
                             <div
                                 className="dropdown-menu management-panel__scrollable-dropdown"
@@ -233,7 +292,7 @@ function ManagementPanel() {
                             <div
                                 className="dropdown-menu management-panel__scrollable-dropdown"
                                 aria-labelledby="dropdownTileUserButton">
-                                {users}
+                                {usersForTileAssignment}
                             </div>
                         </div>
 
@@ -258,6 +317,11 @@ function ManagementPanel() {
                         </div>
                     </div>
 
+
+
+
+
+
                     <div className="management-panel">
                         <H4Title title="Assign role to user" />
 
@@ -269,23 +333,48 @@ function ManagementPanel() {
                                 data-toggle="dropdown"
                                 aria-haspopup="true"
                                 aria-expanded="false">
-                                {userButtonTile}
+                                {userButtonRole}
                             </button>
                             <div
                                 className="dropdown-menu management-panel__scrollable-dropdown"
                                 aria-labelledby="dropdownTileUserButton">
-                                {users}
+                                {usersForRoleAssignment}
                             </div>
                         </div>
+                        {roleCheckboxes}
+
+
 
                         <button
                             type="button"
                             className="btn btn-secondary management-panel__button--use-all-width"
-                            onClick={() => {}}>
+                            onClick={() => assignRole()}>
                             Save changes
                         </button>
+
+                        <button
+                            type="button"
+                            className="btn btn-secondary management-panel__button--use-all-width"
+                            onClick={() => {console.log(selectedUserRoles)}}>
+                            Changed roles of active user
+                        </button>
+                        <button
+                            type="button"
+                            className="btn btn-secondary management-panel__button--use-all-width"
+                            onClick={() => {console.log(userRoleList[0].roles)}}>
+                            Primary roles of user 0
+                        </button>
                     </div>
+
+
                 </div>
+
+
+
+
+
+
+
 
                 <div className="col-md-7">
                     <div className="map-container">
