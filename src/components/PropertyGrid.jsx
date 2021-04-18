@@ -1,5 +1,5 @@
 import React from 'react';
-import './propertyGrid.scss';
+import '../stylesheets/propertyGrid.scss';
 import {useState} from "react";
 
 
