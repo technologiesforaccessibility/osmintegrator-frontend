@@ -61,12 +61,16 @@ export interface ResetPassword {
   token: string;
 }
 
-export interface User {
+export interface Connection {
   /** @format uuid */
-  id: string;
-  userName?: string | null;
-  email?: string | null;
-  roles?: string[] | null;
+  gtfsStopId: string;
+
+  /** @format uuid */
+  osmStopId: string;
+  existing: boolean;
+
+  /** @format uuid */
+  tileId: string;
 }
 
 export interface ProblemDetails {
@@ -79,11 +83,16 @@ export interface ProblemDetails {
   instance?: string | null;
 }
 
+export interface RolePair {
+  name?: string | null;
+  value?: boolean;
+}
+
 export interface RoleUser {
   /** @format uuid */
   id: string;
   userName: string;
-  roles: Record<string, boolean>;
+  roles: RolePair[];
 }
 
 export interface Tag {
@@ -174,6 +183,14 @@ export interface Stop {
   tileId?: string;
   tile?: Tile;
   outsideSelectedTile?: boolean;
+}
+
+export interface User {
+  /** @format uuid */
+  id: string;
+  userName?: string | null;
+  email?: string | null;
+  roles?: string[] | null;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -535,12 +552,42 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
+     * @tags Connections
+     * @name ConnectionsDetail
+     * @request GET:/api/Connections/{id}
+     */
+    connectionsDetail: (id: string | null, params: RequestParams = {}) =>
+      this.request<Connection[], ProblemDetails>({
+        path: `/api/Connections/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Connections
+     * @name ConnectionsList
+     * @request GET:/api/Connections
+     */
+    connectionsList: (params: RequestParams = {}) =>
+      this.request<Connection[], ProblemDetails>({
+        path: `/api/Connections`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags Roles
      * @name RolesList
      * @request GET:/api/Roles
      */
     rolesList: (params: RequestParams = {}) =>
-      this.request<User[], ProblemDetails>({
+      this.request<RoleUser[], ProblemDetails>({
         path: `/api/Roles`,
         method: "GET",
         format: "json",
@@ -574,6 +621,98 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<Stop[], ProblemDetails>({
         path: `/api/Stop`,
         method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tag
+     * @name GetApi
+     * @request GET:/api/Tag
+     */
+    getApi: (params: RequestParams = {}) =>
+      this.request<Tag[], ProblemDetails>({
+        path: `/api/Tag`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tag
+     * @name PostApi
+     * @request POST:/api/Tag
+     */
+    postApi: (data: Tag, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Tag`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tag
+     * @name PutApi
+     * @request PUT:/api/Tag
+     */
+    putApi: (data: Tag, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Tag`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tag
+     * @name TagGetListForStopDetail
+     * @request GET:/api/Tag/GetListForStop/{id}
+     */
+    tagGetListForStopDetail: (id: string, params: RequestParams = {}) =>
+      this.request<Tag[], ProblemDetails>({
+        path: `/api/Tag/GetListForStop/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tag
+     * @name TagGetItemDetail
+     * @request GET:/api/Tag/GetItem/{id}
+     */
+    tagGetItemDetail: (id: string, params: RequestParams = {}) =>
+      this.request<Tag, ProblemDetails>({
+        path: `/api/Tag/GetItem/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tag
+     * @name DeleteApi
+     * @request DELETE:/api/Tag/{id}
+     */
+    deleteApi: (id: string, params: RequestParams = {}) =>
+      this.request<Tag, ProblemDetails>({
+        path: `/api/Tag/${id}`,
+        method: "DELETE",
         format: "json",
         ...params,
       }),

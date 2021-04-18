@@ -11,11 +11,13 @@ import "../stylesheets/mapView.scss"
 import 'leaflet/dist/leaflet.css';
 import {getDefaultHeadersWithToken} from '../config/apiConfig';
 import {getBusStopIcon} from "../utilities/utilities";
+import {getPosition} from "../utilities/mapUtilities";
 import colors from '../stylesheets/colors.module.scss';
 
 import client from "../api/apiInstance";
 
 const purpleOptions = {color: 'purple'}
+const redOptions = {color: 'red'}
 
 class MapView extends Component {
 
@@ -31,17 +33,17 @@ class MapView extends Component {
             showSingleTile: false,
             activeTile: [],
             activeBusStopId: null,
+            importedConnections: [],
         };
 
         this.getTileStops = this.getTileStops.bind(this);
+        this.getTileConnections = this.getTileConnections.bind(this);
     }
 
     async componentDidMount() {
         try {
             const response = await client.api.tileGetTilesList({headers: getDefaultHeadersWithToken(localStorage.token)})
-            if (response.status === 200) {
-                this.setState({tiles: response.data});
-            }
+            this.setState({tiles: response.data});
         } catch (error) {
             if (error.status === 401) {
                 console.log("Authentication problem")
@@ -93,6 +95,27 @@ class MapView extends Component {
         }
     }
 
+    async getTileConnections(id) {
+        try {
+            const response = await client.api.connectionsDetail(id, {
+                headers: getDefaultHeadersWithToken(localStorage.token)
+            })
+            if (response.status === 200) {
+                console.log(response.data)
+                console.log(this.state.allStops);
+                this.setState({importedConnections: response.data})
+            }
+        } catch (error) {
+            if (error.status === 401) {
+                console.log("Authorization problem")
+            } else {
+                console.warn("Undefined tile connection problem");
+            }
+        }
+    }
+
+
+
     isActiveStopClicked = (clickedStopId) => {
         const activeStopId = this.state.activeBusStopId;
         return ((activeStopId === clickedStopId))
@@ -128,7 +151,10 @@ class MapView extends Component {
                            pathOptions={{color: colors['colorTileAll']}} eventHandlers={{
                     click: () => {
                         this.setState({activeTile: tile},
-                            () => {this.getTileStops(tile.id)})
+                            () => {
+                            this.getTileStops(tile.id);
+                            this.getTileConnections(tile.id);
+                        })
                     },
                 }}>
                     <Tooltip direction="top">x ={tile.x}, y={tile.y}</Tooltip>
@@ -149,6 +175,14 @@ class MapView extends Component {
                     {this.state.visiblePolylines.map((position) =>
                         <Polyline key={position.newPolylineStartPoint} pathOptions={purpleOptions} positions={position}/>
                     )}
+                    {this.state.allStops.length > 0 && this.state.importedConnections.map(({osmStopId, gtfsStopId}, index) =>{
+                        const foundOSM = this.state.allStops.find(stop => stop.id === osmStopId);
+                        const foundGTFS = this.state.allStops.find(stop => stop.id === gtfsStopId);
+                        if ((foundOSM !== undefined) && (foundGTFS !== undefined)) {
+                        return <Polyline key={index} pathOptions={redOptions} positions={getPosition(foundOSM, foundGTFS)}/>
+                        }
+                        return <></>
+                    })}
                     {tiles}
                     {this.state.allStops.map((busStop) =>
                         <Marker key={busStop.id} position={[busStop.lat, busStop.lon]} icon={getBusStopIcon(busStop)}
