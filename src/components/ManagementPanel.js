@@ -34,16 +34,10 @@ function ManagementPanel() {
         });
     }, []);
 
-    useEffect(() => {
-        getUserList().then(userList => {
-            setUserRoleList(userList);
-        });
-    }, []);
 
 
-    useEffect(() => {
-        console.log('userRoleList has changed!!')
-    }, [userRoleList]);
+
+
 
 
     const getTileUserAssignmentInfo = async id => {
@@ -85,16 +79,7 @@ function ManagementPanel() {
         }
     }
 
-    async function getUserList() {
-        try {
-            const response = await client.api.rolesList({
-                headers: getDefaultHeadersWithToken(localStorage.token),
-            });
-            return response.data;
-        } catch {
-            console.log('User Role List problem');
-        }
-    }
+
 
     const tilesList =
         tiles.length > 0
@@ -179,6 +164,28 @@ function ManagementPanel() {
     };
 
 
+    useEffect(() => {
+        getUserList().then(userList => {
+            setUserRoleList(userList);
+        });
+    }, []);
+
+    useEffect(() => {
+        console.log('For Info Only -> userRoleList has changed!!')
+    }, [userRoleList]);
+
+    async function getUserList() {
+        try {
+            const response = await client.api.rolesList({
+                headers: getDefaultHeadersWithToken(localStorage.token),
+            });
+            return response.data;
+        } catch {
+            console.log('User Role List problem');
+        }
+    }
+
+
     const usersForRoleAssignment =
         userRoleList.length > 0
             ? userRoleList.map(({id, userName, roles}) => {
@@ -188,12 +195,11 @@ function ManagementPanel() {
                           className="dropdown-item"
                           onClick={() => {
                               setUserButtonRole(userName);
-                              console.log('OLD user data: ', selectedUserData);
-                              console.log('Future user data: ', {id, userName});
-                              console.log('OLD user data: ', selectedUserRoles);
-                              console.log('Future user data: ', roles);
+
+                              // roles in new memory location ?
+                              const copiedRoles = [...roles];
                               setSelectedUserData({id, userName});
-                              setSelectedUserRoles(roles);
+                              setSelectedUserRoles(copiedRoles);
 
                           }}>
                           {userName}
@@ -223,6 +229,8 @@ function ManagementPanel() {
                 )
             })
             : <p>You havent chosen user yet</p>
+
+
 
 
     const assignRole = async() => {
@@ -333,8 +341,9 @@ function ManagementPanel() {
                                 {usersForRoleAssignment}
                             </div>
                         </div>
-
                         {roleCheckboxes}
+
+
 
                         <button
                             type="button"
