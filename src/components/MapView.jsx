@@ -7,11 +7,11 @@ import {
     Rectangle,
     Tooltip
 } from 'react-leaflet';
-import "./mapView.scss"
+import "../stylesheets/mapView.scss"
 import 'leaflet/dist/leaflet.css';
 import {getDefaultHeadersWithToken} from '../config/apiConfig';
-import {getBusStopIcon} from "./utilities";
-import colors from './colors.module.scss';
+import {getBusStopIcon} from "../utilities/utilities";
+import colors from '../stylesheets/colors.module.scss';
 
 import client from "../api/apiInstance";
 

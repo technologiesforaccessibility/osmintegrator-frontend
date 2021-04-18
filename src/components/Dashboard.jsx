@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import "./dashboard.scss"
+import "../stylesheets/dashboard.scss"
 
 import DashboardHeader from "./DashboardHeader";
 import DashboardSiderbar from "./DashboardSiderbar";

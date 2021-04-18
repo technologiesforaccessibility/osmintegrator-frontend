@@ -4,7 +4,7 @@ import Login from './Login';
 import Recover from './Recover';
 import Logout from "./Logout";
 import SetPassword from './SetPassword';
-import './auth.scss';
+import '../stylesheets/auth.scss';
 
 class Auth extends Component {
 

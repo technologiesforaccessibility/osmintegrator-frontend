@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 
-import './setPassword.scss';
-import colors from './colors.module.scss';
+import '../stylesheets/setPassword.scss';
+import colors from '../stylesheets/colors.module.scss';
 
-import {comparePasswords, isPasswordStrong, getEmailFromPath, getTokenFromPath} from "./utilities";
-import {changedPasswordText, expiredTokenText, invalidPasswordsText} from "./utilities-texts";
+import {comparePasswords, isPasswordStrong, getEmailFromPath, getTokenFromPath} from "../utilities/utilities";
+import {changedPasswordText, expiredTokenText, invalidPasswordsText} from "../utilities/utilities-texts";
 import {postDefaultHeaders} from '../config/apiConfig';
 import {Redirect} from "react-router-dom";
 

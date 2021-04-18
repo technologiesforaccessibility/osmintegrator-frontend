@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {NavLink, Redirect} from 'react-router-dom';
 
-import './login.scss';
-import colors from './colors.module.scss';
+import '../stylesheets/login.scss';
+import colors from '../stylesheets/colors.module.scss';
 
 import {postDefaultHeaders} from '../config/apiConfig';
-import {formError400Text} from "./utilities-texts";
+import {formError400Text} from "../utilities/utilities-texts";
 import client from "../api/apiInstance";
 
 class Login extends Component {
