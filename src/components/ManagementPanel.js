@@ -7,8 +7,8 @@ import CheckIcon from './customs/CheckIcon';
 import H3Title from './customs/H3Title';
 import H4Title from './customs/H4Title';
 
-import './managementPanel.scss';
-import colors from './colors.module.scss';
+import '../stylesheets/managementPanel.scss';
+import colors from '../stylesheets/colors.module.scss';
 
 function ManagementPanel() {
     const [userButtonTile, setUserButtonTile] = useState(['Choose User']);

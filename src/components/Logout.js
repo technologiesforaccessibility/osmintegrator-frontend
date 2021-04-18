@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Redirect} from "react-router-dom";
-import colors from "./colors.module.scss";
+import colors from "../stylesheets/colors.module.scss";
 
 class Logout extends Component {
     constructor(props) {

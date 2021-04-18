@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 
-import './recover.scss';
-import colors from './colors.module.scss';
+import '../stylesheets/recover.scss';
+import colors from '../stylesheets/colors.module.scss';
 
-import {formError400Text, sentResetLinkText} from "./utilities-texts";
+import {formError400Text, sentResetLinkText} from "../utilities/utilities-texts";
 import {postDefaultHeaders} from '../config/apiConfig';
 
 import client from "../api/apiInstance";
