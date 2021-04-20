@@ -18,67 +18,13 @@
   width: 30%;
 }
 
-.management-panel__button--15p {
-  width: 15%;
-}
-
-.management-panel__button--use-all-width {
-  width: 100%;
-}
-
-.management-panel__scrollable-dropdown {
-    height: auto;
-    max-height: 300px;
-    overflow-x: hidden;
-}
-
 .management-panel__scrollable-area {
   width: 100%;
   max-height: 500px;
   overflow-x: hidden;
 }
 
-.management-panel__role-header {
-    width: 90px;
-    font-weight: bold;
-    border: 1px solid $color-link-default;
-}
-
-.management-panel__check-box {
-  width: 90px;
-  border: 1px solid $color-link-default;
-  margin-bottom: 0;
-}
-.management-panel__name-header {
-    width: 90px;
-    font-weight: bold;
-    border: 1px solid $color-link-default;
-}
-
-.management-panel__name-item {
-  width: 90px;
-  font-weight: bold;
-  border: 1px solid $color-link-default;
-
-}
-.checkbox-wrapper {
-  //display: grid;
-  //grid-template-columns: repeat(5, 0fr);
-}
 
 
-.management-panel__checkbox-wrapper{
-  display: block;
-  padding-left: 35px;
-  margin-bottom: 12px;;
-  //font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
 
-.management-panel__checkbox-label{
-  padding-left: 10px;
-}
 

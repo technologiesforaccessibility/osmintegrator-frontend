@@ -1,1 +1,35 @@
 @import "../../node_modules/bootstrap/scss/bootstrap";
+
+.custom-elements__button-wrapper {
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-bottom: 15px;
+}
+
+.custom-elements__button-wrapper--15p {
+  width: 15%;
+}
+
+.custom-elements__button--use-all-width {
+  width: 100%;
+}
+
+.custom-elements__scrollable-dropdown-menu {
+    height: auto;
+    max-height: 300px;
+    overflow-x: hidden;
+}
+
+.custom-elements__checkbox-wrapper {
+  display: block;
+  padding-left: 35px;
+  margin-bottom: 12px;;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.custom-elements__checkbox-label{
+  padding-left: 10px;
+}
