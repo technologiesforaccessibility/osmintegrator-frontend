@@ -251,21 +251,88 @@
                 }
             }
         },
-        "/api/Connections/{id}": {
-            "get": {
+        "/api/Connections": {
+            "put": {
                 "tags": [
                     "Connections"
                 ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConnectionAction"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConnectionAction"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConnectionAction"
+                            }
                         }
                     }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Connections"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConnectionAction"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConnectionAction"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConnectionAction"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Connections"
                 ],
                 "responses": {
                     "200": {
@@ -294,10 +361,21 @@
                 }
             }
         },
-        "/api/Connections": {
+        "/api/Connections/{id}": {
             "get": {
                 "tags": [
                     "Connections"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    }
                 ],
                 "responses": {
                     "200": {
@@ -1096,27 +1174,18 @@
                 },
                 "additionalProperties": false
             },
-            "Connection": {
+            "ConnectionAction": {
                 "required": [
-                    "existing",
                     "gtfsStopId",
-                    "osmStopId",
-                    "tileId"
+                    "osmStopId"
                 ],
                 "type": "object",
                 "properties": {
-                    "gtfsStopId": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
                     "osmStopId": {
                         "type": "string",
                         "format": "uuid"
                     },
-                    "existing": {
-                        "type": "boolean"
-                    },
-                    "tileId": {
+                    "gtfsStopId": {
                         "type": "string",
                         "format": "uuid"
                     }
@@ -1149,6 +1218,23 @@
                     }
                 },
                 "additionalProperties": {}
+            },
+            "Connection": {
+                "type": "object",
+                "properties": {
+                    "gtfsStopId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "osmStopId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "imported": {
+                        "type": "boolean"
+                    }
+                },
+                "additionalProperties": false
             },
             "RolePair": {
                 "type": "object",

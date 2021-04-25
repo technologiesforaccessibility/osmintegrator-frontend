@@ -17,7 +17,6 @@ class Dashboard extends Component {
         super(props);
         this.state = {
             isLoggedIn: true,
-            canConnectStops: false,
             propertyGrid: null
         }
 
@@ -40,10 +39,6 @@ class Dashboard extends Component {
         } catch (error) {
                 console.log("Token validation error")
         }
-    }
-
-    canConnectBusStops = (bool) => {
-        this.setState({canConnectStops: bool})
     }
 
     setPropertyGrid = (busStopProps) => {
@@ -76,8 +71,7 @@ class Dashboard extends Component {
                             <Route path="/manage" component={ManagementPanel}/>
                             <Route path="/"
                                    render={() => (
-                                       <DashboardMain canConnectBusStops={this.state.canConnectStops}
-                                                      setPropertyGrid={this.setPropertyGrid}/>
+                                       <DashboardMain setPropertyGrid={this.setPropertyGrid}/>
                                    )}
                             />
                         </Switch>
