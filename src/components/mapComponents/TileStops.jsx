@@ -4,7 +4,7 @@ import {Marker, Tooltip} from "react-leaflet";
 import {getBusStopIcon} from "../../utilities/utilities";
 
 
-const TileStops = ({areStopsVisible, clickBusStop, connectPointer, isActiveStopClicked, stops, unclickBusStop, isConnectionMode}) => {
+const TileStops = ({areStopsVisible, clickBusStop, createConnection, isActiveStopClicked, stops, unclickBusStop, isConnectionMode}) => {
     return (
         <Fragment>
             {areStopsVisible &&
@@ -16,7 +16,8 @@ const TileStops = ({areStopsVisible, clickBusStop, connectPointer, isActiveStopC
                         eventHandlers={{
                             click: e => {
                                 if (isConnectionMode) {
-                                    connectPointer(e);
+                                    console.log(e.target);
+                                    createConnection(e.target, busStop.id, busStop.stopType);
                                 } else {
                                     isActiveStopClicked(busStop.id)
                                         ? unclickBusStop()

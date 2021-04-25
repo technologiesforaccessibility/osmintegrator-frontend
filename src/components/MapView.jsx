@@ -22,13 +22,14 @@ export const MapView = ({setPropertyGrid}) => {
     const maxZoom = 19;
 
 
-    const [visiblePolylines, setVisiblePolylines] = useState([]);
+    const [userConnections, setUserConnections] = useState([]);
     const [newPolylineStartPoint, setNewPolylineStartPoint] = useState([]);
     const [tiles, setTiles] = useState([]);
     const [allStops, setAllStops] = useState([]);
     const [activeTile, setActiveTile] = useState([]);
     const [activeBusStopId, setActiveBusStopId] = useState(null);
     const [importedConnections, setImportedConnections] = useState([]);
+    const [preSavedConnection, setPreSavedConnection] = useState(null);
 
     const {
         activeMapToggle,
@@ -76,15 +77,20 @@ export const MapView = ({setPropertyGrid}) => {
     //     this.setState({markers})
     // }
 
-    const connectPointer = e => {
-        const coordinates = [e.target._latlng.lat, e.target._latlng.lng];
-        const newPolyline = [...newPolylineStartPoint, coordinates];
-        if (newPolylineStartPoint.length === 1) {
-            const polylines = [...visiblePolylines, newPolyline];
-            setVisiblePolylines(polylines);
+    const createConnection = (stop, id, stopType) => {
+
+        const coordinates = [stop._latlng.lat, stop._latlng.lng];
+        const isOsm = stopType === 0;
+        const entryPoint = {coordinates, isOsm}
+
+        if (newPolylineStartPoint.length > 0) {
+            const newConnection = [...newPolylineStartPoint, entryPoint];
+            const updatedConnections = [...userConnections, newConnection];
+            setUserConnections( updatedConnections);
             setNewPolylineStartPoint([]);
+            setPreSavedConnection(newConnection);
         } else {
-            setNewPolylineStartPoint(newPolyline);
+            setNewPolylineStartPoint([entryPoint]);
         }
     };
 
@@ -150,7 +156,7 @@ export const MapView = ({setPropertyGrid}) => {
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 maxZoom={maxZoom}
             />
-            <NewConnections polylines={visiblePolylines} />
+            <NewConnections connections={userConnections} />
             <ImportedConnections
                 stops={allStops}
                 importedConnections={importedConnections}
@@ -164,7 +170,7 @@ export const MapView = ({setPropertyGrid}) => {
             <TileStops
                 areStopsVisible={areStopsVisible}
                 stops={allStops}
-                connectPointer={connectPointer}
+                createConnection={createConnection}
                 isActiveStopClicked={isActiveStopClicked}
                 clickBusStop={clickBusStop}
                 unclickBusStop={unclickBusStop}
