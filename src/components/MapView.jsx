@@ -1,209 +1,223 @@
-import React, {Component} from 'react';
-import {
-    MapContainer,
-    TileLayer,
-    Marker,
-    Polyline,
-    Rectangle,
-    Tooltip
-} from 'react-leaflet';
-import "../stylesheets/mapView.scss"
+import React, {useEffect, useState} from 'react';
+import {MapContainer, Marker, Polyline, Rectangle, TileLayer, Tooltip,} from 'react-leaflet';
+import '../stylesheets/mapView.scss';
 import 'leaflet/dist/leaflet.css';
 import {getDefaultHeadersWithToken} from '../config/apiConfig';
-import {getBusStopIcon} from "../utilities/utilities";
-import {getPosition} from "../utilities/mapUtilities";
+import {getBusStopIcon} from '../utilities/utilities';
+import {getPosition} from '../utilities/mapUtilities';
 import colors from '../stylesheets/colors.module.scss';
 
-import client from "../api/apiInstance";
+import client from '../api/apiInstance';
 
-const purpleOptions = {color: 'purple'}
-const redOptions = {color: 'red'}
+const purpleOptions = {color: 'purple'};
+const redOptions = {color: 'red'};
 
-class MapView extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            currentLocation: {lat: 50.29, lng: 19.01},
-            zoom: 10,
-            visiblePolylines: [],
-            newPolylineStartPoint: [],
-            tiles: [],
-            allStops: [],
-            showSingleTile: false,
-            activeTile: [],
-            activeBusStopId: null,
-            importedConnections: [],
-        };
+export const MapView = ({setPropertyGrid, canConnectBusStops}) => {
+    const currentLocation = {lat: 50.29, lng: 19.01};
+    const zoom = 10;
+    const [visiblePolylines, setVisiblePolylines] = useState([]);
+    const [newPolylineStartPoint, setNewPolylineStartPoint] = useState([]);
+    const [tiles, setTiles] = useState([]);
+    const [allStops, setAllStops] = useState([]);
+    const [showSingleTile, setShowSingleTile] = useState(false);
+    const [activeTile, setActiveTile] = useState([]);
+    const [activeBusStopId, setActiveBusStopId] = useState(null);
+    const [importedConnections, setImportedConnections] = useState([]);
 
-        this.getTileStops = this.getTileStops.bind(this);
-        this.getTileConnections = this.getTileConnections.bind(this);
-    }
-
-    async componentDidMount() {
-        try {
-            const response = await client.api.tileGetTilesList({headers: getDefaultHeadersWithToken(localStorage.token)})
-            this.setState({tiles: response.data});
-        } catch (error) {
-            if (error.status === 401) {
-                console.log("Authentication problem")
-            } else {
-                console.warn("Undefined tile problem");
+    useEffect( () => {
+        async function fetchData() {
+            try {
+                const response = await client.api.tileGetTilesList({
+                    headers: getDefaultHeadersWithToken(localStorage.token),
+                });
+                setTiles(response.data);
+            } catch (error) {
+                if (error.status === 401) {
+                    console.log('Authentication problem');
+                } else {
+                    console.warn('Undefined tile problem');
+                }
             }
         }
-    }
+        fetchData();
+    }, []);
 
-
-    addMarker = (e) => {
-        const {markers} = this.state
-        markers.push(e.latlng)
-        this.setState({markers})
-    }
-
-    connectPointer = (e) => {
-        const coordinates = [e.target._latlng.lat, e.target._latlng.lng];
-        const newPolyline = [...this.state.newPolylineStartPoint, coordinates];
-        if (this.state.newPolylineStartPoint.length === 1) {
-            const polylines = [...this.state.visiblePolylines, newPolyline];
-            this.setState({
-                visiblePolylines: polylines,
-                newPolylineStartPoint: []
-            });
-        } else {
-            this.setState({newPolylineStartPoint: newPolyline});
+    useEffect(() => {
+        if (activeTile !== []) {
+            getTileStops(activeTile.id);
+            getTileConnections(activeTile.id);
         }
-    }
+    }, [activeTile]);
 
-    async getTileStops(id) {
+    // addMarker = (e) => {
+    //     const {markers} = this.state
+    //     markers.push(e.latlng)
+    //     this.setState({markers})
+    // }
+
+    const connectPointer = e => {
+        const coordinates = [e.target._latlng.lat, e.target._latlng.lng];
+        const newPolyline = [...newPolylineStartPoint, coordinates];
+        if (newPolylineStartPoint.length === 1) {
+            const polylines = [...visiblePolylines, newPolyline];
+            setVisiblePolylines(polylines);
+            setNewPolylineStartPoint([]);
+        } else {
+            setNewPolylineStartPoint(newPolyline);
+        }
+    };
+
+    const getTileStops = async id => {
         try {
             const response = await client.api.tileGetStopsDetail(id, {
-                headers: getDefaultHeadersWithToken(localStorage.token)
-
-            })
+                headers: getDefaultHeadersWithToken(localStorage.token),
+            });
             if (response.status === 200) {
-                this.setState({
-                    allStops: response.data,
-                    showSingleTile: true
-                });
+                setAllStops(response.data);
+                setShowSingleTile(true);
             }
         } catch (error) {
             if (error.status === 401) {
-                console.log("Tile problem")
+                console.log('Tile problem');
             } else {
-                console.warn("Undefined bus stops problem");
+                console.warn('Undefined bus stops problem');
             }
         }
-    }
+    };
 
-    async getTileConnections(id) {
+    const getTileConnections = async id => {
         try {
             const response = await client.api.connectionsDetail(id, {
-                headers: getDefaultHeadersWithToken(localStorage.token)
-            })
+                headers: getDefaultHeadersWithToken(localStorage.token),
+            });
             if (response.status === 200) {
-                console.log(response.data)
-                console.log(this.state.allStops);
-                this.setState({importedConnections: response.data})
+                console.log(response.data);
+                console.log(allStops);
+                setImportedConnections(response.data);
             }
         } catch (error) {
             if (error.status === 401) {
-                console.log("Authorization problem")
+                console.log('Authorization problem');
             } else {
-                console.warn("Undefined tile connection problem");
+                console.warn('Undefined tile connection problem');
             }
         }
-    }
+    };
 
+    const isActiveStopClicked = clickedStopId => {
+        return activeBusStopId === clickedStopId;
+    };
 
+    const clickBusStop = gridProperties => {
+        console.log('property grid type: ', typeof gridProperties);
+        console.log(gridProperties);
+        setActiveBusStopId(gridProperties.id);
+        setPropertyGrid(gridProperties);
+    };
 
-    isActiveStopClicked = (clickedStopId) => {
-        const activeStopId = this.state.activeBusStopId;
-        return ((activeStopId === clickedStopId))
-    }
-
-
-    clickBusStop = (gridProperties) => {
-        console.log("property grid type: ", typeof(gridProperties))
-        console.log(gridProperties)
-        this.setState({activeBusStopId: gridProperties.id});
-        this.props.setPropertyGrid(gridProperties);
-    }
-
-    unclickBusStop = () => {
+    const unclickBusStop = () => {
         this.setState({activeBusStopId: null});
-        this.props.setPropertyGrid(null);
-    }
+        setActiveBusStopId(null);
+        setPropertyGrid(null);
+    };
 
-
-    render() {
-        const {currentLocation, zoom} = this.state;
-        const showSingleTile = this.state.showSingleTile;
-        let tiles;
-        if (showSingleTile) {
-            tiles = <Rectangle key={`${this.state.activeTile.maxLat}-${this.state.activeTile.maxLon}`} bounds={[
-                [this.state.activeTile.maxLat, this.state.activeTile.maxLon],
-                [this.state.activeTile.minLat, this.state.activeTile.minLon]
+    const mapTiles = showSingleTile ? (
+        <Rectangle
+            key={`${activeTile.maxLat}-${activeTile.maxLon}`}
+            bounds={[
+                [activeTile.maxLat, activeTile.maxLon],
+                [activeTile.minLat, activeTile.minLon],
             ]}
-                               pathOptions={{color: colors['colorTileActive']}}/>;
-        } else {
-            tiles = this.state.tiles.map((tile) => (
-                <Rectangle bounds={[[tile.maxLat, tile.maxLon], [tile.minLat, tile.minLon]]}
-                           pathOptions={{color: colors['colorTileAll']}} eventHandlers={{
+            pathOptions={{color: colors['colorTileActive']}}
+        />
+    ) : (
+        tiles.map(tile => (
+            <Rectangle
+                bounds={[
+                    [tile.maxLat, tile.maxLon],
+                    [tile.minLat, tile.minLon],
+                ]}
+                pathOptions={{color: colors['colorTileAll']}}
+                eventHandlers={{
                     click: () => {
-                        this.setState({activeTile: tile},
-                            () => {
-                            this.getTileStops(tile.id);
-                            this.getTileConnections(tile.id);
-                        })
+                        setActiveTile(tile);
                     },
                 }}>
-                    <Tooltip direction="top">x ={tile.x}, y={tile.y}</Tooltip>
-                </Rectangle>
-            ));
-        }
+                <Tooltip direction="top">
+                    x ={tile.x}, y={tile.y}
+                </Tooltip>
+            </Rectangle>
+        ))
+    );
 
-        return (
-
-            <div className="map-container">
-
-                <MapContainer center={currentLocation} zoom={zoom} maxZoom={19}>
-                    <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-                        maxZoom={19}
+    return (
+        <div className="map-container">
+            <MapContainer center={currentLocation} zoom={zoom} maxZoom={19}>
+                <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    maxZoom={19}
+                />
+                {visiblePolylines.map(position => (
+                    <Polyline
+                        key={position.newPolylineStartPoint}
+                        pathOptions={purpleOptions}
+                        positions={position}
                     />
-                    {this.state.visiblePolylines.map((position) =>
-                        <Polyline key={position.newPolylineStartPoint} pathOptions={purpleOptions} positions={position}/>
+                ))}
+                {allStops.length > 0 &&
+                    importedConnections.map(
+                        ({osmStopId, gtfsStopId}, index) => {
+                            const foundOSM = allStops.find(
+                                stop => stop.id === osmStopId,
+                            );
+                            const foundGTFS = allStops.find(
+                                stop => stop.id === gtfsStopId,
+                            );
+                            if (
+                                foundOSM !== undefined &&
+                                foundGTFS !== undefined
+                            ) {
+                                return (
+                                    <Polyline
+                                        key={index}
+                                        pathOptions={redOptions}
+                                        positions={getPosition(
+                                            foundOSM,
+                                            foundGTFS,
+                                        )}
+                                    />
+                                );
+                            }
+                            return <></>;
+                        },
                     )}
-                    {this.state.allStops.length > 0 && this.state.importedConnections.map(({osmStopId, gtfsStopId}, index) =>{
-                        const foundOSM = this.state.allStops.find(stop => stop.id === osmStopId);
-                        const foundGTFS = this.state.allStops.find(stop => stop.id === gtfsStopId);
-                        if ((foundOSM !== undefined) && (foundGTFS !== undefined)) {
-                        return <Polyline key={index} pathOptions={redOptions} positions={getPosition(foundOSM, foundGTFS)}/>
-                        }
-                        return <></>
-                    })}
-                    {tiles}
-                    {this.state.allStops.map((busStop) =>
-                        <Marker key={busStop.id} position={[busStop.lat, busStop.lon]} icon={getBusStopIcon(busStop)}
-                                eventHandlers={{
-                                    click: (e) => {
-                                        if (this.props.canConnectBusStops === true) {
-                                            this.connectPointer(e);
-                                        } else {
-                                            (this.isActiveStopClicked(busStop.id) ? this.unclickBusStop() : this.clickBusStop(busStop));
-                                        }
-                                    },
-                                }}>
-                            <Tooltip direction="bottom">{busStop.name} {busStop.number}</Tooltip>
-                        </Marker>
-                    )}
-
-                </MapContainer>
-            </div>
-
-        );
-    }
-}
+                {mapTiles}
+                {allStops.map(busStop => (
+                    <Marker
+                        key={busStop.id}
+                        position={[busStop.lat, busStop.lon]}
+                        icon={getBusStopIcon(busStop)}
+                        eventHandlers={{
+                            click: e => {
+                                if (canConnectBusStops === true) {
+                                    connectPointer(e);
+                                } else {
+                                    isActiveStopClicked(busStop.id)
+                                        ? unclickBusStop()
+                                        : clickBusStop(busStop);
+                                }
+                            },
+                        }}>
+                        <Tooltip direction="bottom">
+                            {busStop.name} {busStop.number}
+                        </Tooltip>
+                    </Marker>
+                ))}
+            </MapContainer>
+        </div>
+    );
+};
 
 export default MapView;
