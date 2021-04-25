@@ -61,16 +61,12 @@ export interface ResetPassword {
   token: string;
 }
 
-export interface Connection {
-  /** @format uuid */
-  gtfsStopId: string;
-
+export interface ConnectionAction {
   /** @format uuid */
   osmStopId: string;
-  existing: boolean;
 
   /** @format uuid */
-  tileId: string;
+  gtfsStopId: string;
 }
 
 export interface ProblemDetails {
@@ -81,6 +77,15 @@ export interface ProblemDetails {
   status?: number | null;
   detail?: string | null;
   instance?: string | null;
+}
+
+export interface Connection {
+  /** @format uuid */
+  gtfsStopId?: string;
+
+  /** @format uuid */
+  osmStopId?: string;
+  imported?: boolean;
 }
 
 export interface RolePair {
@@ -553,14 +558,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Connections
-     * @name ConnectionsDetail
-     * @request GET:/api/Connections/{id}
+     * @name ConnectionsUpdate
+     * @request PUT:/api/Connections
      */
-    connectionsDetail: (id: string | null, params: RequestParams = {}) =>
-      this.request<Connection[], ProblemDetails>({
-        path: `/api/Connections/${id}`,
-        method: "GET",
-        format: "json",
+    connectionsUpdate: (data: ConnectionAction, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Connections`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Connections
+     * @name ConnectionsDelete
+     * @request DELETE:/api/Connections
+     */
+    connectionsDelete: (data: ConnectionAction, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Connections`,
+        method: "DELETE",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -574,6 +596,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     connectionsList: (params: RequestParams = {}) =>
       this.request<Connection[], ProblemDetails>({
         path: `/api/Connections`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Connections
+     * @name ConnectionsDetail
+     * @request GET:/api/Connections/{id}
+     */
+    connectionsDetail: (id: string | null, params: RequestParams = {}) =>
+      this.request<Connection[], ProblemDetails>({
+        path: `/api/Connections/${id}`,
         method: "GET",
         format: "json",
         ...params,

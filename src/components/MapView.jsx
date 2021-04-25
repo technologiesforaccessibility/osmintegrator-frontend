@@ -1,41 +1,42 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
     MapContainer,
-    Marker,
-    Polyline,
-    Rectangle,
     TileLayer,
-    Tooltip,
 } from 'react-leaflet';
-import '../stylesheets/mapView.scss';
-import 'leaflet/dist/leaflet.css';
-import {getDefaultHeadersWithToken} from '../config/apiConfig';
-import {getBusStopIcon} from '../utilities/utilities';
-import {getPosition} from '../utilities/mapUtilities';
-import colors from '../stylesheets/colors.module.scss';
+import NewConnections from './mapComponents/NewConnections';
 
 import client from '../api/apiInstance';
 import {MapContext} from './contexts/MapContextProvider';
+import {getDefaultHeadersWithToken} from '../config/apiConfig';
 
-const purpleOptions = {color: 'purple'};
-const redOptions = {color: 'red'};
 
-export const MapView = ({setPropertyGrid, canConnectBusStops}) => {
+import '../stylesheets/mapView.scss';
+import 'leaflet/dist/leaflet.css';
+import ImportedConnections from './mapComponents/ImportedConnections';
+import MapTiles from './mapComponents/MapTiles';
+import TileStops from './mapComponents/TileStops';
+
+export const MapView = ({setPropertyGrid}) => {
     const currentLocation = {lat: 50.29, lng: 19.01};
     const zoom = 10;
-    const [visiblePolylines, setVisiblePolylines] = useState([]);
+    const maxZoom = 19;
+
+
+    const [userConnections, setUserConnections] = useState([]);
     const [newPolylineStartPoint, setNewPolylineStartPoint] = useState([]);
     const [tiles, setTiles] = useState([]);
     const [allStops, setAllStops] = useState([]);
     const [activeTile, setActiveTile] = useState([]);
     const [activeBusStopId, setActiveBusStopId] = useState(null);
     const [importedConnections, setImportedConnections] = useState([]);
+    const [preSavedConnection, setPreSavedConnection] = useState(null);
 
     const {
         activeMapToggle,
         showSingleTile,
         singleTileToggle,
         areStopsVisible,
+        isConnectionMode,
     } = useContext(MapContext);
 
     useEffect(() => {
@@ -76,15 +77,20 @@ export const MapView = ({setPropertyGrid, canConnectBusStops}) => {
     //     this.setState({markers})
     // }
 
-    const connectPointer = e => {
-        const coordinates = [e.target._latlng.lat, e.target._latlng.lng];
-        const newPolyline = [...newPolylineStartPoint, coordinates];
-        if (newPolylineStartPoint.length === 1) {
-            const polylines = [...visiblePolylines, newPolyline];
-            setVisiblePolylines(polylines);
+    const createConnection = (stop, id, stopType) => {
+
+        const coordinates = [stop._latlng.lat, stop._latlng.lng];
+        const isOsm = stopType === 0;
+        const entryPoint = {coordinates, isOsm}
+
+        if (newPolylineStartPoint.length > 0) {
+            const newConnection = [...newPolylineStartPoint, entryPoint];
+            const updatedConnections = [...userConnections, newConnection];
+            setUserConnections( updatedConnections);
             setNewPolylineStartPoint([]);
+            setPreSavedConnection(newConnection);
         } else {
-            setNewPolylineStartPoint(newPolyline);
+            setNewPolylineStartPoint([entryPoint]);
         }
     };
 
@@ -142,101 +148,35 @@ export const MapView = ({setPropertyGrid, canConnectBusStops}) => {
         setPropertyGrid(null);
     };
 
-    const mapTiles = showSingleTile ? (
-        <Rectangle
-            key={`${activeTile.maxLat}-${activeTile.maxLon}`}
-            bounds={[
-                [activeTile.maxLat, activeTile.maxLon],
-                [activeTile.minLat, activeTile.minLon],
-            ]}
-            pathOptions={{color: colors['colorTileActive']}}
-        />
-    ) : (
-        tiles.map(tile => (
-            <Rectangle
-                bounds={[
-                    [tile.maxLat, tile.maxLon],
-                    [tile.minLat, tile.minLon],
-                ]}
-                pathOptions={{color: colors['colorTileAll']}}
-                eventHandlers={{
-                    click: () => {
-                        setActiveTile(tile);
-                    },
-                }}>
-                <Tooltip direction="top">
-                    x ={tile.x}, y={tile.y}
-                </Tooltip>
-            </Rectangle>
-        ))
-    );
 
     return (
-        <div className="map-container">
-            <MapContainer center={currentLocation} zoom={zoom} maxZoom={19}>
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    maxZoom={19}
-                />
-                {visiblePolylines.map(position => (
-                    <Polyline
-                        key={position.newPolylineStartPoint}
-                        pathOptions={purpleOptions}
-                        positions={position}
-                    />
-                ))}
-                {allStops.length > 0 &&
-                    importedConnections.map(
-                        ({osmStopId, gtfsStopId}, index) => {
-                            const foundOSM = allStops.find(
-                                stop => stop.id === osmStopId,
-                            );
-                            const foundGTFS = allStops.find(
-                                stop => stop.id === gtfsStopId,
-                            );
-                            if (
-                                foundOSM !== undefined &&
-                                foundGTFS !== undefined
-                            ) {
-                                return (
-                                    <Polyline
-                                        key={index}
-                                        pathOptions={redOptions}
-                                        positions={getPosition(
-                                            foundOSM,
-                                            foundGTFS,
-                                        )}
-                                    />
-                                );
-                            }
-                            return <></>;
-                        },
-                    )}
-                {mapTiles}
-                {areStopsVisible && allStops.map(busStop => (
-                    <Marker
-                        key={busStop.id}
-                        position={[busStop.lat, busStop.lon]}
-                        icon={getBusStopIcon(busStop)}
-                        eventHandlers={{
-                            click: e => {
-                                if (canConnectBusStops === true) {
-                                    connectPointer(e);
-                                } else {
-                                    isActiveStopClicked(busStop.id)
-                                        ? unclickBusStop()
-                                        : clickBusStop(busStop);
-                                }
-                            },
-                        }}>
-                        <Tooltip direction="bottom">
-                            {busStop.name} {busStop.number}
-                        </Tooltip>
-                    </Marker>
-                ))}
-            </MapContainer>
-        </div>
+        <MapContainer center={currentLocation} zoom={zoom} maxZoom={maxZoom}>
+            <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                maxZoom={maxZoom}
+            />
+            <NewConnections connections={userConnections} />
+            <ImportedConnections
+                stops={allStops}
+                importedConnections={importedConnections}
+            />
+            <MapTiles
+                showSingleTile={showSingleTile}
+                tiles={tiles}
+                activeTile={activeTile}
+                setActiveTile={setActiveTile}
+            />
+            <TileStops
+                areStopsVisible={areStopsVisible}
+                stops={allStops}
+                createConnection={createConnection}
+                isActiveStopClicked={isActiveStopClicked}
+                clickBusStop={clickBusStop}
+                unclickBusStop={unclickBusStop}
+                isConnectionMode={isConnectionMode}
+            />
+        </MapContainer>
     );
 };
 
