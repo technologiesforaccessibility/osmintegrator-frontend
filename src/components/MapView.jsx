@@ -22,8 +22,13 @@ export const MapView = ({setPropertyGrid}) => {
     const maxZoom = 19;
 
 
-    const [userConnections, setUserConnections] = useState([]);
-    const [newPolylineStartPoint, setNewPolylineStartPoint] = useState([]);
+    const [userConnections, setUserConnections] = useState([
+        [
+            {coordinates: [50.515340, 18.474294], isOsm: false},
+            {coordinates: [50.511202, 18.481637], isOsm: false}
+        ],
+    ]);
+    const [newPolylineStartPoint, setNewPolylineStartPoint] = useState({});
     const [tiles, setTiles] = useState([]);
     const [allStops, setAllStops] = useState([]);
     const [activeTile, setActiveTile] = useState([]);
@@ -83,14 +88,15 @@ export const MapView = ({setPropertyGrid}) => {
         const isOsm = stopType === 0;
         const entryPoint = {coordinates, isOsm}
 
-        if (newPolylineStartPoint.length > 0) {
-            const newConnection = [...newPolylineStartPoint, entryPoint];
-            const updatedConnections = [...userConnections, newConnection];
-            setUserConnections( updatedConnections);
-            setNewPolylineStartPoint([]);
+
+        if (newPolylineStartPoint.coordinates) {
+            const newConnection = [newPolylineStartPoint, entryPoint];
+
+            setUserConnections( oldState => [...oldState, newConnection]);
+            setNewPolylineStartPoint({});
             setPreSavedConnection(newConnection);
         } else {
-            setNewPolylineStartPoint([entryPoint]);
+            setNewPolylineStartPoint(entryPoint);
         }
     };
 
@@ -156,7 +162,7 @@ export const MapView = ({setPropertyGrid}) => {
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 maxZoom={maxZoom}
             />
-            <NewConnections connections={userConnections} />
+            <NewConnections connections={userConnections} showSingleTile={showSingleTile} />
             <ImportedConnections
                 stops={allStops}
                 importedConnections={importedConnections}
