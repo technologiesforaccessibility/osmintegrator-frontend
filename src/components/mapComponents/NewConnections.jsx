@@ -4,14 +4,14 @@ import {Polyline} from "react-leaflet";
 import colors from '../../stylesheets/colors.module.scss';
 
 
-const NewConnections = ({connections}) => {
+const NewConnections = ({connections, showSingleTile}) => {
     return (
         <Fragment>
-            {connections !== [] && connections.map(({coordinates}, index) => (
+            { (showSingleTile && connections !== []) && connections.map((connection, index) => (
                     <Polyline
                         key={index}
                         pathOptions={{color: colors.colorConnectionNew}}
-                        positions={coordinates}
+                        positions={[connection[0].coordinates, connection[1].coordinates]}
                     />
                 ))}
         </Fragment>
