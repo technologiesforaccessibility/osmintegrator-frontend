@@ -1,5 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {MapContainer, Marker, Polyline, Rectangle, TileLayer, Tooltip,} from 'react-leaflet';
+import React, {useContext, useEffect, useState} from 'react';
+import {
+    MapContainer,
+    Marker,
+    Polyline,
+    Rectangle,
+    TileLayer,
+    Tooltip,
+} from 'react-leaflet';
 import '../stylesheets/mapView.scss';
 import 'leaflet/dist/leaflet.css';
 import {getDefaultHeadersWithToken} from '../config/apiConfig';
@@ -8,10 +15,10 @@ import {getPosition} from '../utilities/mapUtilities';
 import colors from '../stylesheets/colors.module.scss';
 
 import client from '../api/apiInstance';
+import {MapContext} from './contexts/MapContextProvider';
 
 const purpleOptions = {color: 'purple'};
 const redOptions = {color: 'red'};
-
 
 export const MapView = ({setPropertyGrid, canConnectBusStops}) => {
     const currentLocation = {lat: 50.29, lng: 19.01};
@@ -20,12 +27,25 @@ export const MapView = ({setPropertyGrid, canConnectBusStops}) => {
     const [newPolylineStartPoint, setNewPolylineStartPoint] = useState([]);
     const [tiles, setTiles] = useState([]);
     const [allStops, setAllStops] = useState([]);
-    const [showSingleTile, setShowSingleTile] = useState(false);
     const [activeTile, setActiveTile] = useState([]);
     const [activeBusStopId, setActiveBusStopId] = useState(null);
     const [importedConnections, setImportedConnections] = useState([]);
 
-    useEffect( () => {
+    const {
+        activeMapToggle,
+        showSingleTile,
+        singleTileToggle,
+        areStopsVisible,
+    } = useContext(MapContext);
+
+    useEffect(() => {
+        activeMapToggle(true);
+        return () => {
+            activeMapToggle(false);
+        };
+    });
+
+    useEffect(() => {
         async function fetchData() {
             try {
                 const response = await client.api.tileGetTilesList({
@@ -75,7 +95,7 @@ export const MapView = ({setPropertyGrid, canConnectBusStops}) => {
             });
             if (response.status === 200) {
                 setAllStops(response.data);
-                setShowSingleTile(true);
+                singleTileToggle(true);
             }
         } catch (error) {
             if (error.status === 401) {
@@ -194,7 +214,7 @@ export const MapView = ({setPropertyGrid, canConnectBusStops}) => {
                         },
                     )}
                 {mapTiles}
-                {allStops.map(busStop => (
+                {areStopsVisible && allStops.map(busStop => (
                     <Marker
                         key={busStop.id}
                         position={[busStop.lat, busStop.lon]}

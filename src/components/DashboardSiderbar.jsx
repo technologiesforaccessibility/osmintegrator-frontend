@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropertyGrid from './PropertyGrid';
 import SidebarListItem from "./SidebarListItem";
+import MapPanel from './MapPanel'
 
 class DashboardSiderbar extends Component {
     // eslint-disable-next-line no-useless-constructor
@@ -33,18 +34,21 @@ class DashboardSiderbar extends Component {
                         <SidebarListItem name = "Tile 2" dataFeather="file-text" link="/"/>
                     </ul>
 
-                    <div className="form-check" style={{paddingBottom: "1.25rem"}}>
-                        <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault"
-                               onClick={e => {
-                                   this.props.connectBusStops(e.target.checked)
-                               }}
-                        >
-                        </input>
-                        <label className="form-check-label" htmlFor="flexCheckDefault">
-                            Connect bus stops
-                        </label>
 
-                    </div>
+                    {/*// Todo: remove props drilling for checkbox \/*/}
+                    {/*<div className="form-check" style={{paddingBottom: "1.25rem"}}>*/}
+                    {/*    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault"*/}
+                    {/*           onClick={e => {*/}
+                    {/*               this.props.connectBusStops(e.target.checked)*/}
+                    {/*           }}*/}
+                    {/*    >*/}
+                    {/*    </input>*/}
+                    {/*    <label className="form-check-label" htmlFor="flexCheckDefault">*/}
+                    {/*        Connect bus stops*/}
+                    {/*    </label>*/}
+
+                    {/*</div>*/}
+                    <MapPanel/>
                     {this.props.propertyGrid
                         ? <PropertyGrid propertyGrid={this.props.propertyGrid}
                                         updatePropertyGrid={this.props.updatePropertyGrid}
