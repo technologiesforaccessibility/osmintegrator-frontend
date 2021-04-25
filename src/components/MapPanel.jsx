@@ -1,0 +1,63 @@
+import React, {Fragment, useContext} from 'react';
+import {MapContext} from './contexts/MapContextProvider';
+
+const MapPanel = props => {
+    const {
+        showSingleTile,
+        isConnectionMode,
+        singleTileToggle,
+        connectionModeToggle,
+        isMapActive,
+    } = useContext(MapContext);
+    return (
+        <Fragment>
+            {showSingleTile && (
+                <Fragment>
+                    <div
+                        className="form-check"
+                        style={{paddingBottom: '1.25rem'}}>
+                        <input
+                            className="form-check-input"
+                            type="checkbox"
+                            value=""
+                            id="flexCheckDefault"
+                            onClick={e => {
+                                console.log(e.target.checked);
+                                connectionModeToggle(e.target.checked);
+                            }}
+                        />
+                        <label
+                            className="form-check-label"
+                            htmlFor="flexCheckDefault">
+                            Connect stops?
+                        </label>
+                    </div>
+
+                    <div
+                        className="form-check"
+                        style={{paddingBottom: '1.25rem'}}>
+                        <input
+                            className="form-check-input"
+                            type="checkbox"
+                            value=""
+                            checked="checked"
+                            id="flexCheckDefault"
+                            onClick={e => {
+                                singleTileToggle(e.target.checked);
+                            }}
+                        />
+                        <label
+                            className="form-check-label"
+                            htmlFor="flexCheckDefault">
+                            Show single tile
+                        </label>
+                    </div>
+                </Fragment>
+            )}
+
+            <div>Is main map visible? {isMapActive.toString()}</div>
+        </Fragment>
+    );
+};
+
+export default MapPanel;
