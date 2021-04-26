@@ -31,7 +31,7 @@ export const MapView = ({setPropertyGrid}) => {
     const [newPolylineStartPoint, setNewPolylineStartPoint] = useState({});
     const [tiles, setTiles] = useState([]);
     const [allStops, setAllStops] = useState([]);
-    const [activeTile, setActiveTile] = useState([]);
+    const [activeTile, setActiveTile] = useState({});
     const [activeBusStopId, setActiveBusStopId] = useState(null);
     const [importedConnections, setImportedConnections] = useState([]);
     const [preSavedConnection, setPreSavedConnection] = useState(null);
@@ -42,6 +42,7 @@ export const MapView = ({setPropertyGrid}) => {
         singleTileToggle,
         areStopsVisible,
         isConnectionMode,
+        addConnectionPromptName
     } = useContext(MapContext);
 
     useEffect(() => {
@@ -70,11 +71,17 @@ export const MapView = ({setPropertyGrid}) => {
     }, []);
 
     useEffect(() => {
-        if (activeTile !== []) {
+        if (activeTile.id) {
             getTileStops(activeTile.id);
             getTileConnections(activeTile.id);
         }
     }, [activeTile]);
+
+    useEffect(() => {
+        if (!showSingleTile) {
+            setActiveTile({});
+        }
+    }, [showSingleTile]);
 
     // addMarker = (e) => {
     //     const {markers} = this.state
@@ -82,11 +89,18 @@ export const MapView = ({setPropertyGrid}) => {
     //     this.setState({markers})
     // }
 
-    const createConnection = (stop, id, stopType) => {
+    useEffect(() => {
+        if (newPolylineStartPoint.coordinates) {
+            const {name,number} = newPolylineStartPoint
+            addConnectionPromptName(`${name.toString() | ''} ${number.toString() | ''}`)
+        }
+    },[newPolylineStartPoint])
+
+    const createConnection = (stop, id, stopType, name, ref) => {
 
         const coordinates = [stop._latlng.lat, stop._latlng.lng];
         const isOsm = stopType === 0;
-        const entryPoint = {coordinates, isOsm}
+        const entryPoint = {coordinates, isOsm, name, ref}
 
 
         if (newPolylineStartPoint.coordinates) {
@@ -142,8 +156,6 @@ export const MapView = ({setPropertyGrid}) => {
     };
 
     const clickBusStop = gridProperties => {
-        console.log('property grid type: ', typeof gridProperties);
-        console.log(gridProperties);
         setActiveBusStopId(gridProperties.id);
         setPropertyGrid(gridProperties);
     };

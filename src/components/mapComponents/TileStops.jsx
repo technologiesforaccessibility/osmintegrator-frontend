@@ -16,8 +16,8 @@ const TileStops = ({areStopsVisible, clickBusStop, createConnection, isActiveSto
                         eventHandlers={{
                             click: e => {
                                 if (isConnectionMode) {
-                                    console.log(e.target);
-                                    createConnection(e.target, busStop.id, busStop.stopType);
+                                    console.log(busStop);
+                                    createConnection(e.target, busStop.id, busStop.stopType, busStop.name, busStop.number);
                                 } else {
                                     isActiveStopClicked(busStop.id)
                                         ? unclickBusStop()
