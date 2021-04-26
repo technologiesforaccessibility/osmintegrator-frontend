@@ -7,6 +7,7 @@ const MapContextProvider = ({children}) => {
     const [isConnectionMode, setIsConnectionMode] = useState(false);
     const [isMapActive, setIsMapActive] = useState(false);
     const [areStopsVisible, setAreStopsVisible] = useState(false);
+    const [connectionPromptNames, setConnectionPromptNames] = useState([]);
 
     const singleTileToggle = bool => {
         setShowSingleTile(bool);
@@ -22,6 +23,10 @@ const MapContextProvider = ({children}) => {
         setIsMapActive(bool);
     };
 
+    const addConnectionPromptName = name => {
+        setConnectionPromptNames( oldState => [...oldState, name])
+    }
+
     return (
         <MapContext.Provider
             value={{
@@ -29,9 +34,11 @@ const MapContextProvider = ({children}) => {
                 isConnectionMode,
                 isMapActive,
                 areStopsVisible,
+                connectionPromptNames,
                 singleTileToggle,
                 connectionModeToggle,
                 activeMapToggle,
+                addConnectionPromptName
             }}>
             {children}
         </MapContext.Provider>

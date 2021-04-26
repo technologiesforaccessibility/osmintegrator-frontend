@@ -3,7 +3,6 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
 import iconBlack from '../assets/bus_stop_icon_black_new.png';
 import iconPink from '../assets/bus_stop_icon_pink_new.png';
-import iconOrange from '../assets/bus_stop_icon_orange_new.png';
 import iconGrey from '../assets/bus_stop_icon_grey.png';
 import iconPurple from '../assets/bus_stop_icon_purple.png'
 

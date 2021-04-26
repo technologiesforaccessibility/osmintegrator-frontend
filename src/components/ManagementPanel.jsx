@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {MapContainer, Rectangle, TileLayer, Tooltip} from 'react-leaflet';
 
 import client from '../api/apiInstance';
