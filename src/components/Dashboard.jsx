@@ -17,7 +17,6 @@ class Dashboard extends Component {
         super(props);
         this.state = {
             isLoggedIn: true,
-            propertyGrid: null
         }
 
         this.hasAccess = this.hasAccess.bind(this);
@@ -41,13 +40,7 @@ class Dashboard extends Component {
         }
     }
 
-    setPropertyGrid = (busStopProps) => {
-        if (busStopProps) {
-            this.setState({propertyGrid: busStopProps})
-        } else {
-            this.setState({propertyGrid: null})
-        }
-    }
+
 
     updatePropertyGrid = (newGrid) => {
         this.setState({propertyGrid: newGrid})
@@ -64,14 +57,13 @@ class Dashboard extends Component {
 
                         <DashboardSiderbar isLoggedIn={this.state.isLoggedIn}
                                            connectBusStops={this.canConnectBusStops}
-                                           propertyGrid={this.state.propertyGrid}
                                            updatePropertyGrid={this.updatePropertyGrid}/>
                         <Switch>
                             <Route path="/profile" component={ProfileRouter}/>
                             <Route path="/manage" component={ManagementPanel}/>
                             <Route path="/"
                                    render={() => (
-                                       <DashboardMain setPropertyGrid={this.setPropertyGrid}/>
+                                       <DashboardMain />
                                    )}
                             />
                         </Switch>

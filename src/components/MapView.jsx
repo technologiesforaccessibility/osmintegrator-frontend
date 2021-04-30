@@ -16,7 +16,7 @@ import ImportedConnections from './mapComponents/ImportedConnections';
 import MapTiles from './mapComponents/MapTiles';
 import TileStops from './mapComponents/TileStops';
 
-export const MapView = ({setPropertyGrid}) => {
+export const MapView = () => {
     const currentLocation = {lat: 50.29, lng: 19.01};
     const zoom = 10;
     const maxZoom = 19;
@@ -42,7 +42,9 @@ export const MapView = ({setPropertyGrid}) => {
         singleTileToggle,
         areStopsVisible,
         isConnectionMode,
-        addConnectionPromptName
+        addConnectionPromptName,
+        displayPropertyGrid,
+        updateConnectionData
     } = useContext(MapContext);
 
     useEffect(() => {
@@ -83,34 +85,37 @@ export const MapView = ({setPropertyGrid}) => {
         }
     }, [showSingleTile]);
 
+
+    useEffect( () => {
+        if (preSavedConnection) {
+            updateConnectionData(preSavedConnection);
+        }
+    }, [preSavedConnection])
+
     // addMarker = (e) => {
     //     const {markers} = this.state
     //     markers.push(e.latlng)
     //     this.setState({markers})
-    // }
+    // }ks
 
-    useEffect(() => {
-        if (newPolylineStartPoint.coordinates) {
-            const {name,number} = newPolylineStartPoint
-            addConnectionPromptName(`${name.toString() | ''} ${number.toString() | ''}`)
-        }
-    },[newPolylineStartPoint])
 
     const createConnection = (stop, id, stopType, name, ref) => {
 
+
+        //Todo: add validation -  osm can be connected only with gtfs
         const coordinates = [stop._latlng.lat, stop._latlng.lng];
         const isOsm = stopType === 0;
-        const entryPoint = {coordinates, isOsm, name, ref}
-
+        const entryPoint = {coordinates, isOsm, name, ref, id}
 
         if (newPolylineStartPoint.coordinates) {
             const newConnection = [newPolylineStartPoint, entryPoint];
-
             setUserConnections( oldState => [...oldState, newConnection]);
             setNewPolylineStartPoint({});
             setPreSavedConnection(newConnection);
+            addConnectionPromptName(`${name === undefined ? id : name.toString()} ${ref === undefined ? '' : ref.toString() }`)
         } else {
             setNewPolylineStartPoint(entryPoint);
+            addConnectionPromptName(`${name === undefined ? id : name.toString()} ${ref === undefined ? '' : ref.toString() }`)
         }
     };
 
@@ -155,17 +160,10 @@ export const MapView = ({setPropertyGrid}) => {
         return activeBusStopId === clickedStopId;
     };
 
-    const clickBusStop = gridProperties => {
-        setActiveBusStopId(gridProperties.id);
-        setPropertyGrid(gridProperties);
+    const clickBusStop = stop => {
+        setActiveBusStopId(stop === undefined ? null : stop.id);
+        displayPropertyGrid(stop === undefined ? null : stop);
     };
-
-    const unclickBusStop = () => {
-        this.setState({activeBusStopId: null});
-        setActiveBusStopId(null);
-        setPropertyGrid(null);
-    };
-
 
     return (
         <MapContainer center={currentLocation} zoom={zoom} maxZoom={maxZoom}>
@@ -191,7 +189,6 @@ export const MapView = ({setPropertyGrid}) => {
                 createConnection={createConnection}
                 isActiveStopClicked={isActiveStopClicked}
                 clickBusStop={clickBusStop}
-                unclickBusStop={unclickBusStop}
                 isConnectionMode={isConnectionMode}
             />
         </MapContainer>

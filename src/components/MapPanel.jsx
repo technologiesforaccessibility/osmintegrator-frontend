@@ -10,7 +10,9 @@ const MapPanel = props => {
         singleTileToggle,
         connectionModeToggle,
         isMapActive,
-        connectionPromptNames
+        connectionPromptNames,
+        resetConnectionPrompt,
+        connectionPair
     } = useContext(MapContext);
     return (
         <Fragment>
@@ -35,7 +37,7 @@ const MapPanel = props => {
                             Connect stops?
                         </label>
                     </div>
-                    { isConnectionMode && <ConnectionPrompt names={connectionPromptNames} />}
+                    { isConnectionMode && <ConnectionPrompt names={connectionPromptNames} reset={resetConnectionPrompt} connectionPair={connectionPair} />}
 
 
                     <div
