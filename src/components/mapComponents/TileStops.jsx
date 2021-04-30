@@ -16,17 +16,16 @@ const TileStops = ({areStopsVisible, clickBusStop, createConnection, isActiveSto
                         eventHandlers={{
                             click: e => {
                                 if (isConnectionMode) {
-                                    console.log(busStop);
                                     createConnection(e.target, busStop.id, busStop.stopType, busStop.name, busStop.number);
                                 } else {
                                     isActiveStopClicked(busStop.id)
-                                        ? unclickBusStop()
+                                        ? clickBusStop()
                                         : clickBusStop(busStop);
                                 }
                             },
                         }}>
                         <Tooltip direction="bottom">
-                            {busStop.name} {busStop.number}
+                            {busStop.name ? `${busStop.name} ${busStop.number}` : `No stop name provided, identifier: ${busStop.id}`}
                         </Tooltip>
                     </Marker>
                 ))}

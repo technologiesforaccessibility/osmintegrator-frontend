@@ -1,7 +1,7 @@
 import React from 'react';
 import MapView from "./MapView";
 
-const DashboardMain = ({setPropertyGrid}) => {
+const DashboardMain = () => {
 
         return (
             <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -35,7 +35,7 @@ const DashboardMain = ({setPropertyGrid}) => {
                 </div>
 
                 <div className="forMapView">
-                    <MapView setPropertyGrid={setPropertyGrid}/>
+                    <MapView />
                 </div>
             </main>
         );
