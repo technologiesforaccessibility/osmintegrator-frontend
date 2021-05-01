@@ -10,6 +10,7 @@ const MapContextProvider = ({children}) => {
     const [connectionPromptNames, setConnectionPromptNames] = useState([]);
     const [propertyGrid, setProprtyGrid] = useState(null);
     const [connectionPair, setConnectionPair] = useState(null);
+    const [connectionInfo, setConnectionInfo] = useState(null);
 
     const singleTileToggle = bool => {
         setShowSingleTile(bool);
@@ -41,6 +42,10 @@ const MapContextProvider = ({children}) => {
         setConnectionPair(connectionPair);
     }
 
+    const updateConnectionInfo = info => {
+        setConnectionInfo(info);
+    }
+
     return (
         <MapContext.Provider
             value={{
@@ -51,13 +56,15 @@ const MapContextProvider = ({children}) => {
                 connectionPromptNames,
                 propertyGrid,
                 connectionPair,
+                connectionInfo,
                 singleTileToggle,
                 connectionModeToggle,
                 activeMapToggle,
                 addConnectionPromptName,
                 displayPropertyGrid,
                 resetConnectionPrompt,
-                updateConnectionData
+                updateConnectionData,
+                updateConnectionInfo
             }}>
             {children}
         </MapContext.Provider>
