@@ -1,13 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-class ChangeEmail extends Component {
-    render() {
-        return (
-            <div>
-                Change email view
-            </div>
-        );
-    }
-}
+const ChangeEmail = () => {
+    return <div>Change email view</div>;
+};
 
 export default ChangeEmail;
