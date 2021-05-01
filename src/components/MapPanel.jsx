@@ -3,13 +3,12 @@ import React, {Fragment, useContext} from 'react';
 import {MapContext} from './contexts/MapContextProvider';
 import ConnectionPrompt from './mapComponents/ConnectionPrompt';
 
-const MapPanel = props => {
+const MapPanel = () => {
     const {
         showSingleTile,
         isConnectionMode,
         singleTileToggle,
         connectionModeToggle,
-        isMapActive,
         connectionPromptNames,
         resetConnectionPrompt,
         connectionPair,
@@ -70,8 +69,6 @@ const MapPanel = props => {
                     </div>
                 </Fragment>
             )}
-
-            <div>Is main map visible? {isMapActive.toString()}</div>
         </Fragment>
     );
 };

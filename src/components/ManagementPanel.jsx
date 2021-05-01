@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {MapContainer, Rectangle, TileLayer, Tooltip} from 'react-leaflet';
+import {Rectangle, Tooltip} from 'react-leaflet';
 
 import client from '../api/apiInstance';
-import {getDefaultHeadersWithToken} from '../config/apiConfig';
+import {basicHeaders} from '../config/apiConfig';
 import CheckIcon from './customs/CheckIcon';
 import H3Title from './customs/H3Title';
 import H4Title from './customs/H4Title';
@@ -13,6 +13,7 @@ import CustomCheckbox from './customs/CustomCheckbox';
 
 import '../stylesheets/managementPanel.scss';
 import colors from '../stylesheets/colors.module.scss';
+import ManagementPanelMap from './ManagementPanelMap';
 
 function ManagementPanel() {
     const [userButtonTile, setUserButtonTile] = useState(['Choose User']);
@@ -38,7 +39,7 @@ function ManagementPanel() {
         });
     }, []);
 
-        useEffect(() => {
+    useEffect(() => {
         getUserList().then(userList => {
             setUserRoleList(userList);
         });
@@ -46,7 +47,7 @@ function ManagementPanel() {
 
     const getTileUserAssignmentInfo = async id => {
         return await client.api.tileGetUsersDetail(id, {
-            headers: getDefaultHeadersWithToken(localStorage.token),
+            headers: basicHeaders(),
         });
     };
 
@@ -75,7 +76,7 @@ function ManagementPanel() {
     async function getTiles() {
         try {
             const response = await client.api.tileGetTilesList({
-                headers: getDefaultHeadersWithToken(localStorage.token),
+                headers: basicHeaders(),
             });
             return response.data;
         } catch {
@@ -146,15 +147,13 @@ function ManagementPanel() {
         const response =
             isAssigned === true
                 ? await client.api.tileRemoveUserDelete(tile.id, {
-                      headers: getDefaultHeadersWithToken(localStorage.token),
+                      headers: basicHeaders(),
                   })
                 : await client.api.tileUpdateUserUpdate(
                       tile.id,
                       {id: id},
                       {
-                          headers: getDefaultHeadersWithToken(
-                              localStorage.token,
-                          ),
+                          headers: basicHeaders(),
                       },
                   );
 
@@ -165,13 +164,10 @@ function ManagementPanel() {
         }
     };
 
-
-
-
     async function getUserList() {
         try {
             const response = await client.api.rolesList({
-                headers: getDefaultHeadersWithToken(localStorage.token),
+                headers: basicHeaders(),
             });
             return response.data;
         } catch {
@@ -223,7 +219,7 @@ function ManagementPanel() {
         );
 
     const assignRole = async () => {
-        let jsonRaw = [
+        let requestBody = [
             {
                 ...selectedUserData,
                 roles: selectedUserRoles,
@@ -231,8 +227,8 @@ function ManagementPanel() {
         ];
 
         try {
-            await client.api.rolesUpdate(jsonRaw, {
-                headers: getDefaultHeadersWithToken(localStorage.token),
+            await client.api.rolesUpdate(requestBody, {
+                headers: basicHeaders(),
             });
             const userList = await getUserList();
             setUserRoleList(userList);
@@ -306,20 +302,11 @@ function ManagementPanel() {
                 </div>
 
                 <div className="col-md-7">
-                    <div className="map-container">
-                        <MapContainer
-                            center={currentLocation}
-                            zoom={zoom}
-                            maxZoom={19}
-                            style={{height: '700px'}}>
-                            <TileLayer
-                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                                maxZoom={19}
-                            />
-                            {mapTiles}
-                        </MapContainer>
-                    </div>
+                    <ManagementPanelMap
+                        startPoint={currentLocation}
+                        zoom={zoom}
+                        tiles={mapTiles}
+                    />
                 </div>
             </div>
         </div>

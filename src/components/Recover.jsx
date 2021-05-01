@@ -1,23 +1,22 @@
 import React, {Component} from 'react';
 
+import {sentResetLinkText} from '../utilities/utilities-texts';
+import {noTokenHeaders} from '../config/apiConfig';
+import client from '../api/apiInstance';
+import {unsafeLoginApiError} from '../utilities/utilities';
+
 import '../stylesheets/recover.scss';
 import colors from '../stylesheets/colors.module.scss';
 
-import {formError400Text, sentResetLinkText} from "../utilities/utilities-texts";
-import {postDefaultHeaders} from '../config/apiConfig';
-
-import client from "../api/apiInstance";
-
 class Recover extends Component {
-
     constructor(props) {
         super(props);
 
         this.state = {
             email: '',
             isMessageShown: false,
-            message: '',
-            messageColor: ''
+            message: null,
+            messageColor: '',
         };
 
         this.change = this.change.bind(this);
@@ -26,54 +25,36 @@ class Recover extends Component {
 
     change(e) {
         this.setState({
-            [e.target.id]: e.target.value
-        })
+            [e.target.id]: e.target.value,
+        });
     }
 
-    showMessage = (msg) => {
-        this.setState({
-            isMessageShown: true,
-            message: msg
-        })
-    }
-
-    setMessageColor = (color) => {
-        this.setState({messageColor: color})
-    }
-
-    showSuccessMessage = () => {
-        this.setState({isMessageShown: true});
+    setMessageColor = color => {
+        this.setState({messageColor: color});
     };
 
-    hideMessage = () => {
-        if (this.state.isMessageShown) {
-            this.setState({
-                isMessageShown: false,
-                message: ''
-            })
-        }
-    }
+    updateMessage = message => {
+        this.setState({
+            message: `${message === undefined ? message : null}`
+        });
+    };
 
     async submit(e) {
         e.preventDefault();
 
         try {
-            const response = await client.api.accountForgotPasswordCreate({
-                    email: this.state.recoverEmail
+            await client.api.accountForgotPasswordCreate(
+                {
+                    email: this.state.recoverEmail,
                 },
-                {headers: postDefaultHeaders()})
-            if (response.status === 200) {
-                    this.setMessageColor(colors['colorMessageSuccess']);
-                    this.showMessage(sentResetLinkText());}
+                {headers: noTokenHeaders()},
+            );
+            this.setMessageColor(colors['colorMessageSuccess']);
+            this.updateMessage(sentResetLinkText());
         } catch (error) {
-            this.setMessageColor(colors['colorMessageFail'])
-            if (error.status === 401) {
-                this.showMessage(error.response.data.message);
-            } else if (error.status === 400) {
-                this.showMessage(formError400Text())
-            } else {
-                console.warn("Undefined error");
-            }
+            this.setMessageColor(colors['colorMessageFail']);
+            this.updateMessage('Cannot send reset email');
+            unsafeLoginApiError(error);
         }
     }
 
@@ -83,17 +64,29 @@ class Recover extends Component {
                 <h1 className="auth-title">Recover your password</h1>
                 <form name="recover-form" onSubmit={e => this.submit(e)}>
                     <div className="inputbox-spacer">
-                        <input type="text" id="recoverEmail" placeholder="Email"
-                               onChange={e => {
-                                   this.change(e)
-                               }} onClick={this.hideMessage}/>
+                        <input
+                            type="text"
+                            id="recoverEmail"
+                            placeholder="Email"
+                            onChange={e => {
+                                this.change(e);
+                            }}
+                            onClick={this.updateMessage()}
+                        />
                     </div>
                     <div className="recover-button-area">
-                        <button type="submit" id="button-reset">Reset your password</button>
+                        <button type="submit" id="button-reset">
+                            Reset your password
+                        </button>
                     </div>
                 </form>
-                <div className="centered auth-info-placeholder" value="">{this.state.isMessageShown &&
-                <span style={{color: this.state.messageColor}}>{this.state.message}</span>}</div>
+                <div className="centered auth-info-placeholder" value="">
+                    {this.state.message && (
+                        <span style={{color: this.state.messageColor}}>
+                            {this.state.message}
+                        </span>
+                    )}
+                </div>
             </React.Fragment>
         );
     }

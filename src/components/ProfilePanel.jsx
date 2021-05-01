@@ -1,26 +1,21 @@
-import React, {Component} from 'react';
-import {NavLink} from "react-router-dom";
+import React from 'react';
+import {NavLink} from 'react-router-dom';
 
-
-class ProfilePanel extends Component {
-    render() {
-        return (
-
-                    <ul>
-                        <li>
-                            <NavLink to="/profile/change-email">Change e-mail</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/profile/change-password">Change password</NavLink>
-
-                        </li>
-                        <li>
-                            About you
-                        </li>
-                    </ul>
-
-        );
-    }
-}
+const ProfilePanel = () => {
+    const linkList = [
+        {link: '/profile/change-email', title: 'Change e-mail'},
+        {link: '/profile/change-password', title: 'Change password'},
+        {link: '#', title: 'About you'},
+    ];
+    return (
+        <ul>
+            {linkList.map(({link, title}) => (
+                <li>
+                    <NavLink to={link}>{title}</NavLink>
+                </li>
+            ))}
+        </ul>
+    );
+};
 
 export default ProfilePanel;

@@ -1,31 +1,27 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {
-    MapContainer,
-    TileLayer,
-} from 'react-leaflet';
+import {MapContainer, TileLayer} from 'react-leaflet';
+
 import NewConnections from './mapComponents/NewConnections';
-
-import client from '../api/apiInstance';
-import {MapContext} from './contexts/MapContextProvider';
-import {getDefaultHeadersWithToken} from '../config/apiConfig';
-
-
-import '../stylesheets/mapView.scss';
-import 'leaflet/dist/leaflet.css';
 import ImportedConnections from './mapComponents/ImportedConnections';
 import MapTiles from './mapComponents/MapTiles';
 import TileStops from './mapComponents/TileStops';
+import {MapContext} from './contexts/MapContextProvider';
+import {basicHeaders} from '../config/apiConfig';
+import client from '../api/apiInstance';
+
+import '../stylesheets/mapView.scss';
+import 'leaflet/dist/leaflet.css';
+import {unsafeApiError} from '../utilities/utilities';
 
 export const MapView = () => {
     const currentLocation = {lat: 50.29, lng: 19.01};
     const zoom = 10;
     const maxZoom = 19;
 
-
     const [userConnections, setUserConnections] = useState([
         [
-            {coordinates: [50.515340, 18.474294], isOsm: false},
-            {coordinates: [50.511202, 18.481637], isOsm: false}
+            {coordinates: [50.51534, 18.474294], isOsm: false},
+            {coordinates: [50.511202, 18.481637], isOsm: false},
         ],
     ]);
     const [newPolylineStartPoint, setNewPolylineStartPoint] = useState({});
@@ -46,7 +42,7 @@ export const MapView = () => {
         displayPropertyGrid,
         updateConnectionData,
         updateConnectionInfo,
-        connectionInfo
+        connectionInfo,
     } = useContext(MapContext);
 
     useEffect(() => {
@@ -60,16 +56,11 @@ export const MapView = () => {
         async function fetchData() {
             try {
                 const response = await client.api.tileGetTilesList({
-                    headers: getDefaultHeadersWithToken(localStorage.token),
+                    headers: basicHeaders(),
                 });
-                console.log(response);
                 setTiles(response.data);
             } catch (error) {
-                if (error.status === 401) {
-                    console.log('Authentication problem');
-                } else {
-                    console.warn('Undefined tile problem');
-                }
+                unsafeApiError(error, 'Undefined tile problem');
             }
         }
         fetchData();
@@ -88,12 +79,11 @@ export const MapView = () => {
         }
     }, [showSingleTile]);
 
-
-    useEffect( () => {
+    useEffect(() => {
         if (preSavedConnection) {
             updateConnectionData(preSavedConnection);
         }
-    }, [preSavedConnection])
+    }, [preSavedConnection]);
 
     // addMarker = (e) => {
     //     const {markers} = this.state
@@ -101,67 +91,58 @@ export const MapView = () => {
     //     this.setState({markers})
     // }ks
 
-
     const createConnection = (stop, id, stopType, name, ref) => {
-
-
         const coordinates = [stop._latlng.lat, stop._latlng.lng];
         const isOsm = stopType === 0;
-        const entryPoint = {coordinates, isOsm, name, ref, id}
+        const entryPoint = {coordinates, isOsm, name, ref, id};
 
         if (newPolylineStartPoint.coordinates) {
             if (newPolylineStartPoint.isOsm === isOsm) {
-                updateConnectionInfo('Stops mustn\'t be the same kind!')
+                updateConnectionInfo("Stops mustn't be the same kind!");
                 return;
             }
             if (connectionInfo) {
                 updateConnectionInfo(null);
             }
             const newConnection = [newPolylineStartPoint, entryPoint];
-            setUserConnections( oldState => [...oldState, newConnection]);
+            setUserConnections(oldState => [...oldState, newConnection]);
             setNewPolylineStartPoint({});
             setPreSavedConnection(newConnection);
-            addConnectionPromptName(`${name === undefined ? id : name.toString()} ${ref === undefined ? '' : ref.toString() }`)
+            addConnectionPromptName(
+                `${name === undefined ? id : name.toString()} ${
+                    ref === undefined ? '' : ref.toString()
+                }`,
+            );
         } else {
             setNewPolylineStartPoint(entryPoint);
-            addConnectionPromptName(`${name === undefined ? id : name.toString()} ${ref === undefined ? '' : ref.toString() }`)
+            addConnectionPromptName(
+                `${name === undefined ? id : name.toString()} ${
+                    ref === undefined ? '' : ref.toString()
+                }`,
+            );
         }
     };
 
     const getTileStops = async id => {
         try {
             const response = await client.api.tileGetStopsDetail(id, {
-                headers: getDefaultHeadersWithToken(localStorage.token),
+                headers: basicHeaders(),
             });
-            if (response.status === 200) {
-                setAllStops(response.data);
-                singleTileToggle(true);
-            }
+            setAllStops(response.data);
+            singleTileToggle(true);
         } catch (error) {
-            if (error.status === 401) {
-                console.log('Tile problem');
-            } else {
-                console.warn('Undefined bus stops problem');
-            }
+            unsafeApiError(error, 'Undefined bus stops problem');
         }
     };
 
     const getTileConnections = async id => {
         try {
             const response = await client.api.connectionsDetail(id, {
-                headers: getDefaultHeadersWithToken(localStorage.token),
+                headers: basicHeaders(),
             });
-            if (response.status === 200) {
-                console.log(response.data);
-                console.log(allStops);
-                setImportedConnections(response.data);
-            }
+            setImportedConnections(response.data);
         } catch (error) {
-            if (error.status === 401) {
-                console.log('Authorization problem');
-            } else {
-                console.warn('Undefined tile connection problem');
-            }
+            unsafeApiError(error, 'Undefined tile connection problem');
         }
     };
 
@@ -181,7 +162,10 @@ export const MapView = () => {
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 maxZoom={maxZoom}
             />
-            <NewConnections connections={userConnections} showSingleTile={showSingleTile} />
+            <NewConnections
+                connections={userConnections}
+                showSingleTile={showSingleTile}
+            />
             <ImportedConnections
                 stops={allStops}
                 importedConnections={importedConnections}

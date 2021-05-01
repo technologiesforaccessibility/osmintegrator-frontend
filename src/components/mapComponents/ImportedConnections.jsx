@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {MapContainer, Polyline} from 'react-leaflet';
+import {Polyline} from 'react-leaflet';
 
 
 import {getPosition} from '../../utilities/mapUtilities';

@@ -1,29 +1,24 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import client from '../../api/apiInstance';
-import {getDefaultHeadersWithToken} from '../../config/apiConfig';
-import {generateConnectionData} from "../../utilities/mapUtilities";
+import {basicHeaders} from '../../config/apiConfig';
+import {generateConnectionData} from '../../utilities/mapUtilities';
+import {unsafeApiError} from '../../utilities/utilities';
 
 import '../../stylesheets/connectionPrompt.scss';
 
-
 const ConnectionPrompt = ({names, reset, connectionPair, info, updateInfo}) => {
-    
-
     const sendConnection = async () => {
         try {
-            const response = await client.api.connectionsUpdate(
+            await client.api.connectionsUpdate(
                 generateConnectionData(connectionPair),
                 {
-                    headers: getDefaultHeadersWithToken(localStorage.token),
+                    headers: basicHeaders(),
                 },
             );
-            if (response.status === 200) {
-                updateInfo('Saved successfully')
-            }
-
+            updateInfo('Saved successfully');
         } catch (error) {
-            console.log(error);
+            unsafeApiError(error);
         }
     };
 
@@ -44,7 +39,12 @@ const ConnectionPrompt = ({names, reset, connectionPair, info, updateInfo}) => {
                 }}>
                 Save
             </button>
-            <button>Cancel</button>
+            <button
+                onClick={() => {
+                    reset();
+                }}>
+                Cancel
+            </button>
             {info && <p>{info}</p>}
         </div>
     );
