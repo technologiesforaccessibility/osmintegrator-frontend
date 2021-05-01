@@ -1,7 +1,7 @@
 import React, {Fragment, useContext} from 'react';
 
 import {MapContext} from './contexts/MapContextProvider';
-import ConnectionPrompt from "./mapComponents/ConnectionPrompt";
+import ConnectionPrompt from './mapComponents/ConnectionPrompt';
 
 const MapPanel = props => {
     const {
@@ -12,7 +12,9 @@ const MapPanel = props => {
         isMapActive,
         connectionPromptNames,
         resetConnectionPrompt,
-        connectionPair
+        connectionPair,
+        connectionInfo,
+        updateConnectionInfo
     } = useContext(MapContext);
     return (
         <Fragment>
@@ -37,8 +39,15 @@ const MapPanel = props => {
                             Connect stops?
                         </label>
                     </div>
-                    { isConnectionMode && <ConnectionPrompt names={connectionPromptNames} reset={resetConnectionPrompt} connectionPair={connectionPair} />}
-
+                    {isConnectionMode && (
+                        <ConnectionPrompt
+                            names={connectionPromptNames}
+                            reset={resetConnectionPrompt}
+                            connectionPair={connectionPair}
+                            info={connectionInfo}
+                            updateInfo={updateConnectionInfo}
+                        />
+                    )}
 
                     <div
                         className="form-check"

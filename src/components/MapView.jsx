@@ -44,7 +44,9 @@ export const MapView = () => {
         isConnectionMode,
         addConnectionPromptName,
         displayPropertyGrid,
-        updateConnectionData
+        updateConnectionData,
+        updateConnectionInfo,
+        connectionInfo
     } = useContext(MapContext);
 
     useEffect(() => {
@@ -60,6 +62,7 @@ export const MapView = () => {
                 const response = await client.api.tileGetTilesList({
                     headers: getDefaultHeadersWithToken(localStorage.token),
                 });
+                console.log(response);
                 setTiles(response.data);
             } catch (error) {
                 if (error.status === 401) {
@@ -102,12 +105,18 @@ export const MapView = () => {
     const createConnection = (stop, id, stopType, name, ref) => {
 
 
-        //Todo: add validation -  osm can be connected only with gtfs
         const coordinates = [stop._latlng.lat, stop._latlng.lng];
         const isOsm = stopType === 0;
         const entryPoint = {coordinates, isOsm, name, ref, id}
 
         if (newPolylineStartPoint.coordinates) {
+            if (newPolylineStartPoint.isOsm === isOsm) {
+                updateConnectionInfo('Stops mustn\'t be the same kind!')
+                return;
+            }
+            if (connectionInfo) {
+                updateConnectionInfo(null);
+            }
             const newConnection = [newPolylineStartPoint, entryPoint];
             setUserConnections( oldState => [...oldState, newConnection]);
             setNewPolylineStartPoint({});
