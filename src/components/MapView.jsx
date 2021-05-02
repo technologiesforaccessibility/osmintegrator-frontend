@@ -18,19 +18,13 @@ export const MapView = () => {
     const zoom = 10;
     const maxZoom = 19;
 
-    const [userConnections, setUserConnections] = useState([
-        [
-            {coordinates: [50.51534, 18.474294], isOsm: false},
-            {coordinates: [50.511202, 18.481637], isOsm: false},
-        ],
-    ]);
-    const [newPolylineStartPoint, setNewPolylineStartPoint] = useState({});
     const [tiles, setTiles] = useState([]);
     const [allStops, setAllStops] = useState([]);
     const [activeTile, setActiveTile] = useState({});
-    const [activeBusStopId, setActiveBusStopId] = useState(null);
     const [importedConnections, setImportedConnections] = useState([]);
-    const [preSavedConnection, setPreSavedConnection] = useState(null);
+
+    const [activeBusStopId, setActiveBusStopId] = useState(null);
+
 
     const {
         activeMapToggle,
@@ -38,11 +32,11 @@ export const MapView = () => {
         singleTileToggle,
         areStopsVisible,
         isConnectionMode,
-        addConnectionPromptName,
         displayPropertyGrid,
         updateConnectionData,
         updateConnectionInfo,
         connectionInfo,
+        connectionData
     } = useContext(MapContext);
 
     useEffect(() => {
@@ -79,11 +73,6 @@ export const MapView = () => {
         }
     }, [showSingleTile]);
 
-    useEffect(() => {
-        if (preSavedConnection) {
-            updateConnectionData(preSavedConnection);
-        }
-    }, [preSavedConnection]);
 
     // addMarker = (e) => {
     //     const {markers} = this.state
@@ -91,36 +80,20 @@ export const MapView = () => {
     //     this.setState({markers})
     // }ks
 
-    const createConnection = (stop, id, stopType, name, ref) => {
-        const coordinates = [stop._latlng.lat, stop._latlng.lng];
+    const createConnection = (coordinates, id, stopType, name, ref) => {
         const isOsm = stopType === 0;
-        const entryPoint = {coordinates, isOsm, name, ref, id};
+        const entryPoint = {coordinates, id, isOsm, name, ref, };
 
-        if (newPolylineStartPoint.coordinates) {
-            if (newPolylineStartPoint.isOsm === isOsm) {
+        if (connectionData.length === 1) {
+            if (connectionData[0].isOsm === isOsm) {
                 updateConnectionInfo("Stops mustn't be the same kind!");
                 return;
             }
             if (connectionInfo) {
                 updateConnectionInfo(null);
             }
-            const newConnection = [newPolylineStartPoint, entryPoint];
-            setUserConnections(oldState => [...oldState, newConnection]);
-            setNewPolylineStartPoint({});
-            setPreSavedConnection(newConnection);
-            addConnectionPromptName(
-                `${name === undefined ? id : name.toString()} ${
-                    ref === undefined ? '' : ref.toString()
-                }`,
-            );
-        } else {
-            setNewPolylineStartPoint(entryPoint);
-            addConnectionPromptName(
-                `${name === undefined ? id : name.toString()} ${
-                    ref === undefined ? '' : ref.toString()
-                }`,
-            );
         }
+        updateConnectionData(entryPoint)
     };
 
     const getTileStops = async id => {
@@ -163,7 +136,7 @@ export const MapView = () => {
                 maxZoom={maxZoom}
             />
             <NewConnections
-                connections={userConnections}
+                connections={connectionData}
                 showSingleTile={showSingleTile}
             />
             <ImportedConnections

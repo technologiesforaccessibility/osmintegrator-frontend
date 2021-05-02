@@ -1,10 +1,17 @@
 import React, {Fragment} from 'react';
-import {Marker, Tooltip} from "react-leaflet";
+import {Marker, Tooltip} from 'react-leaflet';
 
-import {getBusStopIcon} from "../../utilities/utilities";
+import {getBusStopIcon} from '../../utilities/utilities';
+import {generateStopName} from '../../utilities/mapUtilities';
 
-
-const TileStops = ({areStopsVisible, clickBusStop, createConnection, isActiveStopClicked, stops, unclickBusStop, isConnectionMode}) => {
+const TileStops = ({
+    areStopsVisible,
+    clickBusStop,
+    createConnection,
+    isActiveStopClicked,
+    stops,
+    isConnectionMode,
+}) => {
     return (
         <Fragment>
             {areStopsVisible &&
@@ -14,9 +21,15 @@ const TileStops = ({areStopsVisible, clickBusStop, createConnection, isActiveSto
                         position={[busStop.lat, busStop.lon]}
                         icon={getBusStopIcon(busStop)}
                         eventHandlers={{
-                            click: e => {
+                            click: () => {
                                 if (isConnectionMode) {
-                                    createConnection(e.target, busStop.id, busStop.stopType, busStop.name, busStop.number);
+                                    createConnection(
+                                        [busStop.lat, busStop.lon],
+                                        busStop.id,
+                                        busStop.stopType,
+                                        busStop.name,
+                                        busStop.number,
+                                    );
                                 } else {
                                     isActiveStopClicked(busStop.id)
                                         ? clickBusStop()
@@ -25,12 +38,16 @@ const TileStops = ({areStopsVisible, clickBusStop, createConnection, isActiveSto
                             },
                         }}>
                         <Tooltip direction="bottom">
-                            {busStop.name ? `${busStop.name} ${busStop.number}` : `No stop name provided, identifier: ${busStop.id}`}
+                            {generateStopName(
+                                busStop.id,
+                                busStop.name || null,
+                                busStop.number || null,
+                            )}
                         </Tooltip>
                     </Marker>
                 ))}
         </Fragment>
-    )
-}
+    );
+};
 
 export default TileStops;

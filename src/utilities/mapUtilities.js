@@ -20,4 +20,12 @@ const generateConnectionData = connection => {
     return null;
 };
 
-export {getPosition, generateConnectionData};
+const generateStopName = (id, name, number ) => {
+    if (name) {
+        return `${name} ${number || ''}`
+    } else {
+        return `${id}`
+    }
+}
+
+export {getPosition, generateConnectionData, generateStopName};
