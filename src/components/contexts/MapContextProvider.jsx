@@ -7,10 +7,11 @@ const MapContextProvider = ({children}) => {
     const [isConnectionMode, setIsConnectionMode] = useState(false);
     const [isMapActive, setIsMapActive] = useState(false);
     const [areStopsVisible, setAreStopsVisible] = useState(false);
-    const [connectionPromptNames, setConnectionPromptNames] = useState([]);
+
     const [propertyGrid, setProprtyGrid] = useState(null);
-    const [connectionPair, setConnectionPair] = useState(null);
-    const [connectionInfo, setConnectionInfo] = useState(null);
+
+    const [connectionSidePanelMessage, setConnectionSidePanelMessage] = useState(null);
+    const [connectionData, setConnectionData] = useState([]);
 
     const singleTileToggle = bool => {
         setShowSingleTile(bool);
@@ -26,24 +27,23 @@ const MapContextProvider = ({children}) => {
         setIsMapActive(bool);
     };
 
-    const addConnectionPromptName = name => {
-        setConnectionPromptNames( oldState => [...oldState, name])
-    }
-
-    const resetConnectionPrompt = () => {
-        setConnectionPromptNames( [])
-    }
-
     const displayPropertyGrid = content => {
         setProprtyGrid(content);
     }
 
-    const updateConnectionData = connectionPair => {
-        setConnectionPair(connectionPair);
+    const updateConnectionData = data => {
+        if (data) {
+            setConnectionData( oldState => [...oldState, data])
+        }
     }
 
-    const updateConnectionInfo = info => {
-        setConnectionInfo(info);
+    const updateConnectionMessage = info => {
+        setConnectionSidePanelMessage(info);
+    }
+
+    const flush = () => {
+        setConnectionData([]);
+        setProprtyGrid(null);
     }
 
     return (
@@ -53,18 +53,16 @@ const MapContextProvider = ({children}) => {
                 isConnectionMode,
                 isMapActive,
                 areStopsVisible,
-                connectionPromptNames,
                 propertyGrid,
-                connectionPair,
-                connectionInfo,
+                connectionSidePanelMessage,
+                connectionData,
                 singleTileToggle,
                 connectionModeToggle,
                 activeMapToggle,
-                addConnectionPromptName,
                 displayPropertyGrid,
-                resetConnectionPrompt,
                 updateConnectionData,
-                updateConnectionInfo
+                updateConnectionMessage,
+                flush
             }}>
             {children}
         </MapContext.Provider>

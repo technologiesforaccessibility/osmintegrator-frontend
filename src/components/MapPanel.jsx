@@ -1,7 +1,7 @@
 import React, {Fragment, useContext} from 'react';
 
 import {MapContext} from './contexts/MapContextProvider';
-import ConnectionPrompt from './mapComponents/ConnectionPrompt';
+import ConnectionSidePanel from './mapComponents/ConnectionSidePanel';
 
 const MapPanel = () => {
     const {
@@ -9,11 +9,11 @@ const MapPanel = () => {
         isConnectionMode,
         singleTileToggle,
         connectionModeToggle,
-        connectionPromptNames,
-        resetConnectionPrompt,
-        connectionPair,
         connectionInfo,
-        updateConnectionInfo
+        updateConnectionInfo,
+        resetNewConnectionData,
+        connectionData,
+        flush,
     } = useContext(MapContext);
     return (
         <Fragment>
@@ -38,15 +38,7 @@ const MapPanel = () => {
                             Connect stops?
                         </label>
                     </div>
-                    {isConnectionMode && (
-                        <ConnectionPrompt
-                            names={connectionPromptNames}
-                            reset={resetConnectionPrompt}
-                            connectionPair={connectionPair}
-                            info={connectionInfo}
-                            updateInfo={updateConnectionInfo}
-                        />
-                    )}
+                    {isConnectionMode && <ConnectionSidePanel />}
 
                     <div
                         className="form-check"
@@ -59,6 +51,7 @@ const MapPanel = () => {
                             id="flexCheckDefault"
                             onClick={e => {
                                 singleTileToggle(e.target.checked);
+                                e.target.checked && flush();
                             }}
                         />
                         <label
