@@ -17,6 +17,7 @@ const ConnectionSidePanel = () => {
         updateConnectionMessage,
         connectionData,
         flush,
+        shouldRenderConnections
     } = useContext(MapContext);
 
     const sendConnection = async () => {
@@ -28,6 +29,7 @@ const ConnectionSidePanel = () => {
                         headers: basicHeaders(),
                     },
                 );
+                shouldRenderConnections(true)
                 flush();
                 updateConnectionMessage('Saved successfully');
             } catch (error) {
