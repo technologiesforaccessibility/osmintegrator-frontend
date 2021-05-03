@@ -25,7 +25,6 @@ export const MapView = () => {
 
     const [activeBusStopId, setActiveBusStopId] = useState(null);
 
-
     const {
         activeMapToggle,
         showSingleTile,
@@ -36,7 +35,9 @@ export const MapView = () => {
         updateConnectionData,
         updateConnectionInfo,
         connectionInfo,
-        connectionData
+        connectionData,
+        rerenderConnections,
+        shouldRenderConnections
     } = useContext(MapContext);
 
     useEffect(() => {
@@ -73,6 +74,15 @@ export const MapView = () => {
         }
     }, [showSingleTile]);
 
+    useEffect(() => {
+        async function getConnections() {
+            await getTileConnections(activeTile.id);
+            shouldRenderConnections(false);
+        }
+        if (rerenderConnections) {
+            getConnections()
+        }
+    }, [rerenderConnections]);
 
     // addMarker = (e) => {
     //     const {markers} = this.state
@@ -82,7 +92,7 @@ export const MapView = () => {
 
     const createConnection = (coordinates, id, stopType, name, ref) => {
         const isOsm = stopType === 0;
-        const entryPoint = {coordinates, id, isOsm, name, ref, };
+        const entryPoint = {coordinates, id, isOsm, name, ref};
 
         if (connectionData.length === 1) {
             if (connectionData[0].isOsm === isOsm) {
@@ -93,7 +103,7 @@ export const MapView = () => {
                 updateConnectionInfo(null);
             }
         }
-        updateConnectionData(entryPoint)
+        updateConnectionData(entryPoint);
     };
 
     const getTileStops = async id => {
@@ -142,6 +152,7 @@ export const MapView = () => {
             <ImportedConnections
                 stops={allStops}
                 importedConnections={importedConnections}
+                shouldRenderConnections={shouldRenderConnections}
             />
             <MapTiles
                 showSingleTile={showSingleTile}

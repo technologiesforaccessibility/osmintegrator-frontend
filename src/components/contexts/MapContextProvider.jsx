@@ -9,9 +9,11 @@ const MapContextProvider = ({children}) => {
     const [areStopsVisible, setAreStopsVisible] = useState(false);
 
     const [propertyGrid, setProprtyGrid] = useState(null);
+    const [rerenderConnections, setRerenderConnections] = useState(false);
 
     const [connectionSidePanelMessage, setConnectionSidePanelMessage] = useState(null);
     const [connectionData, setConnectionData] = useState([]);
+
 
     const singleTileToggle = bool => {
         setShowSingleTile(bool);
@@ -46,6 +48,10 @@ const MapContextProvider = ({children}) => {
         setProprtyGrid(null);
     }
 
+    const shouldRenderConnections = (bool) => {
+            setRerenderConnections(bool);
+    }
+
     return (
         <MapContext.Provider
             value={{
@@ -56,13 +62,15 @@ const MapContextProvider = ({children}) => {
                 propertyGrid,
                 connectionSidePanelMessage,
                 connectionData,
+                rerenderConnections,
                 singleTileToggle,
                 connectionModeToggle,
                 activeMapToggle,
                 displayPropertyGrid,
                 updateConnectionData,
                 updateConnectionMessage,
-                flush
+                flush,
+                shouldRenderConnections
             }}>
             {children}
         </MapContext.Provider>

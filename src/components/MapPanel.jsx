@@ -9,10 +9,6 @@ const MapPanel = () => {
         isConnectionMode,
         singleTileToggle,
         connectionModeToggle,
-        connectionInfo,
-        updateConnectionInfo,
-        resetNewConnectionData,
-        connectionData,
         flush,
     } = useContext(MapContext);
     return (
