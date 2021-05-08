@@ -1,28 +1,35 @@
 import React, {Fragment} from 'react';
-import {Polyline} from 'react-leaflet';
+import {Polyline, Tooltip, Popup} from 'react-leaflet';
 
-import {generateConnectionData, getPosition} from '../../utilities/mapUtilities';
+import {
+    generateConnectionData,
+    generateStopName,
+    getPosition,
+} from '../../utilities/mapUtilities';
 
 import colors from '../../stylesheets/colors.module.scss';
-import client from "../../api/apiInstance";
-import {basicHeaders} from "../../config/apiConfig";
-import {unsafeApiError} from "../../utilities/utilities";
+import client from '../../api/apiInstance';
+import {basicHeaders} from '../../config/apiConfig';
+import {unsafeApiError} from '../../utilities/utilities';
 
-const ImportedConnections = ({stops, importedConnections, shouldRenderConnections}) => {
-
-    const deleteConnection = async(osm, gtfs) => {
+const ImportedConnections = ({
+    stops,
+    importedConnections,
+    shouldRenderConnections,
+}) => {
+    const deleteConnection = async (osm, gtfs) => {
         try {
-                await client.api.connectionsDelete(
-                    generateConnectionData([osm,gtfs]),
-                    {
-                        headers: basicHeaders(),
-                    },
-                );
-                shouldRenderConnections(true)
-            } catch (error) {
-                unsafeApiError(error);
-            }
-    }
+            await client.api.connectionsDelete(
+                generateConnectionData([osm, gtfs]),
+                {
+                    headers: basicHeaders(),
+                },
+            );
+            shouldRenderConnections(true);
+        } catch (error) {
+            unsafeApiError(error);
+        }
+    };
 
     return (
         <Fragment>
@@ -35,18 +42,21 @@ const ImportedConnections = ({stops, importedConnections, shouldRenderConnection
                     if (foundOSM !== undefined && foundGTFS !== undefined) {
                         return (
                             <Polyline
+                                pane={"markerPane"}
                                 key={index}
                                 pathOptions={{
                                     color: colors.colorConnectionImported,
                                 }}
-                                positions={getPosition(foundOSM, foundGTFS)}
-                                eventHandlers={{
-                                    click: () => {
-                                    // delete connection on double click (delete zoom for map)
-                                    // deleteConnection()
-                                    },
-                                }}
-                            />
+                                positions={getPosition(foundOSM, foundGTFS)}>
+                                <Tooltip direction="bottom">
+                                    Click line if you want to
+                                    delete connection
+                                </Tooltip>
+                                <Popup>Delete?
+                                    <button onClick={() => {console.log('confirm')}}>Confirm</button>
+                                    <button onClick={() => {console.log('cancel')}}>Close</button>
+                                </Popup>
+                            </Polyline>
                         );
                     }
                     return <></>;

@@ -1,7 +1,7 @@
 import React, {Fragment, useContext} from 'react';
 
 import {MapContext} from './contexts/MapContextProvider';
-import ConnectionSidePanel from './mapComponents/ConnectionSidePanel';
+import ConnectionSidePanel from './ConnectionSidePanel';
 
 const MapPanel = () => {
     const {
@@ -23,6 +23,7 @@ const MapPanel = () => {
                             type="checkbox"
                             value=""
                             id="flexCheckDefault"
+                            checked={isConnectionMode}
                             onClick={e => {
                                 console.log(e.target.checked);
                                 connectionModeToggle(e.target.checked);

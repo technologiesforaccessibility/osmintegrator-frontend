@@ -9,7 +9,6 @@ import {MapContext} from './contexts/MapContextProvider';
 import {basicHeaders} from '../config/apiConfig';
 import client from '../api/apiInstance';
 
-import '../stylesheets/mapView.scss';
 import 'leaflet/dist/leaflet.css';
 import {unsafeApiError} from '../utilities/utilities';
 
@@ -24,6 +23,11 @@ export const MapView = () => {
     const [importedConnections, setImportedConnections] = useState([]);
 
     const [activeBusStopId, setActiveBusStopId] = useState(null);
+
+    const mapStyle = {
+        position: "relative",
+        height: "calc(100vh - 138px)"
+    }
 
     const {
         activeMapToggle,
@@ -139,7 +143,7 @@ export const MapView = () => {
     };
 
     return (
-        <MapContainer center={currentLocation} zoom={zoom} maxZoom={maxZoom}>
+        <MapContainer center={currentLocation} zoom={zoom} maxZoom={maxZoom} style={mapStyle}>
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 
-import {sentResetLinkText} from '../utilities/utilities-texts';
-import {noTokenHeaders} from '../config/apiConfig';
-import client from '../api/apiInstance';
-import {unsafeLoginApiError} from '../utilities/utilities';
+import {sentResetLinkText} from '../../utilities/utilities-texts';
+import {noTokenHeaders} from '../../config/apiConfig';
+import client from '../../api/apiInstance';
+import {unsafeLoginApiError} from '../../utilities/utilities';
 
-import '../stylesheets/recover.scss';
-import colors from '../stylesheets/colors.module.scss';
+import '../../stylesheets/recover.scss';
+import colors from '../../stylesheets/colors.module.scss';
 
 class Recover extends Component {
     constructor(props) {

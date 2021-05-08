@@ -7,16 +7,16 @@ import {
     getEmailFromPath,
     getTokenFromPath,
     unsafeLoginApiError,
-} from '../utilities/utilities';
+} from '../../utilities/utilities';
 import {
     changedPasswordText,
     expiredTokenText,
-} from '../utilities/utilities-texts';
-import {noTokenHeaders} from '../config/apiConfig';
-import client from '../api/apiInstance';
+} from '../../utilities/utilities-texts';
+import {noTokenHeaders} from '../../config/apiConfig';
+import client from '../../api/apiInstance';
 
-import '../stylesheets/setPassword.scss';
-import colors from '../stylesheets/colors.module.scss';
+import '../../stylesheets/setPassword.scss';
+import colors from '../../stylesheets/colors.module.scss';
 
 class SetPassword extends Component {
     constructor(props) {

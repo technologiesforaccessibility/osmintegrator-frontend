@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {NavLink, Redirect} from 'react-router-dom';
 
-import {noTokenHeaders} from '../config/apiConfig';
-import {unsafeLoginApiError} from '../utilities/utilities';
-import client from '../api/apiInstance';
+import {noTokenHeaders} from '../../config/apiConfig';
+import {unsafeLoginApiError} from '../../utilities/utilities';
+import client from '../../api/apiInstance';
 
-import '../stylesheets/login.scss';
-import colors from '../stylesheets/colors.module.scss';
+import '../../stylesheets/login.scss';
+import colors from '../../stylesheets/colors.module.scss';
 
 class Login extends Component {
     constructor(props) {

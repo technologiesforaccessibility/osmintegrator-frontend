@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Switch, Route} from 'react-router-dom'
-import Login from './Login';
-import Recover from './Recover';
-import Logout from "./Logout";
-import SetPassword from './SetPassword';
+import Login from './auth/Login';
+import Recover from './auth/Recover';
+import Logout from "./auth/Logout";
+import SetPassword from './auth/SetPassword';
 import '../stylesheets/auth.scss';
 
 class Auth extends Component {
