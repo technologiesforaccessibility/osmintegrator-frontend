@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState, useRef} from 'react';
 import {MapContainer, TileLayer} from 'react-leaflet';
 
 import NewConnections from './mapComponents/NewConnections';
@@ -9,7 +9,6 @@ import {MapContext} from './contexts/MapContextProvider';
 import {basicHeaders} from '../config/apiConfig';
 import client from '../api/apiInstance';
 
-import '../stylesheets/mapView.scss';
 import 'leaflet/dist/leaflet.css';
 import {unsafeApiError} from '../utilities/utilities';
 
@@ -25,6 +24,11 @@ export const MapView = () => {
 
     const [activeBusStopId, setActiveBusStopId] = useState(null);
 
+    const mapStyle = {
+        position: 'relative',
+        height: 'calc(100vh - 138px)',
+    };
+
     const {
         activeMapToggle,
         showSingleTile,
@@ -37,7 +41,7 @@ export const MapView = () => {
         connectionInfo,
         connectionData,
         rerenderConnections,
-        shouldRenderConnections
+        shouldRenderConnections,
     } = useContext(MapContext);
 
     useEffect(() => {
@@ -80,7 +84,7 @@ export const MapView = () => {
             shouldRenderConnections(false);
         }
         if (rerenderConnections) {
-            getConnections()
+            getConnections();
         }
     }, [rerenderConnections]);
 
@@ -139,7 +143,11 @@ export const MapView = () => {
     };
 
     return (
-        <MapContainer center={currentLocation} zoom={zoom} maxZoom={maxZoom}>
+        <MapContainer
+            center={currentLocation}
+            zoom={zoom}
+            maxZoom={maxZoom}
+            style={mapStyle}>
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -153,6 +161,7 @@ export const MapView = () => {
                 stops={allStops}
                 importedConnections={importedConnections}
                 shouldRenderConnections={shouldRenderConnections}
+                // closePopups = {closePopups}
             />
             <MapTiles
                 showSingleTile={showSingleTile}

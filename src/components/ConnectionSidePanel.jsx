@@ -1,15 +1,15 @@
 import React, {useContext} from 'react';
 
-import client from '../../api/apiInstance';
-import {basicHeaders} from '../../config/apiConfig';
+import client from '../api/apiInstance';
+import {basicHeaders} from '../config/apiConfig';
 import {
     generateConnectionData,
     generateStopName,
-} from '../../utilities/mapUtilities';
-import {unsafeApiError} from '../../utilities/utilities';
-import {MapContext} from '../contexts/MapContextProvider';
+} from '../utilities/mapUtilities';
+import {unsafeApiError} from '../utilities/utilities';
+import {MapContext} from './contexts/MapContextProvider';
 
-import '../../stylesheets/connectionPrompt.scss';
+import '../stylesheets/connectionPrompt.scss';
 
 const ConnectionSidePanel = () => {
     const {

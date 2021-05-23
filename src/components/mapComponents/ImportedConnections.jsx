@@ -1,28 +1,48 @@
-import React, {Fragment} from 'react';
-import {Polyline} from 'react-leaflet';
+import React, {Fragment, useRef} from 'react';
+import {Polyline, Tooltip, Popup} from 'react-leaflet';
 
-import {generateConnectionData, getPosition} from '../../utilities/mapUtilities';
+import {
+    generateConnectionData,
+    generateStopName,
+    getPosition,
+} from '../../utilities/mapUtilities';
 
 import colors from '../../stylesheets/colors.module.scss';
-import client from "../../api/apiInstance";
-import {basicHeaders} from "../../config/apiConfig";
-import {unsafeApiError} from "../../utilities/utilities";
+import client from '../../api/apiInstance';
+import {basicHeaders} from '../../config/apiConfig';
+import {unsafeApiError} from '../../utilities/utilities';
+import DeleteConnectionPopup from './DeleteConnectionPopup';
 
-const ImportedConnections = ({stops, importedConnections, shouldRenderConnections}) => {
+const ImportedConnections = ({
+    stops,
+    importedConnections,
+    shouldRenderConnections,
+}) => {
+    const popupRef = useRef(null);
 
-    const deleteConnection = async(osm, gtfs) => {
+    const checkStopType = stopList => {
+        return stopList.map(stop => {
+            return {...stop, isOsm: stop.stopType === 0};
+        });
+    };
+
+    const deleteConnection = async (osm, gtfs) => {
         try {
-                await client.api.connectionsDelete(
-                    generateConnectionData([osm,gtfs]),
-                    {
-                        headers: basicHeaders(),
-                    },
-                );
-                shouldRenderConnections(true)
-            } catch (error) {
-                unsafeApiError(error);
-            }
-    }
+            await client.api.connectionsDelete(
+                generateConnectionData(checkStopType([osm, gtfs])),
+                {
+                    headers: basicHeaders(),
+                },
+            );
+            shouldRenderConnections(true);
+        } catch (error) {
+            unsafeApiError(error);
+        }
+    };
+
+    const closePopup = () => {
+        popupRef.current.leafletElement.closePopup();
+    };
 
     return (
         <Fragment>
@@ -35,18 +55,27 @@ const ImportedConnections = ({stops, importedConnections, shouldRenderConnection
                     if (foundOSM !== undefined && foundGTFS !== undefined) {
                         return (
                             <Polyline
+                                pane={'markerPane'}
                                 key={index}
                                 pathOptions={{
                                     color: colors.colorConnectionImported,
                                 }}
-                                positions={getPosition(foundOSM, foundGTFS)}
-                                eventHandlers={{
-                                    click: () => {
-                                    // delete connection on double click (delete zoom for map)
-                                    // deleteConnection()
-                                    },
-                                }}
-                            />
+                                positions={getPosition(foundOSM, foundGTFS)}>
+                                <Tooltip direction="bottom">
+                                    Click line if you want to delete connection
+                                </Tooltip>
+                                <Popup
+                                    ref={popupRef}
+                                    key={index}
+                                    closeButton={false}>
+                                    <DeleteConnectionPopup
+                                        closePopup={closePopup}
+                                        deleteConnection={deleteConnection}
+                                        gtfs={foundGTFS}
+                                        osm={foundOSM}
+                                    />
+                                </Popup>
+                            </Polyline>
                         );
                     }
                     return <></>;
