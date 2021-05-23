@@ -3,6 +3,7 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Auth from './Auth';
 import '../stylesheets/app.scss';
+import '../stylesheets/globalStyles.scss'
 import MapContextProvider from './contexts/MapContextProvider';
 
 class App extends Component {
