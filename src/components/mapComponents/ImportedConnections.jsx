@@ -3,7 +3,6 @@ import {Polyline, Tooltip, Popup} from 'react-leaflet';
 
 import {
     generateConnectionData,
-    generateStopName,
     getPosition,
 } from '../../utilities/mapUtilities';
 
@@ -41,7 +40,7 @@ const ImportedConnections = ({
     };
 
     const closePopup = () => {
-        popupRef.current.leafletElement.closePopup();
+        popupRef.current._close();
     };
 
     return (

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import '../../stylesheets/deleteConnectionPopup.scss';
 
-const DeleteConnectionPopup = ({closePopup, deleteConnection, osm, gtfs}) => {
+const DeleteConnectionPopup = ({closePopup, deleteConnection, osm, gtfs, id}) => {
     return (
         <div>
             <div className="global-styles__text--center-align connection-popup__message">
@@ -14,6 +14,7 @@ const DeleteConnectionPopup = ({closePopup, deleteConnection, osm, gtfs}) => {
                     className="btn btn-outline-success btn-sm"
                     onClick={() => {
                         deleteConnection(osm, gtfs);
+                        closePopup();
                     }}>
                     Confirm
                 </button>
