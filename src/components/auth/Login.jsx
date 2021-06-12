@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {NavLink, Redirect} from 'react-router-dom';
 import {useFormik} from 'formik';
 import {useTranslation} from 'react-i18next';
@@ -8,7 +8,7 @@ import {unsafeLoginApiError} from '../../utilities/utilities';
 import client from '../../api/apiInstance';
 
 import '../../stylesheets/login.scss';
-import colors from '../../stylesheets/colors.module.scss';
+import colors from '../../stylesheets/config/colors.module.scss';
 
 const Login = () => {
     const {t} = useTranslation();

@@ -11,6 +11,7 @@ const TileStops = ({
     isActiveStopClicked,
     stops,
     isConnectionMode,
+    isViewMode,
 }) => {
     return (
         <Fragment>
@@ -30,7 +31,7 @@ const TileStops = ({
                                         busStop.name,
                                         busStop.number,
                                     );
-                                } else {
+                                } else if (isViewMode) {
                                     isActiveStopClicked(busStop.id)
                                         ? clickBusStop()
                                         : clickBusStop(busStop);

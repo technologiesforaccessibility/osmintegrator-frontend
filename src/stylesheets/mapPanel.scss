@@ -1,0 +1,18 @@
+@import 'config/colors.module';
+
+.map-panel__container {
+  width: 100%;
+  border-top: 1px solid $color-internal-border;
+  padding-top: 10px;
+}
+
+.map-panel__button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+}
+
+
+

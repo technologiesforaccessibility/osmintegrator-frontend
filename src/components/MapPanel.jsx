@@ -1,66 +1,78 @@
-import React, {Fragment, useContext} from 'react';
+import React, {useContext} from 'react';
 
 import {MapContext} from './contexts/MapContextProvider';
 import ConnectionSidePanel from './ConnectionSidePanel';
+import CustomBlockButton from './customs/CustomBlockButton';
+
+import '../stylesheets/mapPanel.scss';
+import buttonStyle from '../stylesheets/modules/mapPanelButton.module.scss';
 
 const MapPanel = () => {
-    const {
-        showSingleTile,
-        isConnectionMode,
-        singleTileToggle,
-        connectionModeToggle,
-        flush,
-    } = useContext(MapContext);
-    return (
-        <Fragment>
-            {showSingleTile && (
-                <Fragment>
-                    <div
-                        className="form-check"
-                        style={{paddingBottom: '1.25rem'}}>
-                        <input
-                            className="form-check-input"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                            checked={isConnectionMode}
-                            onClick={e => {
-                                console.log(e.target.checked);
-                                connectionModeToggle(e.target.checked);
-                            }}
-                        />
-                        <label
-                            className="form-check-label"
-                            htmlFor="flexCheckDefault">
-                            Connect stops?
-                        </label>
-                    </div>
-                    {isConnectionMode && <ConnectionSidePanel />}
+  const {
+    showSingleTile,
+    isViewMode,
+    isReportMapMode,
+    isConnectionMode,
+    singleTileToggle,
+    viewModeToggle,
+    reportModeToggle,
+    connectionModeToggle,
+    flush,
+  } = useContext(MapContext);
 
-                    <div
-                        className="form-check"
-                        style={{paddingBottom: '1.25rem'}}>
-                        <input
-                            className="form-check-input"
-                            type="checkbox"
-                            value=""
-                            checked="checked"
-                            id="flexCheckDefault"
-                            onClick={e => {
-                                singleTileToggle(e.target.checked);
-                                e.target.checked && flush();
-                            }}
-                        />
-                        <label
-                            className="form-check-label"
-                            htmlFor="flexCheckDefault">
-                            Show single tile
-                        </label>
-                    </div>
-                </Fragment>
-            )}
-        </Fragment>
-    );
+  const radios = [
+    {
+      title: 'See bus stop details',
+      isChecked: isViewMode,
+      onClickHandler: e => {
+        viewModeToggle(e.target.checked);
+      },
+    },
+    {
+      title: 'Create report on map',
+      isChecked: isReportMapMode,
+      onClickHandler: e => {
+        reportModeToggle(e.target.checked);
+      },
+    },
+    {
+      title: 'Create new connection',
+      isChecked: isConnectionMode,
+      onClickHandler: e => {
+        connectionModeToggle(e.target.checked);
+      },
+    },
+  ];
+
+  return (
+    <>
+      {showSingleTile && (
+        <div className="map-panel__container">
+          <div className="map-panel__button">
+            <CustomBlockButton
+              buttonTitle={'Hide tile'}
+              style={buttonStyle}
+              handleOnClick={() => {
+                singleTileToggle(false);
+                flush();
+              }}
+            />
+          </div>
+          <div>
+            {radios.map(({title, isChecked, onClickHandler}) => (
+              <div className="form-check">
+                <input className="form-check-input" type="radio" checked={isChecked} onClick={onClickHandler} />
+                <label className="form-check-label" htmlFor="flexRadioDefault1">
+                  {title}
+                </label>
+              </div>
+            ))}
+          </div>
+          {isConnectionMode && <ConnectionSidePanel />}
+        </div>
+      )}
+    </>
+  );
 };
 
 export default MapPanel;

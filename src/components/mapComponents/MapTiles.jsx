@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {Rectangle, Tooltip} from 'react-leaflet';
 
-import colors from '../../stylesheets/colors.module.scss';
+import colors from '../../stylesheets/config/colors.module.scss';
 
 const MapTiles = ({showSingleTile, tiles, activeTile, setActiveTile}) => {
     return (

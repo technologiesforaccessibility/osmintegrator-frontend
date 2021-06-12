@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState, useRef} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {MapContainer, TileLayer} from 'react-leaflet';
 
 import NewConnections from './mapComponents/NewConnections';
@@ -34,6 +34,7 @@ export const MapView = () => {
         showSingleTile,
         singleTileToggle,
         areStopsVisible,
+        isViewMode,
         isConnectionMode,
         displayPropertyGrid,
         updateConnectionData,
@@ -176,6 +177,7 @@ export const MapView = () => {
                 isActiveStopClicked={isActiveStopClicked}
                 clickBusStop={clickBusStop}
                 isConnectionMode={isConnectionMode}
+                isViewMode={isViewMode}
             />
         </MapContainer>
     );

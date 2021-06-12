@@ -6,7 +6,7 @@ import client from '../../api/apiInstance';
 import {unsafeLoginApiError} from '../../utilities/utilities';
 
 import '../../stylesheets/recover.scss';
-import colors from '../../stylesheets/colors.module.scss';
+import colors from '../../stylesheets/config/colors.module.scss';
 
 class Recover extends Component {
     constructor(props) {

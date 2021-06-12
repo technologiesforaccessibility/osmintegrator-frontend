@@ -3,78 +3,105 @@ import React, {createContext, useState} from 'react';
 export const MapContext = createContext();
 
 const MapContextProvider = ({children}) => {
-    const [showSingleTile, setShowSingleTile] = useState(false);
-    const [isConnectionMode, setIsConnectionMode] = useState(false);
-    const [isMapActive, setIsMapActive] = useState(false);
-    const [areStopsVisible, setAreStopsVisible] = useState(false);
+  const [showSingleTile, setShowSingleTile] = useState(false);
 
-    const [propertyGrid, setProprtyGrid] = useState(null);
-    const [rerenderConnections, setRerenderConnections] = useState(false);
+  const [isMapActive, setIsMapActive] = useState(false);
+  const [areStopsVisible, setAreStopsVisible] = useState(false);
 
-    const [connectionSidePanelMessage, setConnectionSidePanelMessage] = useState(null);
-    const [connectionData, setConnectionData] = useState([]);
+  const [propertyGrid, setPropertyGrid] = useState(null);
+  const [rerenderConnections, setRerenderConnections] = useState(false);
 
+  const [connectionSidePanelMessage, setConnectionSidePanelMessage] = useState(null);
+  const [connectionData, setConnectionData] = useState([]);
 
-    const singleTileToggle = bool => {
-        setShowSingleTile(bool);
-        setAreStopsVisible(bool);
-    };
+  const [isViewMode, setIsViewMode] = useState(true);
+  const [isReportMapMode, setIsReportMapMode] = useState(false);
+  const [isConnectionMode, setIsConnectionMode] = useState(false);
 
-    // Connection mode active means property grid cant be displayed and vice versa
-    const connectionModeToggle = () => {
-        setIsConnectionMode(isConnectionMode => !isConnectionMode);
-    };
+  const singleTileToggle = isActive => {
+    setShowSingleTile(isActive);
+    setAreStopsVisible(isActive);
+    viewModeToggle();
+  };
 
-    const activeMapToggle = bool => {
-        setIsMapActive(bool);
-    };
-
-    const displayPropertyGrid = content => {
-        setProprtyGrid(content);
+  const viewModeToggle = () => {
+    if (!isViewMode) {
+      setIsViewMode(true);
+      setIsReportMapMode(false);
+      setIsConnectionMode(false);
     }
+  };
 
-    const updateConnectionData = data => {
-        if (data) {
-            setConnectionData( oldState => [...oldState, data])
-        }
+  const reportModeToggle = () => {
+    if (!isReportMapMode) {
+      setIsViewMode(false);
+      setIsReportMapMode(true);
+      setIsConnectionMode(false);
     }
+  };
 
-    const updateConnectionMessage = info => {
-        setConnectionSidePanelMessage(info);
+  const connectionModeToggle = () => {
+    if (!isConnectionMode) {
+      setIsViewMode(false);
+      setIsReportMapMode(false);
+      setIsConnectionMode(true);
     }
+  };
 
-    const flush = () => {
-        setConnectionData([]);
-        setProprtyGrid(null);
+  const activeMapToggle = bool => {
+    setIsMapActive(bool);
+  };
+
+  const displayPropertyGrid = content => {
+    setPropertyGrid(content);
+  };
+
+  const updateConnectionData = data => {
+    if (data) {
+      setConnectionData(oldState => [...oldState, data]);
     }
+  };
 
-    const shouldRenderConnections = (bool) => {
-            setRerenderConnections(bool);
-    }
+  const updateConnectionMessage = info => {
+    setConnectionSidePanelMessage(info);
+  };
 
-    return (
-        <MapContext.Provider
-            value={{
-                showSingleTile,
-                isConnectionMode,
-                isMapActive,
-                areStopsVisible,
-                propertyGrid,
-                connectionSidePanelMessage,
-                connectionData,
-                rerenderConnections,
-                singleTileToggle,
-                connectionModeToggle,
-                activeMapToggle,
-                displayPropertyGrid,
-                updateConnectionData,
-                updateConnectionMessage,
-                flush,
-                shouldRenderConnections
-            }}>
-            {children}
-        </MapContext.Provider>
-    );
+  const flush = () => {
+    setConnectionData([]);
+    setPropertyGrid(null);
+  };
+
+  const shouldRenderConnections = bool => {
+    setRerenderConnections(bool);
+  };
+
+  return (
+    <MapContext.Provider
+      value={{
+        showSingleTile,
+        isViewMode,
+        isReportMapMode,
+        isConnectionMode,
+        isMapActive,
+        areStopsVisible,
+        propertyGrid,
+        connectionSidePanelMessage,
+        connectionData,
+        rerenderConnections,
+        singleTileToggle,
+        activeMapToggle,
+        displayPropertyGrid,
+        updateConnectionData,
+        updateConnectionMessage,
+        flush,
+        shouldRenderConnections,
+        viewModeToggle,
+        reportModeToggle,
+        connectionModeToggle,
+      }}>
+      {children}
+    </MapContext.Provider>
+  );
 };
 
 export default MapContextProvider;
