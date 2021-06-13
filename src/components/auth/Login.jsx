@@ -9,6 +9,7 @@ import client from '../../api/apiInstance';
 
 import '../../stylesheets/login.scss';
 import colors from '../../stylesheets/colors.module.scss';
+import FooterContact from "../FooterContact";
 
 const Login = () => {
     const {t} = useTranslation();
@@ -97,6 +98,7 @@ const Login = () => {
                     </span>
                 )}
             </div>
+            {/*<FooterContact/>*/}
         </React.Fragment>
     );
 };
