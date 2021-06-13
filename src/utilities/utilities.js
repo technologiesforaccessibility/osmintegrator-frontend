@@ -5,7 +5,6 @@ import iconBlack from '../assets/bus_stop_icon_black_new.png';
 import iconPink from '../assets/bus_stop_icon_pink_new.png';
 import iconGrey from '../assets/bus_stop_icon_grey.png';
 import iconPurple from '../assets/bus_stop_icon_purple.png';
-import {formError400Text} from "./utilities-texts";
 
 const comparePasswords = (pass1, pass2) => {
     return pass1 === pass2;
@@ -57,15 +56,14 @@ const unsafeApiError = (error, userMessage) => {
     }
 };
 
-const unsafeLoginApiError = (error) => {
+const unsafeFormApiError = (error, translate, option) => {
     if (error.status === 401) {
-        return (error.error.message)
+        return(translate(`${option}.401`))
     }
     if (error.status === 400) {
-        return (formError400Text())
+        return (translate(400))
     } else {
-        console.log('Undefined authentication problem');
-        return null;
+        return (translate('unrecognizedProblem'))
     }
 };
 
@@ -76,7 +74,7 @@ export {
     getEmailFromPath,
     isPasswordStrong,
     getBusStopIcon,
-    unsafeLoginApiError
+    unsafeFormApiError
 };
 
 const getBusStopColor = busProperty => {

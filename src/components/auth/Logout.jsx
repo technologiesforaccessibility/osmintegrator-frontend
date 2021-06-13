@@ -1,46 +1,39 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Redirect} from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
 
 import colors from '../../stylesheets/colors.module.scss';
 
-class Logout extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            shouldRedirect: false,
-        };
-    }
+const Logout = () => {
+  const {t} = useTranslation();
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
-    componentDidMount() {
-        setTimeout(() => this.proceedLogOut(), 7000);
-    }
+  useEffect(() => {
+    setTimeout(() => proceedLogOut(), 5000);
+  }, []);
 
-    proceedLogOut = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('tokenRefresh');
-        this.setState({shouldRedirect: true});
-    };
+  const proceedLogOut = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('tokenRefresh');
+    setShouldRedirect(true);
+  };
 
-    render() {
-        if (this.state.shouldRedirect) {
-            return <Redirect to="/auth/login" />;
-        }
-
-        return (
-            <React.Fragment>
-                <h1 className="auth-title">You have been logged out</h1>
-                <div className="auth-info-placeholder centered" value="">
-                    <span
-                        style={{
-                            paddingTop: '10px',
-                            color: colors.colorMessageSuccess,
-                        }}>
-                        You will be redirect to login page soon.
-                    </span>
-                </div>
-            </React.Fragment>
-        );
-    }
-}
+  return (
+    <>
+      {shouldRedirect && <Redirect to="/auth/login" />}
+      <h1 className="auth-title">{t('logout.title')} </h1>
+      <div className="auth-info-placeholder centered">
+        <span
+          style={{
+            paddingTop: '10px',
+            color: colors.colorMessageSuccess,
+          }}>
+          {' '}
+          {t('logout.message')}
+        </span>
+      </div>
+    </>
+  );
+};
 
 export default Logout;
