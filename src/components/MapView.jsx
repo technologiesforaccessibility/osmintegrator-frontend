@@ -96,6 +96,7 @@ export const MapView = () => {
   // }ks
 
   const createConnection = (coordinates, id, stopType, name, ref) => {
+
     if (connectionData.length < 2) {
       const isOsm = stopType === 0;
       const entryPoint = {coordinates, id, isOsm, name, ref};
@@ -109,6 +110,7 @@ export const MapView = () => {
       }
       updateConnectionData(entryPoint);
     }
+
   };
 
   const getTileStops = async id => {
