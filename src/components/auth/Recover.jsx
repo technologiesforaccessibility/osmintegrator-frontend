@@ -7,7 +7,7 @@ import client from '../../api/apiInstance';
 import {unsafeFormApiError} from '../../utilities/utilities';
 
 import '../../stylesheets/recover.scss';
-import colors from '../../stylesheets/colors.module.scss';
+import colors from '../../stylesheets/config/colors.module.scss';
 
 
 const Recover = () => {

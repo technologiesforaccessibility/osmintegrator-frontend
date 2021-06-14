@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {Polyline} from 'react-leaflet';
 
-import colors from '../../stylesheets/colors.module.scss';
+import colors from '../../stylesheets/config/colors.module.scss';
 
 const NewConnections = ({connections, showSingleTile}) => {
     return (

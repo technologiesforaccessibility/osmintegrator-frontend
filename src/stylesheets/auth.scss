@@ -1,5 +1,5 @@
-@import 'colors.module';
-@import 'authMixins';
+@import 'config/colors.module';
+@import 'config/authMixins';
 
 .auth-area {
   @include auth-area;

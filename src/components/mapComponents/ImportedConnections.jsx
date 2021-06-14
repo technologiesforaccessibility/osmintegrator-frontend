@@ -6,7 +6,7 @@ import {
     getPosition,
 } from '../../utilities/mapUtilities';
 
-import colors from '../../stylesheets/colors.module.scss';
+import colors from '../../stylesheets/config/colors.module.scss';
 import client from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';
 import {unsafeApiError} from '../../utilities/utilities';

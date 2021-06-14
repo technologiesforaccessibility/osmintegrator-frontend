@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Redirect} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
-import colors from '../../stylesheets/colors.module.scss';
+import colors from '../../stylesheets/config/colors.module.scss';
 
 const Logout = () => {
   const {t} = useTranslation();

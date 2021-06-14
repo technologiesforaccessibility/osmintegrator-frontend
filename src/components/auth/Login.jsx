@@ -8,7 +8,7 @@ import {unsafeFormApiError} from '../../utilities/utilities';
 import client from '../../api/apiInstance';
 
 import '../../stylesheets/login.scss';
-import colors from '../../stylesheets/colors.module.scss';
+import colors from '../../stylesheets/config/colors.module.scss';
 
 const Login = () => {
   const {t} = useTranslation();
