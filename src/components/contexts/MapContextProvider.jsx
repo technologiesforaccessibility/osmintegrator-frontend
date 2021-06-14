@@ -48,9 +48,7 @@ const MapContextProvider = ({children}) => {
     }
   };
 
-  const activeMapToggle = bool => {
-    setIsMapActive(bool);
-  };
+  const activeMapToggle = setIsMapActive;
 
   const displayPropertyGrid = setPropertyGrid;
 
