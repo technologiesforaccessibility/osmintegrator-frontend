@@ -9,7 +9,6 @@ import {unsafeFormApiError} from '../../utilities/utilities';
 import '../../stylesheets/recover.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
 
-
 const Recover = () => {
   const {t} = useTranslation();
 
