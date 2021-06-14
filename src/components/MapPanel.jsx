@@ -17,29 +17,29 @@ const MapPanel = () => {
     viewModeToggle,
     reportModeToggle,
     connectionModeToggle,
-    flush,
+    reset,
   } = useContext(MapContext);
 
   const radios = [
     {
       title: 'See bus stop details',
       isChecked: isViewMode,
-      onClickHandler: e => {
-        viewModeToggle(e.target.checked);
+      onClickHandler: () => {
+        viewModeToggle();
       },
     },
     {
       title: 'Create report on map',
       isChecked: isReportMapMode,
-      onClickHandler: e => {
-        reportModeToggle(e.target.checked);
+      onClickHandler: () => {
+        reportModeToggle();
       },
     },
     {
       title: 'Create new connection',
       isChecked: isConnectionMode,
-      onClickHandler: e => {
-        connectionModeToggle(e.target.checked);
+      onClickHandler: () => {
+        connectionModeToggle();
       },
     },
   ];
@@ -52,9 +52,9 @@ const MapPanel = () => {
             <CustomBlockButton
               buttonTitle={'Hide tile'}
               style={buttonStyle}
-              handleOnClick={() => {
+              onClickHandler={() => {
                 singleTileToggle(false);
-                flush();
+                reset();
               }}
             />
           </div>
@@ -62,7 +62,7 @@ const MapPanel = () => {
             {radios.map(({title, isChecked, onClickHandler}) => (
               <div className="form-check">
                 <input className="form-check-input" type="radio" checked={isChecked} onClick={onClickHandler} />
-                <label className="form-check-label" htmlFor="flexRadioDefault1">
+                <label className="form-check-label">
                   {title}
                 </label>
               </div>

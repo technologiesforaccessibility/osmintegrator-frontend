@@ -15,6 +15,7 @@
     "leaflet": "^1.7.1",
     "node-sass": "^4.14.1",
     "popper.js": "^1.16.1",
+    "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-browser-router": "^2.1.2",
     "react-dom": "^17.0.1",

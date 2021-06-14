@@ -52,9 +52,7 @@ const MapContextProvider = ({children}) => {
     setIsMapActive(bool);
   };
 
-  const displayPropertyGrid = content => {
-    setPropertyGrid(content);
-  };
+  const displayPropertyGrid = setPropertyGrid;
 
   const updateConnectionData = data => {
     if (data) {
@@ -62,18 +60,14 @@ const MapContextProvider = ({children}) => {
     }
   };
 
-  const updateConnectionMessage = info => {
-    setConnectionSidePanelMessage(info);
-  };
+  const updateConnectionMessage = setConnectionSidePanelMessage;
 
-  const flush = () => {
+  const reset = () => {
     setConnectionData([]);
     setPropertyGrid(null);
   };
 
-  const shouldRenderConnections = bool => {
-    setRerenderConnections(bool);
-  };
+  const shouldRenderConnections = setRerenderConnections;
 
   return (
     <MapContext.Provider
@@ -93,7 +87,7 @@ const MapContextProvider = ({children}) => {
         displayPropertyGrid,
         updateConnectionData,
         updateConnectionMessage,
-        flush,
+        reset,
         shouldRenderConnections,
         viewModeToggle,
         reportModeToggle,

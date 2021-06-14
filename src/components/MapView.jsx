@@ -162,7 +162,6 @@ export const MapView = () => {
                 stops={allStops}
                 importedConnections={importedConnections}
                 shouldRenderConnections={shouldRenderConnections}
-                // closePopups = {closePopups}
             />
             <MapTiles
                 showSingleTile={showSingleTile}

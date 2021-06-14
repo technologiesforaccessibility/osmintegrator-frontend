@@ -16,7 +16,7 @@ const ConnectionSidePanel = () => {
         connectionSidePanelMessage,
         updateConnectionMessage,
         connectionData,
-        flush,
+        reset,
         shouldRenderConnections
     } = useContext(MapContext);
 
@@ -30,7 +30,7 @@ const ConnectionSidePanel = () => {
                     },
                 );
                 shouldRenderConnections(true)
-                flush();
+                reset();
                 updateConnectionMessage('Saved successfully');
             } catch (error) {
                 unsafeApiError(error);
@@ -68,7 +68,7 @@ const ConnectionSidePanel = () => {
             </button>
             <button
                 onClick={() => {
-                    flush();
+                    reset();
                     updateConnectionMessage(null);
                 }}>
                 Cancel
