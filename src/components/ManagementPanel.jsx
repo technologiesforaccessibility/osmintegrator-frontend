@@ -12,7 +12,7 @@ import CustomDropdownMenu from './customs/CustomDropdownMenu';
 import CustomCheckbox from './customs/CustomCheckbox';
 
 import '../stylesheets/managementPanel.scss';
-import colors from '../stylesheets/colors.module.scss';
+import colors from '../stylesheets/config/colors.module.scss';
 import ManagementPanelMap from './ManagementPanelMap';
 
 function ManagementPanel() {

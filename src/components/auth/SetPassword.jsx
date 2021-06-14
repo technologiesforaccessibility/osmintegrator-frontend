@@ -1,136 +1,100 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
+import {useFormik} from 'formik';
 import {Redirect} from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
 
 import {
-    comparePasswords,
-    isPasswordStrong,
-    getEmailFromPath,
-    getTokenFromPath,
-    unsafeLoginApiError,
+  comparePasswords,
+  isPasswordStrong,
+  getEmailFromPath,
+  getTokenFromPath,
+  unsafeFormApiError,
 } from '../../utilities/utilities';
-import {
-    changedPasswordText,
-    expiredTokenText,
-} from '../../utilities/utilities-texts';
+
 import {noTokenHeaders} from '../../config/apiConfig';
 import client from '../../api/apiInstance';
 
 import '../../stylesheets/setPassword.scss';
-import colors from '../../stylesheets/colors.module.scss';
+import colors from '../../stylesheets/config/colors.module.scss';
 
-class SetPassword extends Component {
-    constructor(props) {
-        super(props);
+const SetPassword = () => {
+  const {t} = useTranslation();
 
-        this.state = {
-            isMessageShown: '',
-            message: '',
-            messageColor: '',
-            shouldRedirect: false,
-        };
+  const [message, setMessage] = useState(null);
+  const [messageColor, setMessageColor] = useState(null);
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
-        this.change = this.change.bind(this);
-        this.submit = this.submit.bind(this);
-    }
+  const formik = useFormik({
+    initialValues: {
+      newPassword1: '',
+      newPassword2: '',
+    },
+    onSubmit: ({newPassword1, newPassword2}) => {
+      runUpdatePassword(newPassword1, newPassword2);
+    },
+  });
 
-    change(e) {
-        this.setState({
-            [e.target.id]: e.target.value,
-        });
-    }
-
-    setMessageColor = color => {
-        this.setState({messageColor: color});
-    };
-
-    updateMessage = message => {
-        this.setState({
-            message: `${message === undefined ? message : null}`,
-        });
-    };
-
-    async submit(e) {
-        e.preventDefault();
-
-        if (
-            comparePasswords(
-                this.state.password1Reset,
-                this.state.password2Reset,
-            ) &&
-            isPasswordStrong(this.state.password1Reset)
-        ) {
-            try {
-                await client.api.accountResetPasswordCreate(
-                    {
-                        email: getEmailFromPath(window.location.href),
-                        password: this.state.password1Reset,
-                        token: getTokenFromPath(window.location.href),
-                    },
-                    {
-                        headers: noTokenHeaders(),
-                    },
-                );
-
-                this.setMessageColor(colors.colorMessageSuccess);
-                this.showMessage(changedPasswordText());
-                setTimeout(() => this.setState({shouldRedirect: true}), 5000);
-            } catch (error) {
-                unsafeLoginApiError(error);
-                this.setMessageColor(colors['colorMessageFail']);
-                this.updateMessage(expiredTokenText());
-            }
-        }
-    }
-
-    render() {
-        if (this.state.shouldRedirect) {
-            return <Redirect to="/auth/login" />;
-        }
-        return (
-            <React.Fragment>
-                <h1 className="auth-title">Set a new password</h1>
-                <h3 className="subtitle">
-                    {getEmailFromPath(window.location.href)}
-                </h3>
-                <form name="recover-form" onSubmit={e => this.submit(e)}>
-                    <div className="inputbox-spacer">
-                        <input
-                            type="password"
-                            id="password1Reset"
-                            placeholder="New password"
-                            onChange={e => {
-                                this.change(e);
-                            }}
-                            onClick={this.updateMessage()}
-                        />
-                    </div>
-                    <div className="inputbox-spacer">
-                        <input
-                            type="password"
-                            id="password2Reset"
-                            placeholder="Confirm password"
-                            onChange={e => {
-                                this.change(e);
-                            }}
-                            onClick={this.updateMessage()}
-                        />
-                    </div>
-                    <div className="setPassword-button-area">
-                        <button type="submit" id="button-set-password">
-                            Set new password
-                        </button>
-                    </div>
-                </form>
-                <div className="centered auth-info-placeholder" value="">
-                    {this.state.message && (
-                        <span style={{color: this.state.messageColor}}>
-                            {this.state.message}
-                        </span>
-                    )}
-                </div>
-            </React.Fragment>
+  const runUpdatePassword = async (password1, password2) => {
+    if (comparePasswords(password1, password2) && isPasswordStrong(password1)) {
+      try {
+        await client.api.accountResetPasswordCreate(
+          {
+            email: getEmailFromPath(window.location.href),
+            password: password1,
+            token: getTokenFromPath(window.location.href),
+          },
+          {
+            headers: noTokenHeaders(),
+          },
         );
+        setMessageColor(colors.colorMessageSuccess);
+        setMessage(t('setPassword.changedPassword'));
+        setTimeout(() => setShouldRedirect(true), 5000);
+      } catch (error) {
+        setMessageColor(colors['colorMessageFail']);
+        setMessage(unsafeFormApiError(error, t, 'setPassword'));
+      }
+    } else {
+      setMessageColor(colors['colorMessageFail']);
+      setMessage(t('setPassword.invalidPasswords'));
     }
-}
+  };
 
+  return (
+    <>
+      {shouldRedirect && <Redirect to="/auth/login" />}
+
+      <h1 className="auth-title">{t('setPassword.title')}</h1>
+      <h3 className="subtitle">{getEmailFromPath(window.location.href)}</h3>
+      <form onSubmit={formik.handleSubmit}>
+        <div className="inputbox-spacer">
+          <input
+            type="password"
+            id="newPassword1"
+            placeholder={t('setPassword.password')}
+            onChange={formik.handleChange}
+            value={formik.values.newPassword1}
+          />
+        </div>
+        <div className="inputbox-spacer">
+          <input
+            type="password"
+            id="newPassword2"
+            placeholder={t('setPassword.repeatPassword')}
+            onChange={formik.handleChange}
+            value={formik.values.newPassword2}
+          />
+        </div>
+        <div className="setPassword-button-area">
+          <button type="submit" id="button-set-password">
+            {t('setPassword.button')}
+          </button>
+        </div>
+      </form>
+      <div className="centered auth-info-placeholder">
+        {message && <span style={{color: messageColor}}>{message}</span>}
+      </div>
+    </>
+  );
+};
 export default SetPassword;
