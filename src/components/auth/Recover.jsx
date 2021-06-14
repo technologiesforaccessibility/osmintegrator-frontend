@@ -5,6 +5,7 @@ import {useTranslation} from 'react-i18next';
 import {noTokenHeaders} from '../../config/apiConfig';
 import client from '../../api/apiInstance';
 import {unsafeFormApiError} from '../../utilities/utilities';
+import FooterContact from "../FooterContact";
 
 import '../../stylesheets/recover.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
@@ -63,6 +64,7 @@ const Recover = () => {
       <div className="centered auth-info-placeholder">
         {message && <span style={{color: messageColor}}>{message}</span>}
       </div>
+      <FooterContact />
     </>
   );
 };

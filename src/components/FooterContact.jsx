@@ -1,16 +1,19 @@
 import React from 'react';
-import {NavLink} from "react-router-dom";
+import {useTranslation} from 'react-i18next';
 
-import '../stylesheets/footerContact.scss'
+import '../stylesheets/footerContact.scss';
+
+const {REACT_APP_CONTACT_FORM} = process.env;
 
 const FooterContact = () => {
-    return (
-        <div className="footer__container" >
-            Login problem? Need to contact? Send us a  <NavLink to={"/googleForm/"}>
-                message
-            </NavLink>
-        </div>
-    );
+  const {t} = useTranslation();
+
+  return (
+    <div className="footer__container">
+      {t('contactForm.description')}
+      <a target="_blank" rel="noopener noreferrer" href={REACT_APP_CONTACT_FORM}>{t('contactForm.message')}</a>
+    </div>
+  );
 };
 
 export default FooterContact;

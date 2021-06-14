@@ -56,7 +56,7 @@ class Dashboard extends Component {
                         <Switch>
                             <Route path="/profile" component={ProfileRouter} />
                             <Route path="/manage" component={ManagementPanel} />
-                            <Route path="/" render={() => <DashboardMain />} />
+                            <Route exact path="/" render={() => <DashboardMain />} />
                         </Switch>
                     </div>
                 </div>

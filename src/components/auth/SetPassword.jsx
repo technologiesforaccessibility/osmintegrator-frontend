@@ -10,6 +10,7 @@ import {
   getTokenFromPath,
   unsafeFormApiError,
 } from '../../utilities/utilities';
+import FooterContact from "../FooterContact";
 
 import {noTokenHeaders} from '../../config/apiConfig';
 import client from '../../api/apiInstance';
@@ -94,6 +95,7 @@ const SetPassword = () => {
       <div className="centered auth-info-placeholder">
         {message && <span style={{color: messageColor}}>{message}</span>}
       </div>
+      <FooterContact />
     </>
   );
 };
