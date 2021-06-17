@@ -6,6 +6,7 @@ import {useTranslation} from 'react-i18next';
 import {noTokenHeaders} from '../../config/apiConfig';
 import {unsafeFormApiError} from '../../utilities/utilities';
 import client from '../../api/apiInstance';
+import FooterContact from "../FooterContact";
 
 import '../../stylesheets/login.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
@@ -80,6 +81,7 @@ const Login = () => {
       <div className="auth-info-placeholder centered">
         {message && <span style={{color: colors['colorMessageFail']}}>{message}</span>}
       </div>
+      <FooterContact />
     </>
   );
 };

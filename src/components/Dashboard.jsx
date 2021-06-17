@@ -46,6 +46,7 @@ class Dashboard extends Component {
       <React.Fragment>
         <DashboardHeader isLoggedIn={this.state.isLoggedIn} />
 
+
         <div className="container-fluid">
           <div className="row">
             <DashboardSiderbar
@@ -60,6 +61,7 @@ class Dashboard extends Component {
             </Switch>
           </div>
         </div>
+
 
         <script
           src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"

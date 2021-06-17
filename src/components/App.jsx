@@ -1,10 +1,15 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
+
 import Dashboard from './Dashboard';
 import Auth from './Auth';
+import MapContextProvider from './contexts/MapContextProvider';
+
 import '../stylesheets/app.scss';
+
 import '../stylesheets/globalStyles.scss';
 import MapContextProvider from './contexts/MapContextProvider';
+
 
 class App extends Component {
   render() {

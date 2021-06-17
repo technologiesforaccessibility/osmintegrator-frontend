@@ -96,19 +96,21 @@ export const MapView = () => {
   // }ks
 
   const createConnection = (coordinates, id, stopType, name, ref) => {
-    const isOsm = stopType === 0;
-    const entryPoint = {coordinates, id, isOsm, name, ref};
 
-    if (connectionData.length === 1) {
-      if (connectionData[0].isOsm === isOsm) {
-        updateConnectionInfo("Stops mustn't be the same kind!");
-        return;
+    if (connectionData.length < 2) {
+      const isOsm = stopType === 0;
+      const entryPoint = {coordinates, id, isOsm, name, ref};
+
+      if (connectionData.length === 1) {
+        if (!(connectionData[0].isOsm ^ isOsm)) {
+          updateConnectionInfo("Exactly one stop should be OSM type!");
+          return;
+        }
+        connectionInfo && updateConnectionInfo(null);
       }
-      if (connectionInfo) {
-        updateConnectionInfo(null);
-      }
+      updateConnectionData(entryPoint);
     }
-    updateConnectionData(entryPoint);
+
   };
 
   const getTileStops = async id => {

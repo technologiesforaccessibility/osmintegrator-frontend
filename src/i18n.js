@@ -49,10 +49,13 @@ i18n
             expiredToken: 'It looks like your token has expired. \n Reset your password again.',
             changedPassword: 'Password has been changed! \n You will be redirected do login page soon',
           },
-          logout:{title: 'You have been logged out',
-          message: 'You will be redirect to login page soon.'},
+          logout: {title: 'You have been logged out', message: 'You will be redirect to login page soon.'},
           map: {},
-          sidebar: {},
+          sidebar: {contact : 'Contact us'},
+          contactForm: {
+            description: 'Login problem? Need to contact? Send us a ',
+            message: 'message',
+          },
         },
       },
       pl: {
