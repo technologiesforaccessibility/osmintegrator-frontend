@@ -101,7 +101,7 @@ export const MapView = () => {
       const entryPoint = {coordinates, id, isOsm, name, ref};
 
       if (connectionData.length === 1) {
-        if (connectionData[0].isOsm === isOsm) {
+        if (!(connectionData[0].isOsm ^ isOsm)) {
           updateConnectionInfo("Stops mustn't be the same kind!");
           return;
         }
