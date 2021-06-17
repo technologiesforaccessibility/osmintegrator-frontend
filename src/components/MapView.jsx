@@ -102,7 +102,7 @@ export const MapView = () => {
 
       if (connectionData.length === 1) {
         if (!(connectionData[0].isOsm ^ isOsm)) {
-          updateConnectionInfo("Stops mustn't be the same kind!");
+          updateConnectionInfo("Exactly one stop should be OSM type!");
           return;
         }
         connectionInfo && updateConnectionInfo(null);
