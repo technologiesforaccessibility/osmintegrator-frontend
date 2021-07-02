@@ -5,6 +5,7 @@ import NewConnections from './mapComponents/NewConnections';
 import ImportedConnections from './mapComponents/ImportedConnections';
 import MapTiles from './mapComponents/MapTiles';
 import TileStops from './mapComponents/TileStops';
+import ReportMarkers from "./mapComponents/ReportMarkers";
 import {MapContext} from './contexts/MapContextProvider';
 import {basicHeaders} from '../config/apiConfig';
 import client from '../api/apiInstance';
@@ -19,6 +20,8 @@ export const MapView = () => {
 
   const [tiles, setTiles] = useState([]);
   const [allStops, setAllStops] = useState([]);
+  const [reportMarkers, setReportMarkers] = useState([]);
+  const [activeReportMarker, setActiveReportMarker] = useState(null);
   const [activeTile, setActiveTile] = useState({});
   const [importedConnections, setImportedConnections] = useState([]);
 
@@ -89,11 +92,10 @@ export const MapView = () => {
     }
   }, [rerenderConnections]);
 
-  // addMarker = (e) => {
-  //     const {markers} = this.state
-  //     markers.push(e.latlng)
-  //     this.setState({markers})
-  // }ks
+  const addReportMarker = (e) => {
+      setReportMarkers(oldState => [...oldState, e.latlng])
+      setActiveReportMarker(e.latlng)
+  }
 
   const createConnection = (coordinates, id, stopType, name, ref) => {
 
@@ -158,7 +160,7 @@ export const MapView = () => {
         importedConnections={importedConnections}
         shouldRenderConnections={shouldRenderConnections}
       />
-      <MapTiles showSingleTile={showSingleTile} tiles={tiles} activeTile={activeTile} setActiveTile={setActiveTile} />
+      <MapTiles showSingleTile={showSingleTile} tiles={tiles} activeTile={activeTile} setActiveTile={setActiveTile} addReportMarker={addReportMarker} />
       <TileStops
         areStopsVisible={areStopsVisible}
         stops={allStops}
@@ -167,6 +169,10 @@ export const MapView = () => {
         clickBusStop={clickBusStop}
         isConnectionMode={isConnectionMode}
         isViewMode={isViewMode}
+      />
+      <ReportMarkers
+      reportMarkers={reportMarkers}
+      activeReportMarker={activeReportMarker}
       />
     </MapContainer>
   );
