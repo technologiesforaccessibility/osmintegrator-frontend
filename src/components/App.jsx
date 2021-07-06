@@ -18,7 +18,8 @@ class App extends Component {
           <UserContextProvider>
             <MapContextProvider>
               <Route path={['/auth', '/Account']} component={Auth} />
-              <Route path={['/profile', '/manage', '/']} component={Dashboard} />
+              <Route path={['/profile', '/manage']} component={Dashboard} />
+              <Route exact path='/' component={Dashboard} />
             </MapContextProvider>
           </UserContextProvider>
         </Switch>
