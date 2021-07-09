@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import {Route, Switch} from 'react-router-dom';
+import {connect} from "react-redux";
 
 import DashboardHeader from './DashboardHeader';
 import DashboardSiderbar from './DashboardSiderbar';
 import DashboardMain from './DashboardMain';
 import ProfileRouter from './ProfileRouter';
-import client from '../api/apiInstance';
-import {basicHeaders} from '../config/apiConfig';
 import ManagementPanel from './ManagementPanel';
-import {unsafeApiError} from '../utilities/utilities';
+import {validateLogin} from '../redux/actions/authActions';
 
 import '../stylesheets/dashboard.scss';
 
@@ -16,25 +15,12 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoggedIn: false,
+      propertyGrid: null,
     };
-    this.hasAccess = this.hasAccess.bind(this);
   }
 
   componentDidMount() {
-    this.hasAccess();
-  }
-
-  async hasAccess() {
-    try {
-      await client.api.accountIsTokenValidList({
-        headers: basicHeaders(),
-      });
-      console.log('Valid token');
-      this.setState({isLoggedIn: true});
-    } catch (error) {
-      unsafeApiError(error, 'Token validation error');
-    }
+    this.props.validateLogin();
   }
 
   updatePropertyGrid = newGrid => {
@@ -44,13 +30,12 @@ class Dashboard extends Component {
   render() {
     return (
       <React.Fragment>
-        <DashboardHeader isLoggedIn={this.state.isLoggedIn} />
-
+        <DashboardHeader isLoggedIn={this.props.auth.isLoggedIn} />
 
         <div className="container-fluid">
           <div className="row">
             <DashboardSiderbar
-              isLoggedIn={this.state.isLoggedIn}
+              isLoggedIn={this.props.auth.isLoggedIn}
               connectBusStops={this.canConnectBusStops}
               updatePropertyGrid={this.updatePropertyGrid}
             />
@@ -73,4 +58,12 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+const mapStateToProps = (state) => ({
+  auth: state.auth
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  validateLogin: () => dispatch(validateLogin())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

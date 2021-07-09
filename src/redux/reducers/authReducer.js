@@ -1,6 +1,6 @@
 import {createReducer} from '@reduxjs/toolkit';
 
-import {login} from '../actions/authActions';
+import {login, logout, validateLogin} from '../actions/authActions';
 
 const initialState = {
   isLoggedIn: !!localStorage.getItem('token'),
@@ -10,37 +10,66 @@ const initialState = {
   loading: false
 };
 
+function setTokens(token, refreshToken) {
+  if (token) {
+    localStorage.setItem('token', token);
+  } else {
+    localStorage.removeItem('token');
+  }
+
+  if (refreshToken) {
+    localStorage.setItem('tokenRefresh', refreshToken);
+  } else {
+    localStorage.removeItem('refreshToken');
+  }
+}
+
 const authReducer = createReducer(initialState, (builder) => {
-  builder
-    .addCase(login.pending, (state) => {
-      state.loading = true;
-      state.error = false;
+  function handleRejected(state, action) {
+    state.isLoggedIn = false;
+    state.loading = false;
+    state.error = true;
+
+    if (action.payload) {
+      state.errorMessage = action.payload.message;
+      state.errorStatus = action.payload.status;
+    } else {
       state.errorMessage = undefined;
       state.errorStatus = undefined;
-    })
+    }
+
+    setTokens();
+  }
+
+  function handlePending(state) {
+    state.loading = true;
+    state.error = false;
+    state.errorMessage = undefined;
+    state.errorStatus = undefined;
+  }
+
+  builder
+    .addCase(login.pending, handlePending)
     .addCase(login.fulfilled, (state, action) => {
       state.isLoggedIn = true;
       state.loading = false;
 
-      localStorage.setItem('token', action.payload.token);
-      localStorage.setItem('tokenRefresh', action.payload.refreshToken);
+      const { token, refreshToken } = action.payload;
+
+      setTokens(token, refreshToken);
     })
-    .addCase(login.rejected, (state, action) => {
+    .addCase(login.rejected, handleRejected)
+    .addCase(logout, (state, action) => {
+      state.isLoggedIn = false;
+
+      setTokens();
+    })
+    .addCase(validateLogin.pending, handlePending)
+    .addCase(validateLogin.fulfilled, (state) => {
+      state.isLoggedIn = true;
       state.loading = false;
-      state.error = true;
-
-      if (action.payload) {
-        state.errorMessage = action.payload.message;
-        state.errorStatus = action.payload.status;
-      } else {
-        state.errorMessage = undefined;
-        state.errorStatus = undefined;
-      }
-
-      localStorage.removeItem('token');
-      localStorage.removeItem('tokenRefresh');
     })
-    .addDefaultCase((state, action) => {})
+    .addCase(validateLogin.rejected, handleRejected)
 });
 
 export default authReducer;
