@@ -15,6 +15,8 @@ const Logout = () => {
 
   useEffect(() => {
     setTimeout(() => proceedLogOut(), 5000);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const proceedLogOut = () => {

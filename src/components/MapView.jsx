@@ -71,6 +71,8 @@ export const MapView = () => {
       getTileStops(activeTile.id);
       getTileConnections(activeTile.id);
     }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTile]);
 
   useEffect(() => {
@@ -87,6 +89,8 @@ export const MapView = () => {
     if (rerenderConnections) {
       getConnections();
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rerenderConnections]);
 
   // addMarker = (e) => {
