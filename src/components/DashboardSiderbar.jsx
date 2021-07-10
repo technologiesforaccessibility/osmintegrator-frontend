@@ -4,6 +4,7 @@ import PropertyGrid from './PropertyGrid';
 import MapPanel from './MapPanel';
 import SidebarMenu from './SidebarMenu';
 import LanguageSwitch from './LanguageTest';
+import NewReport from "./NewReport";
 
 import {MapContext} from './contexts/MapContextProvider';
 import RecentlySeenTileList from './RecentlySeenTileList';

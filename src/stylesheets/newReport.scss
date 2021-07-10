@@ -1,0 +1,15 @@
+.report__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.report__form {
+  width: 100%;
+  height: 150px;
+  overflow-x: hidden;
+  border-radius: 10px;
+  border: 1px black solid;
+  resize: none;
+}
