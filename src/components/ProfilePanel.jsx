@@ -9,8 +9,8 @@ const ProfilePanel = () => {
   ];
   return (
     <ul>
-      {linkList.map(({link, title}) => (
-        <li>
+      {linkList.map(({link, title}, index) => (
+        <li key={index}>
           <NavLink to={link}>{title}</NavLink>
         </li>
       ))}
