@@ -199,7 +199,7 @@ function ManagementPanel() {
   const roleCheckboxes =
     selectedUserRoles.length > 0 ? (
       selectedUserRoles.map(({name, value}, index) => {
-        return <CustomCheckbox value={value} name={name} handleOnChange={() => handleCbChange(value, index)} />;
+        return <CustomCheckbox key={index} value={value} name={name} handleOnChange={() => handleCbChange(value, index)} />;
       })
     ) : (
       <p>You havent chosen user yet</p>

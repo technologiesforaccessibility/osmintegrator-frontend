@@ -59,9 +59,9 @@ const MapPanel = () => {
             />
           </div>
           <div>
-            {radios.map(({title, isChecked, onClickHandler}) => (
-              <div className="form-check">
-                <input className="form-check-input" type="radio" checked={isChecked} onClick={onClickHandler} />
+            {radios.map(({title, isChecked, onClickHandler}, index) => (
+              <div className="form-check" key={index}>
+                <input className="form-check-input" type="radio" checked={isChecked} onChange={onClickHandler} />
                 <label className="form-check-label">{title}</label>
               </div>
             ))}

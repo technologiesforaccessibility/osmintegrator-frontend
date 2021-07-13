@@ -1,21 +1,24 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {NavLink, Redirect} from 'react-router-dom';
 import {useFormik} from 'formik';
 import {useTranslation} from 'react-i18next';
+import {useDispatch, useSelector} from 'react-redux';
 
-import {noTokenHeaders} from '../../config/apiConfig';
 import {unsafeFormApiError} from '../../utilities/utilities';
-import client from '../../api/apiInstance';
-import FooterContact from "../FooterContact";
+import FooterContact from '../FooterContact';
+import {login} from '../../redux/actions/authActions';
+import {selectAuthIsLoggedIn, selectAuthLoading, selectAuthError} from '../../redux/selectors/authSelector';
 
 import '../../stylesheets/login.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
 
 const Login = () => {
   const {t} = useTranslation();
+  const dispatch = useDispatch();
 
-  const [message, setMessage] = useState(null);
-  const [shouldRedirect, setShouldRedirect] = useState(false);
+  const isLoggedIn = useSelector(selectAuthIsLoggedIn);
+  const isLoading = useSelector(selectAuthLoading);
+  const error = useSelector(selectAuthError);
 
   const formik = useFormik({
     initialValues: {
@@ -28,23 +31,10 @@ const Login = () => {
   });
 
   const runLogin = async (email, password) => {
-    try {
-      const response = await client.api.accountLoginCreate(
-        {
-          email,
-          password,
-        },
-        {headers: noTokenHeaders()},
-      );
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('tokenRefresh', response.data.refreshToken);
-      setShouldRedirect(true);
-    } catch (error) {
-      setMessage(unsafeFormApiError(error, t, 'login'));
-    }
+    return dispatch(login({ email, password }));
   };
 
-  return shouldRedirect ? (
+  return (!isLoading && isLoggedIn) ? (
     <Redirect to="/" />
   ) : (
     <>
@@ -57,6 +47,7 @@ const Login = () => {
             placeholder="E-mail"
             onChange={formik.handleChange}
             value={formik.values.loginEmail}
+            disabled={isLoading}
           />
         </div>
         <div className="inputbox-spacer">
@@ -66,10 +57,11 @@ const Login = () => {
             placeholder={t('login.password')}
             onChange={formik.handleChange}
             value={formik.values.loginPassword}
+            disabled={isLoading}
           />
         </div>
         <div className="login-button-area">
-          <button type="submit" id="button-login">
+          <button type="submit" id="button-login" disabled={isLoading} >
             {t('login.loginText')}
           </button>
         </div>
@@ -79,7 +71,7 @@ const Login = () => {
         <NavLink to="/auth/recover">{t('login.forgotPassword')}</NavLink>
       </div>
       <div className="auth-info-placeholder centered">
-        {message && <span style={{color: colors['colorMessageFail']}}>{message}</span>}
+        {error && <span style={{color: colors['colorMessageFail']}}>{unsafeFormApiError(error, t, 'login')}</span>}
       </div>
       <FooterContact />
     </>
