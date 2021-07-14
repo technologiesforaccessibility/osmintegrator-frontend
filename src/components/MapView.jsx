@@ -72,7 +72,7 @@ export const MapView = () => {
       getTileConnections(activeTile.id);
     }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTile]);
 
   useEffect(() => {
@@ -100,21 +100,19 @@ export const MapView = () => {
   // }ks
 
   const createConnection = (coordinates, id, stopType, name, ref) => {
-
     if (connectionData.length < 2) {
       const isOsm = stopType === 0;
       const entryPoint = {coordinates, id, isOsm, name, ref};
 
       if (connectionData.length === 1) {
         if (!(connectionData[0].isOsm ^ isOsm)) {
-          updateConnectionInfo("Exactly one stop should be OSM type!");
+          updateConnectionInfo('Exactly one stop should be OSM type!');
           return;
         }
         connectionInfo && updateConnectionInfo(null);
       }
       updateConnectionData(entryPoint);
     }
-
   };
 
   const getTileStops = async id => {
