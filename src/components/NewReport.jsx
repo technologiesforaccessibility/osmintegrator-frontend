@@ -16,7 +16,7 @@ const NewReport = () => {
   const {newReportCoordinates, reportSuccess} = useContext(MapContext);
   const {lat, lon} = newReportCoordinates;
   const [message, setMessage] = useState(null);
-  const [messageColor, setMessageColor] = useState(null);
+  const [messageColor, setMessageColor] = useState('black');
 
   const formik = useFormik({
     initialValues: {
@@ -63,7 +63,7 @@ const NewReport = () => {
             sendReport();
           }}
         />
-        {message && messageColor && <p style={{color: messageColor}}>{message}</p>}
+        {message && <p style={{color: messageColor}}>{message}</p>}
       </div>
     </form>
   );

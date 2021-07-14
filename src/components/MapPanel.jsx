@@ -6,7 +6,7 @@ import CustomBlockButton from './customs/CustomBlockButton';
 
 import '../stylesheets/mapPanel.scss';
 import buttonStyle from '../stylesheets/modules/mapPanelButton.module.scss';
-import NewReport from "./NewReport";
+import NewReport from './NewReport';
 
 const MapPanel = () => {
   const {
@@ -67,7 +67,7 @@ const MapPanel = () => {
               </div>
             ))}
           </div>
-          {isReportMapMode && < NewReport />}
+          {isReportMapMode && <NewReport />}
           {isConnectionMode && <ConnectionSidePanel />}
         </div>
       )}
