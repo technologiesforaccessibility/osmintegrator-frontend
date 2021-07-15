@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {unsafeFormApiError} from '../../utilities/utilities';
 import FooterContact from '../FooterContact';
+import AuthLayout from '../AuthLayout';
 import {login} from '../../redux/actions/authActions';
 import {selectAuthIsLoggedIn, selectAuthLoading, selectAuthError} from '../../redux/selectors/authSelector';
 
@@ -37,7 +38,7 @@ const Login = () => {
   return (!isLoading && isLoggedIn) ? (
     <Redirect to="/" />
   ) : (
-    <>
+    <AuthLayout>
       <h1 className="auth-title">{t('login.title')}</h1>
       <form onSubmit={formik.handleSubmit}>
         <div className="inputbox-spacer">
@@ -74,7 +75,7 @@ const Login = () => {
         {error && <span style={{color: colors['colorMessageFail']}}>{unsafeFormApiError(error, t, 'login')}</span>}
       </div>
       <FooterContact />
-    </>
+    </AuthLayout>
   );
 };
 

@@ -14,6 +14,7 @@ import FooterContact from "../FooterContact";
 
 import {noTokenHeaders} from '../../config/apiConfig';
 import client from '../../api/apiInstance';
+import AuthLayout from '../AuthLayout';
 
 import '../../stylesheets/setPassword.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
@@ -62,7 +63,7 @@ const SetPassword = () => {
   };
 
   return (
-    <>
+    <AuthLayout>
       {shouldRedirect && <Redirect to="/auth/login" />}
 
       <h1 className="auth-title">{t('setPassword.title')}</h1>
@@ -96,7 +97,7 @@ const SetPassword = () => {
         {message && <span style={{color: messageColor}}>{message}</span>}
       </div>
       <FooterContact />
-    </>
+    </AuthLayout>
   );
 };
 export default SetPassword;

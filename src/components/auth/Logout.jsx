@@ -3,9 +3,11 @@ import {Redirect} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import colors from '../../stylesheets/config/colors.module.scss';
+import AuthLayout from '../AuthLayout';
 import {logout} from '../../redux/actions/authActions';
 import {selectAuthIsLoggedIn} from '../../redux/selectors/authSelector';
+
+import colors from '../../stylesheets/config/colors.module.scss';
 
 const Logout = () => {
   const {t} = useTranslation();
@@ -24,7 +26,7 @@ const Logout = () => {
   };
 
   return (
-    <>
+    <AuthLayout>
       {!isLoggedIn && <Redirect to="/auth/login" />}
       <h1 className="auth-title">{t('logout.title')} </h1>
       <div className="auth-info-placeholder centered">
@@ -37,7 +39,7 @@ const Logout = () => {
           {t('logout.message')}
         </span>
       </div>
-    </>
+    </AuthLayout>
   );
 };
 

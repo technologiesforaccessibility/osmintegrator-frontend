@@ -8,13 +8,15 @@ import DashboardMain from './DashboardMain';
 import ChangeEmail from './ChangeEmail';
 import ChangePassword from './ChangePassword';
 import ProfilePanel from './ProfilePanel';
-import Auth from './Auth';
+import Login from './auth/Login';
+import Recover from './auth/Recover';
+import Logout from './auth/Logout';
+import SetPassword from './auth/SetPassword';
 import MapContextProvider from './contexts/MapContextProvider';
 import UserContextProvider from './contexts/UserContextProvider';
 import store from '../redux/store';
 
 import '../stylesheets/app.scss';
-
 import '../stylesheets/globalStyles.scss';
 
 class App extends Component {
@@ -25,7 +27,10 @@ class App extends Component {
           <Switch>
             <UserContextProvider>
               <MapContextProvider>
-                <Route path={['/auth', '/Account']} component={Auth} />
+                <Route path="/auth/login" component={Login} />
+                <Route path="/auth/recover" component={Recover} />
+                <PrivateRoute path="/auth/logout" component={Logout} />
+                <Route path="/Account/ResetPassword" component={SetPassword} />
                 <PrivateRoute path='/manage' exact component={ManagementPanel} />
                 <PrivateRoute path="/profile/change-email" exact component={ChangeEmail} />
                 <PrivateRoute path="/profile/change-password" exact component={ChangePassword} />
