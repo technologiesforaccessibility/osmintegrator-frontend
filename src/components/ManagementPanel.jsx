@@ -14,6 +14,7 @@ import CustomCheckbox from './customs/CustomCheckbox';
 import '../stylesheets/managementPanel.scss';
 import colors from '../stylesheets/config/colors.module.scss';
 import ManagementPanelMap from './ManagementPanelMap';
+import Dashboard from './Dashboard';
 
 function ManagementPanel() {
   const [userButtonTile, setUserButtonTile] = useState(['Choose User']);
@@ -228,54 +229,56 @@ function ManagementPanel() {
   };
 
   return (
-    <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <H3Title title="Management panel" borderBottom={true} />
+    <Dashboard>
+      <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <H3Title title="Management panel" borderBottom={true} />
 
-      <div className="row">
-        <div className="col-md-5">
-          <div className="management-panel">
-            <H4Title title="Assign user to tile" />
-            <div className="dropdown d-inline-block management-panel__button management-panel__button--40p">
-              <CustomDropdownToggle>{tileButtonTile}</CustomDropdownToggle>
-              <CustomDropdownMenu>{tilesList}</CustomDropdownMenu>
-            </div>
+        <div className="row">
+          <div className="col-md-5">
+            <div className="management-panel">
+              <H4Title title="Assign user to tile" />
+              <div className="dropdown d-inline-block management-panel__button management-panel__button--40p">
+                <CustomDropdownToggle>{tileButtonTile}</CustomDropdownToggle>
+                <CustomDropdownMenu>{tilesList}</CustomDropdownMenu>
+              </div>
 
-            <div className="dropdown d-inline-block management-panel__button management-panel__button--30p">
-              <CustomDropdownToggle>{userButtonTile}</CustomDropdownToggle>
-              <CustomDropdownMenu>{usersForTileAssignment}</CustomDropdownMenu>
-            </div>
-            <CustomInlineButton
-              handleOnClick={() => {
-                selectedEditorData !== {} &&
-                  selectedTileData !== null &&
-                  assignToTile(selectedEditorData, selectedTileData);
-              }}
-              buttonTitle={
-                'isAssigned' in selectedEditorData
-                  ? selectedEditorData.isAssigned === true
-                    ? 'Revoke'
+              <div className="dropdown d-inline-block management-panel__button management-panel__button--30p">
+                <CustomDropdownToggle>{userButtonTile}</CustomDropdownToggle>
+                <CustomDropdownMenu>{usersForTileAssignment}</CustomDropdownMenu>
+              </div>
+              <CustomInlineButton
+                handleOnClick={() => {
+                  selectedEditorData !== {} &&
+                    selectedTileData !== null &&
+                    assignToTile(selectedEditorData, selectedTileData);
+                }}
+                buttonTitle={
+                  'isAssigned' in selectedEditorData
+                    ? selectedEditorData.isAssigned === true
+                      ? 'Revoke'
+                      : 'Assign'
                     : 'Assign'
-                  : 'Assign'
-              }
-            />
-          </div>
-
-          <div className="management-panel">
-            <H4Title title="Assign role to user" />
-            <div className="dropdown d-inline-block management-panel__button management-panel__button--30p">
-              <CustomDropdownToggle>{userButtonRole}</CustomDropdownToggle>
-              <CustomDropdownMenu>{usersForRoleAssignment}</CustomDropdownMenu>
+                }
+              />
             </div>
-            <CustomInlineButton handleOnClick={() => assignRole()} buttonTitle="Save changes" buttonWidth={30} />
-            {roleCheckboxes}
-          </div>
-        </div>
 
-        <div className="col-md-7">
-          <ManagementPanelMap startPoint={currentLocation} zoom={zoom} tiles={mapTiles} />
+            <div className="management-panel">
+              <H4Title title="Assign role to user" />
+              <div className="dropdown d-inline-block management-panel__button management-panel__button--30p">
+                <CustomDropdownToggle>{userButtonRole}</CustomDropdownToggle>
+                <CustomDropdownMenu>{usersForRoleAssignment}</CustomDropdownMenu>
+              </div>
+              <CustomInlineButton handleOnClick={() => assignRole()} buttonTitle="Save changes" buttonWidth={30} />
+              {roleCheckboxes}
+            </div>
+          </div>
+
+          <div className="col-md-7">
+            <ManagementPanelMap startPoint={currentLocation} zoom={zoom} tiles={mapTiles} />
+          </div>
         </div>
       </div>
-    </div>
+    </Dashboard>
   );
 }
 

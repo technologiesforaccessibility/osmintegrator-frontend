@@ -1,17 +1,13 @@
 import React, {useState} from 'react';
-import {Route, Switch} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 
 import DashboardHeader from './DashboardHeader';
 import DashboardSiderbar from './DashboardSiderbar';
-import DashboardMain from './DashboardMain';
-import ProfileRouter from './ProfileRouter';
-import ManagementPanel from './ManagementPanel';
 import {selectAuthIsLoggedIn} from '../redux/selectors/authSelector';
 
 import '../stylesheets/dashboard.scss';
 
-export default function Dashboard() {
+export default function Dashboard({ children }) {
   const [propertyGrid, setPropertyGrid] = useState(null);
 
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
@@ -31,11 +27,7 @@ export default function Dashboard() {
             propertyGrid={propertyGrid}
             updatePropertyGrid={updatePropertyGrid}
           />
-          <Switch>
-            <Route path="/profile" component={ProfileRouter} />
-            <Route path="/manage" component={ManagementPanel} />
-            <Route path="/" render={() => <DashboardMain />} />
-          </Switch>
+          {children}
         </div>
       </div>
 

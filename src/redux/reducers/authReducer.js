@@ -3,7 +3,7 @@ import {createReducer} from '@reduxjs/toolkit';
 import {login, logout, validateLogin} from '../actions/authActions';
 
 const initialState = {
-  isLoggedIn: false,
+  isLoggedIn: !!localStorage.getItem('token'),
   token: localStorage.getItem('token'),
   error: false,
   errorMessage: undefined,

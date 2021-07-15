@@ -1,7 +1,10 @@
 import React from 'react';
+import ProfileLayout from './ProfileLayout';
 
 const ChangePassword = () => {
-  return <div>Change password view</div>;
+  return <ProfileLayout>
+    <div>Change password view</div>
+  </ProfileLayout>
 };
 
 export default ChangePassword;

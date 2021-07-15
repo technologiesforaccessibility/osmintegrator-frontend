@@ -1,6 +1,8 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 
+import ProfileLayout from './ProfileLayout';
+
 const ProfilePanel = () => {
   const linkList = [
     {link: '/profile/change-email', title: 'Change e-mail'},
@@ -8,13 +10,15 @@ const ProfilePanel = () => {
     {link: '#', title: 'About you'},
   ];
   return (
-    <ul>
-      {linkList.map(({link, title}, index) => (
-        <li key={index}>
-          <NavLink to={link}>{title}</NavLink>
-        </li>
-      ))}
-    </ul>
+    <ProfileLayout>
+      <ul>
+        {linkList.map(({link, title}, index) => (
+          <li key={index}>
+            <NavLink to={link}>{title}</NavLink>
+          </li>
+        ))}
+      </ul>
+    </ProfileLayout>
   );
 };
 

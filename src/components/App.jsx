@@ -3,7 +3,11 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import {Provider} from 'react-redux'
 
 import PrivateRoute from './PrivateRoute';
-import Dashboard from './Dashboard';
+import ManagementPanel from './ManagementPanel';
+import DashboardMain from './DashboardMain';
+import ChangeEmail from './ChangeEmail';
+import ChangePassword from './ChangePassword';
+import ProfilePanel from './ProfilePanel';
 import Auth from './Auth';
 import MapContextProvider from './contexts/MapContextProvider';
 import UserContextProvider from './contexts/UserContextProvider';
@@ -22,8 +26,11 @@ class App extends Component {
             <UserContextProvider>
               <MapContextProvider>
                 <Route path={['/auth', '/Account']} component={Auth} />
-                <PrivateRoute path={['/profile', '/manage']} component={Dashboard} />
-                <PrivateRoute exact path='/' component={Dashboard} />
+                <PrivateRoute path='/manage' exact component={ManagementPanel} />
+                <PrivateRoute path="/profile/change-email" exact component={ChangeEmail} />
+                <PrivateRoute path="/profile/change-password" exact component={ChangePassword} />
+                <PrivateRoute path="/profile" exact component={ProfilePanel} />
+                <PrivateRoute path='/' exact component={DashboardMain} />
               </MapContextProvider>
             </UserContextProvider>
           </Switch>
