@@ -3,7 +3,7 @@ import {Rectangle, Tooltip} from 'react-leaflet';
 
 import colors from '../../stylesheets/config/colors.module.scss';
 
-const MapTiles = ({showSingleTile, tiles, activeTile, setActiveTile}) => {
+const MapTiles = ({showSingleTile, tiles, activeTile, setActiveTile, addReportMarker, isReportMapMode}) => {
   return (
     <Fragment>
       {showSingleTile ? (
@@ -13,6 +13,11 @@ const MapTiles = ({showSingleTile, tiles, activeTile, setActiveTile}) => {
             [activeTile.minLat, activeTile.minLon],
           ]}
           pathOptions={{color: colors.colorTileActive}}
+          eventHandlers={{
+            click: e => {
+              isReportMapMode && addReportMarker(e);
+            },
+          }}
         />
       ) : (
         tiles.map((tile, index) => (

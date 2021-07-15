@@ -2,6 +2,8 @@ import React, {createContext, useState} from 'react';
 
 export const MapContext = createContext();
 
+const initialReportCoords = {lat: null, lon: null};
+
 const MapContextProvider = ({children}) => {
   const [showSingleTile, setShowSingleTile] = useState(false);
 
@@ -17,6 +19,8 @@ const MapContextProvider = ({children}) => {
   const [isViewMode, setIsViewMode] = useState(true);
   const [isReportMapMode, setIsReportMapMode] = useState(false);
   const [isConnectionMode, setIsConnectionMode] = useState(false);
+
+  const [newReportCoordinates, setNewReportCoordinates] = useState(initialReportCoords);
 
   const singleTileToggle = isActive => {
     setShowSingleTile(isActive);
@@ -67,6 +71,10 @@ const MapContextProvider = ({children}) => {
 
   const shouldRenderConnections = setRerenderConnections;
 
+  const reportSuccess = () => {
+    setNewReportCoordinates(initialReportCoords);
+  };
+
   return (
     <MapContext.Provider
       value={{
@@ -90,6 +98,9 @@ const MapContextProvider = ({children}) => {
         viewModeToggle,
         reportModeToggle,
         connectionModeToggle,
+        newReportCoordinates,
+        setNewReportCoordinates,
+        reportSuccess,
       }}>
       {children}
     </MapContext.Provider>

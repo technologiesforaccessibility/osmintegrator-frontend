@@ -5,6 +5,7 @@ import NewConnections from './mapComponents/NewConnections';
 import ImportedConnections from './mapComponents/ImportedConnections';
 import MapTiles from './mapComponents/MapTiles';
 import TileStops from './mapComponents/TileStops';
+import NewReportMarker from './mapComponents/NewReportMarker';
 import {MapContext} from './contexts/MapContextProvider';
 import {basicHeaders} from '../config/apiConfig';
 import client from '../api/apiInstance';
@@ -36,6 +37,7 @@ export const MapView = () => {
     areStopsVisible,
     isViewMode,
     isConnectionMode,
+    isReportMapMode,
     displayPropertyGrid,
     updateConnectionData,
     updateConnectionInfo,
@@ -43,6 +45,8 @@ export const MapView = () => {
     connectionData,
     rerenderConnections,
     shouldRenderConnections,
+    setNewReportCoordinates,
+    newReportCoordinates,
   } = useContext(MapContext);
 
   useEffect(() => {
@@ -93,28 +97,25 @@ export const MapView = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rerenderConnections]);
 
-  // addMarker = (e) => {
-  //     const {markers} = this.state
-  //     markers.push(e.latlng)
-  //     this.setState({markers})
-  // }ks
+  const addReportMarker = e => {
+    const coords = {lat: e.latlng.lat, lon: e.latlng.lng};
+    setNewReportCoordinates(coords);
+  };
 
   const createConnection = (coordinates, id, stopType, name, ref) => {
-
     if (connectionData.length < 2) {
       const isOsm = stopType === 0;
       const entryPoint = {coordinates, id, isOsm, name, ref};
 
       if (connectionData.length === 1) {
         if (!(connectionData[0].isOsm ^ isOsm)) {
-          updateConnectionInfo("Exactly one stop should be OSM type!");
+          updateConnectionInfo('Exactly one stop should be OSM type!');
           return;
         }
         connectionInfo && updateConnectionInfo(null);
       }
       updateConnectionData(entryPoint);
     }
-
   };
 
   const getTileStops = async id => {
@@ -162,7 +163,14 @@ export const MapView = () => {
         importedConnections={importedConnections}
         shouldRenderConnections={shouldRenderConnections}
       />
-      <MapTiles showSingleTile={showSingleTile} tiles={tiles} activeTile={activeTile} setActiveTile={setActiveTile} />
+      <MapTiles
+        showSingleTile={showSingleTile}
+        tiles={tiles}
+        activeTile={activeTile}
+        setActiveTile={setActiveTile}
+        isReportMapMode={isReportMapMode}
+        addReportMarker={addReportMarker}
+      />
       <TileStops
         areStopsVisible={areStopsVisible}
         stops={allStops}
@@ -172,6 +180,7 @@ export const MapView = () => {
         isConnectionMode={isConnectionMode}
         isViewMode={isViewMode}
       />
+      <NewReportMarker newReportCoordinates={newReportCoordinates} />
     </MapContainer>
   );
 };

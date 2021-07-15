@@ -56,6 +56,11 @@ i18n
             description: 'Login problem? Need to contact? Send us a ',
             message: 'message',
           },
+          report : {
+            button: 'Send report',
+            success: 'Report has been sent',
+            fail : 'A problem occured'
+          },
         },
       },
       pl: {
@@ -68,6 +73,11 @@ i18n
           },
           map: {},
           sidebar: {},
+          report : {
+            button: 'Wyślij zgłoszenie',
+            success: 'Zgłoszenie zostało wysłane',
+            fail : 'Wystąpił problem',
+          },
         },
       },
     },
