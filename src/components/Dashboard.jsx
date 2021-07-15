@@ -1,13 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Route, Switch} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import DashboardHeader from './DashboardHeader';
 import DashboardSiderbar from './DashboardSiderbar';
 import DashboardMain from './DashboardMain';
 import ProfileRouter from './ProfileRouter';
 import ManagementPanel from './ManagementPanel';
-import {validateLogin} from '../redux/actions/authActions';
 import {selectAuthIsLoggedIn} from '../redux/selectors/authSelector';
 
 import '../stylesheets/dashboard.scss';
@@ -16,13 +15,6 @@ export default function Dashboard() {
   const [propertyGrid, setPropertyGrid] = useState(null);
 
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
-  const dispatch = useDispatch();
-
-
-  useEffect(() => {
-    dispatch(validateLogin());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   function updatePropertyGrid(newGrid) {
     setPropertyGrid(newGrid);

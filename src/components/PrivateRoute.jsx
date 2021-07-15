@@ -2,11 +2,44 @@ import React from 'react';
 import {Route, Redirect} from 'react-router-dom';
 import {useSelector} from 'react-redux'
 
-import {selectAuthIsLoggedIn} from '../redux/selectors/authSelector';
+import {selectAuthIsLoggedIn, selectLoggedInUserRoles} from '../redux/selectors/authSelector';
 
-export default function PrivateRoute({ component: Component, ...rest }) {
+const PROTECTED_ROUTES = [
+  {
+    path: '/manage',
+    allowedRoles: ['Admin']
+  }
+]
+
+export default function PrivateRoute({ component: Component, path, ...rest }) {
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
-  const routeComponent = isLoggedIn ? Component : () => <Redirect to='/auth/login'/>;
+  const userRoles = useSelector(selectLoggedInUserRoles) || [];
 
-  return <Route {...rest} component={routeComponent} />
+  function getComponent() {
+    if (!isLoggedIn) {
+      return () => <Redirect to='/auth/login'/>;
+    }
+
+    const protectedRoute = PROTECTED_ROUTES.find((route) => {
+      if (Array.isArray(path)) {
+        return path.includes(route.path);
+      }
+
+      return route.path === path;
+    });
+
+    if (protectedRoute) {
+      const isUserRoleAllowed = protectedRoute.allowedRoles.some((role) => userRoles.includes(role));
+
+      if (!isUserRoleAllowed) {
+        return () => <Redirect to='/'/>
+      }
+    }
+
+    return Component;
+  }
+
+  const routeComponent = getComponent();
+
+  return <Route {...rest} path={path} component={routeComponent} />
 }
