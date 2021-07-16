@@ -15,6 +15,7 @@ import SetPassword from './auth/SetPassword';
 import MapContextProvider from './contexts/MapContextProvider';
 import UserContextProvider from './contexts/UserContextProvider';
 import store from '../redux/store';
+import {paths} from '../utilities/constants';
 
 import '../stylesheets/app.scss';
 import '../stylesheets/globalStyles.scss';
@@ -27,15 +28,15 @@ class App extends Component {
           <Switch>
             <UserContextProvider>
               <MapContextProvider>
-                <Route path="/auth/login" component={Login} />
-                <Route path="/auth/recover" component={Recover} />
-                <PrivateRoute path="/auth/logout" component={Logout} />
-                <Route path="/Account/ResetPassword" component={SetPassword} />
-                <PrivateRoute path='/manage' exact component={ManagementPanel} />
-                <PrivateRoute path="/profile/change-email" exact component={ChangeEmail} />
-                <PrivateRoute path="/profile/change-password" exact component={ChangePassword} />
-                <PrivateRoute path="/profile" exact component={ProfilePanel} />
-                <PrivateRoute path='/' exact component={DashboardMain} />
+                <Route path={paths.LOGIN} component={Login} />
+                <Route path={paths.RECOVER_PASSWORD} component={Recover} />
+                <PrivateRoute path={paths.LOGOUT} component={Logout} />
+                <Route path={paths.RESET_PASSWORD} component={SetPassword} />
+                <PrivateRoute path={paths.MANAGEMENT_PANEL} exact component={ManagementPanel} />
+                <PrivateRoute path={paths.CHANGE_EMAIL} exact component={ChangeEmail} />
+                <PrivateRoute path={paths.CHANGE_PASSWORD} exact component={ChangePassword} />
+                <PrivateRoute path={paths.PROFILE} exact component={ProfilePanel} />
+                <PrivateRoute path={paths.HOME} exact component={DashboardMain} />
               </MapContextProvider>
             </UserContextProvider>
           </Switch>

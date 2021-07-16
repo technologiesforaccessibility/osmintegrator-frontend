@@ -14,6 +14,7 @@ import FooterContact from "../FooterContact";
 
 import {noTokenHeaders} from '../../config/apiConfig';
 import client from '../../api/apiInstance';
+import {paths} from '../../utilities/constants';
 import AuthLayout from '../AuthLayout';
 
 import '../../stylesheets/setPassword.scss';
@@ -64,7 +65,7 @@ const SetPassword = () => {
 
   return (
     <AuthLayout>
-      {shouldRedirect && <Redirect to="/auth/login" />}
+      {shouldRedirect && <Redirect to={paths.LOGIN} />}
 
       <h1 className="auth-title">{t('setPassword.title')}</h1>
       <h3 className="subtitle">{getEmailFromPath(window.location.href)}</h3>

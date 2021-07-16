@@ -1,12 +1,13 @@
 import React from 'react';
 import {Route, Redirect} from 'react-router-dom';
 import {useSelector} from 'react-redux'
+import {paths} from '../utilities/constants';
 
 import {selectAuthIsLoggedIn, selectLoggedInUserRoles} from '../redux/selectors/authSelector';
 
 const PROTECTED_ROUTES = [
   {
-    path: '/manage',
+    path: paths.MANAGEMENT_PANEL,
     allowedRoles: ['Admin']
   }
 ]
@@ -17,7 +18,7 @@ export default function PrivateRoute({ component: Component, path, ...rest }) {
 
   function getComponent() {
     if (!isLoggedIn) {
-      return () => <Redirect to='/auth/login'/>;
+      return () => <Redirect to={paths.LOGIN} />;
     }
 
     const protectedRoute = PROTECTED_ROUTES.find((route) => {
@@ -32,7 +33,7 @@ export default function PrivateRoute({ component: Component, path, ...rest }) {
       const isUserRoleAllowed = protectedRoute.allowedRoles.some((role) => userRoles.includes(role));
 
       if (!isUserRoleAllowed) {
-        return () => <Redirect to='/'/>
+        return () => <Redirect to={paths.HOME} />
       }
     }
 

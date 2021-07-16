@@ -9,6 +9,7 @@ import FooterContact from '../FooterContact';
 import AuthLayout from '../AuthLayout';
 import {login} from '../../redux/actions/authActions';
 import {selectAuthIsLoggedIn, selectAuthLoading, selectAuthError} from '../../redux/selectors/authSelector';
+import {paths} from '../../utilities/constants';
 
 import '../../stylesheets/login.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
@@ -36,7 +37,7 @@ const Login = () => {
   };
 
   return (!isLoading && isLoggedIn) ? (
-    <Redirect to="/" />
+    <Redirect to={paths.HOME} />
   ) : (
     <AuthLayout>
       <h1 className="auth-title">{t('login.title')}</h1>
@@ -69,7 +70,7 @@ const Login = () => {
       </form>
 
       <div className="link">
-        <NavLink to="/auth/recover">{t('login.forgotPassword')}</NavLink>
+        <NavLink to={paths.RECOVER_PASSWORD}>{t('login.forgotPassword')}</NavLink>
       </div>
       <div className="auth-info-placeholder centered">
         {error && <span style={{color: colors['colorMessageFail']}}>{unsafeFormApiError(error, t, 'login')}</span>}
