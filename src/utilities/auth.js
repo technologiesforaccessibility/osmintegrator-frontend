@@ -14,7 +14,7 @@ export const PROTECTED_ROUTES = [
   }
 ];
 
-export function hasAccess(path) {
+export function hasAccessToPath(path) {
   const state = store.getState();
   const { loggedInUserRoles = [] } = state.auth;
 

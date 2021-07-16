@@ -4,7 +4,7 @@ import {useSelector} from 'react-redux'
 import {paths} from '../utilities/constants';
 
 import {selectAuthIsLoggedIn} from '../redux/selectors/authSelector';
-import {hasAccess} from '../utilities/auth';
+import {hasAccessToPath} from '../utilities/auth';
 
 export default function PrivateRoute({ component: Component, path, ...rest }) {
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
@@ -14,7 +14,7 @@ export default function PrivateRoute({ component: Component, path, ...rest }) {
       return () => <Redirect to={paths.LOGIN} />;
     }
 
-    if (hasAccess(path)) {
+    if (hasAccessToPath(path)) {
       return Component;
     }
 
