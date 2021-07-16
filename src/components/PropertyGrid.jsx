@@ -9,7 +9,7 @@ const PropertyGrid = ({propertyGrid, updatePropertyGrid}) => {
     const entries = Object.entries(grid);
     for (const [key, value] of entries) {
       gridEntries.push(
-        <div className="propertyGrid-row">
+        <div className="propertyGrid-row" key={key}>
           <div className="propertyGrid-key">{key}</div>
           <div className="propertyGrid-value">
             {typeof value === 'boolean' || value === null ? JSON.stringify(value) : value}
