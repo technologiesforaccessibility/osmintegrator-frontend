@@ -9,3 +9,10 @@ export const paths = {
   CHANGE_EMAIL: '/profile/change-email',
   CHANGE_PASSWORD: '/profile/change-password'
 };
+
+export const roles = {
+  ADMIN: 'Admin',
+  SUPERVISOR: 'Supervisor',
+  EDITOR: 'Editor',
+  USER: 'User'
+};
