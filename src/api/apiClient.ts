@@ -652,14 +652,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Connections
-     * @name ConnectionsUpdate2
-     * @request PUT:/api/Connections/{id}
-     * @originalName connectionsUpdate
-     * @duplicate
+     * @name ConnectionsApproveUpdate
+     * @request PUT:/api/Connections/Approve/{id}
      */
-    connectionsUpdate2: (id: string | null, params: RequestParams = {}) =>
+    connectionsApproveUpdate: (id: string | null, params: RequestParams = {}) =>
       this.request<string, ProblemDetails>({
-        path: `/api/Connections/${id}`,
+        path: `/api/Connections/Approve/${id}`,
         method: "PUT",
         format: "json",
         ...params,
@@ -730,14 +728,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Notes
-     * @name NotesUpdate2
-     * @request PUT:/api/Notes/{id}
-     * @originalName notesUpdate
-     * @duplicate
+     * @name NotesApproveUpdate
+     * @request PUT:/api/Notes/Approve/{id}
      */
-    notesUpdate2: (id: string | null, params: RequestParams = {}) =>
+    notesApproveUpdate: (id: string | null, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
-        path: `/api/Notes/${id}`,
+        path: `/api/Notes/Approve/${id}`,
         method: "PUT",
         ...params,
       }),

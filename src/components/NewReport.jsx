@@ -29,7 +29,9 @@ const NewReport = () => {
 
   const sendReport = async text => {
     try {
-      await client.api.notesCreate(
+        console.log({lat, lon, text, tileId: activeTile.id})
+
+        await client.api.notesCreate(
         {lat, lon, text, tileId: activeTile.id},
         {
           headers: basicHeaders(),
@@ -41,6 +43,7 @@ const NewReport = () => {
       formik.resetForm();
       setRerenderReports(true);
     } catch (error) {
+      console.log(error)
       setMessageColor(colors.colorMessageFail);
       setMessage(t('report.fail'));
     }
@@ -60,9 +63,7 @@ const NewReport = () => {
           buttonTitle={t('report.button')}
           style={buttonStyle}
           type="submit"
-          onClickHandler={() => {
-            sendReport();
-          }}
+          onClickHandler={() => {}}
         />
         {message && <p style={{color: messageColor}}>{message}</p>}
       </div>
