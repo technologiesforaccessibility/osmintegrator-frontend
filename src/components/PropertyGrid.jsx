@@ -11,10 +11,14 @@ const PropertyGrid = ({propertyGrid}) => {
   return (
     <div>
       <div className="propertyGrid-frame">
-        {entries && entries.map(([key, value]) => ( key === 'tags'
-            ? (value.map(({key, value}) => (<PropertyGridRow title={key} value={value} />)))
-        :  (<PropertyGridRow title={key} value={value} />)
-          ))}
+        {entries &&
+          entries.map(([key, value]) =>
+            key === 'tags' ? (
+              value.map(({key, value}) => <PropertyGridRow title={key} value={value} />)
+            ) : (
+              <PropertyGridRow title={key} value={value} />
+            ),
+          )}
       </div>
     </div>
   );
