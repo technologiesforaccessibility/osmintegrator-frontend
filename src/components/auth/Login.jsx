@@ -31,10 +31,10 @@ const Login = () => {
   });
 
   const runLogin = async (email, password) => {
-    return dispatch(login({ email, password }));
+    return dispatch(login({email, password}));
   };
 
-  return (!isLoading && isLoggedIn) ? (
+  return !isLoading && isLoggedIn ? (
     <Redirect to="/" />
   ) : (
     <>
@@ -61,7 +61,7 @@ const Login = () => {
           />
         </div>
         <div className="login-button-area">
-          <button type="submit" id="button-login" disabled={isLoading} >
+          <button type="submit" id="button-login" disabled={isLoading}>
             {t('login.loginText')}
           </button>
         </div>

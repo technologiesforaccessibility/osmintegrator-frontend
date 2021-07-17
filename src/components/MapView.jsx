@@ -76,7 +76,7 @@ export const MapView = () => {
       getTileConnections(activeTile.id);
     }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTile]);
 
   useEffect(() => {

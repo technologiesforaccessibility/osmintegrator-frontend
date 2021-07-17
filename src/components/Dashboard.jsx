@@ -18,7 +18,6 @@ export default function Dashboard() {
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     dispatch(validateLogin());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,7 +45,6 @@ export default function Dashboard() {
           </Switch>
         </div>
       </div>
-
 
       <script
         src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"

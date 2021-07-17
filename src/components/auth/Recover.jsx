@@ -5,7 +5,7 @@ import {useTranslation} from 'react-i18next';
 import {noTokenHeaders} from '../../config/apiConfig';
 import client from '../../api/apiInstance';
 import {unsafeFormApiError} from '../../utilities/utilities';
-import FooterContact from "../FooterContact";
+import FooterContact from '../FooterContact';
 
 import '../../stylesheets/recover.scss';
 import colors from '../../stylesheets/config/colors.module.scss';

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import {Provider} from 'react-redux'
+import {Provider} from 'react-redux';
 
 import PrivateRoute from './PrivateRoute';
 import Dashboard from './Dashboard';
@@ -23,7 +23,7 @@ class App extends Component {
               <MapContextProvider>
                 <Route path={['/auth', '/Account']} component={Auth} />
                 <PrivateRoute path={['/profile', '/manage']} component={Dashboard} />
-                <PrivateRoute exact path='/' component={Dashboard} />
+                <PrivateRoute exact path="/" component={Dashboard} />
               </MapContextProvider>
             </UserContextProvider>
           </Switch>

@@ -10,12 +10,12 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 ReactDOM.render(
-    <React.StrictMode>
-        <Suspense fallback="...is loading">
-            <App />
-        </Suspense>
-    </React.StrictMode>,
-    document.getElementById('root'),
+  <React.StrictMode>
+    <Suspense fallback="...is loading">
+      <App />
+    </Suspense>
+  </React.StrictMode>,
+  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function
