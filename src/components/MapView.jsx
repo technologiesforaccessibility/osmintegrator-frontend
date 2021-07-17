@@ -147,6 +147,7 @@ export const MapView = () => {
 
   const clickBusStop = stop => {
     setActiveBusStopId(stop === undefined ? null : stop.id);
+    console.log(stop)
     displayPropertyGrid(stop === undefined ? null : stop);
   };
 

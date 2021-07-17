@@ -4,6 +4,7 @@
   border-radius: 5px;
   padding: 3px 7px;
   overflow-x :scroll;
+  overflow-y : hidden;
   white-space: nowrap;
   height: 2rem;
   /* Hide scrollbar for IE, Edge and Firefox */
@@ -15,7 +16,6 @@
 .propertyGrid-key::-webkit-scrollbar, .propertyGrid-value::-webkit-scrollbar {
   display: none;
 }
-
 
 .propertyGrid-frame {
   border: solid 1px black;
