@@ -402,6 +402,44 @@
                         }
                     }
                 }
+            },
+            "put": {
+                "tags": [
+                    "Connections"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/Notes": {
@@ -413,17 +451,56 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Note"
+                                "$ref": "#/components/schemas/NewNote"
                             }
                         },
                         "text/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Note"
+                                "$ref": "#/components/schemas/NewNote"
                             }
                         },
                         "application/*+json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Note"
+                                "$ref": "#/components/schemas/NewNote"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Notes"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateNote"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateNote"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateNote"
                             }
                         }
                     }
@@ -469,7 +546,7 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Note"
+                                        "$ref": "#/components/schemas/NewNote"
                                     }
                                 }
                             }
@@ -484,6 +561,92 @@
                                 }
                             }
                         }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Notes"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Notes"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/OsmChangeFile/GetChangeFile": {
+            "get": {
+                "tags": [
+                    "OsmChangeFile"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateChangeFileRequestInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
                     }
                 }
             }
@@ -738,6 +901,65 @@
             }
         },
         "/api/Tile/UpdateUser/{id}": {
+            "put": {
+                "tags": [
+                    "Tile"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Tile/Approve/{id}": {
             "put": {
                 "tags": [
                     "Tile"
@@ -1090,86 +1312,6 @@
                 },
                 "additionalProperties": {}
             },
-            "Connection": {
-                "type": "object",
-                "properties": {
-                    "gtfsStopId": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "osmStopId": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "imported": {
-                        "type": "boolean"
-                    }
-                },
-                "additionalProperties": false
-            },
-            "Note": {
-                "required": [
-                    "lat",
-                    "lon",
-                    "text"
-                ],
-                "type": "object",
-                "properties": {
-                    "lat": {
-                        "type": "number",
-                        "format": "double"
-                    },
-                    "lon": {
-                        "type": "number",
-                        "format": "double"
-                    },
-                    "userId": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "text": {
-                        "type": "string"
-                    }
-                },
-                "additionalProperties": false
-            },
-            "RolePair": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "value": {
-                        "type": "boolean"
-                    }
-                },
-                "additionalProperties": false
-            },
-            "RoleUser": {
-                "required": [
-                    "id",
-                    "roles",
-                    "userName"
-                ],
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "userName": {
-                        "type": "string"
-                    },
-                    "roles": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/RolePair"
-                        }
-                    }
-                },
-                "additionalProperties": false
-            },
             "Tag": {
                 "type": "object",
                 "properties": {
@@ -1319,6 +1461,145 @@
                     },
                     "outsideSelectedTile": {
                         "type": "boolean"
+                    },
+                    "version": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "changeset": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "Connection": {
+                "type": "object",
+                "properties": {
+                    "gtfsStopId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "osmStopId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "osmStop": {
+                        "$ref": "#/components/schemas/Stop"
+                    },
+                    "gtfsStop": {
+                        "$ref": "#/components/schemas/Stop"
+                    },
+                    "imported": {
+                        "type": "boolean"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "NewNote": {
+                "required": [
+                    "lat",
+                    "lon",
+                    "text",
+                    "tileId"
+                ],
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "lat": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "lon": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "text": {
+                        "type": "string"
+                    },
+                    "tileId": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "UpdateNote": {
+                "required": [
+                    "id",
+                    "lat",
+                    "lon",
+                    "text"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "lat": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "lon": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "text": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CreateChangeFileRequestInput": {
+                "required": [
+                    "tileUuid"
+                ],
+                "type": "object",
+                "properties": {
+                    "tileUuid": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "RolePair": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "value": {
+                        "type": "boolean"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "RoleUser": {
+                "required": [
+                    "id",
+                    "roles",
+                    "userName"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "userName": {
+                        "type": "string"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RolePair"
+                        }
                     }
                 },
                 "additionalProperties": false

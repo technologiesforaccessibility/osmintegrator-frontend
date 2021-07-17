@@ -11,7 +11,9 @@ const FooterContact = () => {
   return (
     <div className="footer__container">
       {t('contactForm.description')}
-      <a target="_blank" rel="noopener noreferrer" href={REACT_APP_CONTACT_FORM}>{t('contactForm.message')}</a>
+      <a target="_blank" rel="noopener noreferrer" href={REACT_APP_CONTACT_FORM}>
+        {t('contactForm.message')}
+      </a>
     </div>
   );
 };

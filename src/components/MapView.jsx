@@ -3,6 +3,7 @@ import {MapContainer, TileLayer} from 'react-leaflet';
 
 import NewConnections from './mapComponents/NewConnections';
 import ImportedConnections from './mapComponents/ImportedConnections';
+import ImportedReports from './mapComponents/ImportedReports';
 import MapTiles from './mapComponents/MapTiles';
 import TileStops from './mapComponents/TileStops';
 import NewReportMarker from './mapComponents/NewReportMarker';
@@ -20,8 +21,8 @@ export const MapView = () => {
 
   const [tiles, setTiles] = useState([]);
   const [allStops, setAllStops] = useState([]);
-  const [activeTile, setActiveTile] = useState({});
   const [importedConnections, setImportedConnections] = useState([]);
+  const [importedReports, setImportedReports] = useState([]);
 
   const [activeBusStopId, setActiveBusStopId] = useState(null);
 
@@ -47,6 +48,10 @@ export const MapView = () => {
     shouldRenderConnections,
     setNewReportCoordinates,
     newReportCoordinates,
+    activeTile,
+    setActiveTile,
+    rerenderReports,
+    setRerenderReports,
   } = useContext(MapContext);
 
   useEffect(() => {
@@ -74,15 +79,17 @@ export const MapView = () => {
     if (activeTile.id) {
       getTileStops(activeTile.id);
       getTileConnections(activeTile.id);
+      getTileReports(activeTile.id);
     }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTile]);
 
   useEffect(() => {
     if (!showSingleTile) {
       setActiveTile({});
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showSingleTile]);
 
   useEffect(() => {
@@ -96,6 +103,18 @@ export const MapView = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rerenderConnections]);
+
+  useEffect(() => {
+    async function getReports() {
+      await getTileReports(activeTile.id);
+      setRerenderReports(false);
+    }
+    if (rerenderReports) {
+      getReports();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rerenderReports]);
 
   const addReportMarker = e => {
     const coords = {lat: e.latlng.lat, lon: e.latlng.lng};
@@ -141,6 +160,17 @@ export const MapView = () => {
     }
   };
 
+  const getTileReports = async id => {
+    try {
+      const response = await client.api.notesDetail(id, {
+        headers: basicHeaders(),
+      });
+      setImportedReports(response.data);
+    } catch (error) {
+      unsafeApiError(error, 'Undefined tile connection problem');
+    }
+  };
+
   const isActiveStopClicked = clickedStopId => {
     return activeBusStopId === clickedStopId;
   };
@@ -181,6 +211,7 @@ export const MapView = () => {
         isViewMode={isViewMode}
       />
       <NewReportMarker newReportCoordinates={newReportCoordinates} />
+      <ImportedReports reports={importedReports} />
     </MapContainer>
   );
 };

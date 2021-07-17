@@ -79,39 +79,6 @@ export interface ProblemDetails {
   instance?: string | null;
 }
 
-export interface Connection {
-  /** @format uuid */
-  gtfsStopId?: string;
-
-  /** @format uuid */
-  osmStopId?: string;
-  imported?: boolean;
-}
-
-export interface Note {
-  /** @format double */
-  lat: number;
-
-  /** @format double */
-  lon: number;
-
-  /** @format uuid */
-  userId?: string;
-  text: string;
-}
-
-export interface RolePair {
-  name?: string | null;
-  value?: boolean;
-}
-
-export interface RoleUser {
-  /** @format uuid */
-  id: string;
-  userName: string;
-  roles: RolePair[];
-}
-
 export interface Tag {
   key?: string | null;
   value?: string | null;
@@ -194,6 +161,65 @@ export interface Stop {
   tileId?: string;
   tile?: Tile;
   outsideSelectedTile?: boolean;
+
+  /** @format int32 */
+  version?: number;
+  changeset?: string | null;
+}
+
+export interface Connection {
+  /** @format uuid */
+  gtfsStopId?: string;
+
+  /** @format uuid */
+  osmStopId?: string;
+  osmStop?: Stop;
+  gtfsStop?: Stop;
+  imported?: boolean;
+}
+
+export interface NewNote {
+  /** @format uuid */
+  userId?: string;
+
+  /** @format double */
+  lat: number;
+
+  /** @format double */
+  lon: number;
+  text: string;
+
+  /** @format uuid */
+  tileId: string;
+}
+
+export interface UpdateNote {
+  /** @format uuid */
+  id: string;
+
+  /** @format double */
+  lat: number;
+
+  /** @format double */
+  lon: number;
+  text: string;
+}
+
+export interface CreateChangeFileRequestInput {
+  /** @format uuid */
+  tileUuid: string;
+}
+
+export interface RolePair {
+  name?: string | null;
+  value?: boolean;
+}
+
+export interface RoleUser {
+  /** @format uuid */
+  id: string;
+  userName: string;
+  roles: RolePair[];
 }
 
 export interface User {
@@ -625,14 +651,47 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
+     * @tags Connections
+     * @name ConnectionsUpdate2
+     * @request PUT:/api/Connections/{id}
+     * @originalName connectionsUpdate
+     * @duplicate
+     */
+    connectionsUpdate2: (id: string | null, params: RequestParams = {}) =>
+      this.request<string, ProblemDetails>({
+        path: `/api/Connections/${id}`,
+        method: "PUT",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags Notes
      * @name NotesCreate
      * @request POST:/api/Notes
      */
-    notesCreate: (data: Note, params: RequestParams = {}) =>
+    notesCreate: (data: NewNote, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Notes`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Notes
+     * @name NotesUpdate
+     * @request PUT:/api/Notes
+     */
+    notesUpdate: (data: UpdateNote, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Notes`,
+        method: "PUT",
         body: data,
         type: ContentType.Json,
         ...params,
@@ -646,10 +705,56 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/Notes/{id}
      */
     notesDetail: (id: string | null, params: RequestParams = {}) =>
-      this.request<Note[], ProblemDetails>({
+      this.request<NewNote[], ProblemDetails>({
         path: `/api/Notes/${id}`,
         method: "GET",
         format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Notes
+     * @name NotesDelete
+     * @request DELETE:/api/Notes/{id}
+     */
+    notesDelete: (id: string | null, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Notes/${id}`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Notes
+     * @name NotesUpdate2
+     * @request PUT:/api/Notes/{id}
+     * @originalName notesUpdate
+     * @duplicate
+     */
+    notesUpdate2: (id: string | null, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Notes/${id}`,
+        method: "PUT",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags OsmChangeFile
+     * @name OsmChangeFileGetChangeFileList
+     * @request GET:/api/OsmChangeFile/GetChangeFile
+     */
+    osmChangeFileGetChangeFileList: (data: CreateChangeFileRequestInput, params: RequestParams = {}) =>
+      this.request<void, void>({
+        path: `/api/OsmChangeFile/GetChangeFile`,
+        method: "GET",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -769,6 +874,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     tileUpdateUserUpdate: (id: string | null, data: User, params: RequestParams = {}) =>
       this.request<string, ProblemDetails>({
         path: `/api/Tile/UpdateUser/${id}`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tile
+     * @name TileApproveUpdate
+     * @request PUT:/api/Tile/Approve/{id}
+     */
+    tileApproveUpdate: (id: string | null, data: User, params: RequestParams = {}) =>
+      this.request<string, ProblemDetails>({
+        path: `/api/Tile/Approve/${id}`,
         method: "PUT",
         body: data,
         type: ContentType.Json,

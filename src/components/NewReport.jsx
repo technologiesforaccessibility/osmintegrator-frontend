@@ -13,7 +13,7 @@ import colors from '../stylesheets/config/colors.module.scss';
 
 const NewReport = () => {
   const {t} = useTranslation();
-  const {newReportCoordinates, reportSuccess} = useContext(MapContext);
+  const {newReportCoordinates, reportSuccess, activeTile, setRerenderReports} = useContext(MapContext);
   const {lat, lon} = newReportCoordinates;
   const [message, setMessage] = useState(null);
   const [messageColor, setMessageColor] = useState('black');
@@ -30,7 +30,7 @@ const NewReport = () => {
   const sendReport = async text => {
     try {
       await client.api.notesCreate(
-        {lat, lon, text},
+        {lat, lon, text, tileId: activeTile.id},
         {
           headers: basicHeaders(),
         },
@@ -39,6 +39,7 @@ const NewReport = () => {
       setMessage(t('report.success'));
       reportSuccess();
       formik.resetForm();
+      setRerenderReports(true);
     } catch (error) {
       setMessageColor(colors.colorMessageFail);
       setMessage(t('report.fail'));

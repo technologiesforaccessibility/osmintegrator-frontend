@@ -21,6 +21,9 @@ const MapContextProvider = ({children}) => {
   const [isConnectionMode, setIsConnectionMode] = useState(false);
 
   const [newReportCoordinates, setNewReportCoordinates] = useState(initialReportCoords);
+  const [rerenderReports, setRerenderReports] = useState(false);
+
+  const [activeTile, setActiveTile] = useState({});
 
   const singleTileToggle = isActive => {
     setShowSingleTile(isActive);
@@ -101,6 +104,10 @@ const MapContextProvider = ({children}) => {
         newReportCoordinates,
         setNewReportCoordinates,
         reportSuccess,
+        activeTile,
+        setActiveTile,
+        rerenderReports,
+        setRerenderReports,
       }}>
       {children}
     </MapContext.Provider>
