@@ -1,16 +1,16 @@
 import store from '../redux/store';
 import {paths, roles} from './constants';
 
-const { ADMIN, SUPERVISOR, EDITOR } = roles;
+const { ADMIN, COORDINATOR, SUPERVISOR, EDITOR } = roles;
 
 export const PROTECTED_ROUTES = [
   {
     path: paths.HOME,
-    allowedRoles: [ADMIN, SUPERVISOR, EDITOR]
+    allowedRoles: [ADMIN, COORDINATOR, SUPERVISOR, EDITOR]
   },
   {
     path: paths.MANAGEMENT_PANEL,
-    allowedRoles: [ADMIN, SUPERVISOR]
+    allowedRoles: [ADMIN, COORDINATOR, SUPERVISOR]
   }
 ];
 
