@@ -7,7 +7,7 @@ const initialState = {
   error: false,
   errorMessage: undefined,
   errorStatus: undefined,
-  loading: false
+  loading: false,
 };
 
 function setTokens(token, refreshToken) {
@@ -24,7 +24,7 @@ function setTokens(token, refreshToken) {
   }
 }
 
-const authReducer = createReducer(initialState, (builder) => {
+const authReducer = createReducer(initialState, builder => {
   function handleRejected(state, action) {
     state.isLoggedIn = false;
     state.loading = false;
@@ -54,7 +54,7 @@ const authReducer = createReducer(initialState, (builder) => {
       state.isLoggedIn = true;
       state.loading = false;
 
-      const { token, refreshToken } = action.payload;
+      const {token, refreshToken} = action.payload;
 
       setTokens(token, refreshToken);
     })
@@ -65,11 +65,11 @@ const authReducer = createReducer(initialState, (builder) => {
       setTokens();
     })
     .addCase(validateLogin.pending, handlePending)
-    .addCase(validateLogin.fulfilled, (state) => {
+    .addCase(validateLogin.fulfilled, state => {
       state.isLoggedIn = true;
       state.loading = false;
     })
-    .addCase(validateLogin.rejected, handleRejected)
+    .addCase(validateLogin.rejected, handleRejected);
 });
 
 export default authReducer;
