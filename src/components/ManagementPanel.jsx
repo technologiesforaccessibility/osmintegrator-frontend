@@ -192,7 +192,6 @@ function ManagementPanel() {
   const handleCbChange = (value, index) => {
     let userData = [...selectedUserRoles];
     userData[index].value = !value;
-    console.log('NEW userdata: ', userData);
     setSelectedUserRoles(userData);
   };
 
