@@ -2,7 +2,15 @@ export const selectAuthIsLoggedIn = state => {
   return state.auth.isLoggedIn;
 };
 
-export const selectAuthLoading = state => {
+export const selectAuthToken = (state) => {
+  return state.auth.token;
+};
+
+export const selectLoggedInUserRoles = (state) => {
+  return state.auth.loggedInUserRoles;
+};
+
+export const selectAuthLoading = (state) => {
   return state.auth.loading;
 };
 

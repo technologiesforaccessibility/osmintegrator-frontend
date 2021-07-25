@@ -6,7 +6,6 @@ import SidebarMenu from './SidebarMenu';
 import LanguageSwitch from './LanguageTest';
 
 import {MapContext} from './contexts/MapContextProvider';
-import RecentlySeenTileList from './RecentlySeenTileList';
 
 const DashboardSiderbar = props => {
   const {propertyGrid} = useContext(MapContext);
@@ -16,7 +15,6 @@ const DashboardSiderbar = props => {
       <div className="full-height position-sticky pt-3">
         <LanguageSwitch />
         <SidebarMenu />
-        <RecentlySeenTileList />
         <MapPanel />
         {propertyGrid && <PropertyGrid propertyGrid={propertyGrid} />}
       </div>

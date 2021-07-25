@@ -68,5 +68,5 @@
     "sass-loader": "^10.1.1",
     "style-loader": "^2.0.0"
   },
-  "proxy": "https://localhost:9999"
+  "proxy": "http://localhost:9998"
 }
