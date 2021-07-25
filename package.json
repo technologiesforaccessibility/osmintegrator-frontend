@@ -34,6 +34,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "lint": "eslint ./src --ext .js,.jsx",
+    "prepare": "husky install",
     "startHTTPS": "HTTPS=true react-scripts start",
     "clean": "rm -rf ./src/api/*.ts",
     "build:api": "npm run clean && npx swagger-typescript-api -p ./src/api/openapi.json -o ./src/api -n apiClient.ts",
@@ -60,9 +62,11 @@
   "devDependencies": {
     "@types/leaflet": "^1.5.19",
     "css-loader": "^5.0.1",
+    "eslint-config-prettier": "^8.3.0",
+    "husky": "^7.0.1",
     "prettier": "^2.2.1",
     "sass-loader": "^10.1.1",
     "style-loader": "^2.0.0"
   },
-  "proxy": "https://localhost:9999"
+  "proxy": "http://localhost:9998"
 }

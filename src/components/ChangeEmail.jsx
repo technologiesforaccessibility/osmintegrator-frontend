@@ -1,7 +1,12 @@
 import React from 'react';
+import ProfileLayout from './ProfileLayout';
 
 const ChangeEmail = () => {
-  return <div>Change email view</div>;
+  return (
+    <ProfileLayout>
+      <div>Change email view</div>
+    </ProfileLayout>
+  );
 };
 
 export default ChangeEmail;
