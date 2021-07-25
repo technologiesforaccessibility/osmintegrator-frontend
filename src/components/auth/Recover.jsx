@@ -3,7 +3,7 @@ import {useFormik} from 'formik';
 import {useTranslation} from 'react-i18next';
 
 import {noTokenHeaders} from '../../config/apiConfig';
-import client from '../../api/apiInstance';
+import api from '../../api/apiInstance';
 import {unsafeFormApiError} from '../../utilities/utilities';
 import FooterContact from '../FooterContact';
 import AuthLayout from '../AuthLayout';
@@ -28,7 +28,7 @@ const Recover = () => {
 
   const runRecover = async email => {
     try {
-      await client.api.accountForgotPasswordCreate(
+      await api.accountForgotPasswordCreate(
         {
           email,
         },

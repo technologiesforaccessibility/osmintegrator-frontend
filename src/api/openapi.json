@@ -15,7 +15,14 @@
                         "description": "Success"
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -30,8 +37,7 @@
                         "name": "returnUrl",
                         "in": "query",
                         "schema": {
-                            "type": "string",
-                            "nullable": true
+                            "type": "string"
                         }
                     }
                 ],
@@ -40,7 +46,14 @@
                         "description": "Success"
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -71,7 +84,14 @@
                         }
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -102,7 +122,14 @@
                         }
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -126,7 +153,14 @@
                         "description": "Success"
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -150,7 +184,14 @@
                         "description": "Success"
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -174,7 +215,14 @@
                         "description": "Success"
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -198,7 +246,14 @@
                         "description": "Success"
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -222,7 +277,14 @@
                         "description": "Success"
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -246,7 +308,14 @@
                         "description": "Success"
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -258,6 +327,11 @@
                 ],
                 "requestBody": {
                     "content": {
+                        "application/json-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConnectionAction"
+                            }
+                        },
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/ConnectionAction"
@@ -297,6 +371,11 @@
                 ],
                 "requestBody": {
                     "content": {
+                        "application/json-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConnectionAction"
+                            }
+                        },
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/ConnectionAction"
@@ -372,8 +451,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "nullable": true
+                            "type": "string"
                         }
                     }
                 ],
@@ -415,8 +493,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "nullable": true
+                            "type": "string"
                         }
                     }
                 ],
@@ -444,6 +521,30 @@
                 }
             }
         },
+        "/error-local-development": {
+            "get": {
+                "tags": [
+                    "Error"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/error": {
+            "get": {
+                "tags": [
+                    "Error"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
         "/api/Notes": {
             "post": {
                 "tags": [
@@ -451,6 +552,11 @@
                 ],
                 "requestBody": {
                     "content": {
+                        "application/json-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewNote"
+                            }
+                        },
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/NewNote"
@@ -490,6 +596,11 @@
                 ],
                 "requestBody": {
                     "content": {
+                        "application/json-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateNote"
+                            }
+                        },
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/UpdateNote"
@@ -535,8 +646,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "nullable": true
+                            "type": "string"
                         }
                     }
                 ],
@@ -576,8 +686,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "nullable": true
+                            "type": "string"
                         }
                     }
                 ],
@@ -609,8 +718,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "nullable": true
+                            "type": "string"
                         }
                     }
                 ],
@@ -650,7 +758,24 @@
                         "description": "Success"
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -697,8 +822,7 @@
                                 "type": "array",
                                 "items": {
                                     "$ref": "#/components/schemas/RoleUser"
-                                },
-                                "nullable": true
+                                }
                             }
                         }
                     }
@@ -795,8 +919,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "nullable": true
+                            "type": "string"
                         }
                     }
                 ],
@@ -835,8 +958,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "nullable": true
+                            "type": "string"
                         }
                     }
                 ],
@@ -875,8 +997,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "nullable": true
+                            "type": "string"
                         }
                     }
                 ],
@@ -915,13 +1036,17 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "nullable": true
+                            "type": "string"
                         }
                     }
                 ],
                 "requestBody": {
                     "content": {
+                        "application/json-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        },
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/User"
@@ -974,13 +1099,17 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "nullable": true
+                            "type": "string"
                         }
                     }
                 ],
                 "requestBody": {
                     "content": {
+                        "application/json-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        },
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/User"
@@ -1062,8 +1191,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "nullable": true
+                            "type": "string"
                         }
                     }
                 ],
@@ -1126,34 +1254,23 @@
     },
     "components": {
         "schemas": {
-            "LoginData": {
+            "ConfirmEmail": {
                 "required": [
-                    "email",
-                    "password"
-                ],
-                "type": "object",
-                "properties": {
-                    "email": {
-                        "type": "string",
-                        "format": "email"
-                    },
-                    "password": {
-                        "type": "string"
-                    }
-                },
-                "additionalProperties": false
-            },
-            "TokenData": {
-                "required": [
-                    "refreshToken",
+                    "newEmail",
+                    "oldEmail",
                     "token"
                 ],
                 "type": "object",
                 "properties": {
-                    "token": {
-                        "type": "string"
+                    "newEmail": {
+                        "type": "string",
+                        "format": "email"
                     },
-                    "refreshToken": {
+                    "oldEmail": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "token": {
                         "type": "string"
                     }
                 },
@@ -1176,6 +1293,156 @@
                 },
                 "additionalProperties": false
             },
+            "Connection": {
+                "type": "object",
+                "properties": {
+                    "gtfsStopId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "osmStopId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "osmStop": {
+                        "$ref": "#/components/schemas/Stop"
+                    },
+                    "gtfsStop": {
+                        "$ref": "#/components/schemas/Stop"
+                    },
+                    "imported": {
+                        "type": "boolean"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "ConnectionAction": {
+                "required": [
+                    "gtfsStopId",
+                    "osmStopId"
+                ],
+                "type": "object",
+                "properties": {
+                    "osmStopId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "gtfsStopId": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CreateChangeFileRequestInput": {
+                "required": [
+                    "tileUuid"
+                ],
+                "type": "object",
+                "properties": {
+                    "tileUuid": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "ForgotPassword": {
+                "required": [
+                    "email"
+                ],
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "LoginData": {
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "NewNote": {
+                "required": [
+                    "lat",
+                    "lon",
+                    "tileId"
+                ],
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "lat": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "lon": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "tileId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "text": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "ProblemDetails": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "title": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "integer",
+                        "format": "int32",
+                        "nullable": true
+                    },
+                    "detail": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "instance": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": {}
+            },
+            "ProviderType": {
+                "enum": [
+                    0,
+                    1
+                ],
+                "type": "integer",
+                "format": "int32"
+            },
             "RegisterData": {
                 "required": [
                     "email",
@@ -1196,41 +1463,6 @@
                     "password": {
                         "maxLength": 32,
                         "minLength": 8,
-                        "type": "string"
-                    }
-                },
-                "additionalProperties": false
-            },
-            "ForgotPassword": {
-                "required": [
-                    "email"
-                ],
-                "type": "object",
-                "properties": {
-                    "email": {
-                        "type": "string",
-                        "format": "email"
-                    }
-                },
-                "additionalProperties": false
-            },
-            "ConfirmEmail": {
-                "required": [
-                    "newEmail",
-                    "oldEmail",
-                    "token"
-                ],
-                "type": "object",
-                "properties": {
-                    "newEmail": {
-                        "type": "string",
-                        "format": "email"
-                    },
-                    "oldEmail": {
-                        "type": "string",
-                        "format": "email"
-                    },
-                    "token": {
                         "type": "string"
                     }
                 },
@@ -1271,59 +1503,98 @@
                 },
                 "additionalProperties": false
             },
-            "ConnectionAction": {
-                "required": [
-                    "gtfsStopId",
-                    "osmStopId"
-                ],
+            "RolePair": {
                 "type": "object",
                 "properties": {
-                    "osmStopId": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "gtfsStopId": {
-                        "type": "string",
-                        "format": "uuid"
-                    }
-                },
-                "additionalProperties": false
-            },
-            "ProblemDetails": {
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "title": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "status": {
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
-                    },
-                    "detail": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "instance": {
-                        "type": "string",
-                        "nullable": true
-                    }
-                },
-                "additionalProperties": {}
-            },
-            "Tag": {
-                "type": "object",
-                "properties": {
-                    "key": {
+                    "name": {
                         "type": "string",
                         "nullable": true
                     },
                     "value": {
+                        "type": "boolean"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "RoleUser": {
+                "required": [
+                    "id",
+                    "roles",
+                    "userName"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "userName": {
+                        "type": "string"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RolePair"
+                        }
+                    }
+                },
+                "additionalProperties": false
+            },
+            "Stop": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "stopId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "lat": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "lon": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "number": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Tag"
+                        },
+                        "nullable": true
+                    },
+                    "stopType": {
+                        "$ref": "#/components/schemas/StopType"
+                    },
+                    "providerType": {
+                        "$ref": "#/components/schemas/ProviderType"
+                    },
+                    "tileId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "tile": {
+                        "$ref": "#/components/schemas/Tile"
+                    },
+                    "outsideSelectedTile": {
+                        "type": "boolean"
+                    },
+                    "version": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "changeset": {
                         "type": "string",
                         "nullable": true
                     }
@@ -1338,13 +1609,19 @@
                 "type": "integer",
                 "format": "int32"
             },
-            "ProviderType": {
-                "enum": [
-                    0,
-                    1
-                ],
-                "type": "integer",
-                "format": "int32"
+            "Tag": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "value": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
             },
             "Tile": {
                 "type": "object",
@@ -1416,117 +1693,18 @@
                 },
                 "additionalProperties": false
             },
-            "Stop": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "stopId": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "name": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "lat": {
-                        "type": "number",
-                        "format": "double"
-                    },
-                    "lon": {
-                        "type": "number",
-                        "format": "double"
-                    },
-                    "number": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "tags": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/Tag"
-                        },
-                        "nullable": true
-                    },
-                    "stopType": {
-                        "$ref": "#/components/schemas/StopType"
-                    },
-                    "providerType": {
-                        "$ref": "#/components/schemas/ProviderType"
-                    },
-                    "tileId": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "tile": {
-                        "$ref": "#/components/schemas/Tile"
-                    },
-                    "outsideSelectedTile": {
-                        "type": "boolean"
-                    },
-                    "version": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "changeset": {
-                        "type": "string",
-                        "nullable": true
-                    }
-                },
-                "additionalProperties": false
-            },
-            "Connection": {
-                "type": "object",
-                "properties": {
-                    "gtfsStopId": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "osmStopId": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "osmStop": {
-                        "$ref": "#/components/schemas/Stop"
-                    },
-                    "gtfsStop": {
-                        "$ref": "#/components/schemas/Stop"
-                    },
-                    "imported": {
-                        "type": "boolean"
-                    }
-                },
-                "additionalProperties": false
-            },
-            "NewNote": {
+            "TokenData": {
                 "required": [
-                    "lat",
-                    "lon",
-                    "text",
-                    "tileId"
+                    "refreshToken",
+                    "token"
                 ],
                 "type": "object",
                 "properties": {
-                    "userId": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "lat": {
-                        "type": "number",
-                        "format": "double"
-                    },
-                    "lon": {
-                        "type": "number",
-                        "format": "double"
-                    },
-                    "text": {
+                    "token": {
                         "type": "string"
                     },
-                    "tileId": {
-                        "type": "string",
-                        "format": "uuid"
+                    "refreshToken": {
+                        "type": "string"
                     }
                 },
                 "additionalProperties": false
@@ -1558,56 +1736,6 @@
                 },
                 "additionalProperties": false
             },
-            "CreateChangeFileRequestInput": {
-                "required": [
-                    "tileUuid"
-                ],
-                "type": "object",
-                "properties": {
-                    "tileUuid": {
-                        "type": "string",
-                        "format": "uuid"
-                    }
-                },
-                "additionalProperties": false
-            },
-            "RolePair": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "value": {
-                        "type": "boolean"
-                    }
-                },
-                "additionalProperties": false
-            },
-            "RoleUser": {
-                "required": [
-                    "id",
-                    "roles",
-                    "userName"
-                ],
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "userName": {
-                        "type": "string"
-                    },
-                    "roles": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/RolePair"
-                        }
-                    }
-                },
-                "additionalProperties": false
-            },
             "User": {
                 "required": [
                     "id"
@@ -1624,6 +1752,7 @@
                     },
                     "email": {
                         "type": "string",
+                        "format": "email",
                         "nullable": true
                     },
                     "roles": {

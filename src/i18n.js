@@ -51,15 +51,21 @@ i18n
           },
           logout: {title: 'You have been logged out', message: 'You will be redirect to login page soon.'},
           map: {},
-          sidebar: {contact : 'Contact us'},
+          sidebar: {contact: 'Contact us'},
           contactForm: {
             description: 'Login problem? Need to contact? Send us a ',
             message: 'message',
           },
-          report : {
+          report: {
             button: 'Send report',
+            clear: 'Clear text and map pin location',
             success: 'Report has been sent',
-            fail : 'A problem occured'
+            fail: 'A problem occured',
+            pinInfo: 'Click elsewhere to move marker',
+            approve: 'Approve',
+            approved: 'Report approved!',
+            decline: 'Decline',
+            closed: 'Report closed',
           },
         },
       },
@@ -73,10 +79,16 @@ i18n
           },
           map: {},
           sidebar: {},
-          report : {
+          report: {
             button: 'Wyślij zgłoszenie',
+            clear: 'Wyczyść',
             success: 'Zgłoszenie zostało wysłane',
-            fail : 'Wystąpił problem',
+            fail: 'Wystąpił problem',
+            pinInfo: 'Kliknij w inne miejsce aby przenieść znacznik',
+            approve: 'Zatwierdź',
+            approved: 'Zgłoszenie zatwierdzone!',
+            decline: 'Odrzuć',
+            closed: 'Zgłoszenie zamknięte',
           },
         },
       },

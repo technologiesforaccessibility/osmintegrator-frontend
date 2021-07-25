@@ -9,15 +9,13 @@
  * ---------------------------------------------------------------
  */
 
-export interface LoginData {
+export interface ConfirmEmail {
   /** @format email */
-  email: string;
-  password: string;
-}
+  newEmail: string;
 
-export interface TokenData {
+  /** @format email */
+  oldEmail: string;
   token: string;
-  refreshToken: string;
 }
 
 export interface ConfirmRegistration {
@@ -26,11 +24,28 @@ export interface ConfirmRegistration {
   token: string;
 }
 
-export interface RegisterData {
-  /** @format email */
-  email: string;
-  username: string;
-  password: string;
+export interface Connection {
+  /** @format uuid */
+  gtfsStopId?: string;
+
+  /** @format uuid */
+  osmStopId?: string;
+  osmStop?: Stop;
+  gtfsStop?: Stop;
+  imported?: boolean;
+}
+
+export interface ConnectionAction {
+  /** @format uuid */
+  osmStopId: string;
+
+  /** @format uuid */
+  gtfsStopId: string;
+}
+
+export interface CreateChangeFileRequestInput {
+  /** @format uuid */
+  tileUuid: string;
 }
 
 export interface ForgotPassword {
@@ -38,13 +53,47 @@ export interface ForgotPassword {
   email: string;
 }
 
-export interface ConfirmEmail {
+export interface LoginData {
   /** @format email */
-  newEmail: string;
+  email: string;
+  password: string;
+}
 
+export interface NewNote {
+  /** @format uuid */
+  userId?: string;
+
+  /** @format double */
+  lat: number;
+
+  /** @format double */
+  lon: number;
+
+  /** @format uuid */
+  tileId: string;
+  text?: string | null;
+}
+
+export interface ProblemDetails {
+  type?: string | null;
+  title?: string | null;
+
+  /** @format int32 */
+  status?: number | null;
+  detail?: string | null;
+  instance?: string | null;
+}
+
+/**
+ * @format int32
+ */
+export type ProviderType = 0 | 1;
+
+export interface RegisterData {
   /** @format email */
-  oldEmail: string;
-  token: string;
+  email: string;
+  username: string;
+  password: string;
 }
 
 export interface ResetEmail {
@@ -61,27 +110,44 @@ export interface ResetPassword {
   token: string;
 }
 
-export interface ConnectionAction {
-  /** @format uuid */
-  osmStopId: string;
-
-  /** @format uuid */
-  gtfsStopId: string;
+export interface RolePair {
+  name?: string | null;
+  value?: boolean;
 }
 
-export interface ProblemDetails {
-  type?: string | null;
-  title?: string | null;
+export interface RoleUser {
+  /** @format uuid */
+  id: string;
+  userName: string;
+  roles: RolePair[];
+}
+
+export interface Stop {
+  /** @format uuid */
+  id?: string;
+
+  /** @format int64 */
+  stopId?: number;
+  name?: string | null;
+
+  /** @format double */
+  lat?: number;
+
+  /** @format double */
+  lon?: number;
+  number?: string | null;
+  tags?: Tag[] | null;
+  stopType?: StopType;
+  providerType?: ProviderType;
+
+  /** @format uuid */
+  tileId?: string;
+  tile?: Tile;
+  outsideSelectedTile?: boolean;
 
   /** @format int32 */
-  status?: number | null;
-  detail?: string | null;
-  instance?: string | null;
-}
-
-export interface Tag {
-  key?: string | null;
-  value?: string | null;
+  version?: number;
+  changeset?: string | null;
 }
 
 /**
@@ -89,10 +155,10 @@ export interface Tag {
  */
 export type StopType = 0 | 1;
 
-/**
- * @format int32
- */
-export type ProviderType = 0 | 1;
+export interface Tag {
+  key?: string | null;
+  value?: string | null;
+}
 
 export interface Tile {
   /** @format uuid */
@@ -139,58 +205,9 @@ export interface Tile {
   stops?: Stop[] | null;
 }
 
-export interface Stop {
-  /** @format uuid */
-  id?: string;
-
-  /** @format int64 */
-  stopId?: number;
-  name?: string | null;
-
-  /** @format double */
-  lat?: number;
-
-  /** @format double */
-  lon?: number;
-  number?: string | null;
-  tags?: Tag[] | null;
-  stopType?: StopType;
-  providerType?: ProviderType;
-
-  /** @format uuid */
-  tileId?: string;
-  tile?: Tile;
-  outsideSelectedTile?: boolean;
-
-  /** @format int32 */
-  version?: number;
-  changeset?: string | null;
-}
-
-export interface Connection {
-  /** @format uuid */
-  gtfsStopId?: string;
-
-  /** @format uuid */
-  osmStopId?: string;
-  osmStop?: Stop;
-  gtfsStop?: Stop;
-  imported?: boolean;
-}
-
-export interface NewNote {
-  /** @format uuid */
-  userId?: string;
-
-  /** @format double */
-  lat: number;
-
-  /** @format double */
-  lon: number;
-  text: string;
-
-  /** @format uuid */
-  tileId: string;
+export interface TokenData {
+  token: string;
+  refreshToken: string;
 }
 
 export interface UpdateNote {
@@ -205,27 +222,12 @@ export interface UpdateNote {
   text: string;
 }
 
-export interface CreateChangeFileRequestInput {
-  /** @format uuid */
-  tileUuid: string;
-}
-
-export interface RolePair {
-  name?: string | null;
-  value?: boolean;
-}
-
-export interface RoleUser {
-  /** @format uuid */
-  id: string;
-  userName: string;
-  roles: RolePair[];
-}
-
 export interface User {
   /** @format uuid */
   id: string;
   userName?: string | null;
+
+  /** @format email */
   email?: string | null;
   roles?: string[] | null;
 }
@@ -435,7 +437,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/Account/IsTokenValid
      */
     accountIsTokenValidList: (params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.request<void, ProblemDetails>({
         path: `/api/Account/IsTokenValid`,
         method: "GET",
         ...params,
@@ -448,8 +450,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name AccountLogoutCreate
      * @request POST:/api/Account/Logout
      */
-    accountLogoutCreate: (query?: { returnUrl?: string | null }, params: RequestParams = {}) =>
-      this.request<void, void>({
+    accountLogoutCreate: (query?: { returnUrl?: string }, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
         path: `/api/Account/Logout`,
         method: "POST",
         query: query,
@@ -464,7 +466,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/api/Account/Login
      */
     accountLoginCreate: (data: LoginData, params: RequestParams = {}) =>
-      this.request<TokenData, void>({
+      this.request<TokenData, ProblemDetails>({
         path: `/api/Account/Login`,
         method: "POST",
         body: data,
@@ -481,7 +483,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/api/Account/Refresh
      */
     accountRefreshCreate: (data: TokenData, params: RequestParams = {}) =>
-      this.request<TokenData, void>({
+      this.request<TokenData, ProblemDetails>({
         path: `/api/Account/Refresh`,
         method: "POST",
         body: data,
@@ -498,7 +500,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/api/Account/ConfirmRegistration
      */
     accountConfirmRegistrationCreate: (data: ConfirmRegistration, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.request<void, ProblemDetails>({
         path: `/api/Account/ConfirmRegistration`,
         method: "POST",
         body: data,
@@ -514,7 +516,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/api/Account/Register
      */
     accountRegisterCreate: (data: RegisterData, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.request<void, ProblemDetails>({
         path: `/api/Account/Register`,
         method: "POST",
         body: data,
@@ -530,7 +532,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/api/Account/ForgotPassword
      */
     accountForgotPasswordCreate: (data: ForgotPassword, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.request<void, ProblemDetails>({
         path: `/api/Account/ForgotPassword`,
         method: "POST",
         body: data,
@@ -546,7 +548,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/api/Account/ConfirmEmail
      */
     accountConfirmEmailCreate: (data: ConfirmEmail, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.request<void, ProblemDetails>({
         path: `/api/Account/ConfirmEmail`,
         method: "POST",
         body: data,
@@ -562,7 +564,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/api/Account/ChangeEmail
      */
     accountChangeEmailCreate: (data: ResetEmail, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.request<void, ProblemDetails>({
         path: `/api/Account/ChangeEmail`,
         method: "POST",
         body: data,
@@ -578,7 +580,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/api/Account/ResetPassword
      */
     accountResetPasswordCreate: (data: ResetPassword, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.request<void, ProblemDetails>({
         path: `/api/Account/ResetPassword`,
         method: "POST",
         body: data,
@@ -640,7 +642,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ConnectionsDetail
      * @request GET:/api/Connections/{id}
      */
-    connectionsDetail: (id: string | null, params: RequestParams = {}) =>
+    connectionsDetail: (id: string, params: RequestParams = {}) =>
       this.request<Connection[], ProblemDetails>({
         path: `/api/Connections/${id}`,
         method: "GET",
@@ -655,7 +657,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ConnectionsApproveUpdate
      * @request PUT:/api/Connections/Approve/{id}
      */
-    connectionsApproveUpdate: (id: string | null, params: RequestParams = {}) =>
+    connectionsApproveUpdate: (id: string, params: RequestParams = {}) =>
       this.request<string, ProblemDetails>({
         path: `/api/Connections/Approve/${id}`,
         method: "PUT",
@@ -702,7 +704,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name NotesDetail
      * @request GET:/api/Notes/{id}
      */
-    notesDetail: (id: string | null, params: RequestParams = {}) =>
+    notesDetail: (id: string, params: RequestParams = {}) =>
       this.request<NewNote[], ProblemDetails>({
         path: `/api/Notes/${id}`,
         method: "GET",
@@ -717,7 +719,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name NotesDelete
      * @request DELETE:/api/Notes/{id}
      */
-    notesDelete: (id: string | null, params: RequestParams = {}) =>
+    notesDelete: (id: string, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Notes/${id}`,
         method: "DELETE",
@@ -731,7 +733,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name NotesApproveUpdate
      * @request PUT:/api/Notes/Approve/{id}
      */
-    notesApproveUpdate: (id: string | null, params: RequestParams = {}) =>
+    notesApproveUpdate: (id: string, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Notes/Approve/${id}`,
         method: "PUT",
@@ -746,7 +748,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/OsmChangeFile/GetChangeFile
      */
     osmChangeFileGetChangeFileList: (data: CreateChangeFileRequestInput, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.request<void, ProblemDetails>({
         path: `/api/OsmChangeFile/GetChangeFile`,
         method: "GET",
         body: data,
@@ -776,7 +778,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name RolesUpdate
      * @request PUT:/api/Roles
      */
-    rolesUpdate: (data: RoleUser[] | null, params: RequestParams = {}) =>
+    rolesUpdate: (data: RoleUser[], params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Roles`,
         method: "PUT",
@@ -822,7 +824,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TileGetStopsDetail
      * @request GET:/api/Tile/GetStops/{id}
      */
-    tileGetStopsDetail: (id: string | null, params: RequestParams = {}) =>
+    tileGetStopsDetail: (id: string, params: RequestParams = {}) =>
       this.request<Stop, ProblemDetails>({
         path: `/api/Tile/GetStops/${id}`,
         method: "GET",
@@ -837,7 +839,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TileGetUsersDetail
      * @request GET:/api/Tile/GetUsers/{id}
      */
-    tileGetUsersDetail: (id: string | null, params: RequestParams = {}) =>
+    tileGetUsersDetail: (id: string, params: RequestParams = {}) =>
       this.request<Tile, ProblemDetails>({
         path: `/api/Tile/GetUsers/${id}`,
         method: "GET",
@@ -852,7 +854,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TileRemoveUserDelete
      * @request DELETE:/api/Tile/RemoveUser/{id}
      */
-    tileRemoveUserDelete: (id: string | null, params: RequestParams = {}) =>
+    tileRemoveUserDelete: (id: string, params: RequestParams = {}) =>
       this.request<string, ProblemDetails>({
         path: `/api/Tile/RemoveUser/${id}`,
         method: "DELETE",
@@ -867,7 +869,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TileUpdateUserUpdate
      * @request PUT:/api/Tile/UpdateUser/{id}
      */
-    tileUpdateUserUpdate: (id: string | null, data: User, params: RequestParams = {}) =>
+    tileUpdateUserUpdate: (id: string, data: User, params: RequestParams = {}) =>
       this.request<string, ProblemDetails>({
         path: `/api/Tile/UpdateUser/${id}`,
         method: "PUT",
@@ -884,7 +886,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TileApproveUpdate
      * @request PUT:/api/Tile/Approve/{id}
      */
-    tileApproveUpdate: (id: string | null, data: User, params: RequestParams = {}) =>
+    tileApproveUpdate: (id: string, data: User, params: RequestParams = {}) =>
       this.request<string, ProblemDetails>({
         path: `/api/Tile/Approve/${id}`,
         method: "PUT",
@@ -916,7 +918,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name UserDetail
      * @request GET:/api/User/{id}
      */
-    userDetail: (id: string | null, params: RequestParams = {}) =>
+    userDetail: (id: string, params: RequestParams = {}) =>
       this.request<User, ProblemDetails>({
         path: `/api/User/${id}`,
         method: "GET",
@@ -936,6 +938,36 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/Users`,
         method: "GET",
         format: "json",
+        ...params,
+      }),
+  };
+  errorLocalDevelopment = {
+    /**
+     * No description
+     *
+     * @tags Error
+     * @name ErrorLocalDevelopmentList
+     * @request GET:/error-local-development
+     */
+    errorLocalDevelopmentList: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/error-local-development`,
+        method: "GET",
+        ...params,
+      }),
+  };
+  error = {
+    /**
+     * No description
+     *
+     * @tags Error
+     * @name ErrorList
+     * @request GET:/error
+     */
+    errorList: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/error`,
+        method: "GET",
         ...params,
       }),
   };

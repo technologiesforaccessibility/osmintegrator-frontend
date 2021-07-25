@@ -7,6 +7,7 @@ import CustomBlockButton from './customs/CustomBlockButton';
 import '../stylesheets/mapPanel.scss';
 import buttonStyle from '../stylesheets/modules/mapPanelButton.module.scss';
 import NewReport from './NewReport';
+import EditReport from './EditReport';
 
 const MapPanel = () => {
   const {
@@ -14,11 +15,13 @@ const MapPanel = () => {
     isViewMode,
     isReportMapMode,
     isConnectionMode,
+    isEditingReportMode,
     singleTileToggle,
     viewModeToggle,
     reportModeToggle,
     connectionModeToggle,
-    reset,
+    hideTileElements,
+    openReport,
   } = useContext(MapContext);
 
   const radios = [
@@ -55,7 +58,7 @@ const MapPanel = () => {
               style={buttonStyle}
               onClickHandler={() => {
                 singleTileToggle(false);
-                reset();
+                hideTileElements();
               }}
             />
           </div>
@@ -68,6 +71,7 @@ const MapPanel = () => {
             ))}
           </div>
           {isReportMapMode && <NewReport />}
+          {isEditingReportMode && openReport && <EditReport />}
           {isConnectionMode && <ConnectionSidePanel />}
         </div>
       )}

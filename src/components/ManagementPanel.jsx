@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Rectangle, Tooltip} from 'react-leaflet';
 
-import client from '../api/apiInstance';
+import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
 import CheckIcon from './customs/CheckIcon';
 import H3Title from './customs/H3Title';
@@ -45,7 +45,7 @@ function ManagementPanel() {
   }, []);
 
   const getTileUserAssignmentInfo = async id => {
-    return await client.api.tileGetUsersDetail(id, {
+    return await api.tileGetUsersDetail(id, {
       headers: basicHeaders(),
     });
   };
@@ -70,7 +70,7 @@ function ManagementPanel() {
 
   async function getTiles() {
     try {
-      const response = await client.api.tileGetTilesList({
+      const response = await api.tileGetTilesList({
         headers: basicHeaders(),
       });
       return response.data;
@@ -140,10 +140,10 @@ function ManagementPanel() {
   const assignToTile = async ({id, userName, isAssigned}, tile) => {
     const response =
       isAssigned === true
-        ? await client.api.tileRemoveUserDelete(tile.id, {
+        ? await api.tileRemoveUserDelete(tile.id, {
             headers: basicHeaders(),
           })
-        : await client.api.tileUpdateUserUpdate(
+        : await api.tileUpdateUserUpdate(
             tile.id,
             {id: id},
             {
@@ -160,7 +160,7 @@ function ManagementPanel() {
 
   async function getUserList() {
     try {
-      const response = await client.api.rolesList({
+      const response = await api.rolesList({
         headers: basicHeaders(),
       });
       return response.data;
@@ -216,7 +216,7 @@ function ManagementPanel() {
     ];
 
     try {
-      await client.api.rolesUpdate(requestBody, {
+      await api.rolesUpdate(requestBody, {
         headers: basicHeaders(),
       });
       const userList = await getUserList();

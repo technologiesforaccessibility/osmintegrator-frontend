@@ -4,7 +4,7 @@ import {Polyline, Tooltip, Popup} from 'react-leaflet';
 import {generateConnectionData, getPosition} from '../../utilities/mapUtilities';
 
 import colors from '../../stylesheets/config/colors.module.scss';
-import client from '../../api/apiInstance';
+import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';
 import {unsafeApiError} from '../../utilities/utilities';
 import DeleteConnectionPopup from './DeleteConnectionPopup';
@@ -20,7 +20,7 @@ const ImportedConnections = ({stops, importedConnections, shouldRenderConnection
 
   const deleteConnection = async (osm, gtfs) => {
     try {
-      await client.api.connectionsDelete(generateConnectionData(checkStopType([osm, gtfs])), {
+      await api.connectionsDelete(generateConnectionData(checkStopType([osm, gtfs])), {
         headers: basicHeaders(),
       });
       shouldRenderConnections(true);

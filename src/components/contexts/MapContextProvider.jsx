@@ -19,11 +19,17 @@ const MapContextProvider = ({children}) => {
   const [isViewMode, setIsViewMode] = useState(true);
   const [isReportMapMode, setIsReportMapMode] = useState(false);
   const [isConnectionMode, setIsConnectionMode] = useState(false);
+  const [isEditingReportMode, setIsEditingReportMode] = useState(false);
 
   const [newReportCoordinates, setNewReportCoordinates] = useState(initialReportCoords);
   const [rerenderReports, setRerenderReports] = useState(false);
 
   const [activeTile, setActiveTile] = useState({});
+
+  const [importedConnections, setImportedConnections] = useState([]);
+  const [importedReports, setImportedReports] = useState([]);
+
+  const [openReport, setOpenReport] = useState(null);
 
   const singleTileToggle = isActive => {
     setShowSingleTile(isActive);
@@ -72,9 +78,16 @@ const MapContextProvider = ({children}) => {
     setPropertyGrid(null);
   };
 
+  const hideTileElements = () => {
+    setConnectionData([]);
+    setPropertyGrid(null);
+    setImportedConnections([]);
+    setImportedReports([]);
+  };
+
   const shouldRenderConnections = setRerenderConnections;
 
-  const reportSuccess = () => {
+  const resetReportCoordinates = () => {
     setNewReportCoordinates(initialReportCoords);
   };
 
@@ -103,11 +116,20 @@ const MapContextProvider = ({children}) => {
         connectionModeToggle,
         newReportCoordinates,
         setNewReportCoordinates,
-        reportSuccess,
+        resetReportCoordinates,
         activeTile,
         setActiveTile,
         rerenderReports,
         setRerenderReports,
+        importedConnections,
+        setImportedConnections,
+        importedReports,
+        setImportedReports,
+        hideTileElements,
+        isEditingReportMode,
+        setIsEditingReportMode,
+        openReport,
+        setOpenReport,
       }}>
       {children}
     </MapContext.Provider>

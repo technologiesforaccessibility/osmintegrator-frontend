@@ -9,7 +9,7 @@ import TileStops from './mapComponents/TileStops';
 import NewReportMarker from './mapComponents/NewReportMarker';
 import {MapContext} from './contexts/MapContextProvider';
 import {basicHeaders} from '../config/apiConfig';
-import client from '../api/apiInstance';
+import api from '../api/apiInstance';
 
 import 'leaflet/dist/leaflet.css';
 import {unsafeApiError} from '../utilities/utilities';
@@ -21,8 +21,6 @@ export const MapView = () => {
 
   const [tiles, setTiles] = useState([]);
   const [allStops, setAllStops] = useState([]);
-  const [importedConnections, setImportedConnections] = useState([]);
-  const [importedReports, setImportedReports] = useState([]);
 
   const [activeBusStopId, setActiveBusStopId] = useState(null);
 
@@ -52,6 +50,10 @@ export const MapView = () => {
     setActiveTile,
     rerenderReports,
     setRerenderReports,
+    importedConnections,
+    setImportedConnections,
+    importedReports,
+    setImportedReports,
   } = useContext(MapContext);
 
   useEffect(() => {
@@ -64,7 +66,7 @@ export const MapView = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await client.api.tileGetTilesList({
+        const response = await api.tileGetTilesList({
           headers: basicHeaders(),
         });
         setTiles(response.data);
@@ -139,7 +141,7 @@ export const MapView = () => {
 
   const getTileStops = async id => {
     try {
-      const response = await client.api.tileGetStopsDetail(id, {
+      const response = await api.tileGetStopsDetail(id, {
         headers: basicHeaders(),
       });
       setAllStops(response.data);
@@ -151,7 +153,7 @@ export const MapView = () => {
 
   const getTileConnections = async id => {
     try {
-      const response = await client.api.connectionsDetail(id, {
+      const response = await api.connectionsDetail(id, {
         headers: basicHeaders(),
       });
       setImportedConnections(response.data);
@@ -162,7 +164,7 @@ export const MapView = () => {
 
   const getTileReports = async id => {
     try {
-      const response = await client.api.notesDetail(id, {
+      const response = await api.notesDetail(id, {
         headers: basicHeaders(),
       });
       setImportedReports(response.data);
