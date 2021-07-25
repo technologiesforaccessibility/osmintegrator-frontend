@@ -7,7 +7,7 @@ import {selectAuthIsLoggedIn} from '../redux/selectors/authSelector';
 
 import '../stylesheets/dashboard.scss';
 
-export default function Dashboard({ children }) {
+export default function Dashboard({children}) {
   const [propertyGrid, setPropertyGrid] = useState(null);
 
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);

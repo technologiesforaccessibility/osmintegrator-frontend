@@ -7,7 +7,7 @@ import {paths} from '../utilities/constants';
 const ProfilePanel = () => {
   const linkList = [
     {link: paths.CHANGE_EMAIL, title: 'Change e-mail'},
-    {link: paths.CHANGE_PASSWORD, title: 'Change password'}
+    {link: paths.CHANGE_PASSWORD, title: 'Change password'},
   ];
   return (
     <ProfileLayout>

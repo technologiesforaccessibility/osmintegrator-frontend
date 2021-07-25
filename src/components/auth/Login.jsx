@@ -36,7 +36,7 @@ const Login = () => {
     return dispatch(login({email, password}));
   };
 
-  return (!isLoading && isLoggedIn) ? (
+  return !isLoading && isLoggedIn ? (
     <Redirect to={paths.HOME} />
   ) : (
     <AuthLayout>

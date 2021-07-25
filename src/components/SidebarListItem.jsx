@@ -8,7 +8,7 @@ const {REACT_APP_CONTACT_FORM} = process.env;
 
 const SidebarListItem = ({link, name, externalLink}) => {
   if (!hasAccessToPath(link)) {
-    return <></>
+    return <></>;
   }
 
   return (
