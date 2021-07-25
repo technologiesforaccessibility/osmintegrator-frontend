@@ -16,7 +16,7 @@ const DashboardSiderbar = props => {
         <LanguageSwitch />
         <SidebarMenu />
         <MapPanel />
-        {propertyGrid && <PropertyGrid propertyGrid={propertyGrid} updatePropertyGrid={props.updatePropertyGrid} />}
+        {propertyGrid && <PropertyGrid propertyGrid={propertyGrid} />}
       </div>
     </nav>
   );

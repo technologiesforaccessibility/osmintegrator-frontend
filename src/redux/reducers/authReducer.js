@@ -8,7 +8,7 @@ const initialState = {
   error: false,
   errorMessage: undefined,
   errorStatus: undefined,
-  loading: false
+  loading: false,
 };
 
 function setTokens(token, refreshToken) {
@@ -25,6 +25,7 @@ function setTokens(token, refreshToken) {
   }
 }
 
+<<<<<<< HEAD
 
 function parseToken(token) {
   const [, base64Url] = token.split('.');
@@ -56,6 +57,9 @@ function parseToken(token) {
 }
 
 const authReducer = createReducer(initialState, (builder) => {
+=======
+const authReducer = createReducer(initialState, builder => {
+>>>>>>> 0674d0b73864091dd35247767e9ab8f006d79e29
   function handleRejected(state, action) {
     state.isLoggedIn = false;
     state.loading = false;
@@ -89,8 +93,13 @@ const authReducer = createReducer(initialState, (builder) => {
 
       state.isLoggedIn = true;
       state.loading = false;
+<<<<<<< HEAD
       state.token = token;
       state.loggedInUserRoles = roles;
+=======
+
+      const {token, refreshToken} = action.payload;
+>>>>>>> 0674d0b73864091dd35247767e9ab8f006d79e29
 
       setTokens(token, refreshToken);
     })
@@ -103,10 +112,14 @@ const authReducer = createReducer(initialState, (builder) => {
       setTokens();
     })
     .addCase(validateLogin.pending, handlePending)
+<<<<<<< HEAD
     .addCase(validateLogin.fulfilled, (state) => {
       const token = localStorage.getItem('token');
       const { roles } = parseToken(token);
 
+=======
+    .addCase(validateLogin.fulfilled, state => {
+>>>>>>> 0674d0b73864091dd35247767e9ab8f006d79e29
       state.isLoggedIn = true;
       state.loading = false;
       state.token = token;
@@ -118,6 +131,10 @@ const authReducer = createReducer(initialState, (builder) => {
       state.token = undefined;
       state.loggedInUserRoles = undefined;
     })
+<<<<<<< HEAD
+=======
+    .addCase(validateLogin.rejected, handleRejected);
+>>>>>>> 0674d0b73864091dd35247767e9ab8f006d79e29
 });
 
 export default authReducer;
