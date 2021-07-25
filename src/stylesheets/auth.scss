@@ -3,6 +3,12 @@
 
 .auth-area {
   @include auth-area;
+
+  &__version {
+    position:absolute;
+    top: 0;
+    left: 0;
+  }
 }
 
 .form-div {

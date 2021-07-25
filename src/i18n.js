@@ -24,6 +24,7 @@ i18n
     resources: {
       en: {
         translation: {
+          version: 'Version: ',
           400: 'Provided values must be valid',
           unrecognizedProblem: 'Something went wrong...',
           login: {
@@ -65,6 +66,7 @@ i18n
       },
       pl: {
         translation: {
+          version: 'Wersja: ',
           login: {
             title: 'Witamy',
             password: 'Hasło',
