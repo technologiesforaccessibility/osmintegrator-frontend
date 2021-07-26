@@ -18,11 +18,12 @@ const EditReport = () => {
 
   const {openReport, setOpenReport} = useContext(MapContext);
 
-  const {text, id} = openReport;
+  const {text, id, status} = openReport;
 
   const approveReport = async () => {
     try {
-      await api.notesApproveUpdate({id}, {headers: basicHeaders()});
+      console.log('ID', {id});
+      await api.notesApproveUpdate(id, {headers: basicHeaders()});
       setMessageColor(colors.colorMessageSuccess);
       setMessage(t('report.approved'));
       setOpenReport(null);
@@ -35,7 +36,7 @@ const EditReport = () => {
 
   const declineReport = async () => {
     try {
-      await api.notesDelete({id}, {headers: basicHeaders()});
+      await api.notesRejectUpdate(id, {headers: basicHeaders()});
       setMessageColor(colors.colorMessageSuccess);
       setMessage(t('report.closed'));
       setOpenReport(null);
@@ -51,22 +52,27 @@ const EditReport = () => {
       {openReport && (
         <>
           <p className="report__form">{text}</p>
-          <CustomBlockButton
-            buttonTitle={t('report.approve')}
-            style={buttonStyle}
-            type="button"
-            onClickHandler={() => {
-              approveReport();
-            }}
-          />
-          <CustomBlockButton
-            buttonTitle={t('report.decline')}
-            style={buttonStyle}
-            type="button"
-            onClickHandler={() => {
-              declineReport();
-            }}
-          />
+          {(status === 1) &
+          (
+            <>
+              <CustomBlockButton
+                buttonTitle={t('report.approve')}
+                style={buttonStyle}
+                type="button"
+                onClickHandler={() => {
+                  approveReport();
+                }}
+              />
+              <CustomBlockButton
+                buttonTitle={t('report.decline')}
+                style={buttonStyle}
+                type="button"
+                onClickHandler={() => {
+                  declineReport();
+                }}
+              />
+            </>
+          )}
         </>
       )}
       {message && <p style={{color: messageColor}}>{message}</p>}

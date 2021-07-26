@@ -739,6 +739,38 @@
                 }
             }
         },
+        "/api/Notes/Reject/{id}": {
+            "put": {
+                "tags": [
+                    "Notes"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/OsmChangeFile/GetChangeFile": {
             "get": {
                 "tags": [

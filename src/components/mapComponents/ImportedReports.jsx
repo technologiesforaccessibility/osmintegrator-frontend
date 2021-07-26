@@ -8,22 +8,23 @@ import {roles} from '../../utilities/constants';
 import {MapContext} from '../contexts/MapContextProvider';
 
 const ImportedReports = ({reports}) => {
-  const role = useSelector(selectLoggedInUserRoles);
+  const authRoles = useSelector(selectLoggedInUserRoles);
 
   const {setIsEditingReportMode, setOpenReport} = useContext(MapContext);
-
+  console.log('REPORTS', reports)
   return (
     <>
-      {reports.map(({lat, lon, text, id, tileId}) => (
+      {reports.map(({lat, lon, text, id, tileId, status}) => (
         <Marker
           position={[lat, lon]}
           icon={getReportIcon()}
           eventHandlers={{
             click: () => {
-              if ([roles.ADMIN, roles.COORDINATOR, roles.SUPERVISOR].includes(...role)) {
+              if (authRoles.some(role => [roles.ADMIN, roles.COORDINATOR, roles.SUPERVISOR].includes(role)) ) {
                 setIsEditingReportMode(true);
-                setOpenReport({lat, lon, text, id, tileId});
-                console.log(role);
+                setOpenReport({lat, lon, text, id, tileId, status});
+
+                console.log(authRoles);
               }
             },
           }}>

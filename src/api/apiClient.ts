@@ -743,6 +743,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
+     * @tags Notes
+     * @name NotesRejectUpdate
+     * @request PUT:/api/Notes/Reject/{id}
+     */
+    notesRejectUpdate: (id: string, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Notes/Reject/${id}`,
+        method: "PUT",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags OsmChangeFile
      * @name OsmChangeFileGetChangeFileList
      * @request GET:/api/OsmChangeFile/GetChangeFile
