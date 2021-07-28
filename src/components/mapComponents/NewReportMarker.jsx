@@ -11,7 +11,7 @@ const ReportMarkers = ({newReportCoordinates}) => {
   return (
     lat !== null &&
     lon !== null && (
-      <Marker position={[lat, lon]} icon={getReportIcon()}>
+      <Marker position={[lat, lon]} icon={getReportIcon(99)}>
         <Tooltip direction="top" offset={[0, -55]}>
           {t('report.pinInfo')}
         </Tooltip>

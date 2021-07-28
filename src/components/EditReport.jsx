@@ -52,8 +52,7 @@ const EditReport = () => {
       {openReport && (
         <>
           <p className="report__form">{text}</p>
-          {(status === 1) &
-          (
+          {status === 0 ? (
             <>
               <CustomBlockButton
                 buttonTitle={t('report.approve')}
@@ -72,6 +71,10 @@ const EditReport = () => {
                 }}
               />
             </>
+          ) : status === 1 ? (
+            <p>{t('report.approveInfo')}</p>
+          ) : (
+            <p>{t('report.rejectInfo')}</p>
           )}
         </>
       )}

@@ -50,6 +50,8 @@ const MapContextProvider = ({children}) => {
       setIsViewMode(false);
       setIsReportMapMode(true);
       setIsConnectionMode(false);
+      setIsEditingReportMode(false);
+      setOpenReport(null);
     }
   };
 
@@ -58,6 +60,8 @@ const MapContextProvider = ({children}) => {
       setIsViewMode(false);
       setIsReportMapMode(false);
       setIsConnectionMode(true);
+      setIsEditingReportMode(false);
+      setOpenReport(null);
     }
   };
 

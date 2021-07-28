@@ -13,9 +13,7 @@ import colors from '../stylesheets/config/colors.module.scss';
 
 const NewReport = () => {
   const {t} = useTranslation();
-  const {newReportCoordinates, reportSuccess, activeTile, setRerenderReports, resetReportCoordinates} = useContext(
-    MapContext,
-  );
+  const {newReportCoordinates, resetReportCoordinates, activeTile, setRerenderReports} = useContext(MapContext);
   const {lat, lon} = newReportCoordinates;
   const [message, setMessage] = useState(null);
   const [messageColor, setMessageColor] = useState('black');
@@ -53,7 +51,7 @@ const NewReport = () => {
       );
       setMessageColor(colors.colorMessageSuccess);
       setMessage(t('report.success'));
-      reportSuccess();
+      resetReportCoordinates();
       formik.resetForm();
       setRerenderReports(true);
     } catch (error) {
