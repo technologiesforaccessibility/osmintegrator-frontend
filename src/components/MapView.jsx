@@ -167,7 +167,6 @@ export const MapView = () => {
       const response = await api.notesDetail(id, {
         headers: basicHeaders(),
       });
-      console.log('REPORTS', response);
       setImportedReports(response.data);
     } catch (error) {
       unsafeApiError(error, 'Undefined tile connection problem');

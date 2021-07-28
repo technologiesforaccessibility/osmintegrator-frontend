@@ -41,8 +41,6 @@ const NewReport = () => {
 
   const sendReport = async text => {
     try {
-      console.log({lat, lon, text, tileId: activeTile.id});
-
       await api.notesCreate(
         {lat, lon, text, tileId: activeTile.id},
         {
@@ -55,7 +53,6 @@ const NewReport = () => {
       formik.resetForm();
       setRerenderReports(true);
     } catch (error) {
-      console.log(error);
       setMessageColor(colors.colorMessageFail);
       setMessage(t('report.fail'));
     }

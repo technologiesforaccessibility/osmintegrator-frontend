@@ -22,13 +22,11 @@ const EditReport = () => {
 
   const approveReport = async () => {
     try {
-      console.log('ID', {id});
       await api.notesApproveUpdate(id, {headers: basicHeaders()});
       setMessageColor(colors.colorMessageSuccess);
       setMessage(t('report.approved'));
       setOpenReport(null);
     } catch (error) {
-      console.log(error);
       setMessageColor(colors.colorMessageFail);
       setMessage(t('report.fail'));
     }
@@ -41,7 +39,6 @@ const EditReport = () => {
       setMessage(t('report.closed'));
       setOpenReport(null);
     } catch (error) {
-      console.log(error);
       setMessageColor(colors.colorMessageFail);
       setMessage(t('report.fail'));
     }
