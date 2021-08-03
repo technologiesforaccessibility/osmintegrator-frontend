@@ -13,7 +13,7 @@ import {
 import FooterContact from '../FooterContact';
 
 import {noTokenHeaders} from '../../config/apiConfig';
-import client from '../../api/apiInstance';
+import api from '../../api/apiInstance';
 import {paths} from '../../utilities/constants';
 import AuthLayout from '../AuthLayout';
 
@@ -40,7 +40,7 @@ const SetPassword = () => {
   const runUpdatePassword = async (password1, password2) => {
     if (comparePasswords(password1, password2) && isPasswordStrong(password1)) {
       try {
-        await client.api.accountResetPasswordCreate(
+        await api.accountResetPasswordCreate(
           {
             email: getEmailFromPath(window.location.href),
             password: password1,

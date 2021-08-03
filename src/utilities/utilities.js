@@ -5,7 +5,19 @@ import iconBlack from '../assets/bus_stop_icon_black_new.png';
 import iconPink from '../assets/bus_stop_icon_pink_new.png';
 import iconGrey from '../assets/bus_stop_icon_grey.png';
 import iconPurple from '../assets/bus_stop_icon_purple.png';
+import iconGreen from '../assets/bus_stop_icon_green.png';
+import iconYellow from '../assets/bus_stop_icon_yellow.png';
+import iconViolet from '../assets/bus_stop_icon_violet.png';
+import iconBlue from '../assets/bus_stop_icon_blue.png';
 import iconOrange from '../assets/bus_stop_icon_orange_new.png';
+
+const reportIcons = {
+  initial: iconOrange,
+  created: iconYellow,
+  approved: iconGreen,
+  rejected: iconViolet,
+  unexpected: iconBlue,
+};
 
 const comparePasswords = (pass1, pass2) => {
   return pass1 === pass2;
@@ -46,9 +58,9 @@ const getBusStopIcon = busStopPropeties => {
   });
 };
 
-const getReportIcon = () => {
+const getReportIcon = status => {
   return new Icon({
-    iconUrl: iconOrange,
+    iconUrl: getReportColor(status),
     shadowUrl: iconShadow,
     iconSize: [30, 55],
     iconAnchor: [15, 54],
@@ -101,5 +113,20 @@ const getBusStopColor = busProperty => {
       return iconBlack;
     }
     return iconPink;
+  }
+};
+
+const getReportColor = status => {
+  switch (status) {
+    case 0:
+      return reportIcons.created;
+    case 1:
+      return reportIcons.approved;
+    case 2:
+      return reportIcons.rejected;
+    case 99:
+      return reportIcons.initial;
+    default:
+      return reportIcons.unexpected;
   }
 };

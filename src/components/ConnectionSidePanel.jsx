@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 
-import client from '../api/apiInstance';
+import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
 import {generateConnectionData, generateStopName} from '../utilities/mapUtilities';
 import {unsafeApiError} from '../utilities/utilities';
@@ -20,7 +20,7 @@ const ConnectionSidePanel = () => {
   const sendConnection = async () => {
     if (connectionData.length === 2) {
       try {
-        await client.api.connectionsUpdate(generateConnectionData(connectionData), {
+        await api.connectionsUpdate(generateConnectionData(connectionData), {
           headers: basicHeaders(),
         });
         shouldRenderConnections(true);

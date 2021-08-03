@@ -1,9 +1,9 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useFormik} from 'formik';
 
 import CustomBlockButton from './customs/CustomBlockButton';
-import client from '../api/apiInstance';
+import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
 import {MapContext} from './contexts/MapContextProvider';
 
@@ -13,10 +13,22 @@ import colors from '../stylesheets/config/colors.module.scss';
 
 const NewReport = () => {
   const {t} = useTranslation();
-  const {newReportCoordinates, reportSuccess} = useContext(MapContext);
+  const {newReportCoordinates, resetReportCoordinates, activeTile, setRerenderReports} = useContext(MapContext);
   const {lat, lon} = newReportCoordinates;
   const [message, setMessage] = useState(null);
   const [messageColor, setMessageColor] = useState('black');
+
+  useEffect(() => {
+    return () => {
+      resetCurrentReport();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const resetCurrentReport = () => {
+    resetReportCoordinates();
+    formik.resetForm();
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -29,16 +41,17 @@ const NewReport = () => {
 
   const sendReport = async text => {
     try {
-      await client.api.notesCreate(
-        {lat, lon, text},
+      await api.notesCreate(
+        {lat, lon, text, tileId: activeTile.id},
         {
           headers: basicHeaders(),
         },
       );
       setMessageColor(colors.colorMessageSuccess);
       setMessage(t('report.success'));
-      reportSuccess();
+      resetReportCoordinates();
       formik.resetForm();
+      setRerenderReports(true);
     } catch (error) {
       setMessageColor(colors.colorMessageFail);
       setMessage(t('report.fail'));
@@ -59,9 +72,13 @@ const NewReport = () => {
           buttonTitle={t('report.button')}
           style={buttonStyle}
           type="submit"
-          onClickHandler={() => {
-            sendReport();
-          }}
+          onClickHandler={() => {}}
+        />
+        <CustomBlockButton
+          buttonTitle={t('report.clear')}
+          style={buttonStyle}
+          type="button"
+          onClickHandler={() => resetCurrentReport()}
         />
         {message && <p style={{color: messageColor}}>{message}</p>}
       </div>

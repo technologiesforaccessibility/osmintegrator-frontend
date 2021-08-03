@@ -1,10 +1,10 @@
 import {createAsyncThunk, createAction} from '@reduxjs/toolkit';
 
-import client from '../../api/apiInstance';
+import api from '../../api/apiInstance';
 import {basicHeaders, noTokenHeaders} from '../../config/apiConfig';
 
 export const login = createAsyncThunk('auth/login', async (data, thunkAPI) => {
-  return client.api
+  return api
     .accountLoginCreate(data, {headers: noTokenHeaders()})
     .then(response => response.data)
     .catch(response => {
@@ -17,7 +17,7 @@ export const login = createAsyncThunk('auth/login', async (data, thunkAPI) => {
 });
 
 export const validateLogin = createAsyncThunk('auth/validateLogin', async (data, thunkAPI) => {
-  return client.api
+  return api
     .accountIsTokenValidList({headers: basicHeaders()})
     .then(response => {
       console.log('Valid token');
