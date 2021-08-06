@@ -1,3 +1,5 @@
+import { createAction } from '@reduxjs/toolkit';
+
 export const NotificationType = {
     SUCCESS: 1,
     WARNING: 2,
@@ -5,26 +7,15 @@ export const NotificationType = {
     CLEAR: 0
 };
 
-
-export const NotificationActions = {
-    success,
-    warning,
-    error,
-    clear
+const payload = (message) => {
+    return {
+        payload: { message: message }
+    };
 };
 
-function success(message) {
-    return { type: NotificationType.SUCCESS, message };
-}
-
-function error(message) {
-    return { type: NotificationType.ERROR, message };
-}
-
-function warning(message) {
-    return { type: NotificationType.WARNING, message };
-}
-
-function clear() {
-    return {type: NotificationType.CLEAR}
-}
+export const NotificationActions = {
+    success: createAction(NotificationType.SUCCESS, payload),
+    warning: createAction(NotificationType.WARNING, payload),
+    error: createAction(NotificationType.ERROR, payload),
+    clear: createAction(NotificationType.CLEAR)
+};
