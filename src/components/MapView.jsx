@@ -41,8 +41,7 @@ export const MapView = () => {
     isReportMapMode,
     displayPropertyGrid,
     updateConnectionData,
-    updateConnectionInfo,
-    connectionInfo,
+    updateConnectionMessage,
     connectionData,
     rerenderConnections,
     shouldRenderConnections,
@@ -137,7 +136,7 @@ export const MapView = () => {
           dispatch(NotificationActions.error('It is not allowed to connect stops of the same type'));
           return;
         }
-        connectionInfo && updateConnectionInfo(null);
+        updateConnectionMessage(null);
       }
       updateConnectionData(entryPoint);
     }
