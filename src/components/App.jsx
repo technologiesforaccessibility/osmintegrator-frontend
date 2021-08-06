@@ -1,29 +1,31 @@
-import React, {Component} from 'react';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import {Provider} from 'react-redux';
-
-import PrivateRoute from './PrivateRoute';
-import ManagementPanel from './ManagementPanel';
-import DashboardMain from './DashboardMain';
-import ChangeEmail from './ChangeEmail';
-import ChangePassword from './ChangePassword';
-import ProfilePanel from './ProfilePanel';
-import Login from './auth/Login';
-import Recover from './auth/Recover';
-import Logout from './auth/Logout';
-import SetPassword from './auth/SetPassword';
-import MapContextProvider from './contexts/MapContextProvider';
-import UserContextProvider from './contexts/UserContextProvider';
+import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import store from '../redux/store';
-import {paths} from '../utilities/constants';
-
 import '../stylesheets/app.scss';
 import '../stylesheets/globalStyles.scss';
+import { paths } from '../utilities/constants';
+import Login from './auth/Login';
+import Logout from './auth/Logout';
+import Recover from './auth/Recover';
+import SetPassword from './auth/SetPassword';
+import ChangeEmail from './ChangeEmail';
+import ChangePassword from './ChangePassword';
+import MapContextProvider from './contexts/MapContextProvider';
+import UserContextProvider from './contexts/UserContextProvider';
+import DashboardMain from './DashboardMain';
+import ManagementPanel from './ManagementPanel';
+import Notification from './Notification';
+import PrivateRoute from './PrivateRoute';
+import ProfilePanel from './ProfilePanel';
+
+
 
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
+        <Notification />
         <BrowserRouter>
           <Switch>
             <UserContextProvider>

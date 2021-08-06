@@ -1,18 +1,20 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {MapContainer, TileLayer} from 'react-leaflet';
-
-import NewConnections from './mapComponents/NewConnections';
+import 'leaflet/dist/leaflet.css';
+import React, { useContext, useEffect, useState } from 'react';
+import { MapContainer, TileLayer } from 'react-leaflet';
+import { useDispatch } from 'react-redux';
+import api from '../api/apiInstance';
+import { basicHeaders } from '../config/apiConfig';
+import { NotificationActions } from '../redux/actions/notificationActions';
+import { unsafeApiError } from '../utilities/utilities';
+import { MapContext } from './contexts/MapContextProvider';
 import ImportedConnections from './mapComponents/ImportedConnections';
 import ImportedReports from './mapComponents/ImportedReports';
 import MapTiles from './mapComponents/MapTiles';
-import TileStops from './mapComponents/TileStops';
+import NewConnections from './mapComponents/NewConnections';
 import NewReportMarker from './mapComponents/NewReportMarker';
-import {MapContext} from './contexts/MapContextProvider';
-import {basicHeaders} from '../config/apiConfig';
-import api from '../api/apiInstance';
+import TileStops from './mapComponents/TileStops';
 
-import 'leaflet/dist/leaflet.css';
-import {unsafeApiError} from '../utilities/utilities';
+
 
 export const MapView = () => {
   const currentLocation = {lat: 50.29, lng: 19.01};
@@ -62,6 +64,8 @@ export const MapView = () => {
       activeMapToggle(false);
     };
   });
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     async function fetchData() {
@@ -130,7 +134,7 @@ export const MapView = () => {
 
       if (connectionData.length === 1) {
         if (!(connectionData[0].isOsm ^ isOsm)) {
-          updateConnectionInfo('Exactly one stop should be OSM type!');
+          dispatch(NotificationActions.error('It is not allowed to connect stops of the same type'));
           return;
         }
         connectionInfo && updateConnectionInfo(null);
