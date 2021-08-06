@@ -25,3 +25,8 @@ export const selectAuthError = state => {
     message: state.auth.errorMessage,
   };
 };
+
+
+export const selectNotification = (state) => {
+  return state.notification;
+}

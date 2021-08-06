@@ -1,8 +1,10 @@
 import 'leaflet/dist/leaflet.css';
 import React, { useContext, useEffect, useState } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
+import { useDispatch } from 'react-redux';
 import api from '../api/apiInstance';
 import { basicHeaders } from '../config/apiConfig';
+import { NotificationActions } from '../redux/actions/notificationActions';
 import { unsafeApiError } from '../utilities/utilities';
 import { MapContext } from './contexts/MapContextProvider';
 import ImportedConnections from './mapComponents/ImportedConnections';
@@ -61,6 +63,8 @@ export const MapView = () => {
       activeMapToggle(false);
     };
   });
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     async function fetchData() {
@@ -129,7 +133,7 @@ export const MapView = () => {
 
       if (connectionData.length === 1) {
         if (!(connectionData[0].isOsm ^ isOsm)) {
-          updateConnectionMessage('It is not allowed to connect stops of the same type');
+          dispatch(NotificationActions.error('It is not allowed to connect stops of the same type'));
           return;
         }
         updateConnectionMessage(null);
