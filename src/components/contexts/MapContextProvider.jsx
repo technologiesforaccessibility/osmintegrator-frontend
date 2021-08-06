@@ -1,4 +1,4 @@
-import React, {createContext, useState} from 'react';
+import React, { createContext, useState } from 'react';
 
 export const MapContext = createContext();
 
@@ -133,7 +133,7 @@ const MapContextProvider = ({children}) => {
         isEditingReportMode,
         setIsEditingReportMode,
         openReport,
-        setOpenReport,
+        setOpenReport
       }}>
       {children}
     </MapContext.Provider>
