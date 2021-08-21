@@ -3,9 +3,10 @@ import {useFormik} from 'formik';
 import {useTranslation} from 'react-i18next';
 
 import {noTokenHeaders} from '../../config/apiConfig';
-import client from '../../api/apiInstance';
+import api from '../../api/apiInstance';
 import {unsafeFormApiError} from '../../utilities/utilities';
 import FooterContact from '../FooterContact';
+import AuthLayout from '../AuthLayout';
 
 import '../../stylesheets/recover.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
@@ -27,7 +28,7 @@ const Recover = () => {
 
   const runRecover = async email => {
     try {
-      await client.api.accountForgotPasswordCreate(
+      await api.accountForgotPasswordCreate(
         {
           email,
         },
@@ -42,7 +43,7 @@ const Recover = () => {
   };
 
   return (
-    <>
+    <AuthLayout>
       <h1 className="auth-title">{t('recover.title')}</h1>
       <form onSubmit={formik.handleSubmit}>
         <div className="inputbox-spacer">
@@ -64,7 +65,7 @@ const Recover = () => {
         {message && <span style={{color: messageColor}}>{message}</span>}
       </div>
       <FooterContact />
-    </>
+    </AuthLayout>
   );
 };
 

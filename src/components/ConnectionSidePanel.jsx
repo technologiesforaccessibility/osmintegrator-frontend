@@ -1,40 +1,42 @@
 import React, {useContext} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useDispatch} from 'react-redux';
 
-import client from '../api/apiInstance';
+import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
 import {generateConnectionData, generateStopName} from '../utilities/mapUtilities';
 import {unsafeApiError} from '../utilities/utilities';
 import {MapContext} from './contexts/MapContextProvider';
+import {NotificationActions} from '../redux/actions/notificationActions';
 
 import '../stylesheets/connectionPrompt.scss';
 
 const ConnectionSidePanel = () => {
-  const {
-    connectionSidePanelMessage,
-    updateConnectionMessage,
-    connectionData,
-    reset,
-    shouldRenderConnections,
-  } = useContext(MapContext);
+  const {connectionData, reset, shouldRenderConnections} = useContext(MapContext);
+  const {t} = useTranslation();
+  const dispatch = useDispatch();
 
   const sendConnection = async () => {
-    if (connectionData.length === 2) {
-      try {
-        await client.api.connectionsUpdate(generateConnectionData(connectionData), {
-          headers: basicHeaders(),
-        });
-        shouldRenderConnections(true);
-        reset();
-        updateConnectionMessage('Saved successfully');
-      } catch (error) {
-        unsafeApiError(error);
-      }
+    if (connectionData.length !== 2) {
+      dispatch(NotificationActions.error(t('connection.mark2Stops')));
+      return;
+    }
+    try {
+      await api.connectionsUpdate(generateConnectionData(connectionData), {
+        headers: basicHeaders(),
+      });
+      shouldRenderConnections(true);
+      reset();
+      dispatch(NotificationActions.success(t('connection.createSuccessMessage')));
+    } catch (error) {
+      unsafeApiError(error);
+      dispatch(NotificationActions.error(t('unrecognizedProblem')));
     }
   };
 
   return (
     <div className="connection-prompt__wrapper">
-      Chosen stops for connection
+      {t('connection.formTitle')}
       <label className="connection-prompt__label">
         {connectionData.length > 0
           ? generateStopName(connectionData[0].id, connectionData[0].name || null, connectionData[0].ref || null)
@@ -55,11 +57,9 @@ const ConnectionSidePanel = () => {
       <button
         onClick={() => {
           reset();
-          updateConnectionMessage(null);
         }}>
         Cancel
       </button>
-      {connectionSidePanelMessage && <p>{connectionSidePanelMessage}</p>}
     </div>
   );
 };

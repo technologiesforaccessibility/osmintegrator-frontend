@@ -1,22 +1,34 @@
-import React, {useState, useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useFormik} from 'formik';
+import {useDispatch} from 'react-redux';
 
 import CustomBlockButton from './customs/CustomBlockButton';
-import client from '../api/apiInstance';
+import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
 import {MapContext} from './contexts/MapContextProvider';
+import {NotificationActions} from '../redux/actions/notificationActions';
 
 import '../stylesheets/newReport.scss';
 import buttonStyle from '../stylesheets/modules/mapPanelButton.module.scss';
-import colors from '../stylesheets/config/colors.module.scss';
 
 const NewReport = () => {
   const {t} = useTranslation();
-  const {newReportCoordinates, reportSuccess} = useContext(MapContext);
+  const dispatch = useDispatch();
+  const {newReportCoordinates, resetReportCoordinates, activeTile, setRerenderReports} = useContext(MapContext);
   const {lat, lon} = newReportCoordinates;
-  const [message, setMessage] = useState(null);
-  const [messageColor, setMessageColor] = useState('black');
+
+  useEffect(() => {
+    return () => {
+      resetCurrentReport();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const resetCurrentReport = () => {
+    resetReportCoordinates();
+    formik.resetForm();
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -28,20 +40,27 @@ const NewReport = () => {
   });
 
   const sendReport = async text => {
+    if (lat === null || lon === null) {
+      dispatch(NotificationActions.error(t('report.noPinFound')));
+      return;
+    }
+    if (!text) {
+      dispatch(NotificationActions.error(t('report.noTextFound')));
+      return;
+    }
     try {
-      await client.api.notesCreate(
-        {lat, lon, text},
+      await api.notesCreate(
+        {lat, lon, text, tileId: activeTile.id},
         {
           headers: basicHeaders(),
         },
       );
-      setMessageColor(colors.colorMessageSuccess);
-      setMessage(t('report.success'));
-      reportSuccess();
+      dispatch(NotificationActions.success(t('report.success')));
+      resetReportCoordinates();
       formik.resetForm();
+      setRerenderReports(true);
     } catch (error) {
-      setMessageColor(colors.colorMessageFail);
-      setMessage(t('report.fail'));
+      dispatch(NotificationActions.error(t('report.fail')));
     }
   };
 
@@ -59,11 +78,14 @@ const NewReport = () => {
           buttonTitle={t('report.button')}
           style={buttonStyle}
           type="submit"
-          onClickHandler={() => {
-            sendReport();
-          }}
+          onClickHandler={() => {}}
         />
-        {message && <p style={{color: messageColor}}>{message}</p>}
+        <CustomBlockButton
+          buttonTitle={t('report.clear')}
+          style={buttonStyle}
+          type="button"
+          onClickHandler={() => resetCurrentReport()}
+        />
       </div>
     </form>
   );

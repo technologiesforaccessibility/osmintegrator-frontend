@@ -1,4 +1,4 @@
 import {Api} from './apiClient';
 const client = new Api();
-
-export default client;
+const api = client.api;
+export default api;

@@ -13,14 +13,22 @@ const MapContextProvider = ({children}) => {
   const [propertyGrid, setPropertyGrid] = useState(null);
   const [rerenderConnections, setRerenderConnections] = useState(false);
 
-  const [connectionSidePanelMessage, setConnectionSidePanelMessage] = useState(null);
   const [connectionData, setConnectionData] = useState([]);
 
   const [isViewMode, setIsViewMode] = useState(true);
   const [isReportMapMode, setIsReportMapMode] = useState(false);
   const [isConnectionMode, setIsConnectionMode] = useState(false);
+  const [isEditingReportMode, setIsEditingReportMode] = useState(false);
 
   const [newReportCoordinates, setNewReportCoordinates] = useState(initialReportCoords);
+  const [rerenderReports, setRerenderReports] = useState(false);
+
+  const [activeTile, setActiveTile] = useState({});
+
+  const [importedConnections, setImportedConnections] = useState([]);
+  const [importedReports, setImportedReports] = useState([]);
+
+  const [openReport, setOpenReport] = useState(null);
 
   const singleTileToggle = isActive => {
     setShowSingleTile(isActive);
@@ -41,6 +49,8 @@ const MapContextProvider = ({children}) => {
       setIsViewMode(false);
       setIsReportMapMode(true);
       setIsConnectionMode(false);
+      setIsEditingReportMode(false);
+      setOpenReport(null);
     }
   };
 
@@ -49,6 +59,8 @@ const MapContextProvider = ({children}) => {
       setIsViewMode(false);
       setIsReportMapMode(false);
       setIsConnectionMode(true);
+      setIsEditingReportMode(false);
+      setOpenReport(null);
     }
   };
 
@@ -62,16 +74,21 @@ const MapContextProvider = ({children}) => {
     }
   };
 
-  const updateConnectionMessage = setConnectionSidePanelMessage;
-
   const reset = () => {
     setConnectionData([]);
     setPropertyGrid(null);
   };
 
+  const hideTileElements = () => {
+    setConnectionData([]);
+    setPropertyGrid(null);
+    setImportedConnections([]);
+    setImportedReports([]);
+  };
+
   const shouldRenderConnections = setRerenderConnections;
 
-  const reportSuccess = () => {
+  const resetReportCoordinates = () => {
     setNewReportCoordinates(initialReportCoords);
   };
 
@@ -85,14 +102,12 @@ const MapContextProvider = ({children}) => {
         isMapActive,
         areStopsVisible,
         propertyGrid,
-        connectionSidePanelMessage,
         connectionData,
         rerenderConnections,
         singleTileToggle,
         activeMapToggle,
         displayPropertyGrid,
         updateConnectionData,
-        updateConnectionMessage,
         reset,
         shouldRenderConnections,
         viewModeToggle,
@@ -100,7 +115,20 @@ const MapContextProvider = ({children}) => {
         connectionModeToggle,
         newReportCoordinates,
         setNewReportCoordinates,
-        reportSuccess,
+        resetReportCoordinates,
+        activeTile,
+        setActiveTile,
+        rerenderReports,
+        setRerenderReports,
+        importedConnections,
+        setImportedConnections,
+        importedReports,
+        setImportedReports,
+        hideTileElements,
+        isEditingReportMode,
+        setIsEditingReportMode,
+        openReport,
+        setOpenReport,
       }}>
       {children}
     </MapContext.Provider>
