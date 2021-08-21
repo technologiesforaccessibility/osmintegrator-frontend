@@ -1,20 +1,18 @@
 import 'leaflet/dist/leaflet.css';
-import React, { useContext, useEffect, useState } from 'react';
-import { MapContainer, TileLayer } from 'react-leaflet';
-import { useDispatch } from 'react-redux';
+import React, {useContext, useEffect, useState} from 'react';
+import {MapContainer, TileLayer} from 'react-leaflet';
+import {useDispatch} from 'react-redux';
 import api from '../api/apiInstance';
-import { basicHeaders } from '../config/apiConfig';
-import { NotificationActions } from '../redux/actions/notificationActions';
-import { unsafeApiError } from '../utilities/utilities';
-import { MapContext } from './contexts/MapContextProvider';
+import {basicHeaders} from '../config/apiConfig';
+import {NotificationActions} from '../redux/actions/notificationActions';
+import {unsafeApiError} from '../utilities/utilities';
+import {MapContext} from './contexts/MapContextProvider';
 import ImportedConnections from './mapComponents/ImportedConnections';
 import ImportedReports from './mapComponents/ImportedReports';
 import MapTiles from './mapComponents/MapTiles';
 import NewConnections from './mapComponents/NewConnections';
 import NewReportMarker from './mapComponents/NewReportMarker';
 import TileStops from './mapComponents/TileStops';
-
-
 
 export const MapView = () => {
   const currentLocation = {lat: 50.29, lng: 19.01};
@@ -41,7 +39,6 @@ export const MapView = () => {
     isReportMapMode,
     displayPropertyGrid,
     updateConnectionData,
-    updateConnectionMessage,
     connectionData,
     rerenderConnections,
     shouldRenderConnections,
@@ -64,7 +61,7 @@ export const MapView = () => {
     };
   });
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function fetchData() {
@@ -131,12 +128,9 @@ export const MapView = () => {
       const isOsm = stopType === 0;
       const entryPoint = {coordinates, id, isOsm, name, ref};
 
-      if (connectionData.length === 1) {
-        if (!(connectionData[0].isOsm ^ isOsm)) {
-          dispatch(NotificationActions.error('It is not allowed to connect stops of the same type'));
-          return;
-        }
-        updateConnectionMessage(null);
+      if (connectionData.length === 1 && !(connectionData[0].isOsm ^ isOsm)) {
+        dispatch(NotificationActions.error('It is not allowed to connect stops of the same type'));
+        return;
       }
       updateConnectionData(entryPoint);
     }
