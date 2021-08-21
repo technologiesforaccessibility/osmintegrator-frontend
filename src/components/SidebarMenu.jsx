@@ -11,11 +11,11 @@ const SidebarMenu = () => {
 
   return (
     <ul className="nav flex-column">
-      <SidebarListItem name={t('sidebar.map')} link={paths.HOME} />
-      <SidebarListItem name={t('sidebar.profile')} link={paths.PROFILE} />
-      <SidebarListItem name={t('sidebar.history')} link={paths.HOME} />
+      <SidebarListItem name="Map" link={paths.HOME} />
+      <SidebarListItem name="Profile" link={paths.PROFILE} />
+      <SidebarListItem name="History" link={paths.HOME} />
       <SidebarListItem externalLink name={t('sidebar.contact')} link={REACT_APP_CONTACT_FORM} />
-      <SidebarListItem name={t('sidebar.managementDashbord')} link={paths.MANAGEMENT_PANEL} />
+      <SidebarListItem name="Management dashboard" link={paths.MANAGEMENT_PANEL} />
     </ul>
   );
 };

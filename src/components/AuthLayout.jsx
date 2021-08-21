@@ -15,4 +15,4 @@ export default function AuthLayout({children}) {
       </div>
     </React.Fragment>
   );
-}
+};

@@ -1,16 +1,11 @@
 import * as React from 'react';
-import {useTranslation} from 'react-i18next';
 
 import '../../stylesheets/deleteConnectionPopup.scss';
 
 const DeleteConnectionPopup = ({closePopup, deleteConnection, osm, gtfs, id}) => {
-  const {t} = useTranslation();
-
   return (
     <div>
-      <div className="global-styles__text--center-align connection-popup__message">
-        {t('connection.deleteConnectionConfirmation')}
-      </div>
+      <div className="global-styles__text--center-align connection-popup__message">Delete?</div>
       <div>
         <button
           type="button"
@@ -19,7 +14,7 @@ const DeleteConnectionPopup = ({closePopup, deleteConnection, osm, gtfs, id}) =>
             deleteConnection(osm, gtfs);
             closePopup();
           }}>
-          {t('buttons.confirm')}
+          Confirm
         </button>
         <button
           type="button"
@@ -27,7 +22,7 @@ const DeleteConnectionPopup = ({closePopup, deleteConnection, osm, gtfs, id}) =>
           onClick={() => {
             closePopup();
           }}>
-          {t('buttons.cancel')}
+          Cancel
         </button>
       </div>
     </div>

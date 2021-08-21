@@ -1,59 +1,37 @@
+import Modal from '@material-ui/core/Modal';
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {Snackbar} from '@material-ui/core/';
-import {makeStyles} from '@material-ui/core/styles';
-
-import {NotificationActions} from '../redux/actions/notificationActions';
-
-const notificationBackgroundStyle = {
-  Success: '#2db814',
-  Warning: '#dda808',
-  Error: '#b30000',
-  Info: '#007acc',
-};
-
-const notificationShadowStyle = {
-  Success: 'rgba(45, 184, 20, .3)',
-  Warning: 'rgba(221, 168, 8, .3)',
-  Error: 'rgba(179, 0, 0, .3)',
-  Info: 'rgba(0, 122, 204, .3)',
-};
-
-const useStyles = makeStyles({
-  root: {
-    backgroundColor: notification => notificationBackgroundStyle[notification.title],
-    borderRadius: 3,
-    border: 0,
-    color: 'white',
-    height: 48,
-    padding: '0 30px',
-    boxShadow: notification => `0 3px 5px 2px ${notificationShadowStyle[notification.title] || ''}`,
-  },
-});
+import { useDispatch, useSelector } from 'react-redux';
+import { NotificationActions } from '../redux/actions/notificationActions';
+import '../stylesheets/notification.scss';
 
 const Notification = () => {
-  const notification = useSelector(state => state.notification);
-  const classes = useStyles(notification);
 
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
+    const notification = useSelector((state) => state.notification);
 
-  const handleClose = () => {
-    dispatch(NotificationActions.clear());
-  };
+    const handleClose = () => {
+        dispatch(NotificationActions.clear());
+    };
 
-  return (
-    <Snackbar
-      open={!!notification.message}
-      autoHideDuration={6000}
-      onClose={handleClose}
-      ContentProps={{
-        classes: {
-          root: classes.root,
-        },
-      }}
-      message={notification.message}
-    />
-  );
+    const body = (
+        <div className={'modal-layout ' + notification.class}>
+            <h2 id="simple-modal-title">{ notification.title }</h2>
+            <p id="simple-modal-description">
+                {notification.message} {}
+            </p>
+        </div>
+    );
+
+    return (
+        <Modal
+            open={!!notification.message}
+            onClose={handleClose}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+        >
+            {body}
+        </Modal>
+    );
 };
 
 export default Notification;

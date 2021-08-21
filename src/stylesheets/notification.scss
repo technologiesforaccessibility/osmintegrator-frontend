@@ -1,0 +1,23 @@
+.modal-layout {
+    width: 400px;
+    border: 2px solid #000;
+    padding: 16px 32px 24px;
+    position: absolute;
+    box-shadow: 0px 3px 5px -1px;
+
+    top: 15%;
+    left: 50%;
+    // transform: `translate(-${top}%, -${left}%)`
+}
+
+.error-modal {
+    background-color: #ff7070;
+}
+
+.success-modal {
+    background-color:#70ed5a;
+}
+
+.warning-modal {
+    background-color: #fad975;
+}

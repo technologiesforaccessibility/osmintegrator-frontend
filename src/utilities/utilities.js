@@ -69,12 +69,12 @@ const getReportIcon = status => {
   });
 };
 
-const unsafeApiError = (errorInstance, optionalUserMessage) => {
-  if (errorInstance.status === 401) {
+const unsafeApiError = (error, userMessage) => {
+  if (error.status === 401) {
     console.log('Authorization problem');
   }
-  if (optionalUserMessage) {
-    console.log(optionalUserMessage);
+  if (userMessage) {
+    console.log(userMessage);
   } else {
     console.log('Unknown problem');
   }
