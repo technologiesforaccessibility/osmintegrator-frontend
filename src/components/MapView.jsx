@@ -129,7 +129,7 @@ export const MapView = () => {
       const entryPoint = {coordinates, id, isOsm, name, ref};
 
       if (connectionData.length === 1 && !(connectionData[0].isOsm ^ isOsm)) {
-        dispatch(NotificationActions.error('It is not allowed to connect stops of the same type'));
+        dispatch(NotificationActions.error(t('connection.differentTypeError')));
         return;
       }
       updateConnectionData(entryPoint);
