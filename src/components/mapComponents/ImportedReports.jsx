@@ -13,8 +13,9 @@ const ImportedReports = ({reports}) => {
 
   return (
     <>
-      {reports.map(({lat, lon, text, id, tileId, status}) => (
+      {reports.map(({lat, lon, text, id, tileId, status}, index) => (
         <Marker
+          key={index}
           position={[lat, lon]}
           icon={getReportIcon(status)}
           eventHandlers={{
