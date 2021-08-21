@@ -2,6 +2,8 @@ import 'leaflet/dist/leaflet.css';
 import React, {useContext, useEffect, useState} from 'react';
 import {MapContainer, TileLayer} from 'react-leaflet';
 import {useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
+
 import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
 import {NotificationActions} from '../redux/actions/notificationActions';
@@ -15,14 +17,14 @@ import NewReportMarker from './mapComponents/NewReportMarker';
 import TileStops from './mapComponents/TileStops';
 
 export const MapView = () => {
+  const {t} = useTranslation();
+  const [tiles, setTiles] = useState([]);
+  const [allStops, setAllStops] = useState([]);
+  const [activeBusStopId, setActiveBusStopId] = useState(null);
+
   const currentLocation = {lat: 50.29, lng: 19.01};
   const zoom = 10;
   const maxZoom = 19;
-
-  const [tiles, setTiles] = useState([]);
-  const [allStops, setAllStops] = useState([]);
-
-  const [activeBusStopId, setActiveBusStopId] = useState(null);
 
   const mapStyle = {
     position: 'relative',
