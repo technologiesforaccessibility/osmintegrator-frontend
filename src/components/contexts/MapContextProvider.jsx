@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, {createContext, useState} from 'react';
 
 export const MapContext = createContext();
 
@@ -13,7 +13,6 @@ const MapContextProvider = ({children}) => {
   const [propertyGrid, setPropertyGrid] = useState(null);
   const [rerenderConnections, setRerenderConnections] = useState(false);
 
-  const [connectionSidePanelMessage, setConnectionSidePanelMessage] = useState(null);
   const [connectionData, setConnectionData] = useState([]);
 
   const [isViewMode, setIsViewMode] = useState(true);
@@ -75,8 +74,6 @@ const MapContextProvider = ({children}) => {
     }
   };
 
-  const updateConnectionMessage = setConnectionSidePanelMessage;
-
   const reset = () => {
     setConnectionData([]);
     setPropertyGrid(null);
@@ -105,14 +102,12 @@ const MapContextProvider = ({children}) => {
         isMapActive,
         areStopsVisible,
         propertyGrid,
-        connectionSidePanelMessage,
         connectionData,
         rerenderConnections,
         singleTileToggle,
         activeMapToggle,
         displayPropertyGrid,
         updateConnectionData,
-        updateConnectionMessage,
         reset,
         shouldRenderConnections,
         viewModeToggle,
@@ -133,7 +128,7 @@ const MapContextProvider = ({children}) => {
         isEditingReportMode,
         setIsEditingReportMode,
         openReport,
-        setOpenReport
+        setOpenReport,
       }}>
       {children}
     </MapContext.Provider>

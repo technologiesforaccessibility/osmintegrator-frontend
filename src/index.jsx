@@ -1,11 +1,11 @@
 import React, {Suspense} from 'react';
 import ReactDOM from 'react-dom';
-import './i18n';
+import './translations/i18n';
 
-import './stylesheets/index.scss';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 
+import './stylesheets/index.scss';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 

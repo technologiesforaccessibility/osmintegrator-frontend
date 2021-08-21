@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import React, {Component} from 'react';
+import {Provider} from 'react-redux';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import store from '../redux/store';
 import '../stylesheets/app.scss';
 import '../stylesheets/globalStyles.scss';
-import { paths } from '../utilities/constants';
+import {paths} from '../utilities/constants';
 import Login from './auth/Login';
 import Logout from './auth/Logout';
 import Recover from './auth/Recover';
@@ -18,8 +18,6 @@ import ManagementPanel from './ManagementPanel';
 import Notification from './Notification';
 import PrivateRoute from './PrivateRoute';
 import ProfilePanel from './ProfilePanel';
-
-
 
 class App extends Component {
   render() {

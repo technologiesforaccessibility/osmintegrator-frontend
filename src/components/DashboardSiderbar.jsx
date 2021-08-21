@@ -5,10 +5,9 @@ import MapPanel from './MapPanel';
 import SidebarMenu from './SidebarMenu';
 import LanguageSwitch from './LanguageTest';
 import VersionLabel from './VersionLabel';
-
 import {MapContext} from './contexts/MapContextProvider';
 
-const DashboardSiderbar = props => {
+const DashboardSiderbar = () => {
   const {propertyGrid} = useContext(MapContext);
 
   return (

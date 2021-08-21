@@ -1,22 +1,22 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useFormik} from 'formik';
+import {useDispatch} from 'react-redux';
 
 import CustomBlockButton from './customs/CustomBlockButton';
 import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
 import {MapContext} from './contexts/MapContextProvider';
+import {NotificationActions} from '../redux/actions/notificationActions';
 
 import '../stylesheets/newReport.scss';
 import buttonStyle from '../stylesheets/modules/mapPanelButton.module.scss';
-import colors from '../stylesheets/config/colors.module.scss';
 
 const NewReport = () => {
   const {t} = useTranslation();
+  const dispatch = useDispatch();
   const {newReportCoordinates, resetReportCoordinates, activeTile, setRerenderReports} = useContext(MapContext);
   const {lat, lon} = newReportCoordinates;
-  const [message, setMessage] = useState(null);
-  const [messageColor, setMessageColor] = useState('black');
 
   useEffect(() => {
     return () => {
@@ -40,6 +40,14 @@ const NewReport = () => {
   });
 
   const sendReport = async text => {
+    if (lat === null || lon === null) {
+      dispatch(NotificationActions.error(t('report.noPinFound')));
+      return;
+    }
+    if (!text) {
+      dispatch(NotificationActions.error(t('report.noTextFound')));
+      return;
+    }
     try {
       await api.notesCreate(
         {lat, lon, text, tileId: activeTile.id},
@@ -47,14 +55,12 @@ const NewReport = () => {
           headers: basicHeaders(),
         },
       );
-      setMessageColor(colors.colorMessageSuccess);
-      setMessage(t('report.success'));
+      dispatch(NotificationActions.success(t('report.success')));
       resetReportCoordinates();
       formik.resetForm();
       setRerenderReports(true);
     } catch (error) {
-      setMessageColor(colors.colorMessageFail);
-      setMessage(t('report.fail'));
+      dispatch(NotificationActions.error(t('report.fail')));
     }
   };
 
@@ -80,7 +86,6 @@ const NewReport = () => {
           type="button"
           onClickHandler={() => resetCurrentReport()}
         />
-        {message && <p style={{color: messageColor}}>{message}</p>}
       </div>
     </form>
   );

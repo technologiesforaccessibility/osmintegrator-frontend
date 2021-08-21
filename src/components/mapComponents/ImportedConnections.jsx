@@ -1,16 +1,21 @@
 import React, {Fragment, useRef} from 'react';
 import {Polyline, Tooltip, Popup} from 'react-leaflet';
+import {useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 import {generateConnectionData, getPosition} from '../../utilities/mapUtilities';
-
-import colors from '../../stylesheets/config/colors.module.scss';
+import {unsafeApiError} from '../../utilities/utilities';
 import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';
-import {unsafeApiError} from '../../utilities/utilities';
 import DeleteConnectionPopup from './DeleteConnectionPopup';
+import {NotificationActions} from '../../redux/actions/notificationActions';
+
+import colors from '../../stylesheets/config/colors.module.scss';
 
 const ImportedConnections = ({stops, importedConnections, shouldRenderConnections}) => {
   const popupRef = useRef(null);
+  const {t} = useTranslation();
+  const dispatch = useDispatch();
 
   const checkStopType = stopList => {
     return stopList.map(stop => {
@@ -24,8 +29,10 @@ const ImportedConnections = ({stops, importedConnections, shouldRenderConnection
         headers: basicHeaders(),
       });
       shouldRenderConnections(true);
+      dispatch(NotificationActions.success(t('connection.deleteSuccessMessage')));
     } catch (error) {
       unsafeApiError(error);
+      dispatch(NotificationActions.error(t('unrecognizedProblem')));
     }
   };
 
@@ -48,7 +55,7 @@ const ImportedConnections = ({stops, importedConnections, shouldRenderConnection
                   color: colors.colorConnectionImported,
                 }}
                 positions={getPosition(foundOSM, foundGTFS)}>
-                <Tooltip direction="bottom">Click line if you want to delete connection</Tooltip>
+                <Tooltip direction="bottom">{t('connection.deleteConnectionInfo')}</Tooltip>
                 <Popup ref={popupRef} key={index} closeButton={false}>
                   <DeleteConnectionPopup
                     closePopup={closePopup}
