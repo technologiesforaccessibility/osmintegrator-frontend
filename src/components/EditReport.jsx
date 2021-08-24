@@ -1,46 +1,43 @@
-import React, {useState, useContext} from 'react';
+import React, {useContext} from 'react';
 import {useTranslation} from 'react-i18next';
+import {useDispatch} from 'react-redux';
 
 import CustomBlockButton from './customs/CustomBlockButton';
 import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
 import {MapContext} from './contexts/MapContextProvider';
+import {NotificationActions} from '../redux/actions/notificationActions';
 
 import '../stylesheets/newReport.scss';
 import buttonStyle from '../stylesheets/modules/mapPanelButton.module.scss';
-import colors from '../stylesheets/config/colors.module.scss';
 
 const EditReport = () => {
   const {t} = useTranslation();
+  const dispatch = useDispatch();
 
-  const [message, setMessage] = useState(null);
-  const [messageColor, setMessageColor] = useState('black');
-
-  const {openReport, setOpenReport} = useContext(MapContext);
+  const {openReport, setOpenReport, setRerenderReports} = useContext(MapContext);
 
   const {text, id, status} = openReport;
 
   const approveReport = async () => {
     try {
       await api.notesApproveUpdate(id, {headers: basicHeaders()});
-      setMessageColor(colors.colorMessageSuccess);
-      setMessage(t('report.approved'));
+      dispatch(NotificationActions.success(t('report.approved')));
       setOpenReport(null);
+      setRerenderReports(true);
     } catch (error) {
-      setMessageColor(colors.colorMessageFail);
-      setMessage(t('report.fail'));
+      dispatch(NotificationActions.error(t('report.fail')));
     }
   };
 
   const declineReport = async () => {
     try {
       await api.notesRejectUpdate(id, {headers: basicHeaders()});
-      setMessageColor(colors.colorMessageSuccess);
-      setMessage(t('report.closed'));
+      dispatch(NotificationActions.success(t('report.closed')));
       setOpenReport(null);
+      setRerenderReports(true);
     } catch (error) {
-      setMessageColor(colors.colorMessageFail);
-      setMessage(t('report.fail'));
+      dispatch(NotificationActions.error(t('report.fail')));
     }
   };
 
@@ -75,7 +72,6 @@ const EditReport = () => {
           )}
         </>
       )}
-      {message && <p style={{color: messageColor}}>{message}</p>}
     </div>
   );
 };

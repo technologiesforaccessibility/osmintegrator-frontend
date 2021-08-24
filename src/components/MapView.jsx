@@ -21,6 +21,7 @@ export const MapView = () => {
   const [tiles, setTiles] = useState([]);
   const [allStops, setAllStops] = useState([]);
   const [activeBusStopId, setActiveBusStopId] = useState(null);
+  const dispatch = useDispatch();
 
   const currentLocation = {lat: 50.29, lng: 19.01};
   const zoom = 10;
@@ -63,7 +64,7 @@ export const MapView = () => {
     };
   });
 
-  const dispatch = useDispatch();
+  
 
   useEffect(() => {
     async function fetchData() {
