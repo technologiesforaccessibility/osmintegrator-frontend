@@ -131,7 +131,9 @@ export const MapView = () => {
       const entryPoint = {coordinates, id, isOsm, name, ref};
 
       if (connectionData.length === 1 && !(connectionData[0].isOsm ^ isOsm)) {
-        dispatch(NotificationActions.error(t('connection.differentTypeError')));
+        if (connectionData[0].id !== id) {
+          dispatch(NotificationActions.error(t('connection.differentTypeError')));
+        }
         return;
       }
       updateConnectionData(entryPoint);
