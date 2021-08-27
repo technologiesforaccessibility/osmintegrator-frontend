@@ -4,6 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Getting started
 Recommended node version: `14.17.5`  
+Recommended npm version: `6.14.14`
+
 Clone branch `main` from this repository  
 Run `npm i` for installing dependencies  
 In `package.json` find line which relates to proxy `"proxy": "https://localhost:9999"` - keep `9999` if you run development on Linux, replace with `44388` otherwise   
