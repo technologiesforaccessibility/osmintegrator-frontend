@@ -8,6 +8,7 @@ export const pl = {
       confirm: 'Zatwierdź',
       cancel: 'Anuluj',
       reset: 'Wyczyść',
+      send: 'Wyślij',
     },
     connection: {
       formTitle: 'Stwórz nowe połączenie',
@@ -16,11 +17,15 @@ export const pl = {
       deleteConnectionInfo: 'Kliknij na linię, jeśli chcesz usunąć połączenie',
       deleteConnectionConfirmation: 'Usunąć?',
       mark2Stops: 'Zaznacz 2 przystanki',
-      differentTypeError: 'Nie można łączyć przystanków tego samego typu.'
+      differentTypeError: 'Nie można łączyć przystanków tego samego typu.',
     },
     contactForm: {
       description: 'Problem z logowaniem? Potrzebujesz się skontaktować? Wyślij nam ',
       message: 'wiadomość',
+    },
+    finishTile: {
+      mainButton: 'Wyślij kafelek do weryfikacji',
+      confirmation: 'Jesteś pewien?',
     },
     login: {
       title: 'Witamy',

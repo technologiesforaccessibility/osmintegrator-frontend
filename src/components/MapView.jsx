@@ -80,7 +80,7 @@ export const MapView = () => {
   }, []);
 
   useEffect(() => {
-    if (activeTile.id) {
+    if (activeTile && activeTile.id) {
       getTileStops(activeTile.id);
       getTileConnections(activeTile.id);
       getTileReports(activeTile.id);

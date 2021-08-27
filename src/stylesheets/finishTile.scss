@@ -1,0 +1,25 @@
+.finish-tile {
+  &__buttons {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  &__decision-button {
+    margin: 10;
+  }
+  &__confirmation-title {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  &__box {
+    margin-top: auto;
+    flex: 1;
+    
+  }
+  &__confirmation-area{
+    height: 100px;
+  }
+
+  &__main-button {
+      margin-bottom: 15px;
+  }
+}

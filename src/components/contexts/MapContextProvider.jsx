@@ -6,6 +6,7 @@ const initialReportCoords = {lat: null, lon: null};
 
 const MapContextProvider = ({children}) => {
   const [showSingleTile, setShowSingleTile] = useState(false);
+  const [isTileActive, setIsTileActive] = useState(false);
   const [isMapActive, setIsMapActive] = useState(false);
   const [areStopsVisible, setAreStopsVisible] = useState(false);
   const [propertyGrid, setPropertyGrid] = useState(null);
@@ -17,10 +18,11 @@ const MapContextProvider = ({children}) => {
   const [isEditingReportMode, setIsEditingReportMode] = useState(false);
   const [newReportCoordinates, setNewReportCoordinates] = useState(initialReportCoords);
   const [rerenderReports, setRerenderReports] = useState(false);
-  const [activeTile, setActiveTile] = useState({});
+  const [activeTile, setActiveTile] = useState(null);
   const [importedConnections, setImportedConnections] = useState([]);
   const [importedReports, setImportedReports] = useState([]);
   const [openReport, setOpenReport] = useState(null);
+
 
   const singleTileToggle = isActive => {
     setShowSingleTile(isActive);
@@ -110,6 +112,14 @@ const MapContextProvider = ({children}) => {
         propertyGrid,
         connectionData,
         rerenderConnections,
+        newReportCoordinates,
+        activeTile,
+        rerenderReports,
+        importedConnections,
+        importedReports,
+        isEditingReportMode,
+        openReport,
+        isTileActive,
         singleTileToggle,
         activeMapToggle,
         displayPropertyGrid,
@@ -119,23 +129,17 @@ const MapContextProvider = ({children}) => {
         viewModeToggle,
         reportModeToggle,
         connectionModeToggle,
-        newReportCoordinates,
         setNewReportCoordinates,
         resetReportCoordinates,
-        activeTile,
         setActiveTile,
-        rerenderReports,
         setRerenderReports,
-        importedConnections,
         setImportedConnections,
-        importedReports,
         setImportedReports,
         hideTileElements,
-        isEditingReportMode,
         setIsEditingReportMode,
-        openReport,
         setOpenReport,
         resetMapContext,
+        setIsTileActive
       }}>
       {children}
     </MapContext.Provider>
