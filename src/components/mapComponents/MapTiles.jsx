@@ -3,10 +3,10 @@ import {Rectangle, Tooltip} from 'react-leaflet';
 
 import colors from '../../stylesheets/config/colors.module.scss';
 
-const MapTiles = ({showSingleTile, tiles, activeTile, setActiveTile, addReportMarker, isReportMapMode}) => {
+const MapTiles = ({isTileActive, tiles, activeTile, setActiveTile, addReportMarker, isReportMapMode}) => {
   return (
     <Fragment>
-      {showSingleTile ? (
+      {isTileActive ? (
         <Rectangle
           bounds={[
             [activeTile.maxLat, activeTile.maxLon],

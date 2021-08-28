@@ -24,8 +24,11 @@ export const pl = {
       message: 'wiadomość',
     },
     finishTile: {
-      mainButton: 'Wyślij kafelek do weryfikacji',
+      editorMainButton: 'Wyślij kafelek do weryfikacji',
+      supervisorMainButton: 'Zatwierdź pracę edytora',
       confirmation: 'Jesteś pewien?',
+      successMessage: 'Kafelek został wysłany',
+      failMessage: 'Nie udało się wysłać kafelka',
     },
     login: {
       title: 'Witamy',
@@ -67,7 +70,7 @@ export const pl = {
       expiredToken: 'Wygląda na to, że twój token wygasł \n Zresetuj swoje hasło ponownie',
       changedPassword: 'Hasło zostało zmienione! \n Za chwilę nastąpi przekierowanie na stronę logowania',
     },
-    siebar: {
+    sidebar: {
       contact: 'Kontakt',
       map: 'Mapa',
       profile: 'Profil',

@@ -521,30 +521,6 @@
                 }
             }
         },
-        "/error-local-development": {
-            "get": {
-                "tags": [
-                    "Error"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    }
-                }
-            }
-        },
-        "/error": {
-            "get": {
-                "tags": [
-                    "Error"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    }
-                }
-            }
-        },
         "/api/Notes": {
             "post": {
                 "tags": [
@@ -1135,30 +1111,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "content": {
-                        "application/json-patch+json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/User"
-                            }
-                        },
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/User"
-                            }
-                        },
-                        "text/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/User"
-                            }
-                        },
-                        "application/*+json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/User"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -1721,6 +1673,12 @@
                             "$ref": "#/components/schemas/Stop"
                         },
                         "nullable": true
+                    },
+                    "approvedByEditor": {
+                        "type": "boolean"
+                    },
+                    "approvedBySupervisor": {
+                        "type": "boolean"
                     }
                 },
                 "additionalProperties": false

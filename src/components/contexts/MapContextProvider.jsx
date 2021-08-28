@@ -5,7 +5,6 @@ export const MapContext = createContext();
 const initialReportCoords = {lat: null, lon: null};
 
 const MapContextProvider = ({children}) => {
-  const [showSingleTile, setShowSingleTile] = useState(false);
   const [isTileActive, setIsTileActive] = useState(false);
   const [isMapActive, setIsMapActive] = useState(false);
   const [areStopsVisible, setAreStopsVisible] = useState(false);
@@ -22,10 +21,11 @@ const MapContextProvider = ({children}) => {
   const [importedConnections, setImportedConnections] = useState([]);
   const [importedReports, setImportedReports] = useState([]);
   const [openReport, setOpenReport] = useState(null);
-
+  const [tiles, setTiles] = useState([]);
+  const [rerenderTiles, setRerenderTiles] = useState(false);
 
   const singleTileToggle = isActive => {
-    setShowSingleTile(isActive);
+    setIsTileActive(isActive);
     setAreStopsVisible(isActive);
     viewModeToggle();
   };
@@ -87,7 +87,7 @@ const MapContextProvider = ({children}) => {
   };
 
   const resetMapContext = () => {
-    setShowSingleTile(false);
+    setIsTileActive(false);
     setAreStopsVisible(false);
     setConnectionData([]);
     setPropertyGrid(null);
@@ -100,10 +100,16 @@ const MapContextProvider = ({children}) => {
     setImportedReports([]);
   };
 
+  const closeTile = () => {
+    singleTileToggle(false);
+    hideTileElements();
+    setRerenderTiles(true);
+  };
+
   return (
     <MapContext.Provider
       value={{
-        showSingleTile,
+        isTileActive,
         isViewMode,
         isReportMapMode,
         isConnectionMode,
@@ -119,7 +125,10 @@ const MapContextProvider = ({children}) => {
         importedReports,
         isEditingReportMode,
         openReport,
-        isTileActive,
+        rerenderTiles,
+        tiles,
+        setTiles,
+        setRerenderTiles,
         singleTileToggle,
         activeMapToggle,
         displayPropertyGrid,
@@ -139,7 +148,8 @@ const MapContextProvider = ({children}) => {
         setIsEditingReportMode,
         setOpenReport,
         resetMapContext,
-        setIsTileActive
+        setIsTileActive,
+        closeTile,
       }}>
       {children}
     </MapContext.Provider>

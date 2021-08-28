@@ -24,8 +24,11 @@ export const en = {
       message: 'message',
     },
     finishTile: {
-      mainButton: 'Send tile to verification',
-      confirmation: 'Jesteś pewien?',
+      editorMainButton: 'Send tile to verification',
+      supervisorMainButton: 'Approve editor\'s work',
+      confirmation: 'Are you sure?',
+      successMessage: 'Tile has bent sent',
+      failMessage: 'Tile cannot be sent',
     },
     login: {
       title: 'Welcome',
