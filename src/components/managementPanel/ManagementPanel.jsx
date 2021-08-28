@@ -12,7 +12,15 @@ import colors from '../../stylesheets/config/colors.module.scss';
 import ManagementPanelMap from './ManagementPanelMap';
 import Dashboard from '../Dashboard';
 import RoleAssignmentPanel from './RoleAssignmentPanel';
-import TileAssignmentPanel from './TileAssignmentPanel';
+
+import H4Title from '../customs/H4Title';
+import CustomInlineButton from '../customs/CustomInlineButton';
+import CustomDropdownToggle from '../customs/CustomDropdownToggle';
+import CustomDropdownMenu from '../customs/CustomDropdownMenu';
+import CheckIcon from '../customs/CheckIcon';
+
+const ASSIGN = 'Assign';
+const REVOKE = 'Revoke';
 
 function ManagementPanel() {
   const [userButtonTile, setUserButtonTile] = useState(['Choose User']);
@@ -20,6 +28,7 @@ function ManagementPanel() {
   const [tiles, setTiles] = useState([]);
   const [tileUsers, setTileUsers] = useState([]);
   const [selectedTileData, setSelectedTileData] = useState(null);
+  const [selectedEditorData, setSelectedEditorData] = useState({});
 
   const currentLocation = { lat: 50.29, lng: 19.01 };
   const zoom = 9;
@@ -81,6 +90,69 @@ function ManagementPanel() {
     </Rectangle>
   ));
 
+  const tilesList =
+    tiles.length > 0
+      ? tiles.map(({ id, x, y, gtfsStopsCount, osmStopsCount }) => (
+        <button
+          key={`tile-dropdown-${id}`}
+          className="dropdown-item"
+          onClick={async () => {
+            const response = await getTileUserAssignmentInfo(id);
+            if (response.status !== 200) {
+              setUserButtonTile('Unassigned');
+              setTileUsers([]);
+              return console.log('Api problem');
+            }
+            await setTileUsers(response.data.users);
+            setTileButtonTile(`X: ${x}, Y: ${y}`);
+            setSelectedTileData({ id, x, y });
+            setUserButtonTile(['Choose User']);
+            setSelectedEditorData({});
+          }}>
+          `{id}; gtfsStopsCount: {gtfsStopsCount}; osmStopsCount: {osmStopsCount}`
+        </button>
+      ))
+      : null;
+
+  const assignToTile = async ({ id, userName, isAssigned }, tile) => {
+    const response =
+      isAssigned === true
+        ? await api.tileRemoveUserDelete(tile.id, {
+          headers: basicHeaders(),
+        })
+        : await api.tileUpdateUserUpdate(
+          tile.id,
+          { id: id },
+          {
+            headers: basicHeaders(),
+          },
+        );
+
+    if (response.status === 200) {
+      const resp = await getTileUserAssignmentInfo(tile.id);
+      await setTileUsers(resp.data.users);
+      setUserButtonTile(['Choose User']);
+    }
+  };
+
+  const usersForTileAssignment =
+    tileUsers.length > 0
+      ? tileUsers.map(({ id, userName, isAssigned }) => {
+        const name = isAssigned ? <CheckIcon displayedText={userName} /> : userName;
+        return (
+          <button
+            key={`users-${userName}`}
+            className="dropdown-item"
+            onClick={() => {
+              setUserButtonTile(userName);
+              setSelectedEditorData({ id, userName, isAssigned });
+            }}>
+            {name}
+          </button>
+        );
+      })
+      : null;
+
   return (
     <Dashboard>
       <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -88,18 +160,32 @@ function ManagementPanel() {
 
         <div className="row">
           <div className="col-md-5">
-            <TileAssignmentPanel
-              userButtonTile={userButtonTile}
-              setUserButtonTile={setUserButtonTile}
-              tiles={tiles}
-              tileUsers={tileUsers}
-              setTileUsers={setTileUsers}
-              tileButtonTile={tileButtonTile}
-              setTileButtonTile={setTileButtonTile}
-              selectedTileData={selectedTileData}
-              setSelectedTileData={setSelectedTileData}
-              getTileUserAssignmentInfo={getTileUserAssignmentInfo}
-            />
+            <div className="management-panel">
+              <H4Title title="Assign user to tile" />
+              <div className="dropdown d-inline-block management-panel__button management-panel__button--40p">
+                <CustomDropdownToggle>{tileButtonTile}</CustomDropdownToggle>
+                <CustomDropdownMenu>{tilesList}</CustomDropdownMenu>
+              </div>
+
+              <div className="dropdown d-inline-block management-panel__button management-panel__button--30p">
+                <CustomDropdownToggle>{userButtonTile}</CustomDropdownToggle>
+                <CustomDropdownMenu>{usersForTileAssignment}</CustomDropdownMenu>
+              </div>
+              <CustomInlineButton
+                handleOnClick={() => {
+                  selectedEditorData !== {} &&
+                    selectedTileData !== null &&
+                    assignToTile(selectedEditorData, selectedTileData);
+                }}
+                buttonTitle={
+                  'isAssigned' in selectedEditorData
+                    ? selectedEditorData.isAssigned === true
+                      ? REVOKE
+                      : ASSIGN
+                    : ASSIGN
+                }
+              />
+            </div>
 
             <RoleAssignmentPanel />
           </div>

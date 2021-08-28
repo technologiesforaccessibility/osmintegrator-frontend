@@ -1,20 +1,33 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import H4Title from '../customs/H4Title';
-import CustomDropdownToggle from '../customs/CustomDropdownToggle';
-import CustomDropdownMenu from '../customs/CustomDropdownMenu';
-import CustomInlineButton from '../customs/CustomInlineButton';
 import api from '../../api/apiInstance';
 import { basicHeaders } from '../../config/apiConfig';
-import CustomCheckbox from '../customs/CustomCheckbox';
+import {useTranslation} from 'react-i18next';
+import {useDispatch} from 'react-redux';
 
-import '../../stylesheets/managementPanel.scss';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { Checkbox } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+
+import {NotificationActions} from '../../redux/actions/notificationActions';
+
+import '../../stylesheets/roleAssignmentPanel.scss';
 
 function RoleAssignmentPanel() {
-  const [userButtonRole, setUserButtonRole] = useState(['Choose User']);
+
+  const {t} = useTranslation();
+  const dispatch = useDispatch();
+
+  const [roleUserName, setRoleUserName] = useState('');
   const [userRoleList, setUserRoleList] = useState([]);
   const [selectedUserData, setSelectedUserData] = useState({});
   const [selectedUserRoles, setSelectedUserRoles] = useState([]);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   useEffect(() => {
     getUserList().then(userList => {
@@ -33,39 +46,34 @@ function RoleAssignmentPanel() {
     }
   }
 
-  const usersForRoleAssignment =
+  const users =
     userRoleList.length > 0
       ? userRoleList.map(({ id, userName, roles }) => {
         return (
-          <button
-            key={userName}
-            className="dropdown-item"
-            onClick={() => {
-              setUserButtonRole(userName);
-
-              // roles in new memory location ?
-              const copiedRoles = [...roles];
-              setSelectedUserData({ id, userName });
-              setSelectedUserRoles(copiedRoles);
-            }}>
-            {userName}
-          </button>
+          <MenuItem key={userName} value={userName}>{userName}</MenuItem>
         );
-      })
-      : null;
+      }) : null;
 
-  const roleCheckboxes =
+  const selectedRoles =
     selectedUserRoles.length > 0 ? (
       selectedUserRoles.map(({ name, value }, index) => {
         return (
-          <CustomCheckbox key={index} value={value} name={name} handleOnChange={() => handleCbChange(value, index)} />
+          <FormControlLabel
+            control={
+              <Checkbox key={index}
+                checked={value}
+                onChange={() => handleCheckboxChanged(value, index)}
+                name={name} />}
+            label={name}
+          />
         );
-      })
-    ) : (
-      <p>You havent chosen user yet</p>
+      })) : (
+      <p>{t('managementPanel.selectUserMessage')}</p>
     );
 
   const assignRole = async () => {
+    setButtonDisabled(true);
+
     let requestBody = [
       {
         ...selectedUserData,
@@ -74,34 +82,75 @@ function RoleAssignmentPanel() {
     ];
 
     try {
-      await api.rolesUpdate(requestBody, {
+      const result = await api.rolesUpdate(requestBody, {
         headers: basicHeaders(),
       });
       const userList = await getUserList();
+      
+      dispatch(NotificationActions.success(result.data.value));
+
       setUserRoleList(userList);
-      setUserButtonRole(['Choose User']);
       setSelectedUserData({});
       setSelectedUserRoles([]);
+      setRoleUserName('');
+      setButtonDisabled(false);
     } catch {
       console.log('Update role problem');
+
+      dispatch(NotificationActions.error(t('unrecognizedProblem')));
+      setButtonDisabled(false);
     }
   };
 
-  const handleCbChange = (value, index) => {
+  const handleCheckboxChanged = (value, index) => {
     let userData = [...selectedUserRoles];
     userData[index].value = !value;
     setSelectedUserRoles(userData);
   };
 
+  const handleUsersListChanged = (event) => {
+    const userName = event.target.value;
+
+    const roleUser = userRoleList.find(x => x.userName === userName);
+    if (roleUser) {
+      setSelectedUserData({
+        id: roleUser.id,
+        userName: roleUser.userName
+      });
+      const copiedRoles = [...roleUser.roles];
+      setSelectedUserRoles(copiedRoles);
+      setRoleUserName(roleUser.userName);
+    }
+  };
+
   return (
-    <div className="management-panel">
-      <H4Title title="Assign role to user" />
-      <div className="dropdown d-inline-block management-panel__button management-panel__button--30p">
-        <CustomDropdownToggle>{userButtonRole}</CustomDropdownToggle>
-        <CustomDropdownMenu>{usersForRoleAssignment}</CustomDropdownMenu>
+    <div className="roleAssignmentPanel">
+        <H4Title className="roleAssignmentPanel__header" title={t('managementPanel.assignRoleTitle')} />
+
+      <div className="roleAssignmentPanel__dropdown">
+        <FormControl className="roleAssignmentPanel__dropdown--dropdown">
+          <InputLabel>{t('managementPanel.chooseUser')}</InputLabel>
+          <Select
+            onChange={handleUsersListChanged}
+            value={roleUserName}
+          >
+            {users}
+          </Select>
+        </FormControl>
       </div>
-      <CustomInlineButton handleOnClick={() => assignRole()} buttonTitle="Save changes" buttonWidth={30} />
-      {roleCheckboxes}
+
+      <div className="roleAssignmentPanel__checkboxes">
+        {selectedRoles}
+      </div>
+
+      <Button
+        className="roleAssignmentPanel__button roleAssignmentPanel__button--button"
+        onClick={assignRole}
+        color="primary"
+        variant="contained"
+        disabled={buttonDisabled}>
+        {t('managementPanel.save')}
+      </Button>
     </div>
   );
 }
