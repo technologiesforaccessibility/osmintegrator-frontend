@@ -14,7 +14,7 @@ import ChangePassword from './ChangePassword';
 import MapContextProvider from './contexts/MapContextProvider';
 import UserContextProvider from './contexts/UserContextProvider';
 import DashboardMain from './DashboardMain';
-import ManagementPanel from './ManagementPanel';
+import ManagementPanel from './managementPanel/ManagementPanel';
 import Notification from './Notification';
 import PrivateRoute from './PrivateRoute';
 import ProfilePanel from './ProfilePanel';
