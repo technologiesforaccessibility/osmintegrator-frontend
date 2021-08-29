@@ -12,6 +12,7 @@ const basicHeaders = () => {
     'Cache-Control': 'no-cache',
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
+    'Accept-Language': 'pl-pl'
   };
 };
 

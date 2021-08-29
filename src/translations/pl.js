@@ -79,5 +79,11 @@ export const pl = {
     },
     unrecognizedProblem: 'Coś poszło nie tak...',
     version: 'Wersja: ',
+    managementPanel: {
+      assignRoleTitle: 'Przypisz rolę do użytkownika',
+      chooseUser: 'Wybierz użytkownika',
+      save: 'Zapisz',
+      selectUserMessage: 'Wybierz użytkownika, aby wyświetlać jego role oraz nimi zarządzać'
+    }
   },
 };

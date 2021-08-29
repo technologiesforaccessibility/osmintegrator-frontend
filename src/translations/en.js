@@ -79,5 +79,11 @@ export const en = {
     },
     unrecognizedProblem: 'Something went wrong...',
     version: 'Version: ',
+    managementPanel: {
+      assignRoleTitle: 'Assign role to user',
+      chooseUser: 'Choose user',
+      save: 'save',
+      selectUserMessage: 'Select user to display and edit his roles'
+    }
   },
 };
