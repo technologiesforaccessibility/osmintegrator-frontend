@@ -1,29 +1,27 @@
 import { useEffect, useState } from 'react';
 import { Rectangle, Tooltip } from 'react-leaflet';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Button from '@material-ui/core/Button';
+import { CircularProgress } from '@material-ui/core';
 
 import api from '../../api/apiInstance';
 import { basicHeaders } from '../../config/apiConfig';
-
 import H3Title from '../customs/H3Title';
-
-import '../../stylesheets/managementPanel.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
 import ManagementPanelMap from './ManagementPanelMap';
 import Dashboard from '../Dashboard';
 import RoleAssignmentPanel from './RoleAssignmentPanel';
-import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-
 import H4Title from '../customs/H4Title';
-import CustomInlineButton from '../customs/CustomInlineButton';
-import CustomDropdownToggle from '../customs/CustomDropdownToggle';
-import CustomDropdownMenu from '../customs/CustomDropdownMenu';
-import CheckIcon from '../customs/CheckIcon';
-
 import { NotificationActions } from '../../redux/actions/notificationActions';
 
-const ASSIGN = 'Assign';
-const REVOKE = 'Revoke';
+import '../../stylesheets/managementPanel.scss';
+
+const NONE = 'none';
 const CURRENT_LOCATION = { lat: 50.29, lng: 19.01 };
 const ZOOM = 9;
 
@@ -31,17 +29,35 @@ function ManagementPanel() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const [userButtonTile, setUserButtonTile] = useState(['Choose User']);
-  const [tileButtonTile, setTileButtonTile] = useState(['Choose tile to assign']);
   const [tiles, setTiles] = useState([]);
   const [tileUsers, setTileUsers] = useState([]);
   const [selectedTileData, setSelectedTileData] = useState(null);
-  const [selectedEditorData, setSelectedEditorData] = useState({});
   const [mouseOverTileData, setMouseOverTileData] = useState(null);
 
+  const [tilesLoaded, setTilesLoaded] = useState(false);
+  const [userSelected, setUserSelected] = useState(false);
+  const [selectedTileId, setSelectedTileId] = useState('');
+
+  const initState = () => {
+    setTilesLoaded(false);
+    setUserSelected(false);
+  };
+
+  const tilesLoadedState = () => {
+    setTilesLoaded(true);
+    setUserSelected(false);
+  };
+
+  const userSelectedState = () => {
+    setTilesLoaded(true);
+    setUserSelected(true);
+  };
+
   useEffect(() => {
+    initState();
     getTiles().then(tiles => {
       setTiles(tiles);
+      tilesLoadedState();
     });
   }, []);
 
@@ -74,7 +90,7 @@ function ManagementPanel() {
     return colors.colorTileAll;
   }
 
-  const mapTiles = tiles.map(({ id, maxLat, maxLon, minLat, minLon, x, y, usersCount}) => (
+  const mapTiles = tiles.map(({ id, maxLat, maxLon, minLat, minLon, x, y, usersCount }) => (
     <Rectangle
       key={`map-${id}`}
       bounds={[
@@ -86,16 +102,7 @@ function ManagementPanel() {
       }}
       eventHandlers={{
         click: async () => {
-          const response = await getTileUserAssignmentInfo(id);
-          if (response.status !== 200) {
-            setUserButtonTile('Unassigned');
-            setTileUsers([]);
-            dispatch(NotificationActions.error(t('unrecognizedProblem')));
-            return console.log('Api problem');
-          }
-          await setTileUsers(response.data.users);
-          setTileButtonTile(`X: ${x}, Y: ${y}`);
-          setSelectedTileData({ id, x, y });
+          handleTileSelected(id);
         },
         mouseover: () => {
           setMouseOverTileData(id);
@@ -103,106 +110,163 @@ function ManagementPanel() {
       }}>
       <Tooltip direction="top">
         Y: {x}, Y: {y} <br />
-        Assigned: {usersCount === 1? 'Yes' : 'No'} <br />
+        Assigned: {usersCount === 1 ? t('yes') : t('no')} <br />
       </Tooltip>
     </Rectangle>
   ));
 
-  const tilesList =
+  const handleTileSelected = async (tileId) => {
+    const selectedTile = tiles.find(x => x.id === tileId);
+
+    setSelectedTileData({
+      id: selectedTile.id,
+      x: selectedTile.x,
+      y: selectedTile.y
+    });
+
+    setSelectedTileId(tileId);
+
+    const response = await getTileUserAssignmentInfo(tileId);
+    if (response.status !== 200) {
+      setTileUsers([]);
+      dispatch(NotificationActions.error(t('unrecognizedProblem')));
+      tilesLoadedState();
+    }
+
+    setTileUsers(
+      fulfillTileUsers(response.data.users));
+
+    userSelectedState();
+  };
+
+  const fulfillTileUsers = (users) => {
+    const result = [...users];
+    const assignedUser = result.find(x => x.isAssigned);
+
+    const noneUser =
+    {
+      id: NONE,
+      userName: NONE,
+      isAssigned: assignedUser === undefined
+    };
+
+    result.unshift(noneUser);
+    return result;
+  };
+
+  const tilesDropDown =
     tiles.length > 0
-      ? tiles.map(({ id, x, y, gtfsStopsCount, osmStopsCount }) => (
-        <button
+      ? tiles.map(({ id, x, y }) => (
+        <MenuItem
           key={`tile-dropdown-${id}`}
-          className="dropdown-item"
-          onClick={async () => {
-            const response = await getTileUserAssignmentInfo(id);
-            if (response.status !== 200) {
-              setUserButtonTile('Unassigned');
-              setTileUsers([]);
-              return console.log('Api problem');
-            }
-            await setTileUsers(response.data.users);
-            setTileButtonTile(`X: ${x}, Y: ${y}`);
-            setSelectedTileData({ id, x, y });
-            setUserButtonTile(['Choose User']);
-            setSelectedEditorData({});
-          }}>
-          `{id}; gtfsStopsCount: {gtfsStopsCount}; osmStopsCount: {osmStopsCount}`
-        </button>
+          value={id}>
+          X: {x}, Y: {y}
+        </MenuItem>
       ))
       : null;
 
-  const assignToTile = async ({ id, userName, isAssigned }, tile) => {
-    const response =
-      isAssigned === true
-        ? await api.tileRemoveUserDelete(tile.id, {
-          headers: basicHeaders(),
-        })
-        : await api.tileUpdateUserUpdate(
-          tile.id,
-          { id: id },
-          {
-            headers: basicHeaders(),
-          },
-        );
+  const selectedUser =
+    tileUsers.length > 0
+      ? tileUsers.find(x => x.isAssigned).id
+      : '';
 
-    if (response.status === 200) {
-      const resp = await getTileUserAssignmentInfo(tile.id);
-      await setTileUsers(resp.data.users);
-      setUserButtonTile(['Choose User']);
+  const dropdownUsers =
+    tileUsers.length > 0
+      ? tileUsers.map(({ id, userName, isAssigned }) => (
+        <MenuItem key={id} value={id}>{userName}</MenuItem>
+      ))
+      : null;
+
+  const handleSave = async() => {
+    const selectedUser = tileUsers.find(x => x.isAssigned);
+    if (selectedUser !== null) {
+
+      initState();
+
+      const response =
+        selectedUser.id === NONE
+          ? await api.tileRemoveUserDelete(selectedTileId, {
+            headers: basicHeaders(),
+          })
+          : await api.tileUpdateUserUpdate(
+            selectedTileId,
+            { id: selectedUser.id },
+            {
+              headers: basicHeaders(),
+            },
+          );
+
+      if (response.status === 200) {
+        dispatch(NotificationActions.success(response.data.value));
+
+        const resp = await getTileUserAssignmentInfo(selectedTileId);
+        const userList = fulfillTileUsers(resp.data.users);
+
+        const tempTiles = [...tiles];
+        const tempSelectedTile = tempTiles.find(x => x.id === selectedTileId);
+
+        tempSelectedTile.usersCount = selectedUser.id === NONE ? 0 : 1;
+        setTiles(tempTiles);
+
+        await setTileUsers(userList);
+      } else {
+        dispatch(NotificationActions.error(t('unrecognizedProblem')));
+      }
+      userSelectedState();
     }
   };
 
-  const usersForTileAssignment =
-    tileUsers.length > 0
-      ? tileUsers.map(({ id, userName, isAssigned }) => {
-        const name = isAssigned ? <CheckIcon displayedText={userName} /> : userName;
-        return (
-          <button
-            key={`users-${userName}`}
-            className="dropdown-item"
-            onClick={() => {
-              setUserButtonTile(userName);
-              setSelectedEditorData({ id, userName, isAssigned });
-            }}>
-            {name}
-          </button>
-        );
-      })
-      : null;
+  const handleUserChanged = (id) => {
+    const newTileUsers = [...tileUsers];
+
+    newTileUsers.forEach(x => x.isAssigned = false);
+    newTileUsers.find(x => x.id === id).isAssigned = true;
+    setTileUsers(newTileUsers);
+  };
 
   return (
     <Dashboard>
       <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <H3Title title="Management panel" borderBottom={true} />
-
         <div className="row">
           <div className="col-md-5">
-            <div className="management-panel">
-              <H4Title title="Assign user to tile" />
-              <div className="dropdown d-inline-block management-panel__button management-panel__button--40p">
-                <CustomDropdownToggle>{tileButtonTile}</CustomDropdownToggle>
-                <CustomDropdownMenu>{tilesList}</CustomDropdownMenu>
+            <div className="tile-assignment">
+              <H4Title className="tile-assignment__header" title={t('managementPanel.assignUserToTile')}/>
+
+              <div className="tile-assignment__tile-dropdown">
+                {!tilesLoaded && <CircularProgress />}
+                {tilesLoaded &&
+                  <FormControl className="tile-assignment--dropdown">
+                    <InputLabel>{t('managementPanel.selectTile')}</InputLabel>
+                    <Select
+                      value={selectedTileId}
+                      onChange={(e) => handleTileSelected(e.target.value)}
+                    >
+                      {tilesDropDown}
+                    </Select>
+                  </FormControl>
+                }
+              </div>
+              <div className="tile-assignment__user-dropdown">
+                <FormControl className="tile-assignment--dropdown" disabled={!userSelected}>
+                  <InputLabel>{t('managementPanel.chooseUser')}</InputLabel>
+                  <Select
+                    value={selectedUser}
+                    onChange={(e) => handleUserChanged(e.target.value)}>
+                    {dropdownUsers}
+                  </Select>
+                </FormControl>
               </div>
 
-              <div className="dropdown d-inline-block management-panel__button management-panel__button--30p">
-                <CustomDropdownToggle>{userButtonTile}</CustomDropdownToggle>
-                <CustomDropdownMenu>{usersForTileAssignment}</CustomDropdownMenu>
-              </div>
-              <CustomInlineButton
-                handleOnClick={() => {
-                  selectedEditorData !== {} &&
-                    selectedTileData !== null &&
-                    assignToTile(selectedEditorData, selectedTileData);
-                }}
-                buttonTitle={
-                  'isAssigned' in selectedEditorData
-                    ? selectedEditorData.isAssigned === true
-                      ? REVOKE
-                      : ASSIGN
-                    : ASSIGN
-                }
-              />
+              <Button
+                className="tile-assignment__button"
+                onClick={handleSave}
+                color="primary"
+                variant="contained"
+                disabled={!userSelected}>
+                {t('buttons.save')}
+              </Button>
+
             </div>
 
             <RoleAssignmentPanel />

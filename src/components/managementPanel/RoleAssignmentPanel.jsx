@@ -1,37 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import H4Title from '../customs/H4Title';
-import api from '../../api/apiInstance';
-import { basicHeaders } from '../../config/apiConfig';
-import {useTranslation} from 'react-i18next';
-import {useDispatch} from 'react-redux';
-
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { Checkbox } from '@material-ui/core';
+import { Checkbox, CircularProgress } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 
-import {NotificationActions} from '../../redux/actions/notificationActions';
+import H4Title from '../customs/H4Title';
+import api from '../../api/apiInstance';
+import { basicHeaders } from '../../config/apiConfig';
+import { NotificationActions } from '../../redux/actions/notificationActions';
 
 import '../../stylesheets/roleAssignmentPanel.scss';
 
 function RoleAssignmentPanel() {
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const [roleUserName, setRoleUserName] = useState('');
   const [userRoleList, setUserRoleList] = useState([]);
   const [selectedUserData, setSelectedUserData] = useState({});
   const [selectedUserRoles, setSelectedUserRoles] = useState([]);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {
     getUserList().then(userList => {
       setUserRoleList(userList);
+      setButtonDisabled(false);
+      setShowLoader(false);
     });
   }, []);
 
@@ -73,6 +75,7 @@ function RoleAssignmentPanel() {
 
   const assignRole = async () => {
     setButtonDisabled(true);
+    setShowLoader(true);
 
     let requestBody = [
       {
@@ -86,7 +89,7 @@ function RoleAssignmentPanel() {
         headers: basicHeaders(),
       });
       const userList = await getUserList();
-      
+
       dispatch(NotificationActions.success(result.data.value));
 
       setUserRoleList(userList);
@@ -94,11 +97,13 @@ function RoleAssignmentPanel() {
       setSelectedUserRoles([]);
       setRoleUserName('');
       setButtonDisabled(false);
+      setShowLoader(false);
     } catch {
       console.log('Update role problem');
 
       dispatch(NotificationActions.error(t('unrecognizedProblem')));
       setButtonDisabled(false);
+      setShowLoader(false);
     }
   };
 
@@ -124,32 +129,34 @@ function RoleAssignmentPanel() {
   };
 
   return (
-    <div className="roleAssignmentPanel">
-        <H4Title className="roleAssignmentPanel__header" title={t('managementPanel.assignRoleTitle')} />
+    <div className="role-assignmentPanel">
+      <H4Title className="role-assignmentPanel__header" title={t('managementPanel.assignRoleTitle')} />
 
-      <div className="roleAssignmentPanel__dropdown">
-        <FormControl className="roleAssignmentPanel__dropdown--dropdown">
-          <InputLabel>{t('managementPanel.chooseUser')}</InputLabel>
-          <Select
-            onChange={handleUsersListChanged}
-            value={roleUserName}
-          >
-            {users}
-          </Select>
-        </FormControl>
+      <div className="role-assignmentPanel__dropdown">
+        {showLoader && <CircularProgress />}
+        {!showLoader &&
+          <FormControl className="role-assignmentPanel__dropdown--dropdown">
+            <InputLabel>{t('managementPanel.chooseUser')}</InputLabel>
+            <Select
+              onChange={handleUsersListChanged}
+              value={roleUserName}>
+              {users}
+            </Select>
+          </FormControl>
+        }
       </div>
 
-      <div className="roleAssignmentPanel__checkboxes">
+      <div className="role-assignmentPanel__checkboxes">
         {selectedRoles}
       </div>
 
       <Button
-        className="roleAssignmentPanel__button roleAssignmentPanel__button--button"
+        className="role-assignmentPanel__button"
         onClick={assignRole}
         color="primary"
         variant="contained"
         disabled={buttonDisabled}>
-        {t('managementPanel.save')}
+        {t('buttons.save')}
       </Button>
     </div>
   );

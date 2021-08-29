@@ -24,6 +24,45 @@
   overflow-x: hidden;
 }
 
+.tile-assignment {
+  display: grid;
+  grid-template-areas: "header" "tile-dropdown" "user-dropdown" "button";
+
+  border-color: black;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+
+  &--dropdown {
+    width: 100%;
+  }
+
+  &__header {
+    grid-row: header;
+    grid-column: header;
+  }
+
+  &__tile-dropdown {
+    grid-row: tile-dropdown;
+    grid-column: tile-dropdown;
+  }
+
+  &__user-dropdown {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    grid-row: user-dropdown;
+    grid-column: user-dropdown;
+    width: 100%;
+  }
+
+  &__button {
+    grid-row: button;
+    grid-column: button;
+  }
+}
+
 
 
 
