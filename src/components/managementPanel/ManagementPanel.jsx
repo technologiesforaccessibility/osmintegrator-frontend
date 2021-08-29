@@ -6,12 +6,13 @@ import { basicHeaders } from '../../config/apiConfig';
 
 import H3Title from '../customs/H3Title';
 
-
 import '../../stylesheets/managementPanel.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
 import ManagementPanelMap from './ManagementPanelMap';
 import Dashboard from '../Dashboard';
 import RoleAssignmentPanel from './RoleAssignmentPanel';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
 import H4Title from '../customs/H4Title';
 import CustomInlineButton from '../customs/CustomInlineButton';
@@ -19,19 +20,24 @@ import CustomDropdownToggle from '../customs/CustomDropdownToggle';
 import CustomDropdownMenu from '../customs/CustomDropdownMenu';
 import CheckIcon from '../customs/CheckIcon';
 
+import { NotificationActions } from '../../redux/actions/notificationActions';
+
 const ASSIGN = 'Assign';
 const REVOKE = 'Revoke';
+const CURRENT_LOCATION = { lat: 50.29, lng: 19.01 };
+const ZOOM = 9;
 
 function ManagementPanel() {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+
   const [userButtonTile, setUserButtonTile] = useState(['Choose User']);
   const [tileButtonTile, setTileButtonTile] = useState(['Choose tile to assign']);
   const [tiles, setTiles] = useState([]);
   const [tileUsers, setTileUsers] = useState([]);
   const [selectedTileData, setSelectedTileData] = useState(null);
   const [selectedEditorData, setSelectedEditorData] = useState({});
-
-  const currentLocation = { lat: 50.29, lng: 19.01 };
-  const zoom = 9;
+  const [mouseOverTileData, setMouseOverTileData] = useState(null);
 
   useEffect(() => {
     getTiles().then(tiles => {
@@ -56,20 +62,27 @@ function ManagementPanel() {
     }
   }
 
-  const mapTiles = tiles.map(({ id, maxLat, maxLon, minLat, minLon, x, y }) => (
+  function getColor(id, usersCount) {
+    if (mouseOverTileData !== null && mouseOverTileData === id) {
+      return colors.colorMouseOverTile;
+    }
+
+    if (selectedTileData !== null && selectedTileData.id === id) {
+      return colors.colorTileActiveExplicit;
+    }
+    if (usersCount === 1) return colors.colorTileAssigned;
+    return colors.colorTileAll;
+  }
+
+  const mapTiles = tiles.map(({ id, maxLat, maxLon, minLat, minLon, x, y, usersCount}) => (
     <Rectangle
       key={`map-${id}`}
       bounds={[
-        [maxLat, maxLon],
-        [minLat, minLon],
+        [maxLat - 0.001, maxLon - 0.0015],
+        [minLat + 0.001, minLon + 0.0015],
       ]}
       pathOptions={{
-        color:
-          selectedTileData === null
-            ? colors.colorTileAll
-            : selectedTileData.id === id
-              ? colors.colorTileActiveExplicit
-              : colors.colorTileAll,
+        color: getColor(id, usersCount),
       }}
       eventHandlers={{
         click: async () => {
@@ -77,15 +90,20 @@ function ManagementPanel() {
           if (response.status !== 200) {
             setUserButtonTile('Unassigned');
             setTileUsers([]);
+            dispatch(NotificationActions.error(t('unrecognizedProblem')));
             return console.log('Api problem');
           }
           await setTileUsers(response.data.users);
           setTileButtonTile(`X: ${x}, Y: ${y}`);
           setSelectedTileData({ id, x, y });
         },
+        mouseover: () => {
+          setMouseOverTileData(id);
+        }
       }}>
       <Tooltip direction="top">
-        x ={x}, y={y}
+        Y: {x}, Y: {y} <br />
+        Assigned: {usersCount === 1? 'Yes' : 'No'} <br />
       </Tooltip>
     </Rectangle>
   ));
@@ -191,7 +209,7 @@ function ManagementPanel() {
           </div>
 
           <div className="col-md-7">
-            <ManagementPanelMap startPoint={currentLocation} zoom={zoom} tiles={mapTiles} />
+            <ManagementPanelMap startPoint={CURRENT_LOCATION} zoom={ZOOM} tiles={mapTiles} />
           </div>
         </div>
       </div>
