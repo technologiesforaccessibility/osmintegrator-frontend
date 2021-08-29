@@ -27,6 +27,7 @@
 .tile-assignment {
   display: grid;
   grid-template-areas: "header" "tile-dropdown" "user-dropdown" "button";
+  grid-template-rows: auto auto 6rem auto;
 
   border-color: black;
   border-width: 1px;
@@ -50,11 +51,15 @@
   }
 
   &__user-dropdown {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     grid-row: user-dropdown;
     grid-column: user-dropdown;
     width: 100%;
+
+    &--loader {
+      margin-top: 1rem;
+    }
   }
 
   &__button {

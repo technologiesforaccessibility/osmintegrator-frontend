@@ -77,7 +77,9 @@ export const pl = {
       save: 'Zapisz',
       selectUserMessage: 'Wybierz użytkownika, aby wyświetlać jego role oraz nimi zarządzać',
       selectTile: 'Wybierz kafelek',
-      assignUserToTile: 'Przypisz użytkownika do kafelka'
+      assignUserToTile: 'Przypisz użytkownika do kafelka',
+      assigned: 'Przypisany',
+      noUser: 'Brak'
     },
     yes: 'Tak',
     no: 'Nie'

@@ -37,20 +37,30 @@ function ManagementPanel() {
   const [tilesLoaded, setTilesLoaded] = useState(false);
   const [userSelected, setUserSelected] = useState(false);
   const [selectedTileId, setSelectedTileId] = useState('');
+  const [usersLoaded, setUsersLoaded] = useState(true);
 
   const initState = () => {
     setTilesLoaded(false);
     setUserSelected(false);
+    setUsersLoaded(true);
   };
 
   const tilesLoadedState = () => {
     setTilesLoaded(true);
     setUserSelected(false);
+    setUsersLoaded(true);
+  };
+
+  const loadingUsersState = () => {
+    setTilesLoaded(true);
+    setUserSelected(false);
+    setUsersLoaded(false);
   };
 
   const userSelectedState = () => {
     setTilesLoaded(true);
     setUserSelected(true);
+    setUsersLoaded(true);
   };
 
   useEffect(() => {
@@ -110,12 +120,13 @@ function ManagementPanel() {
       }}>
       <Tooltip direction="top">
         Y: {x}, Y: {y} <br />
-        Assigned: {usersCount === 1 ? t('yes') : t('no')} <br />
+        {t('managementPanel.assigned')}: {usersCount === 1 ? t('yes') : t('no')} <br />
       </Tooltip>
     </Rectangle>
   ));
 
   const handleTileSelected = async (tileId) => {
+    loadingUsersState();
     const selectedTile = tiles.find(x => x.id === tileId);
 
     setSelectedTileData({
@@ -131,6 +142,7 @@ function ManagementPanel() {
       setTileUsers([]);
       dispatch(NotificationActions.error(t('unrecognizedProblem')));
       tilesLoadedState();
+      return;
     }
 
     setTileUsers(
@@ -173,11 +185,11 @@ function ManagementPanel() {
   const dropdownUsers =
     tileUsers.length > 0
       ? tileUsers.map(({ id, userName, isAssigned }) => (
-        <MenuItem key={id} value={id}>{userName}</MenuItem>
+        <MenuItem key={id} value={id}>{userName === NONE ? t('managementPanel.noUser') : userName}</MenuItem>
       ))
       : null;
 
-  const handleSave = async() => {
+  const handleSave = async () => {
     const selectedUser = tileUsers.find(x => x.isAssigned);
     if (selectedUser !== null) {
 
@@ -231,7 +243,7 @@ function ManagementPanel() {
         <div className="row">
           <div className="col-md-5">
             <div className="tile-assignment">
-              <H4Title className="tile-assignment__header" title={t('managementPanel.assignUserToTile')}/>
+              <H4Title className="tile-assignment__header" title={t('managementPanel.assignUserToTile')} />
 
               <div className="tile-assignment__tile-dropdown">
                 {!tilesLoaded && <CircularProgress />}
@@ -247,16 +259,19 @@ function ManagementPanel() {
                   </FormControl>
                 }
               </div>
-              <div className="tile-assignment__user-dropdown">
-                <FormControl className="tile-assignment--dropdown" disabled={!userSelected}>
-                  <InputLabel>{t('managementPanel.chooseUser')}</InputLabel>
-                  <Select
-                    value={selectedUser}
-                    onChange={(e) => handleUserChanged(e.target.value)}>
-                    {dropdownUsers}
-                  </Select>
-                </FormControl>
-              </div>
+              {!usersLoaded && <CircularProgress className="tile-assignment__user-dropdown--loader" />}
+              {usersLoaded &&
+                <div className="tile-assignment__user-dropdown">
+                  <FormControl className="tile-assignment--dropdown" disabled={!userSelected}>
+                    <InputLabel>{t('managementPanel.chooseUser')}</InputLabel>
+                    <Select
+                      value={selectedUser}
+                      onChange={(e) => handleUserChanged(e.target.value)}>
+                      {dropdownUsers}
+                    </Select>
+                  </FormControl>
+                </div>
+              }
 
               <Button
                 className="tile-assignment__button"
