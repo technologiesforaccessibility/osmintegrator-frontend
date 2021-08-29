@@ -18,7 +18,6 @@ import TileStops from './mapComponents/TileStops';
 
 export const MapView = () => {
   const {t} = useTranslation();
-  const [tiles, setTiles] = useState([]);
   const [allStops, setAllStops] = useState([]);
   const [activeBusStopId, setActiveBusStopId] = useState(null);
   const dispatch = useDispatch();
@@ -33,8 +32,12 @@ export const MapView = () => {
   };
 
   const {
+    tiles,
+    setTiles,
+    rerenderTiles,
+    setRerenderTiles,
     activeMapToggle,
-    showSingleTile,
+    isTileActive,
     singleTileToggle,
     areStopsVisible,
     isViewMode,
@@ -67,21 +70,13 @@ export const MapView = () => {
   
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await api.tileGetTilesList({
-          headers: basicHeaders(),
-        });
-        setTiles(response.data);
-      } catch (error) {
-        unsafeApiError(error, 'Undefined tile problem');
-      }
-    }
-    fetchData();
+    getAvailableTiles();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (activeTile.id) {
+    if (activeTile && activeTile.id) {
       getTileStops(activeTile.id);
       getTileConnections(activeTile.id);
       getTileReports(activeTile.id);
@@ -91,11 +86,11 @@ export const MapView = () => {
   }, [activeTile]);
 
   useEffect(() => {
-    if (!showSingleTile) {
+    if (!isTileActive) {
       setActiveTile({});
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showSingleTile]);
+  }, [isTileActive]);
 
   useEffect(() => {
     async function getConnections() {
@@ -120,6 +115,29 @@ export const MapView = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rerenderReports]);
+
+  useEffect(() => {
+    async function getTiles() {
+      await getAvailableTiles();
+      setRerenderTiles(false);
+    }
+    if (rerenderTiles) {
+      getTiles();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rerenderTiles]);
+
+  async function getAvailableTiles() {
+    try {
+      const response = await api.tileGetTilesList({
+        headers: basicHeaders(),
+      });
+      setTiles(response.data);
+    } catch (error) {
+      unsafeApiError(error, 'Undefined tile problem');
+    }
+  }
 
   const addReportMarker = e => {
     const coords = {lat: e.latlng.lat, lon: e.latlng.lng};
@@ -191,14 +209,14 @@ export const MapView = () => {
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         maxZoom={maxZoom}
       />
-      <NewConnections connections={connectionData} showSingleTile={showSingleTile} />
+      <NewConnections connections={connectionData} isTileActive={isTileActive} />
       <ImportedConnections
         stops={allStops}
         importedConnections={importedConnections}
         shouldRenderConnections={shouldRenderConnections}
       />
       <MapTiles
-        showSingleTile={showSingleTile}
+        isTileActive={isTileActive}
         tiles={tiles}
         activeTile={activeTile}
         setActiveTile={setActiveTile}

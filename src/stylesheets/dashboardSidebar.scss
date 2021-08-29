@@ -1,0 +1,21 @@
+.sidebar {
+  &__container {
+      height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  &__features {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    overflow-y: hidden;
+  }
+  &__finish-tile {
+    display: flex; 
+
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 200px;
+    padding: 2px;
+  }
+}

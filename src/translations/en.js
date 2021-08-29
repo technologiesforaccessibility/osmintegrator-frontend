@@ -8,6 +8,7 @@ export const en = {
       confirm: 'Confirm',
       cancel: 'Cancel',
       reset: 'Reset',
+      send: 'Send',
     },
     connection: {
       formTitle: 'Create new connection',
@@ -16,11 +17,18 @@ export const en = {
       deleteConnectionInfo: 'Click line if you want to delete connection',
       deleteConnectionConfirmation: 'Delete?',
       mark2Stops: 'Mark 2 stops',
-      differentTypeError: 'It is not allowed to connect stops of the same type.'
+      differentTypeError: 'It is not allowed to connect stops of the same type.',
     },
     contactForm: {
       description: 'Login problem? Need to contact? Send us a ',
       message: 'message',
+    },
+    finishTile: {
+      editorMainButton: 'Send tile to verification',
+      supervisorMainButton: 'Approve editor\'s work',
+      confirmation: 'Are you sure?',
+      successMessage: 'Tile has bent sent',
+      failMessage: 'Tile cannot be sent',
     },
     login: {
       title: 'Welcome',

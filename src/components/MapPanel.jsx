@@ -11,7 +11,7 @@ import EditReport from './EditReport';
 
 const MapPanel = () => {
   const {
-    showSingleTile,
+    isTileActive,
     isViewMode,
     isReportMapMode,
     isConnectionMode,
@@ -50,7 +50,7 @@ const MapPanel = () => {
 
   return (
     <>
-      {showSingleTile && (
+      {isTileActive && (
         <div className="map-panel__container">
           <div className="map-panel__button">
             <CustomBlockButton
