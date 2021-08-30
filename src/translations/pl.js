@@ -83,7 +83,13 @@ export const pl = {
       assignRoleTitle: 'Przypisz rolę do użytkownika',
       chooseUser: 'Wybierz użytkownika',
       save: 'Zapisz',
-      selectUserMessage: 'Wybierz użytkownika, aby wyświetlać jego role oraz nimi zarządzać'
-    }
+      selectUserMessage: 'Wybierz użytkownika, aby wyświetlać jego role oraz nimi zarządzać',
+      selectTile: 'Wybierz kafelek',
+      assignUserToTile: 'Przypisz użytkownika do kafelka',
+      assigned: 'Przypisany',
+      noUser: 'Brak'
+    },
+    yes: 'Tak',
+    no: 'Nie'
   },
 };

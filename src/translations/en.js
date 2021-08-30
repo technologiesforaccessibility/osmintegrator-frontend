@@ -83,7 +83,13 @@ export const en = {
       assignRoleTitle: 'Assign role to user',
       chooseUser: 'Choose user',
       save: 'save',
-      selectUserMessage: 'Select user to display and edit his roles'
-    }
+      selectUserMessage: 'Select user to display and edit his roles',
+      selectTile: 'Select tile',
+      assignUserToTile: 'Assign user to the tile',
+      assigned: 'Assigned',
+      noUser: 'None'
+    },
+    yes: 'Yes',
+    no: 'No'
   },
 };

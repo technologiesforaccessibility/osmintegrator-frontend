@@ -11,6 +11,8 @@ $color-tile-active: olivedrab;
 $color-tile-active-explicit: purple;
 $color-connection-new: red;
 $color-connection-imported: yellow;
+$color-mouse-over-tile: white;
+$color-tile-assigned: aqua;
 
 :export {
     colorMessageFail: $color-message-fail;
@@ -21,4 +23,6 @@ $color-connection-imported: yellow;
     colorTileActiveExplicit: $color-tile-active-explicit;
     colorConnectionNew: $color-connection-new;
     colorConnectionImported: $color-connection-imported;
+    colorMouseOverTile: $color-mouse-over-tile;
+    colorTileAssigned: $color-tile-assigned;
 }
