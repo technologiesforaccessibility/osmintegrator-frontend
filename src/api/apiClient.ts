@@ -203,6 +203,8 @@ export interface Tile {
   /** @format int32 */
   usersCount?: number | null;
   stops?: Stop[] | null;
+  approvedByEditor?: boolean;
+  approvedBySupervisor?: boolean;
 }
 
 export interface TokenData {
@@ -396,8 +398,8 @@ export class HttpClient<SecurityDataType = unknown> {
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      r.data = (null as unknown) as T;
+      r.error = (null as unknown) as E;
 
       const data = await response[format]()
         .then((data) => {
@@ -900,12 +902,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TileApproveUpdate
      * @request PUT:/api/Tile/Approve/{id}
      */
-    tileApproveUpdate: (id: string, data: User, params: RequestParams = {}) =>
+    tileApproveUpdate: (id: string, params: RequestParams = {}) =>
       this.request<string, ProblemDetails>({
         path: `/api/Tile/Approve/${id}`,
         method: "PUT",
-        body: data,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -952,36 +952,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/Users`,
         method: "GET",
         format: "json",
-        ...params,
-      }),
-  };
-  errorLocalDevelopment = {
-    /**
-     * No description
-     *
-     * @tags Error
-     * @name ErrorLocalDevelopmentList
-     * @request GET:/error-local-development
-     */
-    errorLocalDevelopmentList: (params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/error-local-development`,
-        method: "GET",
-        ...params,
-      }),
-  };
-  error = {
-    /**
-     * No description
-     *
-     * @tags Error
-     * @name ErrorList
-     * @request GET:/error
-     */
-    errorList: (params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/error`,
-        method: "GET",
         ...params,
       }),
   };

@@ -1,12 +1,11 @@
-import React, {Fragment} from 'react';
 import {Rectangle, Tooltip} from 'react-leaflet';
 
 import colors from '../../stylesheets/config/colors.module.scss';
 
-const MapTiles = ({showSingleTile, tiles, activeTile, setActiveTile, addReportMarker, isReportMapMode}) => {
+const MapTiles = ({isTileActive, tiles, activeTile, setActiveTile, addReportMarker, isReportMapMode}) => {
   return (
-    <Fragment>
-      {showSingleTile ? (
+    <>
+      {isTileActive ? (
         <Rectangle
           bounds={[
             [activeTile.maxLat, activeTile.maxLon],
@@ -27,7 +26,7 @@ const MapTiles = ({showSingleTile, tiles, activeTile, setActiveTile, addReportMa
               [tile.maxLat, tile.maxLon],
               [tile.minLat, tile.minLon],
             ]}
-            pathOptions={{color: colors.colorTileAll}}
+            pathOptions={{color: tile.approvedByEditor ? colors.colorTileForApproval : colors.colorTileAll, fillOpacity:  tile.approvedByEditor ? 0.5 : 0.2}}
             eventHandlers={{
               click: () => {
                 setActiveTile(tile);
@@ -39,7 +38,7 @@ const MapTiles = ({showSingleTile, tiles, activeTile, setActiveTile, addReportMa
           </Rectangle>
         ))
       )}
-    </Fragment>
+    </>
   );
 };
 
