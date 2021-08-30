@@ -31,8 +31,7 @@ function ManagementPanel() {
 
   const [tiles, setTiles] = useState([]);
   const [tileUsers, setTileUsers] = useState([]);
-  const [selectedTileData, setSelectedTileData] = useState(null);
-  const [mouseOverTileData, setMouseOverTileData] = useState(null);
+  const [mouseOverTileId, setMouseOverTileId] = useState(null);
 
   const [tilesLoaded, setTilesLoaded] = useState(false);
   const [userSelected, setUserSelected] = useState(false);
@@ -89,11 +88,11 @@ function ManagementPanel() {
   }
 
   function getColor(id, usersCount) {
-    if (mouseOverTileData !== null && mouseOverTileData === id) {
+    if (mouseOverTileId !== null && mouseOverTileId === id) {
       return colors.colorMouseOverTile;
     }
 
-    if (selectedTileData !== null && selectedTileData.id === id) {
+    if (selectedTileId !== null && selectedTileId === id) {
       return colors.colorTileActiveExplicit;
     }
     if (usersCount === 1) return colors.colorTileAssigned;
@@ -115,7 +114,7 @@ function ManagementPanel() {
           handleTileSelected(id);
         },
         mouseover: () => {
-          setMouseOverTileData(id);
+          setMouseOverTileId(id);
         }
       }}>
       <Tooltip direction="top">
@@ -127,13 +126,6 @@ function ManagementPanel() {
 
   const handleTileSelected = async (tileId) => {
     loadingUsersState();
-    const selectedTile = tiles.find(x => x.id === tileId);
-
-    setSelectedTileData({
-      id: selectedTile.id,
-      x: selectedTile.x,
-      y: selectedTile.y
-    });
 
     setSelectedTileId(tileId);
 
