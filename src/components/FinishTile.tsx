@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button';
 import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
 
-
 import {MapContext} from './contexts/MapContextProvider';
 import {basicHeaders} from '../config/apiConfig';
 import api from '../api/apiInstance';
@@ -32,7 +31,6 @@ const FinishTile = () => {
       dispatch(NotificationActions.error(t('finishTile.failMessage')));
     }
   };
-
 
   return (
     <>
@@ -68,7 +66,7 @@ const FinishTile = () => {
         variant="contained"
         disabled={accept}
         onClick={() => setAccept(true)}>
-          {authRoles.includes(roles.SUPERVISOR) ? t('finishTile.supervisorMainButton') : t('finishTile.editorMainButton')}
+        {authRoles.includes(roles.SUPERVISOR) ? t('finishTile.supervisorMainButton') : t('finishTile.editorMainButton')}
       </Button>
     </>
   );
