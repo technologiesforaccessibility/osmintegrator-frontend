@@ -1,15 +1,4 @@
 .finish-tile {
-  &__dialog {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-content: center;
-    height: 150px;
-    width: 250px;
-    border-radius: 30px;
-    background-color: red;
-
-  }
   &__buttons {
     display: flex;
   }
