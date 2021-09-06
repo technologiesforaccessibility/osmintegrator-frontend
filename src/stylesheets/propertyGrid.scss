@@ -18,11 +18,11 @@
 }
 
 .propertyGrid-frame {
-  max-height: 100%;
+  flex: 1;
   border: solid 1px black;
   padding: 5px;
   border-radius: 5px;
-  overflow-y: hidden;
+  overflow-y: scroll;
 }
 
 .propertyGrid-key {
