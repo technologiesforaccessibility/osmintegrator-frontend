@@ -77,6 +77,12 @@ export const en = {
       managementDashbord: 'Management Dashboard',
       history: 'History',
     },
+    tileModePrompts: {
+      view: 'View mode - see bus stop or report details',
+      report: 'Create report on map',
+      connection: 'Create new connection',
+      back: 'Hide tile',
+    },
     unrecognizedProblem: 'Something went wrong...',
     version: 'Version: ',
     managementPanel: {

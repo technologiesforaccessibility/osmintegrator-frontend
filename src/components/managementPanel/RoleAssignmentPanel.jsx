@@ -1,25 +1,24 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
-import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import {useTranslation} from 'react-i18next';
+import {useDispatch} from 'react-redux';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { Checkbox, CircularProgress } from '@material-ui/core';
+import {Checkbox, CircularProgress} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 
 import H4Title from '../customs/H4Title';
 import api from '../../api/apiInstance';
-import { basicHeaders } from '../../config/apiConfig';
-import { NotificationActions } from '../../redux/actions/notificationActions';
+import {basicHeaders} from '../../config/apiConfig';
+import {NotificationActions} from '../../redux/actions/notificationActions';
 
 import '../../stylesheets/roleAssignmentPanel.scss';
 
 function RoleAssignmentPanel() {
-
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const dispatch = useDispatch();
 
   const [roleUserName, setRoleUserName] = useState('');
@@ -50,26 +49,28 @@ function RoleAssignmentPanel() {
 
   const users =
     userRoleList.length > 0
-      ? userRoleList.map(({ id, userName, roles }) => {
-        return (
-          <MenuItem key={userName} value={userName}>{userName}</MenuItem>
-        );
-      }) : null;
+      ? userRoleList.map(({id, userName, roles}) => {
+          return (
+            <MenuItem key={userName} value={userName}>
+              {userName}
+            </MenuItem>
+          );
+        })
+      : null;
 
   const selectedRoles =
     selectedUserRoles.length > 0 ? (
-      selectedUserRoles.map(({ name, value }, index) => {
+      selectedUserRoles.map(({name, value}, index) => {
         return (
           <FormControlLabel
             control={
-              <Checkbox key={index}
-                checked={value}
-                onChange={() => handleCheckboxChanged(value, index)}
-                name={name} />}
+              <Checkbox key={index} checked={value} onChange={() => handleCheckboxChanged(value, index)} name={name} />
+            }
             label={name}
           />
         );
-      })) : (
+      })
+    ) : (
       <p>{t('managementPanel.selectUserMessage')}</p>
     );
 
@@ -113,14 +114,14 @@ function RoleAssignmentPanel() {
     setSelectedUserRoles(userData);
   };
 
-  const handleUsersListChanged = (event) => {
+  const handleUsersListChanged = event => {
     const userName = event.target.value;
 
     const roleUser = userRoleList.find(x => x.userName === userName);
     if (roleUser) {
       setSelectedUserData({
         id: roleUser.id,
-        userName: roleUser.userName
+        userName: roleUser.userName,
       });
       const copiedRoles = [...roleUser.roles];
       setSelectedUserRoles(copiedRoles);
@@ -134,21 +135,17 @@ function RoleAssignmentPanel() {
 
       <div className="role-assignmentPanel__dropdown">
         {showLoader && <CircularProgress />}
-        {!showLoader &&
+        {!showLoader && (
           <FormControl className="role-assignmentPanel__dropdown--dropdown">
             <InputLabel>{t('managementPanel.chooseUser')}</InputLabel>
-            <Select
-              onChange={handleUsersListChanged}
-              value={roleUserName}>
+            <Select onChange={handleUsersListChanged} value={roleUserName}>
               {users}
             </Select>
           </FormControl>
-        }
+        )}
       </div>
 
-      <div className="role-assignmentPanel__checkboxes">
-        {selectedRoles}
-      </div>
+      <div className="role-assignmentPanel__checkboxes">{selectedRoles}</div>
 
       <Button
         className="role-assignmentPanel__button"
