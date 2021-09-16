@@ -9,7 +9,6 @@ const PropertyGrid = ({propertyGrid}) => {
   const entries = grid ? Object.entries(grid) : null;
 
   return (
-    <div>
       <div className="propertyGrid-frame">
         {entries &&
           entries.map(([key, value]) =>
@@ -20,7 +19,6 @@ const PropertyGrid = ({propertyGrid}) => {
             ),
           )}
       </div>
-    </div>
   );
 };
 export default PropertyGrid;
