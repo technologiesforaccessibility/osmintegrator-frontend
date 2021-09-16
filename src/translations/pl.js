@@ -39,6 +39,8 @@ export const pl = {
     },
     logout: {title: 'Nastąpiło wylogowanie', message: 'Za chwilę nastąpi przekierowanie na stronę logowania'},
     map: {},
+    profileHeader: 'Profil',
+    profileMVPPlaceholder: 'Jeśli chcesz zmienić email lub hasło, wyślij wiadomość do kontakt@rozwiazaniadlaniewidomych.org lub napisz wiadomość na Slacku na kanale #problems',
     recover: {
       title: 'Odzyskaj swoje hasło',
       button: 'Zresetuj swoje hasło',

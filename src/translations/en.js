@@ -39,6 +39,8 @@ export const en = {
     },
     logout: {title: 'You have been logged out', message: 'You will be redirect to login page soon.'},
     map: {},
+    profileHeader: 'Profile',
+    profileMVPPlaceholder: 'If you want to change email or password, please send email to kontakt@rozwiazaniadlaniewidomych.org or write a message on Slack #problems channel',
     recover: {
       title: 'Recover your password',
       button: 'Reset your password',
