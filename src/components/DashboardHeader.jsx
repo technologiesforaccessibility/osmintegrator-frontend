@@ -1,27 +1,32 @@
-import {Link} from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
 
-import React from 'react';
+import MenuItem from './MenuItem';
 import {paths} from '../utilities/constants';
 
+import './../stylesheets/dashboardHeader.scss';
+
+const {REACT_APP_CONTACT_FORM} = process.env;
+
 const DashboardHeader = ({isLoggedIn}) => {
+  const {t} = useTranslation();
+
   return (
-    <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-      <a href={window.location.href} className="navbar-brand col-md-3 col-lg-2 me-0 px-3">
-        Osm Integrator
-      </a>
-      <ul className="navbar-nav px-3">
-        <li className="nav-item text-nowrap">
-          {isLoggedIn ? (
-            <Link className="nav-link" to={paths.LOGOUT}>
-              Sign out
-            </Link>
-          ) : (
-            <Link className="nav-link" to={paths.LOGIN}>
-              Log in
-            </Link>
-          )}
-        </li>
-      </ul>
+    <header className="navbar navbar-dark bg-dark p-0 header__main">
+      <div className="header__logo">
+        <a href={window.location.href}>Osm Integrator</a>
+      </div>
+
+      <div className="header__navigation-container">
+        <MenuItem name={t('sidebar.map')} link={paths.HOME} />
+        <MenuItem name={t('sidebar.profile')} link={paths.PROFILE} />
+        <MenuItem externalLink name={t('sidebar.contact')} link={REACT_APP_CONTACT_FORM} />
+        <MenuItem name={t('sidebar.managementDashbord')} link={paths.MANAGEMENT_PANEL} />
+        {isLoggedIn ? (
+          <MenuItem name={t('logout.button')} link={paths.LOGOUT} />
+        ) : (
+          <MenuItem name={t('logout.loginButton')} link={paths.LOGIN} />
+        )}
+      </div>
     </header>
   );
 };

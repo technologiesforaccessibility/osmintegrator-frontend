@@ -3,16 +3,17 @@ import {NavLink} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import {hasAccessToPath} from '../utilities/auth';
+import './../stylesheets/menuItem.scss';
 
 const {REACT_APP_CONTACT_FORM} = process.env;
 
-const SidebarListItem = ({link, name, externalLink}) => {
+const MenuItem = ({link, name, externalLink}) => {
   if (!hasAccessToPath(link)) {
     return <></>;
   }
 
   return (
-    <li className="nav-item nav-link active">
+    <div className="menu-item">
       {externalLink ? (
         <a target="_blank" rel="noopener noreferrer" href={REACT_APP_CONTACT_FORM}>
           {name}
@@ -20,18 +21,18 @@ const SidebarListItem = ({link, name, externalLink}) => {
       ) : (
         <NavLink to={link}>{name}</NavLink>
       )}
-    </li>
+    </div>
   );
 };
 
-export default SidebarListItem;
+export default MenuItem;
 
-SidebarListItem.propTypes = {
+MenuItem.propTypes = {
   link: PropTypes.string,
   name: PropTypes.string,
   externalLink: PropTypes.bool,
 };
 
-SidebarListItem.defaultProps = {
+MenuItem.defaultProps = {
   externalLink: false,
 };

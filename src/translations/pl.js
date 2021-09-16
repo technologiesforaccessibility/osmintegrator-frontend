@@ -37,7 +37,7 @@ export const pl = {
       forgotPassword: 'Nie pamiętasz hasła?',
       401: 'Niepoprawny email lub hasło',
     },
-    logout: {title: 'Nastąpiło wylogowanie', message: 'Za chwilę nastąpi przekierowanie na stronę logowania'},
+    logout: {title: 'Nastąpiło wylogowanie', message: 'Za chwilę nastąpi przekierowanie na stronę logowania', button: 'Wyloguj', loginButton: 'Zaloguj'},
     map: {},
     profileHeader: 'Profil',
     profileMVPPlaceholder: 'Jeśli chcesz zmienić email lub hasło, wyślij wiadomość do kontakt@rozwiazaniadlaniewidomych.org lub napisz wiadomość na Slacku na kanale #problems',

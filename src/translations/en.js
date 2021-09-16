@@ -37,7 +37,7 @@ export const en = {
       forgotPassword: 'Forgot Username / Password ?',
       401: 'Wrong email or password',
     },
-    logout: {title: 'You have been logged out', message: 'You will be redirect to login page soon.'},
+    logout: {title: 'You have been logged out', message: 'You will be redirect to login page soon.', button: 'Log out', loginButton: 'Log in'},
     map: {},
     profileHeader: 'Profile',
     profileMVPPlaceholder: 'If you want to change email or password, please send email to kontakt@rozwiazaniadlaniewidomych.org or write a message on Slack #problems channel',

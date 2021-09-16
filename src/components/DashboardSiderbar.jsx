@@ -3,7 +3,6 @@ import {useSelector} from 'react-redux';
 
 import PropertyGrid from './PropertyGrid';
 import MapPanel from './MapPanel';
-import SidebarMenu from './SidebarMenu';
 import LanguageSwitch from './LanguageTest';
 import VersionLabel from './VersionLabel';
 import FinishTile from './FinishTile';
@@ -25,7 +24,6 @@ const DashboardSiderbar = () => {
         {!REACT_APP_MVP_DISABLED && <LanguageSwitch />}
         <VersionLabel />
         <div className="sidebar__features">
-          <SidebarMenu />
           <MapPanel />
           {propertyGrid && <PropertyGrid propertyGrid={propertyGrid} />}
         </div>
