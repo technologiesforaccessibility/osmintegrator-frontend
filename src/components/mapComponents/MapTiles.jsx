@@ -26,7 +26,10 @@ const MapTiles = ({isTileActive, tiles, activeTile, setActiveTile, addReportMark
               [tile.maxLat, tile.maxLon],
               [tile.minLat, tile.minLon],
             ]}
-            pathOptions={{color: tile.approvedByEditor ? colors.colorTileForApproval : colors.colorTileAll, fillOpacity:  tile.approvedByEditor ? 0.5 : 0.2}}
+            pathOptions={{
+              color: tile.approvedByEditor ? colors.colorTileForApproval : colors.colorTileAll,
+              fillOpacity: tile.approvedByEditor ? 0.5 : 0.2,
+            }}
             eventHandlers={{
               click: () => {
                 setActiveTile(tile);

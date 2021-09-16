@@ -16,9 +16,7 @@ const Logout = () => {
   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
-  const {
-    resetMapContext
-  } = useContext(MapContext);
+  const {resetMapContext} = useContext(MapContext);
 
   useEffect(() => {
     setTimeout(() => proceedLogOut(), 5000);
