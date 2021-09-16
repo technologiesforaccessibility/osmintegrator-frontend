@@ -5,18 +5,19 @@ import iconBlack from '../assets/bus_stop_icon_black_new.png';
 import iconPink from '../assets/bus_stop_icon_pink_new.png';
 import iconGrey from '../assets/bus_stop_icon_grey.png';
 import iconPurple from '../assets/bus_stop_icon_purple.png';
-import iconGreen from '../assets/bus_stop_icon_green.png';
-import iconYellow from '../assets/bus_stop_icon_yellow.png';
-import iconViolet from '../assets/bus_stop_icon_violet.png';
-import iconBlue from '../assets/bus_stop_icon_blue.png';
-import iconOrange from '../assets/bus_stop_icon_orange_new.png';
+import reporBlackIcon from '../assets/report_black.png';
+import reportBlueIcon from '../assets/report_blue.png';
+import reportGreenIcon from '../assets/report_green.png';
+import reportRedIcon from '../assets/report_red.png';
+import reportGreyIcon from '../assets/report_grey.png';
+
 
 const reportIcons = {
-  initial: iconOrange,
-  created: iconYellow,
-  approved: iconGreen,
-  rejected: iconViolet,
-  unexpected: iconBlue,
+  initial: reportGreyIcon,
+  created: reportBlueIcon,
+  approved: reportGreenIcon,
+  rejected: reportRedIcon,
+  unexpected: reporBlackIcon,
 };
 
 const comparePasswords = (pass1, pass2) => {

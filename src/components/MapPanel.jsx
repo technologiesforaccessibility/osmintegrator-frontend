@@ -1,18 +1,23 @@
-import React, {useContext} from 'react';
+import {useContext, useState} from 'react';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import Tooltip from '@material-ui/core/Tooltip';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import ReportIcon from '@material-ui/icons/Report';
+import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import {useTranslation} from 'react-i18next';
 
 import {MapContext} from './contexts/MapContextProvider';
 import ConnectionSidePanel from './ConnectionSidePanel';
-import CustomBlockButton from './customs/CustomBlockButton';
 
 import '../stylesheets/mapPanel.scss';
-import buttonStyle from '../stylesheets/modules/mapPanelButton.module.scss';
 import NewReport from './NewReport';
 import EditReport from './EditReport';
 
 const MapPanel = () => {
   const {
     isTileActive,
-    isViewMode,
     isReportMapMode,
     isConnectionMode,
     isEditingReportMode,
@@ -23,52 +28,72 @@ const MapPanel = () => {
     hideTileElements,
     openReport,
   } = useContext(MapContext);
+  const [toggleButton, setToggleButton] = useState('View');
+  const {t} = useTranslation();
 
   const radios = [
     {
-      title: 'See bus stop details',
-      isChecked: isViewMode,
-      onClickHandler: () => {
-        viewModeToggle();
-      },
+      title: t('tileModePrompts.view'),
+      name: 'View',
+      icon: () => <VisibilityIcon />,
     },
     {
-      title: 'Create report on map',
-      isChecked: isReportMapMode,
-      onClickHandler: () => {
-        reportModeToggle();
-      },
+      title: t('tileModePrompts.report'),
+      name: 'Report',
+      icon: () => <ReportIcon />,
     },
     {
-      title: 'Create new connection',
-      isChecked: isConnectionMode,
-      onClickHandler: () => {
-        connectionModeToggle();
-      },
+      title: t('tileModePrompts.connection'),
+      name: 'Connection',
+      icon: () => <SettingsEthernetIcon />,
     },
   ];
+
+  const handleChange = (_, value) => {
+    setToggleButton(value);
+    switch (value) {
+      case 'View':
+        viewModeToggle();
+        break;
+      case 'Report':
+        reportModeToggle();
+        break;
+      case 'Connection':
+        connectionModeToggle();
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <>
       {isTileActive && (
         <div className="map-panel__container">
-          <div className="map-panel__button">
-            <CustomBlockButton
-              buttonTitle={'Hide tile'}
-              style={buttonStyle}
-              onClickHandler={() => {
+          <div className="map-panel__toggle-container">
+            <ToggleButton
+              value="check"
+              className="map-panel__toggle--back"
+              selected={false}
+              onChange={() => {
                 singleTileToggle(false);
                 hideTileElements();
-              }}
-            />
-          </div>
-          <div>
-            {radios.map(({title, isChecked, onClickHandler}, index) => (
-              <div className="form-check" key={index}>
-                <input className="form-check-input" type="radio" checked={isChecked} onChange={onClickHandler} />
-                <label className="form-check-label">{title}</label>
-              </div>
-            ))}
+              }}>
+              <Tooltip title={t('tileModePrompts.back')}>
+                <ArrowBackIcon />
+              </Tooltip>
+            </ToggleButton>
+            <ToggleButtonGroup
+              className="map-panel__toggle-group"
+              value={toggleButton}
+              exclusive
+              onChange={handleChange}>
+              {radios.map(({title, name, icon}, index) => (
+                <ToggleButton className="map-panel__toggle--modes" key={index} value={name}>
+                  <Tooltip title={title}>{icon()}</Tooltip>
+                </ToggleButton>
+              ))}
+            </ToggleButtonGroup>
           </div>
           {isReportMapMode && <NewReport />}
           {isEditingReportMode && openReport && <EditReport />}

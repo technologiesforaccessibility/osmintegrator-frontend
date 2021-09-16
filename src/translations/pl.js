@@ -79,6 +79,12 @@ export const pl = {
       managementDashbord: 'Panel administracyjny',
       history: 'Historia',
     },
+    tileModePrompts: {
+      view: 'Tryb widoku - pokaż szczegóły przystanku lub zgłoszenia',
+      report: 'Stwórz nowe zgłoszenie na mapie',
+      connection: 'Stwórz nowe połączenie',
+      back: 'Ukryj kafelek',
+    },
     unrecognizedProblem: 'Coś poszło nie tak...',
     version: 'Wersja: ',
     managementPanel: {
@@ -89,9 +95,9 @@ export const pl = {
       selectTile: 'Wybierz kafelek',
       assignUserToTile: 'Przypisz użytkownika do kafelka',
       assigned: 'Przypisany',
-      noUser: 'Brak'
+      noUser: 'Brak',
     },
     yes: 'Tak',
-    no: 'Nie'
+    no: 'Nie',
   },
 };
