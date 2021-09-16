@@ -31,8 +31,8 @@ const FinishTile = () => {
       await api.tileApproveUpdate(activeTile.id, {headers: basicHeaders()});
       closeTile();
       dispatch(NotificationActions.success(t('finishTile.successMessage')));
-    } catch (e) {
-      dispatch(NotificationActions.error(t('finishTile.failMessage')));
+    } catch (error) {
+      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('finishTile.failMessage')));
     }
   };
 

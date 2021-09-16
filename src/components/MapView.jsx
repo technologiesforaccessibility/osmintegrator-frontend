@@ -141,7 +141,7 @@ export const MapView = () => {
         : response.data;
       setTiles(tilesToShow);
     } catch (error) {
-      unsafeApiError(error, 'Undefined tile problem');
+      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('unrecognizedProblem')));
     }
   }
 
@@ -173,7 +173,7 @@ export const MapView = () => {
       setAllStops(response.data);
       singleTileToggle(true);
     } catch (error) {
-      unsafeApiError(error, 'Undefined bus stops problem');
+      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('unrecognizedProblem')));
     }
   };
 
@@ -184,7 +184,7 @@ export const MapView = () => {
       });
       setImportedConnections(response.data);
     } catch (error) {
-      unsafeApiError(error, 'Undefined tile connection problem');
+      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('unrecognizedProblem')));
     }
   };
 
@@ -195,7 +195,7 @@ export const MapView = () => {
       });
       setImportedReports(response.data);
     } catch (error) {
-      unsafeApiError(error, 'Undefined tile connection problem');
+      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('unrecognizedProblem')));
     }
   };
 

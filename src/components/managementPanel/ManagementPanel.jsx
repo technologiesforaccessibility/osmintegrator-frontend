@@ -82,8 +82,8 @@ function ManagementPanel() {
         headers: basicHeaders(),
       });
       return response.data;
-    } catch {
-      console.log('Tile List problem');
+    } catch (error) {
+      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('unrecognizedProblem')));
     }
   }
 

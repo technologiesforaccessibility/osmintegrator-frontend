@@ -30,7 +30,7 @@ const ConnectionSidePanel = () => {
       dispatch(NotificationActions.success(t('connection.createSuccessMessage')));
     } catch (error) {
       unsafeApiError(error);
-      dispatch(NotificationActions.error(t('unrecognizedProblem')));
+      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('unrecognizedProblem')));
     }
   };
 

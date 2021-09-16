@@ -42,8 +42,8 @@ function RoleAssignmentPanel() {
         headers: basicHeaders(),
       });
       return response.data;
-    } catch {
-      console.log('User Role List problem');
+    } catch (error) {
+      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('unrecognizedProblem')));
     }
   }
 
@@ -99,10 +99,8 @@ function RoleAssignmentPanel() {
       setRoleUserName('');
       setButtonDisabled(false);
       setShowLoader(false);
-    } catch {
-      console.log('Update role problem');
-
-      dispatch(NotificationActions.error(t('unrecognizedProblem')));
+    } catch (error){
+      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('unrecognizedProblem')));
       setButtonDisabled(false);
       setShowLoader(false);
     }
