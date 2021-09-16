@@ -13,7 +13,7 @@ const DashboardHeader = ({isLoggedIn}) => {
   return (
     <header className="navbar navbar-dark bg-dark p-0 header__main">
       <div className="header__logo">
-        <a href={window.location.href}>Osm Integrator</a>
+        <a href={window.location.href} className="header__logo-link">Osm Integrator</a>
       </div>
 
       <div className="header__navigation-container">
