@@ -31,8 +31,7 @@ const ImportedConnections = ({stops, importedConnections, shouldRenderConnection
       shouldRenderConnections(true);
       dispatch(NotificationActions.success(t('connection.deleteSuccessMessage')));
     } catch (error) {
-      unsafeApiError(error);
-      dispatch(NotificationActions.error(t('unrecognizedProblem')));
+      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('unrecognizedProblem')));
     }
   };
 

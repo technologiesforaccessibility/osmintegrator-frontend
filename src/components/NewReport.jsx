@@ -60,7 +60,7 @@ const NewReport = () => {
       formik.resetForm();
       setRerenderReports(true);
     } catch (error) {
-      dispatch(NotificationActions.error(t('report.fail')));
+      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('report.fail')));
     }
   };
 
