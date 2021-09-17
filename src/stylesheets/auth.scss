@@ -1,6 +1,59 @@
 @import 'config/colors.module';
 @import 'config/authMixins';
 
+body {
+  height: 100%;
+  overflow: hidden;
+  margin: 0px;
+}
+
+.auth {
+  &__container {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    height: 100%;
+    width: 100%;
+  }
+  &__version {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  &__dots {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  &__image--left {
+    position: absolute;
+    left: -169px;
+    height: 100%;
+  }
+  &__image--right {
+    position: absolute;
+    right: -169px;
+    height: 100%;
+  }
+
+  &__form-area {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    text-align: center;
+    align-content: center;
+  }
+
+  &__form-box {
+    background: #fcfcfc 0% 0% no-repeat padding-box;
+    border: 2px solid #d8e0e3;
+    border-radius: 45px;
+    height: 200px;
+    width: 200px;
+  }
+}
+
 .auth-area {
   @include auth-area;
 

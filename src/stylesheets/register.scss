@@ -1,0 +1,40 @@
+@import 'config/colors.module';
+@import 'config/authMixins';
+
+
+#loginEmail, #loginPassword {
+  @include input-textbox;
+  @include font-type;
+  @include font-size;
+}
+
+.login-button-area {
+  @include auth-button-area;
+}
+
+#button-login {
+  @include auth-button;
+  @include font-type;
+  @include font-size;
+}
+
+.link {
+padding: 10px;
+  text-align: center;
+  font-style: italic;
+}
+
+a {
+  text-decoration: none;
+  color: $color-link-default;
+}
+
+a:hover {
+  color: $color-link-hover;
+  text-decoration-line: underline;
+
+}
+
+
+
+

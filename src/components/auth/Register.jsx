@@ -1,48 +1,41 @@
 import React from 'react';
-import {NavLink, Redirect} from 'react-router-dom';
-import {useFormik} from 'formik';
 import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
+import {Formik} from 'formik';
 
-import {unsafeFormApiError} from '../../utilities/utilities';
 import FooterContact from '../FooterContact';
-import AuthLayout from '../AuthLayout';
-import {login} from '../../redux/actions/authActions';
-import {selectAuthIsLoggedIn, selectAuthLoading, selectAuthError} from '../../redux/selectors/authSelector';
+import {unsafeFormApiError} from '../../utilities/utilities';
+import {NavLink, Redirect} from 'react-router-dom';
+import AuthContainer from '../AuthContainer';
+import { selectAuthError, selectAuthIsLoggedIn, selectAuthLoading } from '../../redux/selectors/authSelector';
 import {paths} from '../../utilities/constants';
 
-import '../../stylesheets/login.scss';
+import { ReactComponent as Logo } from './../../assets/accountLogo.svg';
+
+import '../../stylesheets/register.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
 
-const Login = () => {
+const Register = () => {
   const {t} = useTranslation();
-  const dispatch = useDispatch();
+//   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
   const isLoading = useSelector(selectAuthLoading);
   const error = useSelector(selectAuthError);
 
-  const formik = useFormik({
-    initialValues: {
-      loginEmail: '',
-      loginPassword: '',
-    },
-    onSubmit: ({loginEmail, loginPassword}) => {
-      runLogin(loginEmail, loginPassword);
-    },
-  });
 
-  const runLogin = async (email, password) => {
-    return dispatch(login({email, password}));
-  };
+
+//   const runLogin = async (email, password) => {
+//     return dispatch(login({email, password}));
+//   };
 
   return !isLoading && isLoggedIn ? (
     <Redirect to={paths.HOME} />
   ) : (
-    <AuthLayout>
-      <h1 className="auth-title">{t('login.title')}</h1>
-      <form onSubmit={formik.handleSubmit}>
-        <div className="inputbox-spacer">
+    <AuthContainer>
+      <Logo/>
+      <Formik initialValues={{name: 'jared'}} onSubmit={(values, actions) => {}}>
+      {/* <div className="inputbox-spacer">
           <input
             type="text"
             id="loginEmail"
@@ -66,19 +59,19 @@ const Login = () => {
           <button type="submit" id="button-login" disabled={isLoading}>
             {t('login.loginText')}
           </button>
-        </div>
-      </form>
+        </div> */}
+      </Formik>
+        
 
       <div className="link">
         <NavLink to={paths.RECOVER_PASSWORD}>{t('login.forgotPassword')}</NavLink>
-        <NavLink to={paths.REGISTER}>REGISTER</NavLink>
       </div>
       <div className="auth-info-placeholder centered">
         {error && <span style={{color: colors['colorMessageFail']}}>{unsafeFormApiError(error, t, 'login')}</span>}
       </div>
       <FooterContact />
-    </AuthLayout>
+    </AuthContainer>
   );
 };
 
-export default Login;
+export default Register;

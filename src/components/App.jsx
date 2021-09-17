@@ -6,6 +6,7 @@ import '../stylesheets/app.scss';
 import '../stylesheets/globalStyles.scss';
 import {paths} from '../utilities/constants';
 import Login from './auth/Login';
+import Register from './auth/Register';
 import Logout from './auth/Logout';
 import Recover from './auth/Recover';
 import SetPassword from './auth/SetPassword';
@@ -19,6 +20,7 @@ import Notification from './Notification';
 import PrivateRoute from './PrivateRoute';
 import ProfilePanel from './ProfilePanel';
 
+
 class App extends Component {
   render() {
     return (
@@ -29,6 +31,7 @@ class App extends Component {
             <UserContextProvider>
               <MapContextProvider>
                 <Route path={paths.LOGIN} component={Login} />
+                <Route path={paths.REGISTER} component={Register} />
                 <Route path={paths.RECOVER_PASSWORD} component={Recover} />
                 <PrivateRoute path={paths.LOGOUT} component={Logout} />
                 <Route path={paths.RESET_PASSWORD} component={SetPassword} />

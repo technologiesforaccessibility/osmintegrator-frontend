@@ -1,6 +1,7 @@
 export const paths = {
   HOME: '/',
   LOGIN: '/auth/login',
+  REGISTER: '/auth/register',
   LOGOUT: '/auth/logout',
   RECOVER_PASSWORD: '/auth/recover',
   RESET_PASSWORD: '/Account/ResetPassword',
