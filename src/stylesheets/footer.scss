@@ -1,0 +1,17 @@
+.footer {
+  display: grid;
+  grid-template-areas: "left center right";
+  grid-template-columns: 25% 50% 25%;
+
+  &__left {
+    grid-area: left
+  }
+
+  &__center {
+    grid-area: center
+  }
+
+  &__right {
+    grid-area: right
+  }
+}

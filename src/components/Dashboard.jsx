@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
 
 import DashboardHeader from './DashboardHeader';
-import DashboardSiderbar from './DashboardSiderbar';
+import DashboardSidebar from './DashboardSidebar';
 import {selectAuthIsLoggedIn} from '../redux/selectors/authSelector';
 
 import '../stylesheets/dashboard.scss';
@@ -22,7 +22,7 @@ export default function Dashboard({children}) {
 
       <div className="container-fluid">
         <div className="row">
-          <DashboardSiderbar
+          <DashboardSidebar
             isLoggedIn={isLoggedIn}
             propertyGrid={propertyGrid}
             updatePropertyGrid={updatePropertyGrid}

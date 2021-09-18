@@ -1,6 +1,9 @@
 import { useTranslation } from 'react-i18next';
+import {useSelector} from 'react-redux';
 
 import { paths } from '../utilities/constants';
+import {selectLoggedInUserRoles} from '../redux/selectors/authSelector';
+import {roles} from '../utilities/constants';
 
 import { Button, IconButton } from '@material-ui/core/';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -14,7 +17,8 @@ import './../stylesheets/dashboardHeader.scss';
 
 const { REACT_APP_CONTACT_FORM } = process.env;
 
-const DashboardHeader = ({ isLoggedIn }) => {
+const DashboardHeader = () => {
+  const authRoles = useSelector(selectLoggedInUserRoles);
   const { t } = useTranslation();
 
   return (
@@ -40,17 +44,19 @@ const DashboardHeader = ({ isLoggedIn }) => {
             {t('sidebar.map')}
           </Button>
         </div>
-
-        <div className="dashboard-header--button-box">
-          <Button
-            color="primary"
-            variant="contained"
-            startIcon={<BuildIcon />}
-            href={paths.MANAGEMENT_PANEL}
-            className="dashboard-header__rest--button">
-            {t('sidebar.managementDashboard')}
-          </Button>
-        </div>
+        {
+          authRoles.some(role => [roles.SUPERVISOR].includes(role)) &&
+          <div className="dashboard-header--button-box">
+            <Button
+              color="primary"
+              variant="contained"
+              startIcon={<BuildIcon />}
+              href={paths.MANAGEMENT_PANEL}
+              className="dashboard-header__rest--button">
+              {t('sidebar.managementDashboard')}
+            </Button>
+          </div>
+        }
 
         <div className="dashboard-header--button-box">
           <Button
