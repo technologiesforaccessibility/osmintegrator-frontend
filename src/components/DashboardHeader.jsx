@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 
-import MenuItem from './MenuItem';
 import { paths } from '../utilities/constants';
 
 import { Button, IconButton } from '@material-ui/core/';
@@ -10,8 +9,6 @@ import ChatIcon from '@mui/icons-material/Chat';
 import Tooltip from '@mui/material/Tooltip';
 import MapIcon from '@mui/icons-material/Map';
 import BuildIcon from '@mui/icons-material/Build';
-import Box from "@material-ui/core/Box";
-import { Link } from 'react-router-dom';
 
 import './../stylesheets/dashboardHeader.scss';
 
