@@ -71,7 +71,9 @@ const Login = () => {
 
       <div className="link">
         <NavLink to={paths.RECOVER_PASSWORD}>{t('login.forgotPassword')}</NavLink>
-        <NavLink to={paths.REGISTER}>REGISTER</NavLink>
+      </div>
+      <div className="link">
+        <NavLink to={paths.REGISTER}>{t('login.register')}</NavLink>
       </div>
       <div className="auth-info-placeholder centered">
         {error && <span style={{color: colors['colorMessageFail']}}>{unsafeFormApiError(error, t, 'login')}</span>}

@@ -13,15 +13,13 @@ export default function AuthContainer({children}) {
       </div>
       <div className="auth__container">
         <div className="auth__dots">
-          <img src={dots} className="auth__image--left"></img>
+          <img src={dots} className="auth__image--left" alt="BackgroundLeft"></img>
         </div>
         <div className="auth__form-area">
-          <div className="auth__form-box">
-          {children}
-          </div>
-          </div>
+          <div className="auth__form-box">{children}</div>
+        </div>
         <div className="auth__dots">
-          <img src={dots} className="auth__image--right"></img>
+          <img src={dots} className="auth__image--right" alt="BackgroundRight"></img>
         </div>
       </div>
     </>
