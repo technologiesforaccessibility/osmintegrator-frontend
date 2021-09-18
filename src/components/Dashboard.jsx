@@ -17,7 +17,7 @@ export default function Dashboard({children}) {
   }
 
   return (
-    <React.Fragment>
+    <>
       <DashboardHeader isLoggedIn={isLoggedIn} />
 
       <div className="container-fluid">
@@ -30,6 +30,6 @@ export default function Dashboard({children}) {
           {children}
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 }

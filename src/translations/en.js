@@ -76,7 +76,7 @@ export const en = {
       contact: 'Contact us',
       map: 'Map',
       profile: 'Profile',
-      managementDashbord: 'Management Dashboard',
+      managementDashboard: 'Management Dashboard',
       history: 'History',
     },
     tileModePrompts: {

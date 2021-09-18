@@ -1,27 +1,23 @@
-.header {
-  &__main {
-    display: 'flex';
-    flex-direction: 'row';
+.dashboard-header {
+  display: grid;
+  grid-template-areas: "logo rest";
+  grid-template-columns: auto auto;
+
+  &--button-box {
+    margin: 0.5rem;
+    display: inline-block;
   }
+
   &__logo {
-    background-color: #191c1f;
-    border-right: 1px solid #131517;
-    height: 47px;
-    width: 200px;
-    width: calc(1px * 100% / 6);
+    grid-area: logo;
   }
-  &__logo-link {
-    background-color: palegreen;
-    width: 100px;
-  }
-  &__navigation-container {
-      
-    display: 'flex';
-    justify-content: 'flex-end';
-    align-items: 'baseline';
-    height: 47px;
-  }
-  &__navigation-button {
-    padding: 5px;
+
+  &__rest {
+    grid-area: rest;
+    justify-self: end;
+
+    &--button:hover {
+      color: white;
+    }
   }
 }
