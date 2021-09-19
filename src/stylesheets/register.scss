@@ -48,7 +48,16 @@ a:hover {
 .register__spacer{
   height: 30px;
 }
-
+.register__regulations{
+  font-size: 0.75rem;
+}
+.register__regulations-container{
+  display: flex;
+  flex-direction: row;
+}
+.register__regulations-checkbox{
+  display:inline-flex;
+}
 
 
 

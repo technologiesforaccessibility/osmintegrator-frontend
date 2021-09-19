@@ -7,6 +7,7 @@ import {useDispatch} from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -22,13 +23,14 @@ import {NotificationActions} from '../../redux/actions/notificationActions';
 
 import '../../stylesheets/register.scss';
 
-const {REACT_APP_CONTACT_FORM} = process.env;
+const {REACT_APP_CONTACT_FORM, REACT_APP_REGULATIONS} = process.env;
 
 const Register = () => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [checked, setChecked] = useState(false);
 
   const register = async (username, email, password1) => {
     try {
@@ -139,8 +141,30 @@ const Register = () => {
               }}
             />
             <div className="register__spacer">{errors.password2 && touched.password2 && <p>{errors.password2}</p>}</div>
+            <div>
+              <Checkbox
+                checked={checked}
+                color="primary"
+                onChange={handleChange}
+                inputProps={{'aria-label': 'primary checkbox'}}
+                onClick={() => {
+                  setChecked(!checked);
+                }}
+              />
+              <p className="register__regulations">
+                Oświadczam, że przeczytałem, zrozumiałem oraz akceptuję regulamin serwisu dostępy pod{' '}
+                <a target="_blank" rel="noopener noreferrer" href={REACT_APP_REGULATIONS}>
+                  linkiem
+                </a>
+              </p>
+            </div>
 
-            <Button variant="contained" disabled={isLoading} onClick={handleSubmit} className="register__button">
+            <div className="register__spacer" />
+            <Button
+              variant="contained"
+              disabled={!checked || isLoading}
+              onClick={handleSubmit}
+              className="register__button">
               {t('register.button')}
             </Button>
           </>
