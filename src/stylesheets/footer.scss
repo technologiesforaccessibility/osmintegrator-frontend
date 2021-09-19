@@ -2,16 +2,19 @@
   display: grid;
   grid-template-areas: "left center right";
   grid-template-columns: 25% 50% 25%;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 
   &__left {
-    grid-area: left
+    grid-area: left;
   }
 
   &__center {
-    grid-area: center
+    grid-area: center;
+    justify-self: center;
   }
 
   &__right {
-    grid-area: right
+    grid-area: right;
   }
 }
