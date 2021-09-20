@@ -1,28 +1,92 @@
-import {Link} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import {useSelector} from 'react-redux';
 
-import React from 'react';
-import {paths} from '../utilities/constants';
+import { paths } from '../utilities/constants';
+import {selectLoggedInUserRoles} from '../redux/selectors/authSelector';
+import {roles} from '../utilities/constants';
 
-const DashboardHeader = ({isLoggedIn}) => {
+import { Button, IconButton } from '@material-ui/core/';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ChatIcon from '@mui/icons-material/Chat';
+import Tooltip from '@mui/material/Tooltip';
+import MapIcon from '@mui/icons-material/Map';
+import BuildIcon from '@mui/icons-material/Build';
+
+import './../stylesheets/dashboardHeader.scss';
+
+const { REACT_APP_CONTACT_FORM } = process.env;
+
+const DashboardHeader = () => {
+  const authRoles = useSelector(selectLoggedInUserRoles);
+  const { t } = useTranslation();
+
   return (
-    <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-      <a href={window.location.href} className="navbar-brand col-md-3 col-lg-2 me-0 px-3">
-        Osm Integrator
-      </a>
-      <ul className="navbar-nav px-3">
-        <li className="nav-item text-nowrap">
-          {isLoggedIn ? (
-            <Link className="nav-link" to={paths.LOGOUT}>
-              Sign out
-            </Link>
-          ) : (
-            <Link className="nav-link" to={paths.LOGIN}>
-              Log in
-            </Link>
-          )}
-        </li>
-      </ul>
-    </header>
+    <div className="dashboard-header">
+      <div className="dashboard-header__logo">
+        <div className="dashboard-header--button-box">
+          <Button
+            color="primary"
+            variant="outlined"
+            href={window.location.href}>
+            OSM INTEGRATOR
+          </Button>
+        </div>
+      </div>
+
+      <div className="dashboard-header__rest">
+        <div className="dashboard-header--button-box">
+          <Button
+            variant="contained"
+            startIcon={<MapIcon />}
+            href={paths.HOME}
+            className="dashboard-header__rest--button">
+            {t('sidebar.map')}
+          </Button>
+        </div>
+        {
+          authRoles.some(role => [roles.SUPERVISOR].includes(role)) &&
+          <div className="dashboard-header--button-box">
+            <Button
+              color="primary"
+              variant="contained"
+              startIcon={<BuildIcon />}
+              href={paths.MANAGEMENT_PANEL}
+              className="dashboard-header__rest--button">
+              {t('sidebar.managementDashboard')}
+            </Button>
+          </div>
+        }
+
+        <div className="dashboard-header--button-box">
+          <Button
+            color="primary"
+            variant="contained"
+            startIcon={<ChatIcon />}
+            href={REACT_APP_CONTACT_FORM}
+            className="dashboard-header__rest--button">
+            {t('sidebar.contact')}
+          </Button>
+        </div>
+
+        <Tooltip title={t('sidebar.profile')} >
+          <IconButton
+            color="primary"
+            href={paths.PROFILE}>
+            <AccountCircleIcon fontSize="medium" />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title={t('logout.button')}>
+          <IconButton
+            color="primary"
+            href={paths.LOGOUT}
+          >
+            <LogoutIcon fontSize="medium" />
+          </IconButton>
+        </Tooltip>
+      </div>
+    </div>
   );
 };
 

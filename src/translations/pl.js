@@ -38,7 +38,7 @@ export const pl = {
       401: 'Niepoprawny email lub hasło',
       register: 'Zarejestruj się',
     },
-    logout: {title: 'Nastąpiło wylogowanie', message: 'Za chwilę nastąpi przekierowanie na stronę logowania'},
+    logout: {title: 'Nastąpiło wylogowanie', message: 'Za chwilę nastąpi przekierowanie na stronę logowania', button: 'Wyloguj', loginButton: 'Zaloguj'},
     map: {},
     profileHeader: 'Profil',
     profileMVPPlaceholder:
@@ -101,7 +101,7 @@ export const pl = {
       contact: 'Kontakt',
       map: 'Mapa',
       profile: 'Profil',
-      managementDashbord: 'Panel administracyjny',
+      managementDashboard: 'Panel administracyjny',
       history: 'Historia',
     },
     tileModePrompts: {

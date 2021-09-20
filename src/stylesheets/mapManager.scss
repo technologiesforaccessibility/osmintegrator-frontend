@@ -1,0 +1,13 @@
+.map-manager {
+  display: grid;
+  grid-template-areas: "sidebar map";
+  grid-template-columns: 20%;
+
+  &__sidebar {
+    grid-area: sidebar;
+  }
+
+  &__map {
+    grid-area: map;
+  }
+}

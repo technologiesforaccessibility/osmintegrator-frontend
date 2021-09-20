@@ -1,41 +1,27 @@
-import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import DashboardHeader from './DashboardHeader';
-import DashboardSiderbar from './DashboardSiderbar';
-import {selectAuthIsLoggedIn} from '../redux/selectors/authSelector';
+import Footer from './Footer';
+import { selectAuthIsLoggedIn } from '../redux/selectors/authSelector';
 
 import '../stylesheets/dashboard.scss';
 
-export default function Dashboard({children}) {
-  const [propertyGrid, setPropertyGrid] = useState(null);
+export default function Dashboard({ children }) {
 
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
 
-  function updatePropertyGrid(newGrid) {
-    setPropertyGrid(newGrid);
-  }
-
   return (
-    <React.Fragment>
-      <DashboardHeader isLoggedIn={isLoggedIn} />
-
-      <div className="container-fluid">
-        <div className="row">
-          <DashboardSiderbar
-            isLoggedIn={isLoggedIn}
-            propertyGrid={propertyGrid}
-            updatePropertyGrid={updatePropertyGrid}
-          />
-          {children}
-        </div>
+    <div className="dashboard">
+      <div className="dashboard__header">
+        <DashboardHeader
+          isLoggedIn={isLoggedIn} />
       </div>
-
-      <script
-        src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
-        integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
-        crossOrigin="anonymous"
-      />
-    </React.Fragment>
+      <div className="dashboard__content">
+        {children}
+      </div>
+      <div className="dashboard__footer" >
+        <Footer />
+      </div>
+    </div>
   );
 }

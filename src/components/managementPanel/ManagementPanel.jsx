@@ -1,32 +1,32 @@
-import {useEffect, useState} from 'react';
-import {Rectangle, Tooltip} from 'react-leaflet';
-import {useTranslation} from 'react-i18next';
-import {useDispatch} from 'react-redux';
+import { useEffect, useState } from 'react';
+import { Rectangle, Tooltip } from 'react-leaflet';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
-import {CircularProgress} from '@material-ui/core';
+import { CircularProgress } from '@material-ui/core';
 
 import api from '../../api/apiInstance';
-import {basicHeaders} from '../../config/apiConfig';
+import { basicHeaders } from '../../config/apiConfig';
 import H3Title from '../customs/H3Title';
 import colors from '../../stylesheets/config/colors.module.scss';
 import ManagementPanelMap from './ManagementPanelMap';
 import Dashboard from '../Dashboard';
 import RoleAssignmentPanel from './RoleAssignmentPanel';
 import H4Title from '../customs/H4Title';
-import {NotificationActions} from '../../redux/actions/notificationActions';
+import { NotificationActions } from '../../redux/actions/notificationActions';
 
 import '../../stylesheets/managementPanel.scss';
 
 const NONE = 'none';
-const CURRENT_LOCATION = {lat: 50.29, lng: 19.01};
+const CURRENT_LOCATION = { lat: 50.29, lng: 19.01 };
 const ZOOM = 9;
 
 function ManagementPanel() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const [tiles, setTiles] = useState([]);
@@ -99,7 +99,7 @@ function ManagementPanel() {
     return colors.colorTileAll;
   }
 
-  const mapTiles = tiles.map(({id, maxLat, maxLon, minLat, minLon, x, y, usersCount}) => (
+  const mapTiles = tiles.map(({ id, maxLat, maxLon, minLat, minLon, x, y, usersCount }) => (
     <Rectangle
       key={`map-${id}`}
       bounds={[
@@ -158,22 +158,22 @@ function ManagementPanel() {
 
   const tilesDropDown =
     tiles.length > 0
-      ? tiles.map(({id, x, y}) => (
-          <MenuItem key={`tile-dropdown-${id}`} value={id}>
-            X: {x}, Y: {y}
-          </MenuItem>
-        ))
+      ? tiles.map(({ id, x, y }) => (
+        <MenuItem key={`tile-dropdown-${id}`} value={id}>
+          X: {x}, Y: {y}
+        </MenuItem>
+      ))
       : null;
 
   const selectedUser = tileUsers.length > 0 ? tileUsers.find(x => x.isAssigned).id : '';
 
   const dropdownUsers =
     tileUsers.length > 0
-      ? tileUsers.map(({id, userName, isAssigned}) => (
-          <MenuItem key={id} value={id}>
-            {userName === NONE ? t('managementPanel.noUser') : userName}
-          </MenuItem>
-        ))
+      ? tileUsers.map(({ id, userName, isAssigned }) => (
+        <MenuItem key={id} value={id}>
+          {userName === NONE ? t('managementPanel.noUser') : userName}
+        </MenuItem>
+      ))
       : null;
 
   const handleSave = async () => {
@@ -184,15 +184,15 @@ function ManagementPanel() {
       const response =
         selectedUser.id === NONE
           ? await api.tileRemoveUserDelete(selectedTileId, {
-              headers: basicHeaders(),
-            })
+            headers: basicHeaders(),
+          })
           : await api.tileUpdateUserUpdate(
-              selectedTileId,
-              {id: selectedUser.id},
-              {
-                headers: basicHeaders(),
-              },
-            );
+            selectedTileId,
+            { id: selectedUser.id },
+            {
+              headers: basicHeaders(),
+            },
+          );
 
       if (response.status === 200) {
         dispatch(NotificationActions.success(response.data.value));
@@ -224,55 +224,55 @@ function ManagementPanel() {
 
   return (
     <Dashboard>
-      <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <H3Title title="Management panel" borderBottom={true} />
-        <div className="row">
-          <div className="col-md-5">
-            <div className="tile-assignment">
-              <H4Title className="tile-assignment__header" title={t('managementPanel.assignUserToTile')} />
+      <div className="management-panel">
+        <div className="management-panel__header">
+          <H3Title title="Management panel" />
+        </div>
+        <div className="management-panel__tile-assignment">
+          <div className="tile-assignment">
+            <H4Title className="tile-assignment__header" title={t('managementPanel.assignUserToTile')} />
 
-              <div className="tile-assignment__tile-dropdown">
-                {!tilesLoaded && <CircularProgress />}
-                {tilesLoaded && (
-                  <FormControl className="tile-assignment--dropdown">
-                    <InputLabel>{t('managementPanel.selectTile')}</InputLabel>
-                    <Select value={selectedTileId} onChange={e => handleTileSelected(e.target.value)}>
-                      {tilesDropDown}
-                    </Select>
-                  </FormControl>
-                )}
-              </div>
-              {!usersLoaded && <CircularProgress className="tile-assignment__user-dropdown--loader" />}
-              {usersLoaded && (
-                <div className="tile-assignment__user-dropdown">
-                  <FormControl className="tile-assignment--dropdown" disabled={!userSelected}>
-                    <InputLabel>{t('managementPanel.chooseUser')}</InputLabel>
-                    <Select value={selectedUser} onChange={e => handleUserChanged(e.target.value)}>
-                      {dropdownUsers}
-                    </Select>
-                  </FormControl>
-                </div>
+            <div className="tile-assignment__tile-dropdown">
+              {!tilesLoaded && <CircularProgress />}
+              {tilesLoaded && (
+                <FormControl className="tile-assignment--dropdown">
+                  <InputLabel>{t('managementPanel.selectTile')}</InputLabel>
+                  <Select value={selectedTileId} onChange={e => handleTileSelected(e.target.value)}>
+                    {tilesDropDown}
+                  </Select>
+                </FormControl>
               )}
-
-              <Button
-                className="tile-assignment__button"
-                onClick={handleSave}
-                color="primary"
-                variant="contained"
-                disabled={!userSelected}>
-                {t('buttons.save')}
-              </Button>
             </div>
+            {!usersLoaded && <CircularProgress className="tile-assignment__user-dropdown--loader" />}
+            {usersLoaded && (
+              <div className="tile-assignment__user-dropdown">
+                <FormControl className="tile-assignment--dropdown" disabled={!userSelected}>
+                  <InputLabel>{t('managementPanel.chooseUser')}</InputLabel>
+                  <Select value={selectedUser} onChange={e => handleUserChanged(e.target.value)}>
+                    {dropdownUsers}
+                  </Select>
+                </FormControl>
+              </div>
+            )}
 
-            <RoleAssignmentPanel />
-          </div>
-
-          <div className="col-md-7">
-            <ManagementPanelMap startPoint={CURRENT_LOCATION} zoom={ZOOM} tiles={mapTiles} />
+            <Button
+              className="tile-assignment__button"
+              onClick={handleSave}
+              color="primary"
+              variant="contained"
+              disabled={!userSelected}>
+              {t('buttons.save')}
+            </Button>
           </div>
         </div>
+        <div className="management-panel__role-assignment">
+          <RoleAssignmentPanel />
+        </div>
+        <div className="management-panel__map">
+          <ManagementPanelMap startPoint={CURRENT_LOCATION} zoom={ZOOM} tiles={mapTiles} />
+        </div>
       </div>
-    </Dashboard>
+    </Dashboard >
   );
 }
 

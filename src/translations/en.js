@@ -38,7 +38,7 @@ export const en = {
       401: 'Wrong email or password',
       register: 'Sign up',
     },
-    logout: {title: 'You have been logged out', message: 'You will be redirect to login page soon.'},
+    logout: {title: 'You have been logged out', message: 'You will be redirect to login page soon.', button: 'Log out', loginButton: 'Log in'},
     map: {},
     profileHeader: 'Profile',
     profileMVPPlaceholder:
@@ -100,7 +100,7 @@ export const en = {
       contact: 'Contact us',
       map: 'Map',
       profile: 'Profile',
-      managementDashbord: 'Management Dashboard',
+      managementDashboard: 'Management Dashboard',
       history: 'History',
     },
     tileModePrompts: {

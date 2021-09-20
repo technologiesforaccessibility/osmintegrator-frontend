@@ -1,0 +1,25 @@
+.dashboard-header {
+  display: grid;
+  grid-template-areas: "logo rest";
+  grid-template-columns: auto auto;
+
+  &--button-box {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-left: 0.5rem;
+    display: inline-block;
+  }
+
+  &__logo {
+    grid-area: logo;
+  }
+
+  &__rest {
+    grid-area: rest;
+    justify-self: end;
+
+    &--button:hover {
+      color: white;
+    }
+  }
+}

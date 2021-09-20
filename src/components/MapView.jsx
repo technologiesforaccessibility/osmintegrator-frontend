@@ -1,37 +1,37 @@
 import 'leaflet/dist/leaflet.css';
-import React, {useContext, useEffect, useState} from 'react';
-import {MapContainer, TileLayer} from 'react-leaflet';
-import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
+import React, { useContext, useEffect, useState } from 'react';
+import { MapContainer, TileLayer } from 'react-leaflet';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import api from '../api/apiInstance';
-import {basicHeaders} from '../config/apiConfig';
-import {NotificationActions} from '../redux/actions/notificationActions';
-import {unsafeApiError} from '../utilities/utilities';
-import {MapContext} from './contexts/MapContextProvider';
+import { basicHeaders } from '../config/apiConfig';
+import { NotificationActions } from '../redux/actions/notificationActions';
+import { unsafeApiError } from '../utilities/utilities';
+import { MapContext } from './contexts/MapContextProvider';
 import ImportedConnections from './mapComponents/ImportedConnections';
 import ImportedReports from './mapComponents/ImportedReports';
 import MapTiles from './mapComponents/MapTiles';
 import NewConnections from './mapComponents/NewConnections';
 import NewReportMarker from './mapComponents/NewReportMarker';
 import TileStops from './mapComponents/TileStops';
-import {roles} from './../utilities/constants';
-import {selectLoggedInUserRoles} from './../redux/selectors/authSelector';
+import { roles } from './../utilities/constants';
+import { selectLoggedInUserRoles } from './../redux/selectors/authSelector';
 
 export const MapView = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [allStops, setAllStops] = useState([]);
   const [activeBusStopId, setActiveBusStopId] = useState(null);
   const dispatch = useDispatch();
   const authRoles = useSelector(selectLoggedInUserRoles);
 
-  const currentLocation = {lat: 50.29, lng: 19.01};
+  const currentLocation = { lat: 50.29, lng: 19.01 };
   const zoom = 10;
   const maxZoom = 19;
 
   const mapStyle = {
     position: 'relative',
-    height: 'calc(100vh - 138px)',
+    height: 'calc(100vh - 5rem)',
   };
 
   const {
@@ -137,8 +137,8 @@ export const MapView = () => {
       const tilesToShow = authRoles.includes(roles.SUPERVISOR)
         ? response.data.filter(tile => !tile.approvedBySupervisor)
         : authRoles.includes(roles.EDITOR)
-        ? response.data.filter(tile => !tile.approvedByEditor)
-        : response.data;
+          ? response.data.filter(tile => !tile.approvedByEditor)
+          : response.data;
       setTiles(tilesToShow);
     } catch (error) {
       dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('unrecognizedProblem')));
@@ -146,14 +146,14 @@ export const MapView = () => {
   }
 
   const addReportMarker = e => {
-    const coords = {lat: e.latlng.lat, lon: e.latlng.lng};
+    const coords = { lat: e.latlng.lat, lon: e.latlng.lng };
     setNewReportCoordinates(coords);
   };
 
   const createConnection = (coordinates, id, stopType, name, ref) => {
     if (connectionData.length < 2) {
       const isOsm = stopType === 0;
-      const entryPoint = {coordinates, id, isOsm, name, ref};
+      const entryPoint = { coordinates, id, isOsm, name, ref };
 
       if (connectionData.length === 1 && !(connectionData[0].isOsm ^ isOsm)) {
         if (connectionData[0].id !== id) {
