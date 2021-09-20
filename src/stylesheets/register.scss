@@ -1,0 +1,63 @@
+@import 'config/colors.module';
+@import 'config/authMixins';
+
+
+#loginEmail, #loginPassword {
+  @include input-textbox;
+  @include font-type;
+  @include font-size;
+}
+
+.login-button-area {
+  @include auth-button-area;
+}
+
+#button-login {
+  @include auth-button;
+  @include font-type;
+  @include font-size;
+}
+
+.link {
+padding: 10px;
+  text-align: center;
+  font-style: italic;
+}
+
+a {
+  text-decoration: none;
+  color: $color-link-default;
+}
+
+a:hover {
+  color: $color-link-hover;
+  text-decoration-line: underline;
+
+}
+
+.register__utils{
+  display: flex;
+  justify-content: space-around;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.register__button{
+  margin-top: 20px;
+}
+.register__spacer{
+  height: 30px;
+}
+.register__regulations{
+  font-size: 0.75rem;
+}
+.register__regulations-container{
+  display: flex;
+  flex-direction: row;
+}
+.register__regulations-checkbox{
+  display:inline-flex;
+}
+
+
+
