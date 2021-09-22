@@ -12,7 +12,7 @@ import {NotificationActions} from '../redux/actions/notificationActions';
 import '../stylesheets/connectionPrompt.scss';
 
 const ConnectionSidePanel = () => {
-  const {connectionData, reset, shouldRenderConnections} = useContext(MapContext);
+  const {connectionData, reset, shouldRenderConnections, activeTile} = useContext(MapContext);
   const {t} = useTranslation();
   const dispatch = useDispatch();
 
@@ -23,7 +23,7 @@ const ConnectionSidePanel = () => {
         return;
       }
 
-      await api.connectionsUpdate(generateConnectionData(connectionData), {
+      await api.connectionsUpdate(generateConnectionData(connectionData, activeTile.id), {
         headers: basicHeaders(),
       });
       shouldRenderConnections(true);
