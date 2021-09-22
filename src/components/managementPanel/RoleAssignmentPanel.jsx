@@ -10,6 +10,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import {Checkbox, CircularProgress} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 
+import {webError} from './../../utilities/messagesHelper';
 import H4Title from '../customs/H4Title';
 import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';
@@ -34,7 +35,7 @@ function RoleAssignmentPanel() {
       setButtonDisabled(false);
       setShowLoader(false);
     });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function getUserList() {
     try {
@@ -43,7 +44,7 @@ function RoleAssignmentPanel() {
       });
       return response.data;
     } catch (error) {
-      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('unrecognizedProblem')));
+      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
     }
   }
 
@@ -99,8 +100,8 @@ function RoleAssignmentPanel() {
       setRoleUserName('');
       setButtonDisabled(false);
       setShowLoader(false);
-    } catch (error){
-      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('unrecognizedProblem')));
+    } catch (error) {
+      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
       setButtonDisabled(false);
       setShowLoader(false);
     }

@@ -1,11 +1,11 @@
-import React, {useContext} from 'react';
+import {useContext} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
 
 import api from '../api/apiInstance';
+import {webError} from './../utilities/messagesHelper';
 import {basicHeaders} from '../config/apiConfig';
 import {generateConnectionData, generateStopName} from '../utilities/mapUtilities';
-import {unsafeApiError} from '../utilities/utilities';
 import {MapContext} from './contexts/MapContextProvider';
 import {NotificationActions} from '../redux/actions/notificationActions';
 
@@ -17,11 +17,12 @@ const ConnectionSidePanel = () => {
   const dispatch = useDispatch();
 
   const sendConnection = async () => {
-    if (connectionData.length !== 2) {
-      dispatch(NotificationActions.error(t('connection.mark2Stops')));
-      return;
-    }
     try {
+      if (connectionData.length !== 2) {
+        dispatch(NotificationActions.error(t('connection.mark2Stops')));
+        return;
+      }
+
       await api.connectionsUpdate(generateConnectionData(connectionData), {
         headers: basicHeaders(),
       });
@@ -29,8 +30,7 @@ const ConnectionSidePanel = () => {
       reset();
       dispatch(NotificationActions.success(t('connection.createSuccessMessage')));
     } catch (error) {
-      unsafeApiError(error);
-      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('unrecognizedProblem')));
+      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
     }
   };
 

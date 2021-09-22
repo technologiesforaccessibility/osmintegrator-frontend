@@ -1,10 +1,10 @@
-import React, {Fragment, useRef} from 'react';
+import {Fragment, useRef} from 'react';
 import {Polyline, Tooltip, Popup} from 'react-leaflet';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
+import {webError} from './../../utilities/messagesHelper';
 import {generateConnectionData, getPosition} from '../../utilities/mapUtilities';
-import {unsafeApiError} from '../../utilities/utilities';
 import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';
 import DeleteConnectionPopup from './DeleteConnectionPopup';
@@ -31,7 +31,7 @@ const ImportedConnections = ({stops, importedConnections, shouldRenderConnection
       shouldRenderConnections(true);
       dispatch(NotificationActions.success(t('connection.deleteSuccessMessage')));
     } catch (error) {
-      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('unrecognizedProblem')));
+      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
     }
   };
 

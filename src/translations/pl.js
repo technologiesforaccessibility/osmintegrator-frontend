@@ -27,8 +27,7 @@ export const pl = {
       editorMainButton: 'Wyślij kafelek do weryfikacji',
       supervisorMainButton: 'Zatwierdź pracę edytora',
       confirmation: 'Jesteś pewien?',
-      successMessage: 'Kafelek został wysłany',
-      failMessage: 'Nie udało się wysłać kafelka',
+      successMessage: 'Kafelek został wysłany'
     },
     login: {
       title: 'Witamy',
@@ -76,7 +75,6 @@ export const pl = {
       button: 'Wyślij zgłoszenie',
       clear: 'Wyczyść',
       success: 'Zgłoszenie zostało wysłane',
-      fail: 'Wystąpił problem',
       pinInfo: 'Kliknij w inne miejsce aby przenieść znacznik',
       approve: 'Zatwierdź',
       approved: 'Zgłoszenie zatwierdzone!',
@@ -110,7 +108,17 @@ export const pl = {
       connection: 'Stwórz nowe połączenie',
       back: 'Ukryj kafelek',
     },
-    unrecognizedProblem: 'Coś poszło nie tak...',
+    error: {
+      unrecognizedProblem: 'Coś poszło nie tak. Skontaktuj się z administratorem.',
+      unknownStatusError: 'Nieznany status błędu. Skontaktuj się z administratorem.',
+      unableToShowErrorMessage: 'Problem z wyświetleniem informacji o błędzie. Skontaktuj się z administratorem.',
+      validationError: 'Problem z walidacją. Skontaktuj się z administratorem.',
+      errorIsNull: 'Brak odpowiedzi z serwera. Skontaktuj się z administratorem.',
+      authorization: 'Problem z autoryzacją. Wyloguj się i zaloguj ponownie.',
+      authentication: 'Nie masz uprawnień do wykonania tej operacji. Skontaktuj się z administratorem.',
+      internalServerError: 'Błąd serwera. Skontaktuj się z administratorem.',
+      exception: 'Nieobsługiwany wyjątek. Skontaktuj się z administratorem.'
+    },
     version: 'Wersja: ',
     managementPanel: {
       assignRoleTitle: 'Przypisz rolę do użytkownika',
