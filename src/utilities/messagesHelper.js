@@ -8,7 +8,7 @@ export function webError(response) {
     // Validation problem
     if (error.title === 'One or more validation errors occurred.') {
       console.log(error.errors);
-      store.dispatch(NotificationActions.error('error.validationError'));
+      store.dispatch(NotificationActions.error(i18n.t('error.validationError')));
       return;
     }
   
@@ -20,16 +20,16 @@ export function webError(response) {
   }
   
   function error403() {
-    store.dispatch(NotificationActions.error('error.authentication'));
+    store.dispatch(NotificationActions.error(i18n.t('error.authentication')));
   }
   
   function error401() {
-    store.dispatch(NotificationActions.error('error.authorization'));
+    store.dispatch(NotificationActions.error(i18n.t('error.authorization')));
   }
   
   function error500(response) {
     console.log(response);
-    store.dispatch(NotificationActions.error('error.internalServerError'));
+    store.dispatch(NotificationActions.error(i18n.t('error.internalServerError')));
   }
 
   try {
