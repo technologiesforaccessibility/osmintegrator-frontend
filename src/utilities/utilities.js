@@ -107,13 +107,13 @@ export {
 };
 
 const getStopIconProps = ({outsideSelectedTile, stopType}) => {
-  return  outsideSelectedTile 
-  ? stopType === 0 
-    ? {iconUrl: stopIcons.osmOutside, iconAnchor: [30, 55]}
-    : {iconUrl: stopIcons.notOsmOutside, iconAnchor: [0, 55]}
-  : stopType === 0
+  return outsideSelectedTile
+    ? stopType === 0
+      ? {iconUrl: stopIcons.osmOutside, iconAnchor: [30, 55]}
+      : {iconUrl: stopIcons.notOsmOutside, iconAnchor: [0, 55]}
+    : stopType === 0
     ? {iconUrl: stopIcons.osmInside, iconAnchor: [30, 55]}
-    : {iconUrl: stopIcons.notOsmInside, iconAnchor: [0, 55]}
+    : {iconUrl: stopIcons.notOsmInside, iconAnchor: [0, 55]};
 };
 
 const getReportColor = status => {
