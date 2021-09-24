@@ -1,7 +1,7 @@
 .sidebar {
   display: grid;
   grid-template-areas: "navigation" "details" "approve";
-  grid-template-rows: 1fr 1fr 3.5rem;
+  grid-template-rows: auto 1fr 3.5rem;
   grid-template-columns: 100%;
   height: calc(100vh - 5rem);
   margin-left: 0.5rem;
@@ -9,19 +9,14 @@
 
   &__navigation {
     grid-area: navigation;
-
-    border-color: black;
-    border-width: 1px;
-    border-style: solid;
+    margin-bottom: 10px;
   }
 
   &__details {
     grid-area: details;
     overflow: auto;
     scroll-behavior: smooth;
-    border-color: black;
-    border-width: 1px;
-    border-style: solid;
+
   }
 
   &__approve {

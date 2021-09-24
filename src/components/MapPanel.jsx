@@ -9,24 +9,17 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {useTranslation} from 'react-i18next';
 
 import {MapContext} from './contexts/MapContextProvider';
-import ConnectionSidePanel from './ConnectionSidePanel';
 
 import '../stylesheets/mapPanel.scss';
-import NewReport from './NewReport';
-import EditReport from './EditReport';
 
 const MapPanel = () => {
   const {
     isTileActive,
-    isReportMapMode,
-    isConnectionMode,
-    isEditingReportMode,
     singleTileToggle,
     viewModeToggle,
     reportModeToggle,
     connectionModeToggle,
     hideTileElements,
-    openReport,
   } = useContext(MapContext);
   const [toggleButton, setToggleButton] = useState('View');
   const {t} = useTranslation();
@@ -95,9 +88,6 @@ const MapPanel = () => {
               ))}
             </ToggleButtonGroup>
           </div>
-          {isReportMapMode && <NewReport />}
-          {isEditingReportMode && openReport && <EditReport />}
-          {isConnectionMode && <ConnectionSidePanel />}
         </div>
       )}
     </>

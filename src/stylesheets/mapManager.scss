@@ -1,7 +1,7 @@
 .map-manager {
   display: grid;
   grid-template-areas: "sidebar map";
-  grid-template-columns: 20%;
+  grid-template-columns: 20% auto;
 
   &__sidebar {
     grid-area: sidebar;
