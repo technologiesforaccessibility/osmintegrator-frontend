@@ -37,10 +37,10 @@ export function webError(response) {
     }
 
     switch (response.status) {
-      case (400):
+      case 400:
         error400(response.error);
         break;
-      case (403):
+      case 403:
         error403();
         break;
       case 401:
