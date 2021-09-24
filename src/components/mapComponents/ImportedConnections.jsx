@@ -1,10 +1,9 @@
-import React, {Fragment, useRef} from 'react';
+import {Fragment, useRef} from 'react';
 import {Polyline, Tooltip, Popup} from 'react-leaflet';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import {generateConnectionData, getPosition} from '../../utilities/mapUtilities';
-import {unsafeApiError} from '../../utilities/utilities';
 import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';
 import DeleteConnectionPopup from './DeleteConnectionPopup';

@@ -68,6 +68,7 @@ function ManagementPanel() {
       setTiles(tiles);
       tilesLoadedState();
     });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getTileUserAssignmentInfo = async id => {

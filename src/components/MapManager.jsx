@@ -1,31 +1,28 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import {useContext} from 'react';
 
 import MapView from './MapView';
+import {MapContext} from './contexts/MapContextProvider';
 import DashboardSidebar from './DashboardSidebar';
-import { selectAuthIsLoggedIn } from '../redux/selectors/authSelector';
 
 import '../stylesheets/mapManager.scss';
 
 const MapManager = () => {
-
-  const [propertyGrid, setPropertyGrid] = useState(null);
-
-  const isLoggedIn = useSelector(selectAuthIsLoggedIn);
-
-  function updatePropertyGrid(newGrid) {
-    setPropertyGrid(newGrid);
-  }
+  const {isTileActive} = useContext(MapContext);
 
   return (
-    <div className="map-manager">
-      <div className="map-manager__sidebar">
-        <DashboardSidebar
-          isLoggedIn={isLoggedIn}
-          propertyGrid={propertyGrid}
-          updatePropertyGrid={updatePropertyGrid} />
-      </div>
-      <div className="map-manager__map" >
+    <div
+      className="map-manager"
+      style={
+        isTileActive
+          ? {gridTemplateAreas: 'sidebar map', gridTemplateColumns: '20% 80%'}
+          : {gridTemplateAreas: 'sidebar map', gridTemplateColumns: '0% 100%'}
+      }>
+      {isTileActive && (
+        <div className="map-manager__sidebar">
+          <DashboardSidebar />
+        </div>
+      )}
+      <div className="map-manager__map">
         <MapView />
       </div>
     </div>

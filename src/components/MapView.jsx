@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import api from '../api/apiInstance';
 import { basicHeaders } from '../config/apiConfig';
 import { NotificationActions } from '../redux/actions/notificationActions';
-import { unsafeApiError } from '../utilities/utilities';
 import { MapContext } from './contexts/MapContextProvider';
 import ImportedConnections from './mapComponents/ImportedConnections';
 import ImportedReports from './mapComponents/ImportedReports';
