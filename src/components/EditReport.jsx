@@ -1,7 +1,8 @@
-import React, {useContext} from 'react';
+import {useContext} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
 
+import {webError} from './../utilities/messagesHelper';
 import CustomBlockButton from './customs/CustomBlockButton';
 import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
@@ -26,7 +27,7 @@ const EditReport = () => {
       setOpenReport(null);
       setRerenderReports(true);
     } catch (error) {
-      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('report.fail')));
+      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
     }
   };
 
@@ -37,7 +38,7 @@ const EditReport = () => {
       setOpenReport(null);
       setRerenderReports(true);
     } catch (error) {
-      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('report.fail')));
+      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
     }
   };
 

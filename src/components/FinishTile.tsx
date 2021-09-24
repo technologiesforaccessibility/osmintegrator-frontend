@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import {useState, useContext} from 'react';
 import Button from '@material-ui/core/Button';
 import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
@@ -6,6 +6,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 
+import {webError} from './../utilities/messagesHelper';
 import {MapContext} from './contexts/MapContextProvider';
 import {basicHeaders} from '../config/apiConfig';
 import api from '../api/apiInstance';
@@ -14,7 +15,6 @@ import {selectLoggedInUserRoles} from './../redux/selectors/authSelector';
 import {roles} from './../utilities/constants';
 
 import './../stylesheets/finishTile.scss';
-
 
 const FinishTile = () => {
   const {t} = useTranslation();
@@ -32,7 +32,7 @@ const FinishTile = () => {
       closeTile();
       dispatch(NotificationActions.success(t('finishTile.successMessage')));
     } catch (error) {
-      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('finishTile.failMessage')));
+      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
     }
   };
 
@@ -51,28 +51,27 @@ const FinishTile = () => {
         }}>
         {authRoles.includes(roles.SUPERVISOR) ? t('finishTile.supervisorMainButton') : t('finishTile.editorMainButton')}
       </Button>
-      <Dialog open={openModal} onClose={handleClose} >
+      <Dialog open={openModal} onClose={handleClose}>
         <DialogTitle>{t('finishTile.confirmation')}</DialogTitle>
         <DialogContent>
-        <div className="finish-tile__buttons">
-          <Button
-            className="finish-tile__decision-button"
-            type="submit"
-            variant="contained"
-            disabled={areDisabledConfirmationButtons}
-            onClick={() => approveTile()}>
-            {t('buttons.send')}
-          </Button>
-          <Button
-            className="finish-tile__decision-button"
-            variant="contained"
-            disabled={areDisabledConfirmationButtons}
-            onClick={() => setOpenModal(false)}>
-            {t('buttons.cancel')}
-          </Button>
-        </div>
+          <div className="finish-tile__buttons">
+            <Button
+              className="finish-tile__decision-button"
+              type="submit"
+              variant="contained"
+              disabled={areDisabledConfirmationButtons}
+              onClick={() => approveTile()}>
+              {t('buttons.send')}
+            </Button>
+            <Button
+              className="finish-tile__decision-button"
+              variant="contained"
+              disabled={areDisabledConfirmationButtons}
+              onClick={() => setOpenModal(false)}>
+              {t('buttons.cancel')}
+            </Button>
+          </div>
         </DialogContent>
-        
       </Dialog>
     </>
   );

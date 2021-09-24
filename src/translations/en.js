@@ -27,8 +27,7 @@ export const en = {
       editorMainButton: 'Send tile to verification',
       supervisorMainButton: 'Approve editor\'s work',
       confirmation: 'Are you sure?',
-      successMessage: 'Tile has bent sent',
-      failMessage: 'Tile cannot be sent',
+      successMessage: 'Tile has been sent'
     },
     login: {
       title: 'Welcome',
@@ -38,7 +37,7 @@ export const en = {
       401: 'Wrong email or password',
       register: 'Sign up',
     },
-    logout: {title: 'You have been logged out', message: 'You will be redirect to login page soon.', button: 'Log out', loginButton: 'Log in'},
+    logout: { title: 'You have been logged out', message: 'You will be redirect to login page soon.', button: 'Log out', loginButton: 'Log in' },
     map: {},
     profileHeader: 'Profile',
     profileMVPPlaceholder:
@@ -75,7 +74,6 @@ export const en = {
       button: 'Send report',
       clear: 'Clear text and map pin location',
       success: 'Report has been sent',
-      fail: 'A problem occured',
       pinInfo: 'Click elsewhere to move marker',
       approve: 'Approve',
       approved: 'Report approved!',
@@ -109,7 +107,17 @@ export const en = {
       connection: 'Create new connection',
       back: 'Hide tile',
     },
-    unrecognizedProblem: 'Something went wrong...',
+    error: {
+      unrecognizedProblem: 'Something went wrong. Please contact administrator.',
+      unknownStatusError: 'Unknown status error. Please contact administrator.',
+      unableToShowErrorMessage: 'Unable to show error message. Please contact administrator.',
+      validationError: 'Problem with validation. Please contact administrator.',
+      errorIsNull: 'Error is null. Please contact administrator.',
+      authentication: 'Authentication problem. Please logout and login again.',
+      authorization: 'You are not allowed to do this operation. Please contact administrator.',
+      internalServerError: 'Internal server error. Please contact administrator.',
+      exception: 'Unknown exception occurred. Please contact administrator.'
+    },
     version: 'Version: ',
     managementPanel: {
       assignRoleTitle: 'Assign role to user',
