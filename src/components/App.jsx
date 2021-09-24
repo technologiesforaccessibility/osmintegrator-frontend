@@ -20,7 +20,6 @@ import Notification from './Notification';
 import PrivateRoute from './PrivateRoute';
 import ProfilePanel from './ProfilePanel';
 
-
 class App extends Component {
   render() {
     return (

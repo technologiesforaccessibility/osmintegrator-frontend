@@ -3,7 +3,6 @@ import {useSelector} from 'react-redux';
 
 import PropertyGrid from './PropertyGrid';
 import MapPanel from './MapPanel';
-// import LanguageSwitch from './LanguageTest';
 
 import FinishTile from './FinishTile';
 import {MapContext} from './contexts/MapContextProvider';
@@ -15,7 +14,6 @@ import ConnectionSidePanel from './ConnectionSidePanel';
 
 import './../stylesheets/dashboardSidebar.scss';
 
-// const {REACT_APP_MVP_DISABLED} = process.env;
 
 const DashboardSidebar = () => {
   const {propertyGrid, isTileActive, isViewMode, isReportMapMode, isConnectionMode, isEditingReportMode, openReport} =
@@ -24,10 +22,6 @@ const DashboardSidebar = () => {
 
   return (
     <div className="sidebar">
-      {/* <div className="sidebar__language">
-        {!REACT_APP_MVP_DISABLED && <LanguageSwitch />}
-      </div> */}
-
       <div className="sidebar__navigation">
         <MapPanel />
       </div>

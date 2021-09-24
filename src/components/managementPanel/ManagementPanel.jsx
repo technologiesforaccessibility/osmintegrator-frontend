@@ -1,32 +1,33 @@
-import { useEffect, useState } from 'react';
-import { Rectangle, Tooltip } from 'react-leaflet';
-import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import {useEffect, useState} from 'react';
+import {Rectangle, Tooltip} from 'react-leaflet';
+import {useTranslation} from 'react-i18next';
+import {useDispatch} from 'react-redux';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
-import { CircularProgress } from '@material-ui/core';
+import {CircularProgress} from '@material-ui/core';
 
+import {webError} from './../../utilities/messagesHelper';
 import api from '../../api/apiInstance';
-import { basicHeaders } from '../../config/apiConfig';
+import {basicHeaders} from '../../config/apiConfig';
 import H3Title from '../customs/H3Title';
 import colors from '../../stylesheets/config/colors.module.scss';
 import ManagementPanelMap from './ManagementPanelMap';
 import Dashboard from '../Dashboard';
 import RoleAssignmentPanel from './RoleAssignmentPanel';
 import H4Title from '../customs/H4Title';
-import { NotificationActions } from '../../redux/actions/notificationActions';
+import {NotificationActions} from '../../redux/actions/notificationActions';
 
 import '../../stylesheets/managementPanel.scss';
 
 const NONE = 'none';
-const CURRENT_LOCATION = { lat: 50.29, lng: 19.01 };
+const CURRENT_LOCATION = {lat: 50.29, lng: 19.01};
 const ZOOM = 9;
 
 function ManagementPanel() {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const dispatch = useDispatch();
 
   const [tiles, setTiles] = useState([]);
@@ -68,8 +69,7 @@ function ManagementPanel() {
       setTiles(tiles);
       tilesLoadedState();
     });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getTileUserAssignmentInfo = async id => {
     return await api.tileGetUsersDetail(id, {
@@ -84,7 +84,7 @@ function ManagementPanel() {
       });
       return response.data;
     } catch (error) {
-      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('unrecognizedProblem')));
+      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
     }
   }
 
@@ -100,7 +100,7 @@ function ManagementPanel() {
     return colors.colorTileAll;
   }
 
-  const mapTiles = tiles.map(({ id, maxLat, maxLon, minLat, minLon, x, y, usersCount }) => (
+  const mapTiles = tiles.map(({id, maxLat, maxLon, minLat, minLon, x, y, usersCount}) => (
     <Rectangle
       key={`map-${id}`}
       bounds={[
@@ -159,22 +159,22 @@ function ManagementPanel() {
 
   const tilesDropDown =
     tiles.length > 0
-      ? tiles.map(({ id, x, y }) => (
-        <MenuItem key={`tile-dropdown-${id}`} value={id}>
-          X: {x}, Y: {y}
-        </MenuItem>
-      ))
+      ? tiles.map(({id, x, y}) => (
+          <MenuItem key={`tile-dropdown-${id}`} value={id}>
+            X: {x}, Y: {y}
+          </MenuItem>
+        ))
       : null;
 
   const selectedUser = tileUsers.length > 0 ? tileUsers.find(x => x.isAssigned).id : '';
 
   const dropdownUsers =
     tileUsers.length > 0
-      ? tileUsers.map(({ id, userName, isAssigned }) => (
-        <MenuItem key={id} value={id}>
-          {userName === NONE ? t('managementPanel.noUser') : userName}
-        </MenuItem>
-      ))
+      ? tileUsers.map(({id, userName, isAssigned}) => (
+          <MenuItem key={id} value={id}>
+            {userName === NONE ? t('managementPanel.noUser') : userName}
+          </MenuItem>
+        ))
       : null;
 
   const handleSave = async () => {
@@ -185,15 +185,15 @@ function ManagementPanel() {
       const response =
         selectedUser.id === NONE
           ? await api.tileRemoveUserDelete(selectedTileId, {
-            headers: basicHeaders(),
-          })
-          : await api.tileUpdateUserUpdate(
-            selectedTileId,
-            { id: selectedUser.id },
-            {
               headers: basicHeaders(),
-            },
-          );
+            })
+          : await api.tileUpdateUserUpdate(
+              selectedTileId,
+              {id: selectedUser.id},
+              {
+                headers: basicHeaders(),
+              },
+            );
 
       if (response.status === 200) {
         dispatch(NotificationActions.success(response.data.value));
@@ -273,7 +273,7 @@ function ManagementPanel() {
           <ManagementPanelMap startPoint={CURRENT_LOCATION} zoom={ZOOM} tiles={mapTiles} />
         </div>
       </div>
-    </Dashboard >
+    </Dashboard>
   );
 }
 
