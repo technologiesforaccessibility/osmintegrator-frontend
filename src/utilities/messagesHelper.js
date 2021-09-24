@@ -39,16 +39,16 @@ export function webError(response) {
     switch (response.status) {
       case (400):
         error400(response.error);
-        return;
+        break;
       case (403):
         error403();
-        return;
+        break;
       case response.status === 401:
         error401();
-        return;
+        break;
       case response.status === 500:
         error500(response.error);
-        return;
+        break;
       default:
         console.log(response);
         store.dispatch(NotificationActions.error(i18n.t('error.unrecognizedProblem')));
