@@ -11,17 +11,12 @@ import {roles} from '../utilities/constants';
 
 import './../stylesheets/dashboardSidebar.scss';
 
-// const { REACT_APP_MVP_DISABLED } = process.env;
-
 const DashboardSidebar = () => {
   const {propertyGrid, isTileActive} = useContext(MapContext);
   const authRoles = useSelector(selectLoggedInUserRoles);
 
   return (
     <div className="sidebar">
-      {/* <div className="sidebar__language">
-        {!REACT_APP_MVP_DISABLED && <LanguageSwitch />}
-      </div> */}
 
       <div className="sidebar__navigation">
         <MapPanel />

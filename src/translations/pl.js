@@ -114,8 +114,8 @@ export const pl = {
       unableToShowErrorMessage: 'Problem z wyświetleniem informacji o błędzie. Skontaktuj się z administratorem.',
       validationError: 'Problem z walidacją. Skontaktuj się z administratorem.',
       errorIsNull: 'Brak odpowiedzi z serwera. Skontaktuj się z administratorem.',
-      authorization: 'Problem z autoryzacją. Wyloguj się i zaloguj ponownie.',
-      authentication: 'Nie masz uprawnień do wykonania tej operacji. Skontaktuj się z administratorem.',
+      authentication: 'Problem z autentykacją. Wyloguj się i zaloguj ponownie.',
+      authorization: 'Nie masz uprawnień do wykonania tej operacji. Skontaktuj się z administratorem.',
       internalServerError: 'Błąd serwera. Skontaktuj się z administratorem.',
       exception: 'Nieobsługiwany wyjątek. Skontaktuj się z administratorem.'
     },

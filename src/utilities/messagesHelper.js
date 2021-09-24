@@ -11,22 +11,20 @@ export function webError(response) {
       store.dispatch(NotificationActions.error(i18n.t('error.validationError')));
       return;
     }
-  
+
     // Other problems
-    if (error.errors.message[0]) {
+    error.errors.message[0] &&
       store.dispatch(NotificationActions.error(error.errors.message[0]));
-      return;
-    }
   }
-  
+
   function error403() {
     store.dispatch(NotificationActions.error(i18n.t('error.authentication')));
   }
-  
+
   function error401() {
     store.dispatch(NotificationActions.error(i18n.t('error.authorization')));
   }
-  
+
   function error500(response) {
     console.log(response);
     store.dispatch(NotificationActions.error(i18n.t('error.internalServerError')));
@@ -38,22 +36,23 @@ export function webError(response) {
       return;
     }
 
-    if (response.status === 400) {
-      error400(response.error);
-      return;
-    } else if (response.status === 403) {
-      error403();
-      return;
-    } else if (response.status === 401) {
-      error401();
-      return;
-    } else if (response.status === 500) {
-      error500(response.error);
-      return;
+    switch (response.status) {
+      case (400):
+        error400(response.error);
+        return;
+      case (403):
+        error403();
+        return;
+      case response.status === 401:
+        error401();
+        return;
+      case response.status === 500:
+        error500(response.error);
+        return;
+      default:
+        console.log(response);
+        store.dispatch(NotificationActions.error(i18n.t('error.unrecognizedProblem')));
     }
-
-    console.log(response);
-    store.dispatch(NotificationActions.error(i18n.t('error.unrecognizedProblem')));
   }
   catch (error) {
     console.log(error);

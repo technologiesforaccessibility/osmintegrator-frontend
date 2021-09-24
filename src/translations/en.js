@@ -27,7 +27,7 @@ export const en = {
       editorMainButton: 'Send tile to verification',
       supervisorMainButton: 'Approve editor\'s work',
       confirmation: 'Are you sure?',
-      successMessage: 'Tile has bent sent'
+      successMessage: 'Tile has been sent'
     },
     login: {
       title: 'Welcome',
@@ -113,8 +113,8 @@ export const en = {
       unableToShowErrorMessage: 'Unable to show error message. Please contact administrator.',
       validationError: 'Problem with validation. Please contact administrator.',
       errorIsNull: 'Error is null. Please contact administrator.',
-      authorization: 'Authorization problem. Please logout and login again.',
-      authentication: 'You are not allowed to do this operation. Please contact administrator.',
+      authentication: 'Authentication problem. Please logout and login again.',
+      authorization: 'You are not allowed to do this operation. Please contact administrator.',
       internalServerError: 'Internal server error. Please contact administrator.',
       exception: 'Unknown exception occurred. Please contact administrator.'
     },
