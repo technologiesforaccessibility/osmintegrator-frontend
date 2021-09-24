@@ -9,7 +9,7 @@ import {MapContext} from '../contexts/MapContextProvider';
 
 const ImportedReports = ({reports}) => {
   const authRoles = useSelector(selectLoggedInUserRoles);
-  const {setIsEditingReportMode, setOpenReport, isViewMode, openReport} = useContext(MapContext);
+  const {setIsEditingReportMode, setOpenReport, isViewMode, openReport, displayPropertyGrid} = useContext(MapContext);
 
   return (
     <>
@@ -29,6 +29,7 @@ const ImportedReports = ({reports}) => {
                 } else {
                   setIsEditingReportMode(true);
                   setOpenReport({lat, lon, text, id, tileId, status});
+                  displayPropertyGrid(null);
                 }
               }
             },
