@@ -43,10 +43,10 @@ export function webError(response) {
       case (403):
         error403();
         break;
-      case response.status === 401:
+      case 401:
         error401();
         break;
-      case response.status === 500:
+      case 500:
         error500(response.error);
         break;
       default:
