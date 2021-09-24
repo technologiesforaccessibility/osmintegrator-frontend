@@ -1,16 +1,15 @@
 import {Icon} from 'leaflet';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
-import iconBlack from '../assets/bus_stop_icon_black_new.png';
-import iconPink from '../assets/bus_stop_icon_pink_new.png';
-import iconGrey from '../assets/bus_stop_icon_grey.png';
-import iconPurple from '../assets/bus_stop_icon_purple.png';
 import reporBlackIcon from '../assets/report_black.png';
 import reportBlueIcon from '../assets/report_blue.png';
 import reportGreenIcon from '../assets/report_green.png';
 import reportRedIcon from '../assets/report_red.png';
 import reportGreyIcon from '../assets/report_grey.png';
 
+import angledBlackIcon from '../assets/angledIcons/angled_black.png';
+import angledGreykIcon from '../assets/angledIcons/angled_grey.png';
+import angledPinkIcon from '../assets/angledIcons/angled_pink.png';
+import angledMaroonIcon from '../assets/angledIcons/angled_maroon.png';
 
 const reportIcons = {
   initial: reportGreyIcon,
@@ -18,6 +17,13 @@ const reportIcons = {
   approved: reportGreenIcon,
   rejected: reportRedIcon,
   unexpected: reporBlackIcon,
+};
+
+const stopIcons = {
+  osmInside: angledBlackIcon,
+  osmOutside: angledGreykIcon,
+  notOsmInside: angledPinkIcon,
+  notOsmOutside: angledMaroonIcon,
 };
 
 const comparePasswords = (pass1, pass2) => {
@@ -49,24 +55,21 @@ const getEmailFromPath = urlString => {
 };
 
 const getBusStopIcon = busStopPropeties => {
+  const iconProps = getStopIconProps(busStopPropeties);
+  const {iconUrl, iconAnchor} = iconProps;
+
   return new Icon({
-    iconUrl: getBusStopColor(busStopPropeties),
-    shadowUrl: iconShadow,
+    iconUrl,
     iconSize: [30, 55],
-    iconAnchor: [15, 54],
-    shadowSize: [68, 60],
-    shadowAnchor: [-10, 55],
+    iconAnchor,
   });
 };
 
 const getReportIcon = status => {
   return new Icon({
     iconUrl: getReportColor(status),
-    shadowUrl: iconShadow,
     iconSize: [30, 55],
     iconAnchor: [15, 54],
-    shadowSize: [68, 60],
-    shadowAnchor: [-10, 55],
   });
 };
 
@@ -103,18 +106,14 @@ export {
   getReportIcon,
 };
 
-const getBusStopColor = busProperty => {
-  if (busProperty.outsideSelectedTile) {
-    if (busProperty.stopType === 0) {
-      return iconGrey;
-    }
-    return iconPurple;
-  } else {
-    if (busProperty.stopType === 0) {
-      return iconBlack;
-    }
-    return iconPink;
-  }
+const getStopIconProps = ({outsideSelectedTile, stopType}) => {
+  return outsideSelectedTile
+    ? stopType === 0
+      ? {iconUrl: stopIcons.osmOutside, iconAnchor: [30, 55]}
+      : {iconUrl: stopIcons.notOsmOutside, iconAnchor: [0, 55]}
+    : stopType === 0
+    ? {iconUrl: stopIcons.osmInside, iconAnchor: [30, 55]}
+    : {iconUrl: stopIcons.notOsmInside, iconAnchor: [0, 55]};
 };
 
 const getReportColor = status => {
