@@ -1,11 +1,11 @@
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import {useSelector} from 'react-redux';
 
-import { paths } from '../utilities/constants';
+import {paths} from '../utilities/constants';
 import {selectLoggedInUserRoles} from '../redux/selectors/authSelector';
 import {roles} from '../utilities/constants';
 
-import { Button, IconButton } from '@material-ui/core/';
+import {Button, IconButton} from '@material-ui/core/';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -15,20 +15,17 @@ import BuildIcon from '@mui/icons-material/Build';
 
 import './../stylesheets/dashboardHeader.scss';
 
-const { REACT_APP_CONTACT_FORM } = process.env;
+const {REACT_APP_CONTACT_FORM} = process.env;
 
 const DashboardHeader = () => {
   const authRoles = useSelector(selectLoggedInUserRoles);
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   return (
     <div className="dashboard-header">
       <div className="dashboard-header__logo">
         <div className="dashboard-header--button-box">
-          <Button
-            color="primary"
-            variant="outlined"
-            href={window.location.href}>
+          <Button color="primary" variant="outlined" href={window.location.href}>
             OSM INTEGRATOR
           </Button>
         </div>
@@ -44,8 +41,7 @@ const DashboardHeader = () => {
             {t('sidebar.map')}
           </Button>
         </div>
-        {
-          authRoles.some(role => [roles.SUPERVISOR].includes(role)) &&
+        {authRoles.some(role => [roles.SUPERVISOR].includes(role)) && (
           <div className="dashboard-header--button-box">
             <Button
               color="primary"
@@ -56,7 +52,7 @@ const DashboardHeader = () => {
               {t('sidebar.managementDashboard')}
             </Button>
           </div>
-        }
+        )}
 
         <div className="dashboard-header--button-box">
           <Button
@@ -69,19 +65,14 @@ const DashboardHeader = () => {
           </Button>
         </div>
 
-        <Tooltip title={t('sidebar.profile')} >
-          <IconButton
-            color="primary"
-            href={paths.PROFILE}>
+        <Tooltip title={t('sidebar.profile')}>
+          <IconButton color="primary" href={paths.PROFILE}>
             <AccountCircleIcon fontSize="medium" />
           </IconButton>
         </Tooltip>
 
         <Tooltip title={t('logout.button')}>
-          <IconButton
-            color="primary"
-            href={paths.LOGOUT}
-          >
+          <IconButton color="primary" href={paths.LOGOUT}>
             <LogoutIcon fontSize="medium" />
           </IconButton>
         </Tooltip>

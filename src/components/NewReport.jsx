@@ -1,8 +1,9 @@
-import React, {useContext, useEffect} from 'react';
+import {useContext, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useFormik} from 'formik';
 import {useDispatch} from 'react-redux';
 
+import {webError} from './../utilities/messagesHelper';
 import CustomBlockButton from './customs/CustomBlockButton';
 import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
@@ -60,7 +61,7 @@ const NewReport = () => {
       formik.resetForm();
       setRerenderReports(true);
     } catch (error) {
-      dispatch(NotificationActions.error(error.errors.message & error.errors.message[0] ? error.errors.message[0] : t('report.fail')));
+      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
     }
   };
 
