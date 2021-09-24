@@ -61,6 +61,8 @@ export const MapView = () => {
     setImportedConnections,
     importedReports,
     setImportedReports,
+    setOpenReport,
+    setIsEditingReportMode,
   } = useContext(MapContext);
 
   useEffect(() => {
@@ -206,6 +208,8 @@ export const MapView = () => {
   const clickBusStop = stop => {
     setActiveBusStopId(stop === undefined ? null : stop.id);
     displayPropertyGrid(stop === undefined ? null : stop);
+    setOpenReport(null);
+    setIsEditingReportMode(false);
   };
 
   return (
