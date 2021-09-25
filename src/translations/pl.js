@@ -70,6 +70,9 @@ export const pl = {
       success:
         'Zarejestrowano użytkownika. Potwierdź rejestrację wchodząc w link wysłany na adres email podany przy rejestracji.',
       fail: 'Wystąpił problem przy rejestracji',
+      agreementText: 'Oświadczam, że przeczytałem, zrozumiałem oraz akceptuję regulamin serwisu dostępy pod ',
+      agreementThis: 'tym',
+      agreementLink: ' linkiem.'
     },
     report: {
       button: 'Wyślij zgłoszenie',

@@ -69,6 +69,9 @@ export const en = {
       reportPrompt: 'Report a problem',
       success: 'User has been registered. Confirm data by clicking a link in a message sent on provided email address',
       fail: 'Unknown register problem',
+      agreementText: 'I declare that I have read, understood and accept the terms of service available at ',
+      agreementThis: 'this',
+      agreementLink: ' link.'
     },
     report: {
       button: 'Send report',

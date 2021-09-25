@@ -13,14 +13,8 @@ import {MapContext} from './contexts/MapContextProvider';
 import '../stylesheets/mapPanel.scss';
 
 const MapPanel = () => {
-  const {
-    isTileActive,
-    singleTileToggle,
-    viewModeToggle,
-    reportModeToggle,
-    connectionModeToggle,
-    hideTileElements,
-  } = useContext(MapContext);
+  const {isTileActive, singleTileToggle, viewModeToggle, reportModeToggle, connectionModeToggle, hideTileElements} =
+    useContext(MapContext);
   const [toggleButton, setToggleButton] = useState('View');
   const {t} = useTranslation();
 

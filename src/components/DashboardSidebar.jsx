@@ -14,7 +14,6 @@ import ConnectionSidePanel from './ConnectionSidePanel';
 
 import './../stylesheets/dashboardSidebar.scss';
 
-
 const DashboardSidebar = () => {
   const {propertyGrid, isTileActive, isViewMode, isReportMapMode, isConnectionMode, isEditingReportMode, openReport} =
     useContext(MapContext);
