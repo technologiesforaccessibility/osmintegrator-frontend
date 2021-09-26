@@ -8,7 +8,9 @@ export const paths = {
   MANAGEMENT_PANEL: '/manage',
   PROFILE: '/profile',
   CHANGE_EMAIL: '/profile/change-email',
-  CHANGE_PASSWORD: '/profile/change-password'
+  CHANGE_PASSWORD: '/profile/change-password',
+  REGISTER_CONFIRM: '/auth/register-confirm',
+  REGISTER_ACTIVATED: '/Account/ConfirmRegistration',
 };
 
 export const roles = {
