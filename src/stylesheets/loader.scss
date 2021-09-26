@@ -1,0 +1,13 @@
+@import 'config/colors.module';
+
+.loader-area {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 3;
+  background-color: $color-loader-background;
+  opacity: 0.3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

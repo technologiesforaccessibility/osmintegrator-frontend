@@ -19,6 +19,8 @@ import ManagementPanel from './managementPanel/ManagementPanel';
 import Notification from './Notification';
 import PrivateRoute from './PrivateRoute';
 import ProfilePanel from './ProfilePanel';
+import RegisterConfirm from './auth/RegisterConfirm';
+import RegisterActivated from './auth/RegisterActivated';
 
 class App extends Component {
   render() {
@@ -31,6 +33,8 @@ class App extends Component {
               <MapContextProvider>
                 <Route path={paths.LOGIN} component={Login} />
                 <Route path={paths.REGISTER} component={Register} />
+                <Route path={paths.REGISTER_CONFIRM} component={RegisterConfirm} />
+                <Route path={paths.REGISTER_ACTIVATED} component={RegisterActivated} />
                 <Route path={paths.RECOVER_PASSWORD} component={Recover} />
                 <PrivateRoute path={paths.LOGOUT} component={Logout} />
                 <Route path={paths.RESET_PASSWORD} component={SetPassword} />

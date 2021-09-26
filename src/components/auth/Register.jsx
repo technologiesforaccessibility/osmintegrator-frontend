@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Formik} from 'formik';
-import {NavLink} from 'react-router-dom';
+import {NavLink, Redirect} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 
 import TextField from '@material-ui/core/TextField';
@@ -14,6 +14,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 import AuthContainer from '../AuthContainer';
+import Loader from '../Loader';
 import {paths} from '../../utilities/constants';
 import {RegisterSchema} from '../../utilities/validationSchema';
 import {ReactComponent as Logo} from './../../assets/accountLogo.svg';
@@ -31,11 +32,12 @@ const Register = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [checked, setChecked] = useState(false);
+  const [registered, setRegistered] = useState(false);
 
   const register = async (username, email, password1) => {
     try {
       await api.accountRegisterCreate({email, username, password: password1}, {headers: basicHeaders()});
-      dispatch(NotificationActions.success(t('register.success')));
+      setRegistered(true);
     } catch (error) {
       dispatch(
         NotificationActions.error(
@@ -47,7 +49,13 @@ const Register = () => {
     setIsLoading(false);
   };
 
+  if (registered) {
+    return <Redirect to={paths.REGISTER_CONFIRM} />;
+  }
+
   return (
+    <>
+    <Loader isLoading={isLoading} />
     <AuthContainer>
       <Logo />
       <Formik
@@ -180,6 +188,7 @@ const Register = () => {
         </Tooltip>
       </div>
     </AuthContainer>
+    </>
   );
 };
 

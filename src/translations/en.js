@@ -27,7 +27,7 @@ export const en = {
       editorMainButton: 'Send tile to verification',
       supervisorMainButton: 'Approve editor\'s work',
       confirmation: 'Are you sure?',
-      successMessage: 'Tile has been sent'
+      successMessage: 'Tile has been sent',
     },
     login: {
       title: 'Welcome',
@@ -37,7 +37,12 @@ export const en = {
       401: 'Wrong email or password',
       register: 'Sign up',
     },
-    logout: { title: 'You have been logged out', message: 'You will be redirect to login page soon.', button: 'Log out', loginButton: 'Log in' },
+    logout: {
+      title: 'You have been logged out',
+      message: 'You will be redirect to login page soon.',
+      button: 'Log out',
+      loginButton: 'Log in',
+    },
     map: {},
     profileHeader: 'Profile',
     profileMVPPlaceholder:
@@ -66,9 +71,20 @@ export const en = {
       passwordConfirmRequiredError: 'Confirm password',
       passwordRefError: 'Entered passwords are not the same',
       login: 'Login',
+      loginPage: 'Log in Page',
       reportPrompt: 'Report a problem',
-      success: 'User has been registered. Confirm data by clicking a link in a message sent on provided email address',
       fail: 'Unknown register problem',
+      activated: {
+        header: 'Your account has been successfully activated!',
+        paragraph: 'Sign in to your account with your password.',
+        headerProblem: 'An error occurred during account activation!',
+        paragraphProblem: {
+          first: 'Click ',
+          second: 'here',
+          third: ' to contact with administrator.',
+        },
+        headerLoading: 'Loading, please wait...',
+      },
     },
     report: {
       button: 'Send report',
@@ -116,7 +132,7 @@ export const en = {
       authentication: 'Authentication problem. Please logout and login again.',
       authorization: 'You are not allowed to do this operation. Please contact administrator.',
       internalServerError: 'Internal server error. Please contact administrator.',
-      exception: 'Unknown exception occurred. Please contact administrator.'
+      exception: 'Unknown exception occurred. Please contact administrator.',
     },
     version: 'Version: ',
     managementPanel: {
