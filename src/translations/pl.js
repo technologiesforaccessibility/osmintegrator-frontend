@@ -30,12 +30,12 @@ export const pl = {
       successMessage: 'Kafelek został wysłany'
     },
     login: {
-      title: 'Witamy',
       password: 'Hasło',
       loginText: 'Zaloguj się',
       forgotPassword: 'Nie pamiętasz hasła?',
+      clickHere: 'Kliknij tutaj',
       401: 'Niepoprawny email lub hasło',
-      register: 'Zarejestruj się',
+      register: 'Zarejestruj',
     },
     logout: {title: 'Nastąpiło wylogowanie', message: 'Za chwilę nastąpi przekierowanie na stronę logowania', button: 'Wyloguj', loginButton: 'Zaloguj'},
     map: {},

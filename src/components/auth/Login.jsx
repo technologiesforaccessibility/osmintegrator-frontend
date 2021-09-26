@@ -1,80 +1,135 @@
-import {NavLink, Redirect} from 'react-router-dom';
-import {useFormik} from 'formik';
-import {useTranslation} from 'react-i18next';
-import {useDispatch, useSelector} from 'react-redux';
+import { NavLink, Redirect } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
+import TextField from '@material-ui/core/TextField';
+import { Formik } from 'formik';
+import Button from '@material-ui/core/Button';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
+import Tooltip from '@material-ui/core/Tooltip';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+
+import { unsafeFormApiError } from '../../utilities/utilities';
+import { ReactComponent as Logo } from './../../assets/accountLogo.svg';
 import AuthContainer from '../AuthContainer';
-import {unsafeFormApiError} from '../../utilities/utilities';
-import {login} from '../../redux/actions/authActions';
-import {selectAuthIsLoggedIn, selectAuthLoading, selectAuthError} from '../../redux/selectors/authSelector';
-import {paths} from '../../utilities/constants';
+import { LoginSchema } from '../../utilities/validationSchema';
+import { login } from '../../redux/actions/authActions';
+import { selectAuthIsLoggedIn, selectAuthLoading, selectAuthError } from '../../redux/selectors/authSelector';
+import { paths } from '../../utilities/constants';
+
 
 import '../../stylesheets/login.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
+import AuthBottomPanel from './AuthBottomPanel';
+
+const { REACT_APP_CONTACT_FORM } = process.env;
 
 const Login = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
   const isLoading = useSelector(selectAuthLoading);
   const error = useSelector(selectAuthError);
 
-  const formik = useFormik({
-    initialValues: {
-      loginEmail: '',
-      loginPassword: '',
-    },
-    onSubmit: ({loginEmail, loginPassword}) => {
-      runLogin(loginEmail, loginPassword);
-    },
-  });
-
   const runLogin = async (email, password) => {
-    return dispatch(login({email, password}));
+    dispatch(login({ email, password }));
   };
 
   return !isLoading && isLoggedIn ? (
     <Redirect to={paths.HOME} />
   ) : (
     <AuthContainer>
-      <h1 className="auth-title">{t('login.title')}</h1>
-      <form onSubmit={formik.handleSubmit}>
-        <div className="inputbox-spacer">
-          <input
-            type="text"
-            id="loginEmail"
-            placeholder="E-mail"
-            onChange={formik.handleChange}
-            value={formik.values.loginEmail}
-            disabled={isLoading}
-          />
-        </div>
-        <div className="inputbox-spacer">
-          <input
-            type="password"
-            id="loginPassword"
-            placeholder={t('login.password')}
-            onChange={formik.handleChange}
-            value={formik.values.loginPassword}
-            disabled={isLoading}
-          />
-        </div>
-        <div className="login-button-area">
-          <button type="submit" id="button-login" disabled={isLoading}>
-            {t('login.loginText')}
-          </button>
-        </div>
-      </form>
+      <div className="register__logo">
+        <Logo />
+      </div>
 
-      <div className="link">
-        <NavLink to={paths.RECOVER_PASSWORD}>{t('login.forgotPassword')}</NavLink>
+      <div>
+        <Formik
+          onSubmit={({ email, password }) => {
+            try {
+              runLogin(email, password);
+            } catch (error) {
+              console.log("error" + error);
+            }
+          }}
+          initialValues={{
+            email: '',
+            password: ''
+          }}
+          validationSchema={LoginSchema}>
+
+          {({ handleChange, values, handleSubmit, errors, touched }) => (
+            <div>
+
+              <TextField
+                className="content-container__text-field"
+                type="email"
+                id="email"
+                placeholder="E-mail"
+                onChange={handleChange('email')}
+                value={values.email}
+                disabled={isLoading}
+                error={errors.email && touched.email}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <AlternateEmailIcon />
+                    </InputAdornment>
+                  ),
+                }}
+                helperText={errors.email && touched.email && errors.email}
+              />
+
+              <TextField
+                className="content-container__text-field"
+                type="password"
+                id="password"
+                placeholder={t('register.passwordPlaceholder')}
+                onChange={handleChange('password')}
+                value={values.password}
+                disabled={isLoading}
+                error={errors.password && touched.password}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Tooltip title={t('register.passwordPrompt')}>
+                        <VpnKeyIcon />
+                      </Tooltip>
+                    </InputAdornment>
+                  ),
+                }}
+                helperText={errors.password && touched.password && errors.password}
+              />
+
+              <Button
+                variant="contained"
+                disabled={isLoading}
+                onClick={handleSubmit}
+                className="register__button">
+                {t('login.loginText')}
+              </Button>
+            </div>
+          )}
+        </Formik>
       </div>
-      <div className="link">
-        <NavLink to={paths.REGISTER}>{t('login.register')}</NavLink>
-      </div>
+
+      <p className="login-link">
+        {t('login.forgotPassword') + ' '}
+        <a target="_blank" rel="noopener noreferrer" href={paths.RESET_PASSWORD}>
+          {t('login.clickHere')}
+        </a>
+        !
+      </p>
+
+      <AuthBottomPanel
+        linkText={t('login.register')}
+        link={paths.REGISTER}
+      />
+
       <div className="auth-info-placeholder centered">
-        {error && <span style={{color: colors['colorMessageFail']}}>{unsafeFormApiError(error, t, 'login')}</span>}
+        {error && <span style={{ color: colors['colorMessageFail'] }}>{unsafeFormApiError(error, t, 'login')}</span>}
       </div>
     </AuthContainer>
   );

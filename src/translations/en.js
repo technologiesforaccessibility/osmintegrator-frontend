@@ -30,10 +30,10 @@ export const en = {
       successMessage: 'Tile has been sent'
     },
     login: {
-      title: 'Welcome',
       password: 'Password',
       loginText: 'Log in',
       forgotPassword: 'Forgot Username / Password ?',
+      clickHere: 'Click here',
       401: 'Wrong email or password',
       register: 'Sign up',
     },

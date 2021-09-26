@@ -31,7 +31,6 @@ export const validateLogin = createAsyncThunk('auth/validateLogin', async (data,
 
       throw thunkAPI.rejectWithValue({
         status: response.status,
-        // message: response.error.message,
         message: 'Token validation error',
         title: response.error.title,
       });
