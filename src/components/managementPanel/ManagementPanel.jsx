@@ -266,9 +266,9 @@ function ManagementPanel() {
             </Button>
           </div>
         </div>
-        <div className="management-panel__role-assignment">
+        {/* <div className="management-panel__role-assignment">
           <RoleAssignmentPanel />
-        </div>
+        </div> */}
         <div className="management-panel__map">
           <ManagementPanelMap startPoint={CURRENT_LOCATION} zoom={ZOOM} tiles={mapTiles} />
         </div>
