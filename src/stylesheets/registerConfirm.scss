@@ -1,0 +1,16 @@
+.register-confirm {
+    &__header {
+        font-weight: bold;
+        text-align: center;
+        margin-top: 20px;
+    }
+    &__paragraph {
+        text-align: center;
+    }
+
+    &__side-note {
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+}
