@@ -1,32 +1,29 @@
-import { NavLink, Redirect } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import {Redirect} from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
+import {useDispatch, useSelector} from 'react-redux';
 
 import TextField from '@material-ui/core/TextField';
-import { Formik } from 'formik';
+import {Formik} from 'formik';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import Tooltip from '@material-ui/core/Tooltip';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
-import { unsafeFormApiError } from '../../utilities/utilities';
-import { ReactComponent as Logo } from './../../assets/accountLogo.svg';
+import {unsafeFormApiError} from '../../utilities/utilities';
+import {ReactComponent as Logo} from './../../assets/accountLogo.svg';
 import AuthContainer from '../AuthContainer';
-import { LoginSchema } from '../../utilities/validationSchema';
-import { login } from '../../redux/actions/authActions';
-import { selectAuthIsLoggedIn, selectAuthLoading, selectAuthError } from '../../redux/selectors/authSelector';
-import { paths } from '../../utilities/constants';
-
+import {LoginSchema} from '../../utilities/validationSchema';
+import {login} from '../../redux/actions/authActions';
+import {selectAuthIsLoggedIn, selectAuthLoading, selectAuthError} from '../../redux/selectors/authSelector';
+import {paths} from '../../utilities/constants';
 
 import '../../stylesheets/login.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
 import AuthBottomPanel from './AuthBottomPanel';
 
-const { REACT_APP_CONTACT_FORM } = process.env;
-
 const Login = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
@@ -34,7 +31,7 @@ const Login = () => {
   const error = useSelector(selectAuthError);
 
   const runLogin = async (email, password) => {
-    dispatch(login({ email, password }));
+    dispatch(login({email, password}));
   };
 
   return !isLoading && isLoggedIn ? (
@@ -47,22 +44,16 @@ const Login = () => {
 
       <div>
         <Formik
-          onSubmit={({ email, password }) => {
-            try {
-              runLogin(email, password);
-            } catch (error) {
-              console.log("error" + error);
-            }
+          onSubmit={({email, password}) => {
+            runLogin(email, password);
           }}
           initialValues={{
             email: '',
-            password: ''
+            password: '',
           }}
           validationSchema={LoginSchema}>
-
-          {({ handleChange, values, handleSubmit, errors, touched }) => (
+          {({handleChange, values, handleSubmit, errors, touched}) => (
             <div>
-
               <TextField
                 className="content-container__text-field"
                 type="email"
@@ -103,11 +94,7 @@ const Login = () => {
                 helperText={errors.password && touched.password && errors.password}
               />
 
-              <Button
-                variant="contained"
-                disabled={isLoading}
-                onClick={handleSubmit}
-                className="register__button">
+              <Button variant="contained" disabled={isLoading} onClick={handleSubmit} className="register__button">
                 {t('login.loginText')}
               </Button>
             </div>
@@ -123,13 +110,10 @@ const Login = () => {
         !
       </p>
 
-      <AuthBottomPanel
-        linkText={t('login.register')}
-        link={paths.REGISTER}
-      />
+      <AuthBottomPanel linkText={t('login.register')} link={paths.REGISTER} />
 
       <div className="auth-info-placeholder centered">
-        {error && <span style={{ color: colors['colorMessageFail'] }}>{unsafeFormApiError(error, t, 'login')}</span>}
+        {error && <span style={{color: colors['colorMessageFail']}}>{unsafeFormApiError(error, t, 'login')}</span>}
       </div>
     </AuthContainer>
   );

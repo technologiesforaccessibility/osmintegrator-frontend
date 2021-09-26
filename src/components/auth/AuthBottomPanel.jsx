@@ -1,14 +1,14 @@
-import { NavLink } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import {NavLink} from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
 
 import Tooltip from '@material-ui/core/Tooltip';
 
 import '../../stylesheets/authBottomPanel.scss';
 
-const { REACT_APP_CONTACT_FORM } = process.env;
+const {REACT_APP_CONTACT_FORM} = process.env;
 
-const AuthBottomPanel = ({ linkText, link }) => {
-  const { t } = useTranslation();
+const AuthBottomPanel = ({linkText, link}) => {
+  const {t} = useTranslation();
 
   return (
     <div className="panel-link panel-utils">

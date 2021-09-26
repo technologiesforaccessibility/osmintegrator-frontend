@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Formik } from 'formik';
+import {useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {Formik} from 'formik';
 
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
@@ -11,24 +11,24 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import { FormControlLabel } from '@material-ui/core';
+import {FormControlLabel} from '@material-ui/core';
 
-import { webError } from '../../utilities/messagesHelper';
+import {webError} from '../../utilities/messagesHelper';
 import AuthContainer from '../AuthContainer';
-import { RegisterSchema } from '../../utilities/validationSchema';
-import { ReactComponent as Logo } from './../../assets/accountLogo.svg';
+import {RegisterSchema} from '../../utilities/validationSchema';
+import {ReactComponent as Logo} from './../../assets/accountLogo.svg';
 import api from '../../api/apiInstance';
-import { basicHeaders } from '../../config/apiConfig';
-import { NotificationActions } from '../../redux/actions/notificationActions';
+import {basicHeaders} from '../../config/apiConfig';
+import {NotificationActions} from '../../redux/actions/notificationActions';
 import AuthBottomPanel from './AuthBottomPanel';
 import {paths} from '../../utilities/constants';
 
 import '../../stylesheets/register.scss';
 
-const { REACT_APP_REGULATIONS } = process.env;
+const {REACT_APP_REGULATIONS} = process.env;
 
 const Register = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +36,7 @@ const Register = () => {
 
   const register = async (username, email, password1) => {
     try {
-      await api.accountRegisterCreate({ email, username, password: password1 }, { headers: basicHeaders() });
+      await api.accountRegisterCreate({email, username, password: password1}, {headers: basicHeaders()});
       dispatch(NotificationActions.success(t('register.success')));
     } catch (error) {
       error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('register.fail')));
@@ -52,7 +52,7 @@ const Register = () => {
       </div>
       <div className="register__content">
         <Formik
-          onSubmit={({ username, email, password1 }) => {
+          onSubmit={({username, email, password1}) => {
             setIsLoading(true);
             register(username, email, password1);
           }}
@@ -63,7 +63,7 @@ const Register = () => {
             password2: '',
           }}
           validationSchema={RegisterSchema}>
-          {({ handleChange, values, handleSubmit, errors, touched }) => (
+          {({handleChange, values, handleSubmit, errors, touched}) => (
             <div className="content-container">
               <TextField
                 className="content-container__text-field"
@@ -152,7 +152,7 @@ const Register = () => {
                     checked={checked}
                     color="primary"
                     onChange={handleChange}
-                    inputProps={{ 'aria-label': 'primary checkbox' }}
+                    inputProps={{'aria-label': 'primary checkbox'}}
                     onClick={() => {
                       setChecked(!checked);
                     }}
@@ -182,9 +182,7 @@ const Register = () => {
       </div>
 
       <div className="register__bottom">
-        <AuthBottomPanel 
-          linkText={t('register.login')}
-          link={paths.LOGIN}/>
+        <AuthBottomPanel linkText={t('register.login')} link={paths.LOGIN} />
       </div>
     </AuthContainer>
   );
