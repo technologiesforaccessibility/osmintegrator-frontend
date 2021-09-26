@@ -24,7 +24,6 @@ import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';
 import {NotificationActions} from '../../redux/actions/notificationActions';
 import AuthBottomPanel from './AuthBottomPanel';
-import {paths} from '../../utilities/constants';
 
 import '../../stylesheets/register.scss';
 
