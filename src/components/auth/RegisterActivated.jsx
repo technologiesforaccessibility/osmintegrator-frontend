@@ -36,7 +36,6 @@ const RegisterConfirm = () => {
       setActivatedSuccessfully(true);
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
       setIsLoading(false);
     }
   };
