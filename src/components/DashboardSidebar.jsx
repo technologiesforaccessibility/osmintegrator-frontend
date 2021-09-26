@@ -12,6 +12,8 @@ import NewReport from './NewReport';
 import EditReport from './EditReport';
 import ConnectionSidePanel from './ConnectionSidePanel';
 
+import dots from './../assets/authDots.png';
+
 import './../stylesheets/dashboardSidebar.scss';
 
 
@@ -22,6 +24,7 @@ const DashboardSidebar = () => {
 
   return (
     <div className="sidebar">
+      <img src={dots} className="sidebar__image" alt="BackgroundDots"></img>
       <div className="sidebar__navigation">
         <MapPanel />
       </div>
@@ -38,6 +41,7 @@ const DashboardSidebar = () => {
           </div>
         )}
       </div>
+
     </div>
   );
 };
