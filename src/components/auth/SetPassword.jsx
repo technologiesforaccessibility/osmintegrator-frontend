@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {useFormik} from 'formik';
 import {Redirect} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
@@ -10,12 +10,11 @@ import {
   getTokenFromPath,
   unsafeFormApiError,
 } from '../../utilities/utilities';
-import FooterContact from '../FooterContact';
 
 import {noTokenHeaders} from '../../config/apiConfig';
 import api from '../../api/apiInstance';
 import {paths} from '../../utilities/constants';
-import AuthLayout from '../AuthLayout';
+import AuthContainer from '../AuthContainer';
 
 import '../../stylesheets/setPassword.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
@@ -64,7 +63,7 @@ const SetPassword = () => {
   };
 
   return (
-    <AuthLayout>
+    <AuthContainer>
       {shouldRedirect && <Redirect to={paths.LOGIN} />}
 
       <h1 className="auth-title">{t('setPassword.title')}</h1>
@@ -97,8 +96,7 @@ const SetPassword = () => {
       <div className="centered auth-info-placeholder">
         {message && <span style={{color: messageColor}}>{message}</span>}
       </div>
-      <FooterContact />
-    </AuthLayout>
+    </AuthContainer>
   );
 };
 export default SetPassword;

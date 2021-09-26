@@ -8,3 +8,8 @@ export const RegisterSchema = object().shape({
     .oneOf([ref('password1')], 'Wprowadzone hasła nie są takie same')
     .required('Powtórz hasło'),
 });
+
+export const LoginSchema = object().shape({
+  email: string().email('Email nieprawidłowy').required('Wpisz adres email'),
+  password1: string().min(8, 'Hasło musi mieć minimalnie 8 znaków').required('Wpisz hasło'),
+});

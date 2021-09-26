@@ -1,12 +1,10 @@
-import React from 'react';
 import {NavLink, Redirect} from 'react-router-dom';
 import {useFormik} from 'formik';
 import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
 
+import AuthContainer from '../AuthContainer';
 import {unsafeFormApiError} from '../../utilities/utilities';
-import FooterContact from '../FooterContact';
-import AuthLayout from '../AuthLayout';
 import {login} from '../../redux/actions/authActions';
 import {selectAuthIsLoggedIn, selectAuthLoading, selectAuthError} from '../../redux/selectors/authSelector';
 import {paths} from '../../utilities/constants';
@@ -39,7 +37,7 @@ const Login = () => {
   return !isLoading && isLoggedIn ? (
     <Redirect to={paths.HOME} />
   ) : (
-    <AuthLayout>
+    <AuthContainer>
       <h1 className="auth-title">{t('login.title')}</h1>
       <form onSubmit={formik.handleSubmit}>
         <div className="inputbox-spacer">
@@ -78,8 +76,7 @@ const Login = () => {
       <div className="auth-info-placeholder centered">
         {error && <span style={{color: colors['colorMessageFail']}}>{unsafeFormApiError(error, t, 'login')}</span>}
       </div>
-      <FooterContact />
-    </AuthLayout>
+    </AuthContainer>
   );
 };
 
