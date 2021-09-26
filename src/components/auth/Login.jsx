@@ -91,7 +91,7 @@ const Login = () => {
                     </InputAdornment>
                   ),
                 }}
-                helperText={errors.password && touched.password && errors.password}
+                helperText={errors.password && touched.password}
               />
 
               <Button variant="contained" disabled={isLoading} onClick={handleSubmit} className="register__button">
