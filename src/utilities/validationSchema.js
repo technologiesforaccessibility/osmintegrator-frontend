@@ -1,10 +1,17 @@
+import i18n from '../translations/i18n';
+
 import {object, string, ref} from 'yup';
 
 export const RegisterSchema = object().shape({
-  username: string().min(3, 'Nazwa użytkownika musi mieć minimalnie 3 znaki').required('Wpisz nazwę użytkownika'),
-  email: string().email('Email nieprawidłowy').required('Wpisz adres email'),
-  password1: string().min(8, 'Hasło musi mieć minimalnie 8 znaków').required('Wpisz hasło'),
+  username: string().min(3, i18n.t('register.usernamePrompt')).required(i18n.t('register.usernameRequiredError')),
+  email: string().email(i18n.t('register.emailInvalidError')).required(i18n.t('register.emailRequiredError')),
+  password1: string().min(8, i18n.t('register.passwordPrompt')).required(i18n.t('register.passwordPlaceholder')),
   password2: string()
-    .oneOf([ref('password1')], 'Wprowadzone hasła nie są takie same')
-    .required('Powtórz hasło'),
+    .oneOf([ref('password1')], i18n.t('register.passwordRefError'))
+    .required(i18n.t('register.passwordConfirmRequiredError')),
+});
+
+export const LoginSchema = object().shape({
+  email: string().email(i18n.t('register.emailInvalidError')).required('Wpisz adres email'),
+  password: string().min(8, i18n.t('register.passwordPrompt')).required(i18n.t('register.passwordPlaceholder')),
 });
