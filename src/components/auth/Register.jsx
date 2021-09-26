@@ -4,7 +4,6 @@ import {Formik} from 'formik';
 import {Redirect} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 
-import {useDispatch} from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
