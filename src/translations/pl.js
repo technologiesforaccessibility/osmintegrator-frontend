@@ -30,12 +30,12 @@ export const pl = {
       successMessage: 'Kafelek został wysłany'
     },
     login: {
-      title: 'Witamy',
       password: 'Hasło',
       loginText: 'Zaloguj się',
       forgotPassword: 'Nie pamiętasz hasła?',
+      clickHere: 'Kliknij tutaj',
       401: 'Niepoprawny email lub hasło',
-      register: 'Zarejestruj się',
+      register: 'Zarejestruj',
     },
     logout: {title: 'Nastąpiło wylogowanie', message: 'Za chwilę nastąpi przekierowanie na stronę logowania', button: 'Wyloguj', loginButton: 'Zaloguj'},
     map: {},
@@ -66,10 +66,28 @@ export const pl = {
       passwordConfirmRequiredError: 'Powtórz hasło',
       passwordRefError: 'Wprowadzone hasła nie są takie same',
       login: 'Logowanie',
+      loginPage: 'Strona logowania',
       reportPrompt: 'Zgłoś problem',
-      success:
-        'Zarejestrowano użytkownika. Potwierdź rejestrację wchodząc w link wysłany na adres email podany przy rejestracji.',
       fail: 'Wystąpił problem przy rejestracji',
+      agreementText: 'Oświadczam, że przeczytałem, zrozumiałem oraz akceptuję regulamin serwisu dostępy pod ',
+      agreementThis: 'tym',
+      agreementLink: ' linkiem.',
+      confirm: {
+        header: 'Dziękujemy za rejestrację!',
+        paragraph: 'Wejdź na podany przy rejestracji e-mail w celu dokończenia rejestracji.',
+        sideNote: 'Na skrzynkę została wysłana wiadomość z linkiem aktywującym Twoje konto.',
+      },
+      activated: {
+        header: 'Twoje konto zostało aktywowane!',
+        paragraph: 'Możesz teraz zalogować się na swoje konto',
+        headerProblem: 'Wystąpił problem podczas aktywacji konta!',
+        paragraphProblem: {
+          first: 'Kliknij ',
+          second: 'tutaj',
+          third: ', aby zgłosić ten problem.',
+        },
+        headerLoading: 'Trwa Ładowanie, prosimy o cierpliwość.',
+      }
     },
     report: {
       button: 'Wyślij zgłoszenie',

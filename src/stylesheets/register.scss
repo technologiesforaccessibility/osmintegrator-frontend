@@ -18,12 +18,6 @@
   @include font-size;
 }
 
-.link {
-padding: 10px;
-  text-align: center;
-  font-style: italic;
-}
-
 a {
   text-decoration: none;
   color: $color-link-default;
@@ -35,13 +29,6 @@ a:hover {
 
 }
 
-.register__utils{
-  display: flex;
-  justify-content: space-around;
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-
 .register__button{
   margin-top: 20px;
 }
@@ -50,6 +37,7 @@ a:hover {
 }
 .register__regulations{
   font-size: 0.75rem;
+  text-align: justify;
 }
 .register__regulations-container{
   display: flex;
@@ -59,5 +47,34 @@ a:hover {
   display:inline-flex;
 }
 
+.register {
+  display: grid;
+  grid-template-areas: "logo" "content" "bottom";
+  grid-template-columns: 1fr;
 
+  &__logo {
+    grid-area: logo;
+    margin-bottom: 1rem;
+  }
+
+  &__content {
+    grid-area: content;
+  }
+
+  &__bottom {
+    grid-area: bottom;
+  }
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 1rem;
+  margin-right: 1rem;
+
+  &__text-field {
+    height: 4.5rem;
+  }
+}
 

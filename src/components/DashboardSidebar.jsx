@@ -16,7 +16,6 @@ import dots from './../assets/authDots.png';
 
 import './../stylesheets/dashboardSidebar.scss';
 
-
 const DashboardSidebar = () => {
   const {propertyGrid, isTileActive, isViewMode, isReportMapMode, isConnectionMode, isEditingReportMode, openReport} =
     useContext(MapContext);

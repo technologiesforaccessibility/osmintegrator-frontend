@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {useFormik} from 'formik';
 import {useTranslation} from 'react-i18next';
 
 import {noTokenHeaders} from '../../config/apiConfig';
 import api from '../../api/apiInstance';
 import {unsafeFormApiError} from '../../utilities/utilities';
-import FooterContact from '../FooterContact';
-import AuthLayout from '../AuthLayout';
+import AuthContainer from '../AuthContainer';
 
 import '../../stylesheets/recover.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
@@ -43,7 +42,7 @@ const Recover = () => {
   };
 
   return (
-    <AuthLayout>
+    <AuthContainer>
       <h1 className="auth-title">{t('recover.title')}</h1>
       <form onSubmit={formik.handleSubmit}>
         <div className="inputbox-spacer">
@@ -64,8 +63,7 @@ const Recover = () => {
       <div className="centered auth-info-placeholder">
         {message && <span style={{color: messageColor}}>{message}</span>}
       </div>
-      <FooterContact />
-    </AuthLayout>
+    </AuthContainer>
   );
 };
 
