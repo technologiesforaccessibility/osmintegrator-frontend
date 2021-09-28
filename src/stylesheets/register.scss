@@ -1,6 +1,13 @@
 @import 'config/colors.module';
 @import 'config/authMixins';
 
+.agreement-link {
+  color: blue;
+  font-weight: bold;
+  text-decoration-color: rgb(0, 60, 255);
+  text-decoration-thickness: .125em;
+  text-underline-offset: 1.5px;
+}
 
 #loginEmail, #loginPassword {
   @include input-textbox;

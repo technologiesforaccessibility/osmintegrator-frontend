@@ -170,10 +170,9 @@ const Register = () => {
                 label={
                   <p className="register__regulations">
                     {t('register.agreementText')}
-                    <a target="_blank" rel="noopener noreferrer" href={REACT_APP_REGULATIONS}>
-                      {t('register.agreementThis')}
+                    <a target="_blank" className="agreement-link" rel="noopener noreferrer" href={REACT_APP_REGULATIONS}>
+                      {t('register.agreementThisLink')}.
                     </a>
-                    {t('register.agreementLink')}
                   </p>
                 }
               />

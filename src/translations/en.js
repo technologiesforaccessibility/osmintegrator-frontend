@@ -75,8 +75,7 @@ export const en = {
       reportPrompt: 'Report a problem',
       fail: 'Unknown register problem',
       agreementText: 'I declare that I have read, understood and accept the terms of service available at ',
-      agreementThis: 'this',
-      agreementLink: ' link.',
+      agreementThisLink: 'this link',
       confirm: {
         header: 'Thank you for the registration!',
         paragraph: 'Go to the email you provided at registration to complete your registration.',
