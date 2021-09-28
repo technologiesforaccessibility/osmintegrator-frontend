@@ -2,9 +2,9 @@
 @import 'config/authMixins';
 
 .agreement-link {
-  color: blue;
+  color: $color-blue-link;
   font-weight: bold;
-  text-decoration-color: rgb(0, 60, 255);
+  text-decoration-color: $color-blue-link;
   text-decoration-thickness: .125em;
   text-underline-offset: 1.5px;
 }
