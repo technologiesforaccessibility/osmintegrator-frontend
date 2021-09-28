@@ -1,6 +1,8 @@
 import {useContext, useState} from 'react';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+// import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButton from '@mui/material/ToggleButton';
+// import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Tooltip from '@material-ui/core/Tooltip';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import ReportIcon from '@material-ui/icons/Report';
@@ -74,9 +76,10 @@ const MapPanel = () => {
               className="map-panel__toggle-group"
               value={toggleButton}
               exclusive
+              color='primary'
               onChange={handleChange}>
               {radios.map(({title, name, icon}, index) => (
-                <ToggleButton className="map-panel__toggle--modes" key={index} value={name}>
+                <ToggleButton className="map-panel__toggle--modes" key={index} value={name} color='primary'>
                   <Tooltip title={title}>{icon()}</Tooltip>
                 </ToggleButton>
               ))}

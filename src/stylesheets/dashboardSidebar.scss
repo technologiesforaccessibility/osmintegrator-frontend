@@ -12,13 +12,14 @@
   &__image {
     position: absolute;
     top: 3rem;
-    opacity: 0.2;
+    opacity: 0.15;
     z-index: -3;
   }
 
   &__navigation {
     grid-area: navigation;
     margin-bottom: 10px;
+    background-color: white;
   }
 
   &__details {
