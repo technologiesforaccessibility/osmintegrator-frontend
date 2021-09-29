@@ -18,11 +18,11 @@ export function webError(response) {
   }
 
   function error403() {
-    store.dispatch(NotificationActions.error(i18n.t('error.authentication')));
+    store.dispatch(NotificationActions.error(i18n.t('error.authorization')));
   }
 
   function error401() {
-    store.dispatch(NotificationActions.error(i18n.t('error.authorization')));
+    store.dispatch(NotificationActions.error(i18n.t('error.authentication')));
   }
 
   function error500(response) {

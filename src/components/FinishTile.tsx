@@ -6,13 +6,13 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 
-import {webError} from './../utilities/messagesHelper';
 import {MapContext} from './contexts/MapContextProvider';
 import {basicHeaders} from '../config/apiConfig';
 import api from '../api/apiInstance';
 import {NotificationActions} from '../redux/actions/notificationActions';
 import {selectLoggedInUserRoles} from './../redux/selectors/authSelector';
 import {roles} from './../utilities/constants';
+import { exception } from '../utilities/exceptionHelper';
 
 import './../stylesheets/finishTile.scss';
 
@@ -32,7 +32,7 @@ const FinishTile = () => {
       closeTile();
       dispatch(NotificationActions.success(t('finishTile.successMessage')));
     } catch (error) {
-      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
+      exception(error);
     }
   };
 

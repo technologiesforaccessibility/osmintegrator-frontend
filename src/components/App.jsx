@@ -36,7 +36,7 @@ class App extends Component {
                 <Route path={paths.REGISTER_CONFIRM} component={RegisterConfirm} />
                 <Route path={paths.REGISTER_ACTIVATED} component={RegisterActivated} />
                 <Route path={paths.RECOVER_PASSWORD} component={Recover} />
-                <PrivateRoute path={paths.LOGOUT} component={Logout} />
+                <Route path={paths.LOGOUT} component={Logout} />
                 <Route path={paths.RESET_PASSWORD} component={SetPassword} />
                 <PrivateRoute path={paths.MANAGEMENT_PANEL} exact component={ManagementPanel} />
                 <PrivateRoute path={paths.CHANGE_EMAIL} exact component={ChangeEmail} />

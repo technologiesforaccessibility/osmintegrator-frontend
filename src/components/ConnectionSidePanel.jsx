@@ -3,11 +3,11 @@ import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
 
 import api from '../api/apiInstance';
-import {webError} from './../utilities/messagesHelper';
 import {basicHeaders} from '../config/apiConfig';
 import {generateConnectionData, generateStopName} from '../utilities/mapUtilities';
 import {MapContext} from './contexts/MapContextProvider';
 import {NotificationActions} from '../redux/actions/notificationActions';
+import {exception} from '../utilities/exceptionHelper';
 
 import '../stylesheets/connectionPrompt.scss';
 
@@ -30,7 +30,7 @@ const ConnectionSidePanel = () => {
       reset();
       dispatch(NotificationActions.success(t('connection.createSuccessMessage')));
     } catch (error) {
-      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
+      exception(error);
     }
   };
 
