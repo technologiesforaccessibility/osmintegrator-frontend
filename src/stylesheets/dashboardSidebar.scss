@@ -1,4 +1,6 @@
+
 .sidebar {
+  
   display: grid;
   grid-template-areas: "navigation" "details" "approve";
   grid-template-rows: auto 1fr 3.5rem;
@@ -7,9 +9,17 @@
   margin-left: 0.5rem;
   margin-right: 0.5rem;
 
+  &__image {
+    position: absolute;
+    top: 3rem;
+    opacity: 0.15;
+    z-index: -3;
+  }
+
   &__navigation {
     grid-area: navigation;
     margin-bottom: 10px;
+    background-color: white;
   }
 
   &__details {
