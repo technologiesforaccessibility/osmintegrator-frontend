@@ -70,8 +70,7 @@ export const pl = {
       reportPrompt: 'Zgłoś problem',
       fail: 'Wystąpił problem przy rejestracji',
       agreementText: 'Oświadczam, że przeczytałem, zrozumiałem oraz akceptuję regulamin serwisu dostępy pod ',
-      agreementThis: 'tym',
-      agreementLink: ' linkiem.',
+      agreementThisLink: 'tym linkiem',
       confirm: {
         header: 'Dziękujemy za rejestrację!',
         paragraph: 'Wejdź na podany przy rejestracji e-mail w celu dokończenia rejestracji.',
