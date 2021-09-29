@@ -12,6 +12,10 @@
 
   &__logo {
     grid-area: logo;
+
+    &--image {
+      transform: scale(0.9);
+    }
   }
 
   &__rest {

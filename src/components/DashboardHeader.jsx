@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux';
 import {paths} from '../utilities/constants';
 import {selectLoggedInUserRoles} from '../redux/selectors/authSelector';
 import {roles} from '../utilities/constants';
+import logo from './../assets/OsmIntegrator.png';
 
 import {Button, IconButton} from '@material-ui/core/';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -25,9 +26,9 @@ const DashboardHeader = () => {
     <div className="dashboard-header">
       <div className="dashboard-header__logo">
         <div className="dashboard-header--button-box">
-          <Button color="primary" variant="outlined" href={window.location.href}>
-            OSM INTEGRATOR
-          </Button>
+          <a href={paths.HOME}>
+            <img className= "dashboard-header__logo--image"  src={logo} lat='logo' />
+          </a>
         </div>
       </div>
 
