@@ -2,7 +2,6 @@ import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Formik} from 'formik';
 import {Redirect} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
 
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -14,7 +13,6 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import {FormControlLabel} from '@material-ui/core';
 
-import {webError} from '../../utilities/messagesHelper';
 import AuthContainer from '../AuthContainer';
 import Loader from '../Loader';
 import {paths} from '../../utilities/constants';
@@ -22,8 +20,8 @@ import {RegisterSchema} from '../../utilities/validationSchema';
 import {ReactComponent as Logo} from './../../assets/accountLogo.svg';
 import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';
-import {NotificationActions} from '../../redux/actions/notificationActions';
 import AuthBottomPanel from './AuthBottomPanel';
+import { exception } from '../../utilities/exceptionHelper';
 
 import '../../stylesheets/register.scss';
 
@@ -31,7 +29,6 @@ const {REACT_APP_REGULATIONS} = process.env;
 
 const Register = () => {
   const {t} = useTranslation();
-  const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -42,7 +39,7 @@ const Register = () => {
       await api.accountRegisterCreate({email, username, password: password1}, {headers: basicHeaders()});
       setRegistered(true);
     } catch (error) {
-      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('register.fail')));
+      exception(error);
     }
 
     setIsLoading(false);

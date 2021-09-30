@@ -9,7 +9,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import {CircularProgress} from '@material-ui/core';
 
-import {webError} from './../../utilities/messagesHelper';
 import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';
 import H3Title from '../customs/H3Title';
@@ -19,6 +18,7 @@ import Dashboard from '../Dashboard';
 import RoleAssignmentPanel from './RoleAssignmentPanel';
 import H4Title from '../customs/H4Title';
 import {NotificationActions} from '../../redux/actions/notificationActions';
+import {exception} from '../../utilities/exceptionHelper';
 
 import '../../stylesheets/managementPanel.scss';
 
@@ -84,7 +84,7 @@ function ManagementPanel() {
       });
       return response.data;
     } catch (error) {
-      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
+      exception(error);
     }
   }
 

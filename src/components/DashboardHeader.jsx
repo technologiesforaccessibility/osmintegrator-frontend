@@ -1,9 +1,11 @@
 import {useTranslation} from 'react-i18next';
-import {useSelector} from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {paths} from '../utilities/constants';
 import {selectLoggedInUserRoles} from '../redux/selectors/authSelector';
 import {roles} from '../utilities/constants';
+import {logout} from '../redux/actions/authActions';
 import logo from './../assets/OsmIntegrator.png';
 
 import {Button, IconButton} from '@material-ui/core/';
@@ -21,6 +23,13 @@ const {REACT_APP_CONTACT_FORM} = process.env;
 const DashboardHeader = () => {
   const authRoles = useSelector(selectLoggedInUserRoles);
   const {t} = useTranslation();
+  let history = useHistory();
+  const dispatch = useDispatch();
+
+  function logoutClicked() {
+    dispatch(logout());
+    history.push(paths.LOGOUT);
+  }
 
   return (
     <div className="dashboard-header">
@@ -71,7 +80,7 @@ const DashboardHeader = () => {
         </Tooltip>
 
         <Tooltip title={t('logout.button')}>
-          <IconButton color="primary" href={paths.LOGOUT}>
+          <IconButton color="primary" onClick={logoutClicked}>
             <LogoutIcon fontSize="medium" />
           </IconButton>
         </Tooltip>

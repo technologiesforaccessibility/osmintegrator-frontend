@@ -3,15 +3,15 @@ import {useTranslation} from 'react-i18next';
 import {useFormik} from 'formik';
 import {useDispatch} from 'react-redux';
 
-import {webError} from './../utilities/messagesHelper';
 import CustomBlockButton from './customs/CustomBlockButton';
 import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
 import {MapContext} from './contexts/MapContextProvider';
 import {NotificationActions} from '../redux/actions/notificationActions';
+import buttonStyle from '../stylesheets/modules/mapPanelButton.module.scss';
+import { exception } from '../utilities/exceptionHelper';
 
 import '../stylesheets/newReport.scss';
-import buttonStyle from '../stylesheets/modules/mapPanelButton.module.scss';
 
 const NewReport = () => {
   const {t} = useTranslation();
@@ -61,7 +61,7 @@ const NewReport = () => {
       formik.resetForm();
       setRerenderReports(true);
     } catch (error) {
-      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
+      exception(error);
     }
   };
 

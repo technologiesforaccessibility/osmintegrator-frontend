@@ -10,11 +10,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import {Checkbox, CircularProgress} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 
-import {webError} from './../../utilities/messagesHelper';
 import H4Title from '../customs/H4Title';
 import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';
 import {NotificationActions} from '../../redux/actions/notificationActions';
+import { exception } from '../../utilities/exceptionHelper';
 
 import '../../stylesheets/roleAssignmentPanel.scss';
 
@@ -44,7 +44,7 @@ function RoleAssignmentPanel() {
       });
       return response.data;
     } catch (error) {
-      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
+      exception(error);
     }
   }
 
@@ -101,7 +101,7 @@ function RoleAssignmentPanel() {
       setButtonDisabled(false);
       setShowLoader(false);
     } catch (error) {
-      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
+      exception(error);
       setButtonDisabled(false);
       setShowLoader(false);
     }

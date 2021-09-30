@@ -2,15 +2,16 @@ import {useContext} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
 
-import {webError} from './../utilities/messagesHelper';
 import CustomBlockButton from './customs/CustomBlockButton';
 import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
 import {MapContext} from './contexts/MapContextProvider';
 import {NotificationActions} from '../redux/actions/notificationActions';
 
-import '../stylesheets/newReport.scss';
 import buttonStyle from '../stylesheets/modules/mapPanelButton.module.scss';
+import { exception } from '../utilities/exceptionHelper';
+
+import '../stylesheets/newReport.scss';
 
 const EditReport = () => {
   const {t} = useTranslation();
@@ -27,7 +28,7 @@ const EditReport = () => {
       setOpenReport(null);
       setRerenderReports(true);
     } catch (error) {
-      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
+      exception(error);
     }
   };
 
@@ -38,7 +39,7 @@ const EditReport = () => {
       setOpenReport(null);
       setRerenderReports(true);
     } catch (error) {
-      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
+      exception(error);
     }
   };
 

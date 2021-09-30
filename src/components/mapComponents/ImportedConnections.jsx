@@ -3,7 +3,6 @@ import {Polyline, Tooltip, Popup} from 'react-leaflet';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {webError} from './../../utilities/messagesHelper';
 import {generateConnectionData, getPosition} from '../../utilities/mapUtilities';
 import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';
@@ -11,6 +10,7 @@ import DeleteConnectionPopup from './DeleteConnectionPopup';
 import {NotificationActions} from '../../redux/actions/notificationActions';
 
 import colors from '../../stylesheets/config/colors.module.scss';
+import { exception } from '../../utilities/exceptionHelper';
 
 const ImportedConnections = ({stops, importedConnections, shouldRenderConnections}) => {
   const popupRef = useRef(null);
@@ -31,7 +31,7 @@ const ImportedConnections = ({stops, importedConnections, shouldRenderConnection
       shouldRenderConnections(true);
       dispatch(NotificationActions.success(t('connection.deleteSuccessMessage')));
     } catch (error) {
-      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
+      exception(error);
     }
   };
 

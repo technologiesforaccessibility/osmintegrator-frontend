@@ -4,7 +4,6 @@ import {MapContainer, TileLayer} from 'react-leaflet';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {webError} from './../utilities/messagesHelper';
 import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
 import {NotificationActions} from '../redux/actions/notificationActions';
@@ -17,6 +16,7 @@ import NewReportMarker from './mapComponents/NewReportMarker';
 import TileStops from './mapComponents/TileStops';
 import {roles} from './../utilities/constants';
 import {selectLoggedInUserRoles} from './../redux/selectors/authSelector';
+import { exception } from '../utilities/exceptionHelper';
 
 export const MapView = () => {
   const {t} = useTranslation();
@@ -143,7 +143,7 @@ export const MapView = () => {
         : response.data;
       setTiles(tilesToShow);
     } catch (error) {
-      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
+      exception(error);
     }
   }
 
@@ -175,7 +175,7 @@ export const MapView = () => {
       setAllStops(response.data);
       singleTileToggle(true);
     } catch (error) {
-      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
+      exception(error);
     }
   };
 
@@ -186,7 +186,7 @@ export const MapView = () => {
       });
       setImportedConnections(response.data);
     } catch (error) {
-      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
+      exception(error);
     }
   };
 
@@ -197,7 +197,7 @@ export const MapView = () => {
       });
       setImportedReports(response.data);
     } catch (error) {
-      error instanceof Response ? webError(error) : dispatch(NotificationActions.error(t('error.exception')));
+      exception(error);
     }
   };
 
