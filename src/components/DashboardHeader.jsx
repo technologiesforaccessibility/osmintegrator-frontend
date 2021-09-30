@@ -25,11 +25,9 @@ const DashboardHeader = () => {
   return (
     <div className="dashboard-header">
       <div className="dashboard-header__logo">
-        <div className="dashboard-header--button-box">
           <a href={paths.HOME}>
-            <img className= "dashboard-header__logo--image"  src={logo} lat='logo' />
+            <img src={logo} alt='logo' />
           </a>
-        </div>
       </div>
 
       <div className="dashboard-header__rest">

@@ -12,10 +12,10 @@
 
   &__logo {
     grid-area: logo;
-
-    &--image {
-      transform: scale(0.9);
-    }
+    justify-items: left;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-left: 0.5rem;
   }
 
   &__rest {
