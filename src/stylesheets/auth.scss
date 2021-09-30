@@ -1,6 +1,15 @@
 @import 'config/colors.module';
 @import 'config/authMixins';
 
+.auth-image-container {
+  border-radius: 1rem;
+  position: absolute;
+  left: 50%;
+  top: 1rem;
+  transform: translate(-50%);
+  z-index: 1;
+}
+
 body {
   height: 100%;
   overflow: hidden;
