@@ -10,7 +10,7 @@ import DeleteConnectionPopup from './DeleteConnectionPopup';
 import {NotificationActions} from '../../redux/actions/notificationActions';
 
 import colors from '../../stylesheets/config/colors.module.scss';
-import { exception } from '../../utilities/exceptionHelper';
+import {exception} from '../../utilities/exceptionHelper';
 
 const ImportedConnections = ({stops, importedConnections, shouldRenderConnections}) => {
   const popupRef = useRef(null);

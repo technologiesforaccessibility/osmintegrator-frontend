@@ -1,7 +1,7 @@
 import {useEffect, useContext} from 'react';
 
 import {useTranslation} from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 import AuthContainer from '../AuthContainer';
 import {paths} from '../../utilities/constants';
@@ -19,7 +19,7 @@ const Logout = () => {
     setTimeout(() => proceedLogOut(), 2000);
     resetMapContext();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); 
+  }, []);
 
   const proceedLogOut = () => {
     history.push(paths.LOGIN);

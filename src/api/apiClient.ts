@@ -59,6 +59,17 @@ export interface LoginData {
   password: string;
 }
 
+export interface NewConnectionAction {
+  /** @format uuid */
+  tileId: string;
+
+  /** @format uuid */
+  osmStopId: string;
+
+  /** @format uuid */
+  gtfsStopId: string;
+}
+
 export interface NewNote {
   /** @format uuid */
   userId?: string;
@@ -398,8 +409,8 @@ export class HttpClient<SecurityDataType = unknown> {
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
-      r.data = (null as unknown) as T;
-      r.error = (null as unknown) as E;
+      r.data = null as unknown as T;
+      r.error = null as unknown as E;
 
       const data = await response[format]()
         .then((data) => {
@@ -597,7 +608,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ConnectionsUpdate
      * @request PUT:/api/Connections
      */
-    connectionsUpdate: (data: ConnectionAction, params: RequestParams = {}) =>
+    connectionsUpdate: (data: NewConnectionAction, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Connections`,
         method: "PUT",
@@ -822,6 +833,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Tile
+     * @name TileGetAllTilesList
+     * @request GET:/api/Tile/GetAllTiles
+     */
+    tileGetAllTilesList: (params: RequestParams = {}) =>
+      this.request<Tile[], ProblemDetails>({
+        path: `/api/Tile/GetAllTiles`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tile
      * @name TileGetTilesList
      * @request GET:/api/Tile/GetTiles
      */
@@ -950,6 +976,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     usersList: (params: RequestParams = {}) =>
       this.request<User[], ProblemDetails>({
         path: `/api/Users`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Version
+     * @name VersionList
+     * @request GET:/api/Version
+     */
+    versionList: (params: RequestParams = {}) =>
+      this.request<string, ProblemDetails>({
+        path: `/api/Version`,
         method: "GET",
         format: "json",
         ...params,

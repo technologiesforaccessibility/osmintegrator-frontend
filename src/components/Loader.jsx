@@ -3,7 +3,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import '../stylesheets/loader.scss';
 
 const Loader = ({isLoading}) => {
-
   return (
     <>
       {isLoading && (

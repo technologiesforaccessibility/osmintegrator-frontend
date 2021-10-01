@@ -32,7 +32,6 @@ function ManagementPanel() {
 
   const [tiles, setTiles] = useState([]);
   const [tileUsers, setTileUsers] = useState([]);
-  const [mouseOverTileId, setMouseOverTileId] = useState(null);
 
   const [tilesLoaded, setTilesLoaded] = useState(false);
   const [userSelected, setUserSelected] = useState(false);
@@ -79,7 +78,7 @@ function ManagementPanel() {
 
   async function getTiles() {
     try {
-      const response = await api.tileGetTilesList({
+      const response = await api.tileGetAllTilesList({
         headers: basicHeaders(),
       });
       return response.data;
@@ -88,42 +87,43 @@ function ManagementPanel() {
     }
   }
 
-  function getColor(id, usersCount) {
-    if (mouseOverTileId !== null && mouseOverTileId === id) {
-      return colors.colorMouseOverTile;
-    }
-
+  function getColor(id, usersCount, approvedByEditor, approvedBySupervisor) {
     if (selectedTileId !== null && selectedTileId === id) {
       return colors.colorTileActiveExplicit;
+    }
+    if (approvedBySupervisor) {
+      return colors.colorApprovedBySupervisor;
+    }
+    if (approvedByEditor) {
+      return colors.colorApprovedByEditor;
     }
     if (usersCount === 1) return colors.colorTileAssigned;
     return colors.colorTileAll;
   }
 
-  const mapTiles = tiles.map(({id, maxLat, maxLon, minLat, minLon, x, y, usersCount}) => (
-    <Rectangle
-      key={`map-${id}`}
-      bounds={[
-        [maxLat - 0.001, maxLon - 0.0015],
-        [minLat + 0.001, minLon + 0.0015],
-      ]}
-      pathOptions={{
-        color: getColor(id, usersCount),
-      }}
-      eventHandlers={{
-        click: async () => {
-          handleTileSelected(id);
-        },
-        mouseover: () => {
-          setMouseOverTileId(id);
-        },
-      }}>
-      <Tooltip direction="top">
-        Y: {x}, Y: {y} <br />
-        {t('managementPanel.assigned')}: {usersCount === 1 ? t('yes') : t('no')} <br />
-      </Tooltip>
-    </Rectangle>
-  ));
+  const mapTiles = tiles.map(
+    ({id, maxLat, maxLon, minLat, minLon, x, y, usersCount, approvedByEditor, approvedBySupervisor}) => (
+      <Rectangle
+        key={`map-${id}`}
+        bounds={[
+          [maxLat - 0.001, maxLon - 0.0015],
+          [minLat + 0.001, minLon + 0.0015],
+        ]}
+        pathOptions={{
+          color: getColor(id, usersCount, approvedByEditor, approvedBySupervisor),
+        }}
+        eventHandlers={{
+          click: async () => {
+            handleTileSelected(id);
+          },
+        }}>
+        <Tooltip direction="top">
+          Y: {x}, Y: {y} <br />
+          {t('managementPanel.assigned')}: {usersCount === 1 ? t('yes') : t('no')} <br />
+        </Tooltip>
+      </Rectangle>
+    ),
+  );
 
   const handleTileSelected = async tileId => {
     loadingUsersState();
@@ -178,39 +178,44 @@ function ManagementPanel() {
       : null;
 
   const handleSave = async () => {
-    const selectedUser = tileUsers.find(x => x.isAssigned);
-    if (selectedUser !== null) {
-      initState();
+    try {
+      const selectedUser = tileUsers.find(x => x.isAssigned);
+      if (selectedUser !== null) {
+        initState();
 
-      const response =
-        selectedUser.id === NONE
-          ? await api.tileRemoveUserDelete(selectedTileId, {
-              headers: basicHeaders(),
-            })
-          : await api.tileUpdateUserUpdate(
-              selectedTileId,
-              {id: selectedUser.id},
-              {
+        const response =
+          selectedUser.id === NONE
+            ? await api.tileRemoveUserDelete(selectedTileId, {
                 headers: basicHeaders(),
-              },
-            );
+              })
+            : await api.tileUpdateUserUpdate(
+                selectedTileId,
+                {id: selectedUser.id},
+                {
+                  headers: basicHeaders(),
+                },
+              );
 
-      if (response.status === 200) {
-        dispatch(NotificationActions.success(response.data.value));
+        if (response.status === 200) {
+          dispatch(NotificationActions.success(response.data.value));
 
-        const resp = await getTileUserAssignmentInfo(selectedTileId);
-        const userList = fulfillTileUsers(resp.data.users);
+          const resp = await getTileUserAssignmentInfo(selectedTileId);
+          const userList = fulfillTileUsers(resp.data.users);
 
-        const tempTiles = [...tiles];
-        const tempSelectedTile = tempTiles.find(x => x.id === selectedTileId);
+          const tempTiles = [...tiles];
+          const tempSelectedTile = tempTiles.find(x => x.id === selectedTileId);
 
-        tempSelectedTile.usersCount = selectedUser.id === NONE ? 0 : 1;
-        setTiles(tempTiles);
+          tempSelectedTile.usersCount = selectedUser.id === NONE ? 0 : 1;
+          setTiles(tempTiles);
 
-        await setTileUsers(userList);
-      } else {
-        dispatch(NotificationActions.error(t('unrecognizedProblem')));
+          await setTileUsers(userList);
+        } else {
+          dispatch(NotificationActions.error(t('unrecognizedProblem')));
+        }
+        userSelectedState();
       }
+    } catch (error) {
+      exception(error);
       userSelectedState();
     }
   };
