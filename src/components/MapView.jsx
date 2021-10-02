@@ -16,7 +16,7 @@ import NewReportMarker from './mapComponents/NewReportMarker';
 import TileStops from './mapComponents/TileStops';
 import {roles} from './../utilities/constants';
 import {selectLoggedInUserRoles} from './../redux/selectors/authSelector';
-import { exception } from '../utilities/exceptionHelper';
+import {exception} from '../utilities/exceptionHelper';
 
 export const MapView = () => {
   const {t} = useTranslation();
@@ -63,6 +63,9 @@ export const MapView = () => {
     setImportedReports,
     setOpenReport,
     setIsEditingReportMode,
+    setConnectedStopIds,
+    connectionVisibility,
+    connectedStopIds,
   } = useContext(MapContext);
 
   useEffect(() => {
@@ -185,9 +188,15 @@ export const MapView = () => {
         headers: basicHeaders(),
       });
       setImportedConnections(response.data);
+      const connectedStopsArray = getConnectedStopsIds(response.data);
+      setConnectedStopIds(connectedStopsArray);
     } catch (error) {
       exception(error);
     }
+  };
+
+  const getConnectedStopsIds = connectionArray => {
+    return connectionArray.map(({gtfsStopId, osmStopId}) => [gtfsStopId, osmStopId]).flat();
   };
 
   const getTileReports = async id => {
@@ -241,6 +250,8 @@ export const MapView = () => {
         clickBusStop={clickBusStop}
         isConnectionMode={isConnectionMode}
         isViewMode={isViewMode}
+        connectionVisibility={connectionVisibility}
+        connectedStopIds={connectedStopIds}
       />
       <NewReportMarker newReportCoordinates={newReportCoordinates} />
       <ImportedReports reports={importedReports} />

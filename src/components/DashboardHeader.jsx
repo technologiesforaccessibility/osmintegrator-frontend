@@ -1,5 +1,5 @@
 import {useTranslation} from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {paths} from '../utilities/constants';
@@ -34,9 +34,9 @@ const DashboardHeader = () => {
   return (
     <div className="dashboard-header">
       <div className="dashboard-header__logo">
-          <a href={paths.HOME}>
-            <img src={logo} alt='logo' />
-          </a>
+        <a href={paths.HOME}>
+          <img src={logo} alt="logo" />
+        </a>
       </div>
 
       <div className="dashboard-header__rest">

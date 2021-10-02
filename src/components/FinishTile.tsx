@@ -12,7 +12,7 @@ import api from '../api/apiInstance';
 import {NotificationActions} from '../redux/actions/notificationActions';
 import {selectLoggedInUserRoles} from './../redux/selectors/authSelector';
 import {roles} from './../utilities/constants';
-import { exception } from '../utilities/exceptionHelper';
+import {exception} from '../utilities/exceptionHelper';
 
 import './../stylesheets/finishTile.scss';
 

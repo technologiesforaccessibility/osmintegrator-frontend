@@ -23,6 +23,8 @@ const MapContextProvider = ({children}) => {
   const [openReport, setOpenReport] = useState(null);
   const [tiles, setTiles] = useState([]);
   const [rerenderTiles, setRerenderTiles] = useState(false);
+  const [connectedStopIds, setConnectedStopIds] = useState(null);
+  const [connectionVisibility, setConnectionVisibility] = useState('Visible');
 
   const singleTileToggle = isActive => {
     setIsTileActive(isActive);
@@ -127,6 +129,10 @@ const MapContextProvider = ({children}) => {
         openReport,
         rerenderTiles,
         tiles,
+        connectedStopIds,
+        connectionVisibility,
+        setConnectionVisibility,
+        setConnectedStopIds,
         setTiles,
         setRerenderTiles,
         singleTileToggle,

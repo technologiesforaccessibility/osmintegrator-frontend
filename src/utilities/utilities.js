@@ -11,7 +11,7 @@ import angledGreykIcon from '../assets/angledIcons/angled_grey.png';
 import angledPinkIcon from '../assets/angledIcons/angled_pink.png';
 import angledMaroonIcon from '../assets/angledIcons/angled_maroon.png';
 
-const reportIcons = {
+export const reportIcons = {
   initial: reportGreyIcon,
   created: reportBlueIcon,
   approved: reportGreenIcon,
@@ -65,7 +65,7 @@ const getBusStopIcon = busStopPropeties => {
   });
 };
 
-const getReportIcon = status => {
+export const getReportIcon = status => {
   return new Icon({
     iconUrl: getReportColor(status),
     iconSize: [30, 55],
@@ -103,7 +103,7 @@ export {
   isPasswordStrong,
   getBusStopIcon,
   unsafeFormApiError,
-  getReportIcon,
+  // getReportIcon,
 };
 
 const getStopIconProps = ({outsideSelectedTile, stopType}) => {

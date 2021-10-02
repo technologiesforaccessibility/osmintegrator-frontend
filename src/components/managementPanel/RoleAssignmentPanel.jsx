@@ -14,7 +14,7 @@ import H4Title from '../customs/H4Title';
 import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';
 import {NotificationActions} from '../../redux/actions/notificationActions';
-import { exception } from '../../utilities/exceptionHelper';
+import {exception} from '../../utilities/exceptionHelper';
 
 import '../../stylesheets/roleAssignmentPanel.scss';
 
