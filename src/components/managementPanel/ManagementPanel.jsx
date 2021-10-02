@@ -208,7 +208,7 @@ function ManagementPanel() {
           tempSelectedTile.usersCount = selectedUser.id === NONE ? 0 : 1;
           setTiles(tempTiles);
 
-          await setTileUsers(userList);
+          setTileUsers(userList);
         } else {
           dispatch(NotificationActions.error(t('unrecognizedProblem')));
         }

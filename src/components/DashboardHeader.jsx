@@ -49,7 +49,7 @@ const DashboardHeader = () => {
             {t('sidebar.map')}
           </Button>
         </div>
-        {authRoles.some(role => [roles.SUPERVISOR].includes(role) || [roles.COORDINATOR].includes(role)) && (
+        {authRoles.some(role => [roles.SUPERVISOR, roles.COORDINATOR].includes(role)) && (
           <div className="dashboard-header--button-box">
             <Button
               color="primary"
