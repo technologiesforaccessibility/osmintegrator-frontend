@@ -5,11 +5,11 @@ import {paths} from '../utilities/constants';
 
 import '../stylesheets/auth.scss';
 
-export default function AuthContainer({ children }) {
+export default function AuthContainer({children}) {
   return (
     <>
       <a className="auth-image-container" href={paths.LOGIN}>
-        <img src={logo} alt='logo' />
+        <img src={logo} alt="logo" />
       </a>
       <div className="auth__container">
         <div className="auth__dots">

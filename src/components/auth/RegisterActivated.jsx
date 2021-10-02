@@ -7,10 +7,7 @@ import {ReactComponent as Logo} from './../../assets/accountLogo.svg';
 import {paths} from '../../utilities/constants';
 import Loader from '../Loader';
 import api from '../../api/apiInstance';
-import {
-  getEmailFromPath,
-  getTokenFromPath,
-} from '../../utilities/utilities';
+import {getEmailFromPath, getTokenFromPath} from '../../utilities/utilities';
 import {noTokenHeaders} from '../../config/apiConfig';
 
 import '../../stylesheets/registerActivated.scss';

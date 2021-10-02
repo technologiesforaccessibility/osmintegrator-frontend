@@ -9,7 +9,7 @@ import {MapContext} from './contexts/MapContextProvider';
 import {NotificationActions} from '../redux/actions/notificationActions';
 
 import buttonStyle from '../stylesheets/modules/mapPanelButton.module.scss';
-import { exception } from '../utilities/exceptionHelper';
+import {exception} from '../utilities/exceptionHelper';
 
 import '../stylesheets/newReport.scss';
 

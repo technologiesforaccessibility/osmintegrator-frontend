@@ -76,10 +76,10 @@ const MapPanel = () => {
               className="map-panel__toggle-group"
               value={toggleButton}
               exclusive
-              color='primary'
+              color="primary"
               onChange={handleChange}>
               {radios.map(({title, name, icon}, index) => (
-                <ToggleButton className="map-panel__toggle--modes" key={index} value={name} color='primary'>
+                <ToggleButton className="map-panel__toggle--modes" key={index} value={name} color="primary">
                   <Tooltip title={title}>{icon()}</Tooltip>
                 </ToggleButton>
               ))}
