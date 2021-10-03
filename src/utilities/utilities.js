@@ -65,7 +65,7 @@ const getBusStopIcon = busStopPropeties => {
   });
 };
 
-export const getReportIcon = status => {
+const getReportIcon = status => {
   return new Icon({
     iconUrl: getReportColor(status),
     iconSize: [30, 55],
@@ -103,7 +103,7 @@ export {
   isPasswordStrong,
   getBusStopIcon,
   unsafeFormApiError,
-  // getReportIcon,
+  getReportIcon,
 };
 
 const getStopIconProps = ({outsideSelectedTile, stopType}) => {

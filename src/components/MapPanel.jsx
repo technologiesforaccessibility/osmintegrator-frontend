@@ -29,8 +29,15 @@ const style = {
 };
 
 const MapPanel = () => {
-  const {isTileActive, singleTileToggle, viewModeToggle, reportModeToggle, connectionModeToggle, hideTileElements, resetMapSettings} =
-    useContext(MapContext);
+  const {
+    isTileActive,
+    singleTileToggle,
+    viewModeToggle,
+    reportModeToggle,
+    connectionModeToggle,
+    hideTileElements,
+    resetMapSettings,
+  } = useContext(MapContext);
   const [toggleButton, setToggleButton] = useState('View');
   const {t} = useTranslation();
 

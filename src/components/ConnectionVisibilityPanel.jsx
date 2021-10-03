@@ -96,7 +96,9 @@ const ConnectionVisibilityPanel = () => {
         <div className="connection-visibility-panel__map-warning-container">
           {connectionLineVisbility === connectionLineVisibilityProps.hidden &&
             connectedStopVisibility !== connectedStopVisibilityProps.hidden && (
-              <p className="connection-visibility-panel__map-warning">{t('connectionVisibility.hiddenConnectionLinesWarning')}</p>
+              <p className="connection-visibility-panel__map-warning">
+                {t('connectionVisibility.hiddenConnectionLinesWarning')}
+              </p>
             )}
         </div>
       </div>

@@ -1,6 +1,3 @@
-import React from 'react';
-
-// function RoleCheckbox({role}, {id}, {hasRole= true}) {
 function RoleCheckbox(props) {
   const checkValue = !!props.hasRole ? 'checked' : '';
   return (
