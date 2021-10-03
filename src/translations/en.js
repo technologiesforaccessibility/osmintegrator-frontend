@@ -21,9 +21,11 @@ export const en = {
     },
     connectionVisibility: {
       name: 'Connected stops',
+      connectionLines: 'Connection lines',
       visible: 'Visible',
       semiTransparent: 'Semi transparent',
       hidden: 'Hidden',
+      hiddenConnectionLinesWarning: 'It is not advices to have disabled connection lines when connected stops are visible',
     },
     contactForm: {
       description: 'Login problem? Need to contact? Send us a ',

@@ -1,4 +1,4 @@
-import {connectionVisibilityProps} from '../../utilities/constants';
+import {connectedStopVisibilityProps} from '../../utilities/constants';
 import BusMarker from '../BusMarker';
 
 const TileStops = ({
@@ -9,13 +9,20 @@ const TileStops = ({
   stops,
   isConnectionMode,
   isViewMode,
-  connectionVisibility,
+  connectedStopVisibility,
   connectedStopIds,
 }) => {
   const stopsToRender = () => {
-    return connectionVisibility === connectionVisibilityProps.hidden
-      ? stops.filter(stop => !connectedStopIds.includes(stop.id))
-      : stops;
+    const stopsAfterVisibilityFilter =
+      connectedStopVisibility === connectedStopVisibilityProps.hidden
+        ? stops.filter(stop => !connectedStopIds.includes(stop.id))
+        : stops;
+
+    const stopsWithoutOSMOutsideTile = stopsAfterVisibilityFilter.filter(
+      stop => !(stop.stopType === 0 && stop.outsideSelectedTile),
+    );
+
+    return stopsWithoutOSMOutsideTile;
   };
 
   return (
@@ -25,7 +32,7 @@ const TileStops = ({
           <BusMarker
             busStop={busStop}
             connectedStopIds={connectedStopIds}
-            connectionVisibility={connectionVisibility}
+            connectedStopVisibility={connectedStopVisibility}
             isConnectionMode={isConnectionMode}
             createConnection={createConnection}
             isViewMode={isViewMode}

@@ -64,8 +64,9 @@ export const MapView = () => {
     setOpenReport,
     setIsEditingReportMode,
     setConnectedStopIds,
-    connectionVisibility,
+    connectedStopVisibility,
     connectedStopIds,
+    connectionLineVisbility,
   } = useContext(MapContext);
 
   useEffect(() => {
@@ -233,6 +234,7 @@ export const MapView = () => {
         stops={allStops}
         importedConnections={importedConnections}
         shouldRenderConnections={shouldRenderConnections}
+        connectionLineVisbility={connectionLineVisbility}
       />
       <MapTiles
         isTileActive={isTileActive}
@@ -250,7 +252,7 @@ export const MapView = () => {
         clickBusStop={clickBusStop}
         isConnectionMode={isConnectionMode}
         isViewMode={isViewMode}
-        connectionVisibility={connectionVisibility}
+        connectedStopVisibility={connectedStopVisibility}
         connectedStopIds={connectedStopIds}
       />
       <NewReportMarker newReportCoordinates={newReportCoordinates} />

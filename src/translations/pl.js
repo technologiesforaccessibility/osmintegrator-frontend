@@ -21,9 +21,11 @@ export const pl = {
     },
     connectionVisibility: {
       name: 'Połączone przystanki',
+      connectionLines: 'Linie połączeń',
       visible: 'Pełna widoczność',
       semiTransparent: 'Częściowo przeźroczyste',
       hidden: 'Ukryte',
+      hiddenConnectionLinesWarning: 'Zalecamy nie wyłączać widoczności linii, gdy połączone przystanki nadal pozostają widoczne',
     },
     contactForm: {
       description: 'Problem z logowaniem? Potrzebujesz się skontaktować? Wyślij nam ',

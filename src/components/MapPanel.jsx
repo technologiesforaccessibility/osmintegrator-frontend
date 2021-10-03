@@ -29,7 +29,7 @@ const style = {
 };
 
 const MapPanel = () => {
-  const {isTileActive, singleTileToggle, viewModeToggle, reportModeToggle, connectionModeToggle, hideTileElements} =
+  const {isTileActive, singleTileToggle, viewModeToggle, reportModeToggle, connectionModeToggle, hideTileElements, resetMapSettings} =
     useContext(MapContext);
   const [toggleButton, setToggleButton] = useState('View');
   const {t} = useTranslation();
@@ -85,6 +85,7 @@ const MapPanel = () => {
               onChange={() => {
                 singleTileToggle(false);
                 hideTileElements();
+                resetMapSettings();
               }}>
               <Tooltip title={t('tileModePrompts.back')}>
                 <ArrowBackIcon />

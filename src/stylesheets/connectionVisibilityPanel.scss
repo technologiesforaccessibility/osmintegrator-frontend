@@ -1,0 +1,30 @@
+.connection-visibility-panel__container {
+    // position: absolute;
+    // top: 30px;
+    // left: 60px;
+    // z-index: 3;
+    margin: 0;
+    padding: 0;
+}
+
+.connection-visibility-panel__toggle-group-container{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+
+.connection-visibility-panel__toggle-group {
+    background-color: white;
+}
+
+.connection-visibility-panel__map-warning-container{
+    height: 60px;
+}
+
+.connection-visibility-panel__map-warning {
+    color: maroon;
+    font-size: 0.75rem;
+}

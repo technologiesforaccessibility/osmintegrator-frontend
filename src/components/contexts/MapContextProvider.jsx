@@ -24,7 +24,8 @@ const MapContextProvider = ({children}) => {
   const [tiles, setTiles] = useState([]);
   const [rerenderTiles, setRerenderTiles] = useState(false);
   const [connectedStopIds, setConnectedStopIds] = useState(null);
-  const [connectionVisibility, setConnectionVisibility] = useState('Visible');
+  const [connectedStopVisibility, setConnectedStopVisibility] = useState('Visible');
+  const [connectionLineVisbility, setConnectionLineVisbility] = useState('Visible');
 
   const singleTileToggle = isActive => {
     setIsTileActive(isActive);
@@ -108,6 +109,12 @@ const MapContextProvider = ({children}) => {
     setRerenderTiles(true);
   };
 
+  const resetMapSettings = () => {
+    setConnectedStopIds(null);
+    setConnectedStopVisibility('Visible');
+    setConnectionLineVisbility('Visible');
+  };
+
   return (
     <MapContext.Provider
       value={{
@@ -130,8 +137,11 @@ const MapContextProvider = ({children}) => {
         rerenderTiles,
         tiles,
         connectedStopIds,
-        connectionVisibility,
-        setConnectionVisibility,
+        connectedStopVisibility,
+        connectionLineVisbility,
+        setConnectionLineVisbility,
+        resetMapSettings,
+        setConnectedStopVisibility,
         setConnectedStopIds,
         setTiles,
         setRerenderTiles,

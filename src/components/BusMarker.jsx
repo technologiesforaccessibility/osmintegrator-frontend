@@ -2,12 +2,12 @@ import {Marker, Tooltip} from 'react-leaflet';
 
 import {getBusStopIcon} from '../utilities/utilities';
 import {generateStopName} from '../utilities/mapUtilities';
-import {connectionVisibilityProps} from '../utilities/constants';
+import {connectedStopVisibilityProps} from '../utilities/constants';
 
 const BusMarker = ({
   busStop,
   connectedStopIds,
-  connectionVisibility,
+  connectedStopVisibility,
   isConnectionMode,
   createConnection,
   isViewMode,
@@ -21,7 +21,7 @@ const BusMarker = ({
       icon={getBusStopIcon(busStop)}
       opacity={
         connectedStopIds.includes(busStop.id)
-          ? connectionVisibility === connectionVisibilityProps.semiTransparent
+          ? connectedStopVisibility === connectedStopVisibilityProps.semiTransparent
             ? 0.5
             : 1
           : 1

@@ -23,7 +23,7 @@ export const roles = {
   USER: 'User'
 };
 
-export const connectedStopsVisibility = {
+export const connectionVisibilityTexts = {
   visible:  i18n.t('connectionVisibility.visible'),
   semiTransparent: i18n.t('connectionVisibility.semiTransparent'),
   hidden: i18n.t('connectionVisibility.hidden'),
@@ -31,8 +31,13 @@ export const connectedStopsVisibility = {
 
 
 
-export const connectionVisibilityProps = {
+export const connectedStopVisibilityProps = {
   visible: 'Visible',
   semiTransparent: 'Semi-transparent',
+  hidden: 'Hidden',
+};
+
+export const connectionLineVisibilityProps = {
+  visible: 'Visible',
   hidden: 'Hidden',
 };

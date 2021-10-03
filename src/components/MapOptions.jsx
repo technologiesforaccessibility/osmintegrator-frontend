@@ -3,7 +3,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 const MapOptions = ({handleClick}) => {
   return (
-    <div>
+    <div style={{alignSelf:'center'}}>
       <Tooltip title={'Ustawienia mapy'}>
         <SettingsIcon onClick={() => handleClick()} />
       </Tooltip>

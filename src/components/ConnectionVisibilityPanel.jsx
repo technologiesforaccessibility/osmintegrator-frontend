@@ -9,54 +9,96 @@ import {useTranslation} from 'react-i18next';
 
 import {MapContext} from './contexts/MapContextProvider';
 
-import {connectedStopsVisibility, connectionVisibilityProps} from '../utilities/constants';
+import {
+  connectionVisibilityTexts,
+  connectedStopVisibilityProps,
+  connectionLineVisibilityProps,
+} from '../utilities/constants';
+
+import '../stylesheets/connectionVisibilityPanel.scss';
 
 const ConnectionVisibilityPanel = () => {
   const {t} = useTranslation();
-  const {connectionVisibility, setConnectionVisibility} = useContext(MapContext);
+  const {connectedStopVisibility, setConnectedStopVisibility, connectionLineVisbility, setConnectionLineVisbility} =
+    useContext(MapContext);
 
-  const handleChange = (_, newVisibility) => {
-    setConnectionVisibility(newVisibility);
+  const handleStopVisibilityChange = (_, newVisibility) => {
+    setConnectedStopVisibility(newVisibility);
+  };
+
+  const handleLineVisibilityChange = (_, newLineVisibility) => {
+    setConnectionLineVisbility(newLineVisibility);
   };
 
   return (
     <>
       <div className="connection-visibility-panel__container">
-        <div>
+        <div className="connection-visibility-panel__toggle-group-container">
           {t('connectionVisibility.name')}{' '}
           <ToggleButtonGroup
             className="connection-visibility-panel__toggle-group"
-            value={connectionVisibility}
+            value={connectedStopVisibility}
             exclusive
             color="primary"
-            onChange={handleChange}>
+            onChange={handleStopVisibilityChange}>
             <ToggleButton
               className="connection-visibility-panel__toggle--modes"
-              value={connectionVisibilityProps.visible}
+              value={connectedStopVisibilityProps.visible}
               color="primary">
-              <Tooltip title={connectedStopsVisibility.visible}>
+              <Tooltip title={connectionVisibilityTexts.visible}>
                 <StarIcon />
               </Tooltip>
             </ToggleButton>
             <ToggleButton
               className="connection-visibility-panel__toggle--modes"
-              value={connectionVisibilityProps.semiTransparent}
+              value={connectedStopVisibilityProps.semiTransparent}
               color="primary">
-              <Tooltip title={connectedStopsVisibility.semiTransparent}>
+              <Tooltip title={connectionVisibilityTexts.semiTransparent}>
                 <StarHalfIcon />
               </Tooltip>
             </ToggleButton>
             <ToggleButton
               className="connection-visibility-panel__toggle--modes"
-              value={connectionVisibilityProps.hidden}
+              value={connectedStopVisibilityProps.hidden}
               color="primary">
-              <Tooltip title={connectedStopsVisibility.hidden}>
+              <Tooltip title={connectionVisibilityTexts.hidden}>
                 <StarOutlineIcon />
               </Tooltip>
             </ToggleButton>
           </ToggleButtonGroup>
         </div>
-        <div>{/* Todo: Connection Lines visivility */}</div>
+        <div className="connection-visibility-panel__toggle-group-container">
+          {t('connectionVisibility.connectionLines')}{' '}
+          <ToggleButtonGroup
+            className="connection-visibility-panel__toggle-group"
+            value={connectionLineVisbility}
+            exclusive
+            color="primary"
+            onChange={handleLineVisibilityChange}>
+            <ToggleButton
+              className="connection-visibility-panel__toggle--modes"
+              value={connectionLineVisibilityProps.visible}
+              color="primary">
+              <Tooltip title={connectionVisibilityTexts.visible}>
+                <StarIcon />
+              </Tooltip>
+            </ToggleButton>
+            <ToggleButton
+              className="connection-visibility-panel__toggle--modes"
+              value={connectionLineVisibilityProps.hidden}
+              color="primary">
+              <Tooltip title={connectionVisibilityTexts.hidden}>
+                <StarOutlineIcon />
+              </Tooltip>
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+        <div className="connection-visibility-panel__map-warning-container">
+          {connectionLineVisbility === connectionLineVisibilityProps.hidden &&
+            connectedStopVisibility !== connectedStopVisibilityProps.hidden && (
+              <p className="connection-visibility-panel__map-warning">{t('connectionVisibility.hiddenConnectionLinesWarning')}</p>
+            )}
+        </div>
       </div>
     </>
   );
