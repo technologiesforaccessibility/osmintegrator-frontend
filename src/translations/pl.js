@@ -19,6 +19,14 @@ export const pl = {
       mark2Stops: 'Zaznacz 2 przystanki',
       differentTypeError: 'Nie można łączyć przystanków tego samego typu.',
     },
+    connectionVisibility: {
+      name: 'Połączone przystanki',
+      connectionLines: 'Linie połączeń',
+      visible: 'Pełna widoczność',
+      semiTransparent: 'Częściowo przeźroczyste',
+      hidden: 'Ukryte',
+      hiddenConnectionLinesWarning: 'Zalecamy nie wyłączać widoczności linii, gdy połączone przystanki nadal pozostają widoczne',
+    },
     contactForm: {
       description: 'Problem z logowaniem? Potrzebujesz się skontaktować? Wyślij nam ',
       message: 'wiadomość',
@@ -27,7 +35,7 @@ export const pl = {
       editorMainButton: 'Wyślij kafelek do weryfikacji',
       supervisorMainButton: 'Zatwierdź pracę edytora',
       confirmation: 'Jesteś pewien?',
-      successMessage: 'Kafelek został wysłany'
+      successMessage: 'Kafelek został wysłany',
     },
     login: {
       password: 'Hasło',
@@ -37,7 +45,12 @@ export const pl = {
       401: 'Niepoprawny email lub hasło',
       register: 'Zarejestruj',
     },
-    logout: {title: 'Nastąpiło wylogowanie', message: 'Za chwilę nastąpi przekierowanie na stronę logowania', button: 'Wyloguj', loginButton: 'Zaloguj'},
+    logout: {
+      title: 'Nastąpiło wylogowanie',
+      message: 'Za chwilę nastąpi przekierowanie na stronę logowania',
+      button: 'Wyloguj',
+      loginButton: 'Zaloguj',
+    },
     map: {},
     profileHeader: 'Profil',
     profileMVPPlaceholder:
@@ -86,7 +99,7 @@ export const pl = {
           third: ', aby zgłosić ten problem.',
         },
         headerLoading: 'Trwa Ładowanie, prosimy o cierpliwość.',
-      }
+      },
     },
     report: {
       button: 'Wyślij zgłoszenie',
@@ -134,7 +147,7 @@ export const pl = {
       authentication: 'Problem z autentykacją. Wyloguj się i zaloguj ponownie.',
       authorization: 'Nie masz uprawnień do wykonania tej operacji. Skontaktuj się z administratorem.',
       internalServerError: 'Błąd serwera. Skontaktuj się z administratorem.',
-      exception: 'Nieobsługiwany wyjątek. Skontaktuj się z administratorem.'
+      exception: 'Nieobsługiwany wyjątek. Skontaktuj się z administratorem.',
     },
     version: 'Wersja: ',
     managementPanel: {

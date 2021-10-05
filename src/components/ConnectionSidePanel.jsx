@@ -1,6 +1,7 @@
 import {useContext} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
+import Button from '@mui/material/Button';
 
 import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
@@ -48,18 +49,23 @@ const ConnectionSidePanel = () => {
           ? generateStopName(connectionData[1].id, connectionData[1].name || null, connectionData[1].ref || null)
           : '...'}
       </label>
-      <button
-        onClick={() => {
-          sendConnection();
-        }}>
-        Save
-      </button>
-      <button
-        onClick={() => {
-          reset();
-        }}>
-        Cancel
-      </button>
+
+      <div className="connection-prompt__button-container">
+        <Button
+          variant="contained"
+          onClick={() => {
+            sendConnection();
+          }}>
+          {t('buttons.save')}{' '}
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            reset();
+          }}>
+          {t('buttons.cancel')}{' '}
+        </Button>
+      </div>
     </div>
   );
 };

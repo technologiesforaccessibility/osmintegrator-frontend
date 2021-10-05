@@ -11,7 +11,7 @@ import angledGreykIcon from '../assets/angledIcons/angled_grey.png';
 import angledPinkIcon from '../assets/angledIcons/angled_pink.png';
 import angledMaroonIcon from '../assets/angledIcons/angled_maroon.png';
 
-const reportIcons = {
+export const reportIcons = {
   initial: reportGreyIcon,
   created: reportBlueIcon,
   approved: reportGreenIcon,

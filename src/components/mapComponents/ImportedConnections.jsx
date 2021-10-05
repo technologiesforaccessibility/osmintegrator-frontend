@@ -1,4 +1,4 @@
-import {Fragment, useRef} from 'react';
+import {useRef} from 'react';
 import {Polyline, Tooltip, Popup} from 'react-leaflet';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -12,7 +12,9 @@ import {NotificationActions} from '../../redux/actions/notificationActions';
 import colors from '../../stylesheets/config/colors.module.scss';
 import {exception} from '../../utilities/exceptionHelper';
 
-const ImportedConnections = ({stops, importedConnections, shouldRenderConnections}) => {
+import {connectionLineVisibilityProps} from '../../utilities/constants';
+
+const ImportedConnections = ({stops, importedConnections, shouldRenderConnections, connectionLineVisbility}) => {
   const popupRef = useRef(null);
   const {t} = useTranslation();
   const dispatch = useDispatch();
@@ -39,10 +41,12 @@ const ImportedConnections = ({stops, importedConnections, shouldRenderConnection
     popupRef.current._close();
   };
 
+  const connections = connectionLineVisbility === connectionLineVisibilityProps.hidden ? [] : importedConnections;
+
   return (
-    <Fragment>
+    <>
       {stops.length > 0 &&
-        importedConnections.map(({osmStopId, gtfsStopId}, index) => {
+        connections.map(({osmStopId, gtfsStopId}, index) => {
           const foundOSM = stops.find(stop => stop.id === osmStopId);
           const foundGTFS = stops.find(stop => stop.id === gtfsStopId);
           if (foundOSM !== undefined && foundGTFS !== undefined) {
@@ -68,7 +72,7 @@ const ImportedConnections = ({stops, importedConnections, shouldRenderConnection
           }
           return <></>;
         })}
-    </Fragment>
+    </>
   );
 };
 

@@ -60,6 +60,10 @@ export const MapView = () => {
     setImportedReports,
     setOpenReport,
     setIsEditingReportMode,
+    setConnectedStopIds,
+    connectedStopVisibility,
+    connectedStopIds,
+    connectionLineVisbility,
   } = useContext(MapContext);
 
   useEffect(() => {
@@ -177,9 +181,15 @@ export const MapView = () => {
         headers: basicHeaders(),
       });
       setImportedConnections(response.data);
+      const connectedStopsArray = getConnectedStopsIds(response.data);
+      setConnectedStopIds(connectedStopsArray);
     } catch (error) {
       exception(error);
     }
+  };
+
+  const getConnectedStopsIds = connectionArray => {
+    return connectionArray.map(({gtfsStopId, osmStopId}) => [gtfsStopId, osmStopId]).flat();
   };
 
   const getTileReports = async id => {
@@ -216,6 +226,7 @@ export const MapView = () => {
         stops={allStops}
         importedConnections={importedConnections}
         shouldRenderConnections={shouldRenderConnections}
+        connectionLineVisbility={connectionLineVisbility}
       />
       <MapTiles
         isTileActive={isTileActive}
@@ -233,6 +244,8 @@ export const MapView = () => {
         clickBusStop={clickBusStop}
         isConnectionMode={isConnectionMode}
         isViewMode={isViewMode}
+        connectedStopVisibility={connectedStopVisibility}
+        connectedStopIds={connectedStopIds}
       />
       <NewReportMarker newReportCoordinates={newReportCoordinates} />
       <ImportedReports reports={importedReports} />

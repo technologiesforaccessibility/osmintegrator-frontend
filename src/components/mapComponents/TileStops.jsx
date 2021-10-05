@@ -1,8 +1,5 @@
-import React, {Fragment} from 'react';
-import {Marker, Tooltip} from 'react-leaflet';
-
-import {getBusStopIcon} from '../../utilities/utilities';
-import {generateStopName} from '../../utilities/mapUtilities';
+import {connectedStopVisibilityProps} from '../../utilities/constants';
+import BusMarker from '../BusMarker';
 
 const TileStops = ({
   areStopsVisible,
@@ -12,36 +9,38 @@ const TileStops = ({
   stops,
   isConnectionMode,
   isViewMode,
+  connectedStopVisibility,
+  connectedStopIds,
 }) => {
+  const stopsToRender = () => {
+    const stopsAfterVisibilityFilter =
+      connectedStopVisibility === connectedStopVisibilityProps.hidden
+        ? stops.filter(stop => !connectedStopIds.includes(stop.id))
+        : stops;
+
+    const stopsWithoutOSMOutsideTile = stopsAfterVisibilityFilter.filter(
+      stop => !(stop.stopType === 0 && stop.outsideSelectedTile),
+    );
+
+    return stopsWithoutOSMOutsideTile;
+  };
+
   return (
-    <Fragment>
+    <>
       {areStopsVisible &&
-        stops.map(busStop => (
-          <Marker
-            key={busStop.id}
-            position={[busStop.lat, busStop.lon]}
-            icon={getBusStopIcon(busStop)}
-            eventHandlers={{
-              click: () => {
-                if (isConnectionMode) {
-                  createConnection(
-                    [busStop.lat, busStop.lon],
-                    busStop.id,
-                    busStop.stopType,
-                    busStop.name,
-                    busStop.number,
-                  );
-                } else if (isViewMode) {
-                  isActiveStopClicked(busStop.id) ? clickBusStop() : clickBusStop(busStop);
-                }
-              },
-            }}>
-            <Tooltip direction="bottom">
-              {generateStopName(busStop.id, busStop.name || null, busStop.number || null)}
-            </Tooltip>
-          </Marker>
+        stopsToRender().map(busStop => (
+          <BusMarker
+            busStop={busStop}
+            connectedStopIds={connectedStopIds}
+            connectedStopVisibility={connectedStopVisibility}
+            isConnectionMode={isConnectionMode}
+            createConnection={createConnection}
+            isViewMode={isViewMode}
+            isActiveStopClicked={isActiveStopClicked}
+            clickBusStop={clickBusStop}
+          />
         ))}
-    </Fragment>
+    </>
   );
 };
 

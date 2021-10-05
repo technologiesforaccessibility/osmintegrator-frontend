@@ -1,3 +1,5 @@
+import i18n from '../translations/i18n';
+
 export const paths = {
   HOME: '/',
   LOGIN: '/auth/login',
@@ -19,4 +21,23 @@ export const roles = {
   SUPERVISOR: 'Supervisor',
   EDITOR: 'Editor',
   USER: 'User'
+};
+
+export const connectionVisibilityTexts = {
+  visible:  i18n.t('connectionVisibility.visible'),
+  semiTransparent: i18n.t('connectionVisibility.semiTransparent'),
+  hidden: i18n.t('connectionVisibility.hidden'),
+};
+
+
+
+export const connectedStopVisibilityProps = {
+  visible: 'Visible',
+  semiTransparent: 'Semi-transparent',
+  hidden: 'Hidden',
+};
+
+export const connectionLineVisibilityProps = {
+  visible: 'Visible',
+  hidden: 'Hidden',
 };

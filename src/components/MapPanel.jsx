@@ -1,7 +1,5 @@
 import {useContext, useState} from 'react';
-// import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButton from '@mui/material/ToggleButton';
-// import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Tooltip from '@material-ui/core/Tooltip';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -9,16 +7,43 @@ import ReportIcon from '@material-ui/icons/Report';
 import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {useTranslation} from 'react-i18next';
+import ConnectionVisibilityPanel from './ConnectionVisibilityPanel';
+import MapOptions from './MapOptions';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
 
 import {MapContext} from './contexts/MapContextProvider';
 
 import '../stylesheets/mapPanel.scss';
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 const MapPanel = () => {
-  const {isTileActive, singleTileToggle, viewModeToggle, reportModeToggle, connectionModeToggle, hideTileElements} =
-    useContext(MapContext);
+  const {
+    isTileActive,
+    singleTileToggle,
+    viewModeToggle,
+    reportModeToggle,
+    connectionModeToggle,
+    hideTileElements,
+    resetMapSettings,
+  } = useContext(MapContext);
   const [toggleButton, setToggleButton] = useState('View');
   const {t} = useTranslation();
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const radios = [
     {
@@ -67,6 +92,7 @@ const MapPanel = () => {
               onChange={() => {
                 singleTileToggle(false);
                 hideTileElements();
+                resetMapSettings();
               }}>
               <Tooltip title={t('tileModePrompts.back')}>
                 <ArrowBackIcon />
@@ -84,6 +110,16 @@ const MapPanel = () => {
                 </ToggleButton>
               ))}
             </ToggleButtonGroup>
+            <MapOptions handleClick={handleOpen} />
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description">
+              <Box sx={style}>
+                <ConnectionVisibilityPanel />
+              </Box>
+            </Modal>
           </div>
         </div>
       )}

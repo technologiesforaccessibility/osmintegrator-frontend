@@ -5,6 +5,7 @@
     width: 100%;
     border-top: 1px solid $color-internal-border;
     padding-top: 10px;
+     
   }
   &__button {
     display: flex;
@@ -19,6 +20,7 @@
     width: 100%;
     margin: 0;
     padding: 0;
+    background-color: white;
   }
   &__toggle-group {
     width: 75%;
@@ -29,10 +31,10 @@
     padding: 0;
     margin: 0;
     &--back {
-      width: 25%;
+      width: 20%;
     }
     &--modes {
-      width: 33.3%;
+      width: 30%;
     }
   }
 }
