@@ -40,17 +40,27 @@ const FinishTile = () => {
     setOpenModal(false);
   };
 
+  const submitButtonText = () => {
+    if (authRoles.includes(roles.EDITOR) && !activeTile.approvedByEditor) {
+      return t('finishTile.editorMainButton');
+    }
+    return t('finishTile.supervisorMainButton');
+  };
+
   return (
     <>
-      <Button
-        className="finish-tile__main-button"
-        variant="contained"
-        disabled={openModal}
-        onClick={() => {
-          setOpenModal(true);
-        }}>
-        {authRoles.includes(roles.SUPERVISOR) ? t('finishTile.supervisorMainButton') : t('finishTile.editorMainButton')}
-      </Button>
+      {((authRoles.includes(roles.SUPERVISOR) && activeTile.approvedByEditor) ||
+        (authRoles.includes(roles.EDITOR) && !activeTile.approvedByEditor)) && (
+        <Button
+          className="finish-tile__main-button"
+          variant="contained"
+          disabled={openModal}
+          onClick={() => {
+            setOpenModal(true);
+          }}>
+          {submitButtonText()}
+        </Button>
+      )}
       <Dialog open={openModal} onClose={handleClose}>
         <DialogTitle>{t('finishTile.confirmation')}</DialogTitle>
         <DialogContent>

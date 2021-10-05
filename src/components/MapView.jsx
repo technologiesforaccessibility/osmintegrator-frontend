@@ -1,7 +1,7 @@
 import 'leaflet/dist/leaflet.css';
 import {useContext, useEffect, useState} from 'react';
 import {MapContainer, TileLayer} from 'react-leaflet';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import api from '../api/apiInstance';
@@ -14,8 +14,6 @@ import MapTiles from './mapComponents/MapTiles';
 import NewConnections from './mapComponents/NewConnections';
 import NewReportMarker from './mapComponents/NewReportMarker';
 import TileStops from './mapComponents/TileStops';
-import {roles} from './../utilities/constants';
-import {selectLoggedInUserRoles} from './../redux/selectors/authSelector';
 import {exception} from '../utilities/exceptionHelper';
 
 export const MapView = () => {
@@ -23,7 +21,6 @@ export const MapView = () => {
   const [allStops, setAllStops] = useState([]);
   const [activeBusStopId, setActiveBusStopId] = useState(null);
   const dispatch = useDispatch();
-  const authRoles = useSelector(selectLoggedInUserRoles);
 
   const currentLocation = {lat: 50.29, lng: 19.01};
   const zoom = 10;
@@ -140,12 +137,7 @@ export const MapView = () => {
       const response = await api.tileGetTilesList({
         headers: basicHeaders(),
       });
-      const tilesToShow = authRoles.includes(roles.SUPERVISOR)
-        ? response.data.filter(tile => !tile.approvedBySupervisor)
-        : authRoles.includes(roles.EDITOR)
-        ? response.data.filter(tile => !tile.approvedByEditor)
-        : response.data;
-      setTiles(tilesToShow);
+      setTiles(response.data);
     } catch (error) {
       exception(error);
     }

@@ -3,6 +3,26 @@ import {Rectangle, Tooltip} from 'react-leaflet';
 import colors from '../../stylesheets/config/colors.module.scss';
 
 const MapTiles = ({isTileActive, tiles, activeTile, setActiveTile, addReportMarker, isReportMapMode}) => {
+  const color = tile => {
+    if (!tile.approvedByEditor && !tile.approvedBySupervisor) {
+      return colors.colorTileAll;
+    }
+    if (tile.approvedByEditor && !tile.approvedBySupervisor) {
+      return colors.colorApprovedByEditor;
+    }
+    return colors.colorApprovedBySupervisor;
+  };
+
+  const opacity = tile => {
+    if (!tile.approvedByEditor && !tile.approvedBySupervisor) {
+      return 0.2;
+    }
+    if (tile.approvedByEditor && !tile.approvedBySupervisor) {
+      return 0.5;
+    }
+    return 0.5;
+  };
+
   return (
     <>
       {isTileActive ? (
@@ -27,8 +47,8 @@ const MapTiles = ({isTileActive, tiles, activeTile, setActiveTile, addReportMark
               [tile.minLat, tile.minLon],
             ]}
             pathOptions={{
-              color: tile.approvedByEditor ? colors.colorTileForApproval : colors.colorTileAll,
-              fillOpacity: tile.approvedByEditor ? 0.5 : 0.2,
+              color: color(tile),
+              fillOpacity: opacity(tile),
             }}
             eventHandlers={{
               click: () => {

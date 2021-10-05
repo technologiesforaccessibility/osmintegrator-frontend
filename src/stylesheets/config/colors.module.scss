@@ -7,12 +7,12 @@ $color-loader-background: black;
 $color-message-success: #134a1e;
 $color-message-fail: rgb(255, 0, 0);
 $color-tile-all: black;
-$color-tile-for-approval: crimson;
+$color-approved-by-editor: crimson;
+$color-approved-by-supervisor: green;
 $color-tile-active: olivedrab;
 $color-tile-active-explicit: purple;
 $color-connection-new: red;
 $color-connection-imported: yellow;
-$color-mouse-over-tile: white;
 $color-tile-assigned: aqua;
 $color-blue-link: blue;
 
@@ -20,11 +20,11 @@ $color-blue-link: blue;
     colorMessageFail: $color-message-fail;
     colorMessageSuccess: $color-message-success;
     colorTileAll: $color-tile-all;
-    colorTileForApproval: $color-tile-for-approval;
+    colorApprovedByEditor: $color-approved-by-editor;
+    colorApprovedBySupervisor: $color-approved-by-supervisor;
     colorTileActive: $color-tile-active;
     colorTileActiveExplicit: $color-tile-active-explicit;
     colorConnectionNew: $color-connection-new;
     colorConnectionImported: $color-connection-imported;
-    colorMouseOverTile: $color-mouse-over-tile;
     colorTileAssigned: $color-tile-assigned;
 }
