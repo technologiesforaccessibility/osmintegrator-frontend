@@ -1,4 +1,4 @@
-import React, {createContext, useState} from 'react';
+import {createContext, useState} from 'react';
 
 export const MapContext = createContext();
 
@@ -12,7 +12,7 @@ const MapContextProvider = ({children}) => {
   const [rerenderConnections, setRerenderConnections] = useState(false);
   const [connectionData, setConnectionData] = useState([]);
   const [isViewMode, setIsViewMode] = useState(true);
-  const [isReportMapMode, setIsReportMapMode] = useState(false);
+  const [isCreateReportMapMode, setIsCreateReportMapMode] = useState(false);
   const [isConnectionMode, setIsConnectionMode] = useState(false);
   const [isEditingReportMode, setIsEditingReportMode] = useState(false);
   const [newReportCoordinates, setNewReportCoordinates] = useState(initialReportCoords);
@@ -20,12 +20,13 @@ const MapContextProvider = ({children}) => {
   const [activeTile, setActiveTile] = useState(null);
   const [importedConnections, setImportedConnections] = useState([]);
   const [importedReports, setImportedReports] = useState([]);
-  const [openReport, setOpenReport] = useState(null);
+  const [openReportContent, setOpenReportContent] = useState(null);
   const [tiles, setTiles] = useState([]);
   const [rerenderTiles, setRerenderTiles] = useState(false);
   const [connectedStopIds, setConnectedStopIds] = useState(null);
   const [connectedStopVisibility, setConnectedStopVisibility] = useState('Visible');
   const [connectionLineVisbility, setConnectionLineVisbility] = useState('Visible');
+  const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);
 
   const singleTileToggle = isActive => {
     setIsTileActive(isActive);
@@ -36,28 +37,28 @@ const MapContextProvider = ({children}) => {
   const viewModeToggle = () => {
     if (!isViewMode) {
       setIsViewMode(true);
-      setIsReportMapMode(false);
+      setIsCreateReportMapMode(false);
       setIsConnectionMode(false);
     }
   };
 
   const reportModeToggle = () => {
-    if (!isReportMapMode) {
+    if (!isCreateReportMapMode) {
       setIsViewMode(false);
-      setIsReportMapMode(true);
+      setIsCreateReportMapMode(true);
       setIsConnectionMode(false);
       setIsEditingReportMode(false);
-      setOpenReport(null);
+      setOpenReportContent(null);
     }
   };
 
   const connectionModeToggle = () => {
     if (!isConnectionMode) {
       setIsViewMode(false);
-      setIsReportMapMode(false);
+      setIsCreateReportMapMode(false);
       setIsConnectionMode(true);
       setIsEditingReportMode(false);
-      setOpenReport(null);
+      setOpenReportContent(null);
     }
   };
 
@@ -95,7 +96,7 @@ const MapContextProvider = ({children}) => {
     setConnectionData([]);
     setPropertyGrid(null);
     setIsViewMode(true);
-    setIsReportMapMode(false);
+    setIsCreateReportMapMode(false);
     setIsConnectionMode(false);
     setIsEditingReportMode(false);
     setActiveTile({});
@@ -120,7 +121,7 @@ const MapContextProvider = ({children}) => {
       value={{
         isTileActive,
         isViewMode,
-        isReportMapMode,
+        isCreateReportMapMode,
         isConnectionMode,
         isMapActive,
         areStopsVisible,
@@ -133,12 +134,14 @@ const MapContextProvider = ({children}) => {
         importedConnections,
         importedReports,
         isEditingReportMode,
-        openReport,
+        openReportContent,
         rerenderTiles,
         tiles,
         connectedStopIds,
         connectedStopVisibility,
         connectionLineVisbility,
+        areManageReportButtonsVisible,
+        setAreManageReportButtonsVisible,
         setConnectionLineVisbility,
         resetMapSettings,
         setConnectedStopVisibility,
@@ -162,7 +165,7 @@ const MapContextProvider = ({children}) => {
         setImportedReports,
         hideTileElements,
         setIsEditingReportMode,
-        setOpenReport,
+        setOpenReportContent,
         resetMapContext,
         setIsTileActive,
         closeTile,
