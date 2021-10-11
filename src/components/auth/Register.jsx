@@ -70,7 +70,7 @@ const Register = () => {
             }}
             validationSchema={RegisterSchema}>
             {({handleChange, values, handleSubmit, errors, touched}) => (
-              <div className="content-container">
+              <form className="content-container" onSubmit={handleSubmit}>
                 <TextField
                   className="content-container__text-field"
                   type="text"
@@ -162,6 +162,7 @@ const Register = () => {
                       onClick={() => {
                         setChecked(!checked);
                       }}
+                      tabIndex={0}
                     />
                   }
                   label={
@@ -181,11 +182,11 @@ const Register = () => {
                 <Button
                   variant="contained"
                   disabled={!checked || isLoading}
-                  onClick={handleSubmit}
+                  type="submit"
                   className="register__button">
                   {t('register.button')}
                 </Button>
-              </div>
+              </form>
             )}
           </Formik>
         </div>
