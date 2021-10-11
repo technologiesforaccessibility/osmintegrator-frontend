@@ -10,6 +10,12 @@ export const en = {
       reset: 'Reset',
       send: 'Send',
     },
+    cookies: {
+      title: 'Dear Customer',
+      content:
+        'Our website uses cookies for statistical and functional purposes. Thanks to them, we can customize the site to your needs. Everyone can accept cookies or have the option to disable them in the browser, so that no information will be collected.',
+      button: 'Accept',
+    },
     connection: {
       formTitle: 'Create new connection',
       createSuccessMessage: 'New connection created',
@@ -25,7 +31,8 @@ export const en = {
       visible: 'Visible',
       semiTransparent: 'Semi transparent',
       hidden: 'Hidden',
-      hiddenConnectionLinesWarning: 'It is not advices to have disabled connection lines when connected stops are visible',
+      hiddenConnectionLinesWarning:
+        'It is not advices to have disabled connection lines when connected stops are visible',
     },
     contactForm: {
       description: 'Login problem? Need to contact? Send us a ',
@@ -33,7 +40,7 @@ export const en = {
     },
     finishTile: {
       editorMainButton: 'Send tile to verification',
-      supervisorMainButton: 'Approve editor\'s work',
+      supervisorMainButton: "Approve editor's work",
       confirmation: 'Are you sure?',
       successMessage: 'Tile has been sent',
     },
