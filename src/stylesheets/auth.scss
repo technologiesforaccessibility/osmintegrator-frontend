@@ -35,11 +35,13 @@ body {
   }
   &__image--left {
     position: absolute;
+    z-index: -1;
     left: -169px;
     height: 100%;
   }
   &__image--right {
     position: absolute;
+    z-index: -1;
     right: -169px;
     height: 100%;
   }
