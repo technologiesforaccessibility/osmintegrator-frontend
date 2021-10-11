@@ -40,7 +40,7 @@ export const en = {
     },
     finishTile: {
       editorMainButton: 'Send tile to verification',
-      supervisorMainButton: "Approve editor's work",
+      supervisorMainButton: 'Approve editor\'s work',
       confirmation: 'Are you sure?',
       successMessage: 'Tile has been sent',
     },
