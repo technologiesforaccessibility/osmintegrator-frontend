@@ -1,1844 +1,1844 @@
 {
-  "openapi": "3.0.1",
-  "info": {
-      "title": "osmintegrator",
-      "version": "v1"
-  },
-  "paths": {
-      "/api/Account/IsTokenValid": {
-          "get": {
-              "tags": [
-                  "Account"
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success"
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Account/Logout": {
-          "post": {
-              "tags": [
-                  "Account"
-              ],
-              "parameters": [
-                  {
-                      "name": "returnUrl",
-                      "in": "query",
-                      "schema": {
-                          "type": "string"
-                      }
-                  }
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success"
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Account/Login": {
-          "post": {
-              "tags": [
-                  "Account"
-              ],
-              "requestBody": {
-                  "content": {
-                      "application/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/LoginData"
-                          }
-                      }
-                  }
-              },
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/TokenData"
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Account/Refresh": {
-          "post": {
-              "tags": [
-                  "Account"
-              ],
-              "requestBody": {
-                  "content": {
-                      "application/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/TokenData"
-                          }
-                      }
-                  }
-              },
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/TokenData"
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Account/ConfirmRegistration": {
-          "post": {
-              "tags": [
-                  "Account"
-              ],
-              "requestBody": {
-                  "content": {
-                      "application/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/ConfirmRegistration"
-                          }
-                      }
-                  }
-              },
-              "responses": {
-                  "200": {
-                      "description": "Success"
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Account/Register": {
-          "post": {
-              "tags": [
-                  "Account"
-              ],
-              "requestBody": {
-                  "content": {
-                      "application/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/RegisterData"
-                          }
-                      }
-                  }
-              },
-              "responses": {
-                  "200": {
-                      "description": "Success"
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Account/ForgotPassword": {
-          "post": {
-              "tags": [
-                  "Account"
-              ],
-              "requestBody": {
-                  "content": {
-                      "application/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/ForgotPassword"
-                          }
-                      }
-                  }
-              },
-              "responses": {
-                  "200": {
-                      "description": "Success"
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Account/ConfirmEmail": {
-          "post": {
-              "tags": [
-                  "Account"
-              ],
-              "requestBody": {
-                  "content": {
-                      "application/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/ConfirmEmail"
-                          }
-                      }
-                  }
-              },
-              "responses": {
-                  "200": {
-                      "description": "Success"
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Account/ChangeEmail": {
-          "post": {
-              "tags": [
-                  "Account"
-              ],
-              "requestBody": {
-                  "content": {
-                      "application/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/ResetEmail"
-                          }
-                      }
-                  }
-              },
-              "responses": {
-                  "200": {
-                      "description": "Success"
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Account/ResetPassword": {
-          "post": {
-              "tags": [
-                  "Account"
-              ],
-              "requestBody": {
-                  "content": {
-                      "application/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/ResetPassword"
-                          }
-                      }
-                  }
-              },
-              "responses": {
-                  "200": {
-                      "description": "Success"
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Connections": {
-          "put": {
-              "tags": [
-                  "Connections"
-              ],
-              "requestBody": {
-                  "content": {
-                      "application/json-patch+json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/NewConnectionAction"
-                          }
-                      },
-                      "application/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/NewConnectionAction"
-                          }
-                      },
-                      "text/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/NewConnectionAction"
-                          }
-                      },
-                      "application/*+json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/NewConnectionAction"
-                          }
-                      }
-                  }
-              },
-              "responses": {
-                  "200": {
-                      "description": "Success"
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          },
-          "delete": {
-              "tags": [
-                  "Connections"
-              ],
-              "requestBody": {
-                  "content": {
-                      "application/json-patch+json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/ConnectionAction"
-                          }
-                      },
-                      "application/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/ConnectionAction"
-                          }
-                      },
-                      "text/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/ConnectionAction"
-                          }
-                      },
-                      "application/*+json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/ConnectionAction"
-                          }
-                      }
-                  }
-              },
-              "responses": {
-                  "200": {
-                      "description": "Success"
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          },
-          "get": {
-              "tags": [
-                  "Connections"
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "type": "array",
-                                  "items": {
-                                      "$ref": "#/components/schemas/Connection"
-                                  }
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Connections/{id}": {
-          "get": {
-              "tags": [
-                  "Connections"
-              ],
-              "parameters": [
-                  {
-                      "name": "id",
-                      "in": "path",
-                      "required": true,
-                      "schema": {
-                          "type": "string"
-                      }
-                  }
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "type": "array",
-                                  "items": {
-                                      "$ref": "#/components/schemas/Connection"
-                                  }
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Connections/Approve/{id}": {
-          "put": {
-              "tags": [
-                  "Connections"
-              ],
-              "parameters": [
-                  {
-                      "name": "id",
-                      "in": "path",
-                      "required": true,
-                      "schema": {
-                          "type": "string"
-                      }
-                  }
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "type": "string"
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Notes": {
-          "post": {
-              "tags": [
-                  "Notes"
-              ],
-              "requestBody": {
-                  "content": {
-                      "application/json-patch+json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/NewNote"
-                          }
-                      },
-                      "application/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/NewNote"
-                          }
-                      },
-                      "text/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/NewNote"
-                          }
-                      },
-                      "application/*+json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/NewNote"
-                          }
-                      }
-                  }
-              },
-              "responses": {
-                  "200": {
-                      "description": "Success"
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          },
-          "put": {
-              "tags": [
-                  "Notes"
-              ],
-              "requestBody": {
-                  "content": {
-                      "application/json-patch+json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/UpdateNote"
-                          }
-                      },
-                      "application/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/UpdateNote"
-                          }
-                      },
-                      "text/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/UpdateNote"
-                          }
-                      },
-                      "application/*+json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/UpdateNote"
-                          }
-                      }
-                  }
-              },
-              "responses": {
-                  "200": {
-                      "description": "Success"
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Notes/{id}": {
-          "get": {
-              "tags": [
-                  "Notes"
-              ],
-              "parameters": [
-                  {
-                      "name": "id",
-                      "in": "path",
-                      "required": true,
-                      "schema": {
-                          "type": "string"
-                      }
-                  }
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "type": "array",
-                                  "items": {
-                                      "$ref": "#/components/schemas/NewNote"
-                                  }
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          },
-          "delete": {
-              "tags": [
-                  "Notes"
-              ],
-              "parameters": [
-                  {
-                      "name": "id",
-                      "in": "path",
-                      "required": true,
-                      "schema": {
-                          "type": "string"
-                      }
-                  }
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success"
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Notes/Approve/{id}": {
-          "put": {
-              "tags": [
-                  "Notes"
-              ],
-              "parameters": [
-                  {
-                      "name": "id",
-                      "in": "path",
-                      "required": true,
-                      "schema": {
-                          "type": "string"
-                      }
-                  }
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success"
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Notes/Reject/{id}": {
-          "put": {
-              "tags": [
-                  "Notes"
-              ],
-              "parameters": [
-                  {
-                      "name": "id",
-                      "in": "path",
-                      "required": true,
-                      "schema": {
-                          "type": "string"
-                      }
-                  }
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success"
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/OsmChangeFile/GetChangeFile": {
-          "get": {
-              "tags": [
-                  "OsmChangeFile"
-              ],
-              "requestBody": {
-                  "content": {
-                      "application/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/CreateChangeFileRequestInput"
-                          }
-                      }
-                  }
-              },
-              "responses": {
-                  "200": {
-                      "description": "Success"
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "text/plain": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          },
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          },
-                          "text/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Roles": {
-          "get": {
-              "tags": [
-                  "Roles"
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "type": "array",
-                                  "items": {
-                                      "$ref": "#/components/schemas/RoleUser"
-                                  }
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          },
-          "put": {
-              "tags": [
-                  "Roles"
-              ],
-              "requestBody": {
-                  "content": {
-                      "application/json": {
-                          "schema": {
-                              "type": "array",
-                              "items": {
-                                  "$ref": "#/components/schemas/RoleUser"
-                              }
-                          }
-                      }
-                  }
-              },
-              "responses": {
-                  "200": {
-                      "description": "Success"
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Stop": {
-          "get": {
-              "tags": [
-                  "Stop"
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "type": "array",
-                                  "items": {
-                                      "$ref": "#/components/schemas/Stop"
-                                  }
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Tile/GetAllTiles": {
-          "get": {
-              "tags": [
-                  "Tile"
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "type": "array",
-                                  "items": {
-                                      "$ref": "#/components/schemas/Tile"
-                                  }
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Tile/GetTiles": {
-          "get": {
-              "tags": [
-                  "Tile"
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "type": "array",
-                                  "items": {
-                                      "$ref": "#/components/schemas/Tile"
-                                  }
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Tile/GetStops/{id}": {
-          "get": {
-              "tags": [
-                  "Tile"
-              ],
-              "parameters": [
-                  {
-                      "name": "id",
-                      "in": "path",
-                      "required": true,
-                      "schema": {
-                          "type": "string"
-                      }
-                  }
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/Stop"
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Tile/GetUsers/{id}": {
-          "get": {
-              "tags": [
-                  "Tile"
-              ],
-              "parameters": [
-                  {
-                      "name": "id",
-                      "in": "path",
-                      "required": true,
-                      "schema": {
-                          "type": "string"
-                      }
-                  }
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/Tile"
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Tile/RemoveUser/{id}": {
-          "delete": {
-              "tags": [
-                  "Tile"
-              ],
-              "parameters": [
-                  {
-                      "name": "id",
-                      "in": "path",
-                      "required": true,
-                      "schema": {
-                          "type": "string"
-                      }
-                  }
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "type": "string"
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Tile/UpdateUser/{id}": {
-          "put": {
-              "tags": [
-                  "Tile"
-              ],
-              "parameters": [
-                  {
-                      "name": "id",
-                      "in": "path",
-                      "required": true,
-                      "schema": {
-                          "type": "string"
-                      }
-                  }
-              ],
-              "requestBody": {
-                  "content": {
-                      "application/json-patch+json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/User"
-                          }
-                      },
-                      "application/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/User"
-                          }
-                      },
-                      "text/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/User"
-                          }
-                      },
-                      "application/*+json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/User"
-                          }
-                      }
-                  }
-              },
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "type": "string"
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Tile/Approve/{id}": {
-          "put": {
-              "tags": [
-                  "Tile"
-              ],
-              "parameters": [
-                  {
-                      "name": "id",
-                      "in": "path",
-                      "required": true,
-                      "schema": {
-                          "type": "string"
-                      }
-                  }
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "type": "string"
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/User": {
-          "get": {
-              "tags": [
-                  "User"
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/User"
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/User/{id}": {
-          "get": {
-              "tags": [
-                  "User"
-              ],
-              "parameters": [
-                  {
-                      "name": "id",
-                      "in": "path",
-                      "required": true,
-                      "schema": {
-                          "type": "string"
-                      }
-                  }
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/User"
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Users": {
-          "get": {
-              "tags": [
-                  "Users"
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "type": "array",
-                                  "items": {
-                                      "$ref": "#/components/schemas/User"
-                                  }
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/api/Version": {
-          "get": {
-              "tags": [
-                  "Version"
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "type": "string"
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Bad Request",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/ProblemDetails"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      }
-  },
-  "components": {
-      "schemas": {
-          "ConfirmEmail": {
-              "required": [
-                  "newEmail",
-                  "oldEmail",
-                  "token"
-              ],
-              "type": "object",
-              "properties": {
-                  "newEmail": {
-                      "type": "string",
-                      "format": "email"
-                  },
-                  "oldEmail": {
-                      "type": "string",
-                      "format": "email"
-                  },
-                  "token": {
-                      "type": "string"
-                  }
-              },
-              "additionalProperties": false
-          },
-          "ConfirmRegistration": {
-              "required": [
-                  "email",
-                  "token"
-              ],
-              "type": "object",
-              "properties": {
-                  "email": {
-                      "type": "string",
-                      "format": "email"
-                  },
-                  "token": {
-                      "type": "string"
-                  }
-              },
-              "additionalProperties": false
-          },
-          "Connection": {
-              "type": "object",
-              "properties": {
-                  "gtfsStopId": {
-                      "type": "string",
-                      "format": "uuid"
-                  },
-                  "osmStopId": {
-                      "type": "string",
-                      "format": "uuid"
-                  },
-                  "osmStop": {
-                      "$ref": "#/components/schemas/Stop"
-                  },
-                  "gtfsStop": {
-                      "$ref": "#/components/schemas/Stop"
-                  },
-                  "imported": {
-                      "type": "boolean"
-                  }
-              },
-              "additionalProperties": false
-          },
-          "ConnectionAction": {
-              "required": [
-                  "gtfsStopId",
-                  "osmStopId"
-              ],
-              "type": "object",
-              "properties": {
-                  "osmStopId": {
-                      "type": "string",
-                      "format": "uuid"
-                  },
-                  "gtfsStopId": {
-                      "type": "string",
-                      "format": "uuid"
-                  }
-              },
-              "additionalProperties": false
-          },
-          "CreateChangeFileRequestInput": {
-              "required": [
-                  "tileUuid"
-              ],
-              "type": "object",
-              "properties": {
-                  "tileUuid": {
-                      "type": "string",
-                      "format": "uuid"
-                  }
-              },
-              "additionalProperties": false
-          },
-          "ForgotPassword": {
-              "required": [
-                  "email"
-              ],
-              "type": "object",
-              "properties": {
-                  "email": {
-                      "type": "string",
-                      "format": "email"
-                  }
-              },
-              "additionalProperties": false
-          },
-          "LoginData": {
-              "required": [
-                  "email",
-                  "password"
-              ],
-              "type": "object",
-              "properties": {
-                  "email": {
-                      "type": "string",
-                      "format": "email"
-                  },
-                  "password": {
-                      "type": "string"
-                  }
-              },
-              "additionalProperties": false
-          },
-          "NewConnectionAction": {
-              "required": [
-                  "gtfsStopId",
-                  "osmStopId",
-                  "tileId"
-              ],
-              "type": "object",
-              "properties": {
-                  "tileId": {
-                      "type": "string",
-                      "format": "uuid"
-                  },
-                  "osmStopId": {
-                      "type": "string",
-                      "format": "uuid"
-                  },
-                  "gtfsStopId": {
-                      "type": "string",
-                      "format": "uuid"
-                  }
-              },
-              "additionalProperties": false
-          },
-          "NewNote": {
-              "required": [
-                  "lat",
-                  "lon",
-                  "tileId"
-              ],
-              "type": "object",
-              "properties": {
-                  "userId": {
-                      "type": "string",
-                      "format": "uuid"
-                  },
-                  "lat": {
-                      "type": "number",
-                      "format": "double"
-                  },
-                  "lon": {
-                      "type": "number",
-                      "format": "double"
-                  },
-                  "tileId": {
-                      "type": "string",
-                      "format": "uuid"
-                  },
-                  "text": {
-                      "type": "string",
-                      "nullable": true
-                  }
-              },
-              "additionalProperties": false
-          },
-          "ProblemDetails": {
-              "type": "object",
-              "properties": {
-                  "type": {
-                      "type": "string",
-                      "nullable": true
-                  },
-                  "title": {
-                      "type": "string",
-                      "nullable": true
-                  },
-                  "status": {
-                      "type": "integer",
-                      "format": "int32",
-                      "nullable": true
-                  },
-                  "detail": {
-                      "type": "string",
-                      "nullable": true
-                  },
-                  "instance": {
-                      "type": "string",
-                      "nullable": true
-                  }
-              },
-              "additionalProperties": {}
-          },
-          "ProviderType": {
-              "enum": [
-                  0,
-                  1
-              ],
-              "type": "integer",
-              "format": "int32"
-          },
-          "RegisterData": {
-              "required": [
-                  "email",
-                  "password",
-                  "username"
-              ],
-              "type": "object",
-              "properties": {
-                  "email": {
-                      "type": "string",
-                      "format": "email"
-                  },
-                  "username": {
-                      "maxLength": 16,
-                      "minLength": 0,
-                      "type": "string"
-                  },
-                  "password": {
-                      "maxLength": 32,
-                      "minLength": 8,
-                      "type": "string"
-                  }
-              },
-              "additionalProperties": false
-          },
-          "ResetEmail": {
-              "required": [
-                  "email"
-              ],
-              "type": "object",
-              "properties": {
-                  "email": {
-                      "type": "string",
-                      "format": "email"
-                  }
-              },
-              "additionalProperties": false
-          },
-          "ResetPassword": {
-              "required": [
-                  "email",
-                  "password",
-                  "token"
-              ],
-              "type": "object",
-              "properties": {
-                  "email": {
-                      "type": "string",
-                      "format": "email"
-                  },
-                  "password": {
-                      "type": "string",
-                      "format": "password"
-                  },
-                  "token": {
-                      "type": "string"
-                  }
-              },
-              "additionalProperties": false
-          },
-          "RolePair": {
-              "type": "object",
-              "properties": {
-                  "name": {
-                      "type": "string",
-                      "nullable": true
-                  },
-                  "value": {
-                      "type": "boolean"
-                  }
-              },
-              "additionalProperties": false
-          },
-          "RoleUser": {
-              "required": [
-                  "id",
-                  "roles",
-                  "userName"
-              ],
-              "type": "object",
-              "properties": {
-                  "id": {
-                      "type": "string",
-                      "format": "uuid"
-                  },
-                  "userName": {
-                      "type": "string"
-                  },
-                  "roles": {
-                      "type": "array",
-                      "items": {
-                          "$ref": "#/components/schemas/RolePair"
-                      }
-                  }
-              },
-              "additionalProperties": false
-          },
-          "Stop": {
-              "type": "object",
-              "properties": {
-                  "id": {
-                      "type": "string",
-                      "format": "uuid"
-                  },
-                  "stopId": {
-                      "type": "integer",
-                      "format": "int64"
-                  },
-                  "name": {
-                      "type": "string",
-                      "nullable": true
-                  },
-                  "lat": {
-                      "type": "number",
-                      "format": "double"
-                  },
-                  "lon": {
-                      "type": "number",
-                      "format": "double"
-                  },
-                  "number": {
-                      "type": "string",
-                      "nullable": true
-                  },
-                  "tags": {
-                      "type": "array",
-                      "items": {
-                          "$ref": "#/components/schemas/Tag"
-                      },
-                      "nullable": true
-                  },
-                  "stopType": {
-                      "$ref": "#/components/schemas/StopType"
-                  },
-                  "providerType": {
-                      "$ref": "#/components/schemas/ProviderType"
-                  },
-                  "tileId": {
-                      "type": "string",
-                      "format": "uuid"
-                  },
-                  "tile": {
-                      "$ref": "#/components/schemas/Tile"
-                  },
-                  "outsideSelectedTile": {
-                      "type": "boolean"
-                  },
-                  "version": {
-                      "type": "integer",
-                      "format": "int32"
-                  },
-                  "changeset": {
-                      "type": "string",
-                      "nullable": true
-                  }
-              },
-              "additionalProperties": false
-          },
-          "StopType": {
-              "enum": [
-                  0,
-                  1
-              ],
-              "type": "integer",
-              "format": "int32"
-          },
-          "Tag": {
-              "type": "object",
-              "properties": {
-                  "key": {
-                      "type": "string",
-                      "nullable": true
-                  },
-                  "value": {
-                      "type": "string",
-                      "nullable": true
-                  }
-              },
-              "additionalProperties": false
-          },
-          "Tile": {
-              "type": "object",
-              "properties": {
-                  "id": {
-                      "type": "string",
-                      "format": "uuid"
-                  },
-                  "x": {
-                      "type": "integer",
-                      "format": "int64"
-                  },
-                  "y": {
-                      "type": "integer",
-                      "format": "int64"
-                  },
-                  "maxLat": {
-                      "type": "number",
-                      "format": "double"
-                  },
-                  "minLon": {
-                      "type": "number",
-                      "format": "double"
-                  },
-                  "minLat": {
-                      "type": "number",
-                      "format": "double"
-                  },
-                  "maxLon": {
-                      "type": "number",
-                      "format": "double"
-                  },
-                  "overlapMaxLat": {
-                      "type": "number",
-                      "format": "double"
-                  },
-                  "overlapMinLon": {
-                      "type": "number",
-                      "format": "double"
-                  },
-                  "overlapMinLat": {
-                      "type": "number",
-                      "format": "double"
-                  },
-                  "overlapMaxLon": {
-                      "type": "number",
-                      "format": "double"
-                  },
-                  "osmStopsCount": {
-                      "type": "integer",
-                      "format": "int32"
-                  },
-                  "gtfsStopsCount": {
-                      "type": "integer",
-                      "format": "int32"
-                  },
-                  "usersCount": {
-                      "type": "integer",
-                      "format": "int32",
-                      "nullable": true
-                  },
-                  "stops": {
-                      "type": "array",
-                      "items": {
-                          "$ref": "#/components/schemas/Stop"
-                      },
-                      "nullable": true
-                  },
-                  "approvedByEditor": {
-                      "type": "boolean"
-                  },
-                  "approvedBySupervisor": {
-                      "type": "boolean"
-                  }
-              },
-              "additionalProperties": false
-          },
-          "TokenData": {
-              "required": [
-                  "refreshToken",
-                  "token"
-              ],
-              "type": "object",
-              "properties": {
-                  "token": {
-                      "type": "string"
-                  },
-                  "refreshToken": {
-                      "type": "string"
-                  }
-              },
-              "additionalProperties": false
-          },
-          "UpdateNote": {
-              "required": [
-                  "id",
-                  "lat",
-                  "lon",
-                  "text"
-              ],
-              "type": "object",
-              "properties": {
-                  "id": {
-                      "type": "string",
-                      "format": "uuid"
-                  },
-                  "lat": {
-                      "type": "number",
-                      "format": "double"
-                  },
-                  "lon": {
-                      "type": "number",
-                      "format": "double"
-                  },
-                  "text": {
-                      "type": "string"
-                  }
-              },
-              "additionalProperties": false
-          },
-          "User": {
-              "required": [
-                  "id"
-              ],
-              "type": "object",
-              "properties": {
-                  "id": {
-                      "type": "string",
-                      "format": "uuid"
-                  },
-                  "userName": {
-                      "type": "string",
-                      "nullable": true
-                  },
-                  "email": {
-                      "type": "string",
-                      "format": "email",
-                      "nullable": true
-                  },
-                  "roles": {
-                      "type": "array",
-                      "items": {
-                          "type": "string"
-                      },
-                      "nullable": true
-                  }
-              },
-              "additionalProperties": false
-          }
-      }
-  }
+    "openapi": "3.0.1",
+    "info": {
+        "title": "osmintegrator",
+        "version": "v1"
+    },
+    "paths": {
+        "/api/Account/IsTokenValid": {
+            "get": {
+                "tags": [
+                    "Account"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Account/Logout": {
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "parameters": [
+                    {
+                        "name": "returnUrl",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Account/Login": {
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TokenData"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Account/Refresh": {
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TokenData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TokenData"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Account/ConfirmRegistration": {
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConfirmRegistration"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Account/Register": {
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Account/ForgotPassword": {
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ForgotPassword"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Account/ConfirmEmail": {
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConfirmEmail"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Account/ChangeEmail": {
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResetEmail"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Account/ResetPassword": {
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResetPassword"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Connections": {
+            "put": {
+                "tags": [
+                    "Connections"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewConnectionAction"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewConnectionAction"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewConnectionAction"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewConnectionAction"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Connections"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConnectionAction"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConnectionAction"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConnectionAction"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConnectionAction"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Connections"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Connection"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Connections/{id}": {
+            "get": {
+                "tags": [
+                    "Connections"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Connection"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Connections/Approve/{id}": {
+            "put": {
+                "tags": [
+                    "Connections"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Notes": {
+            "post": {
+                "tags": [
+                    "Notes"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewNote"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewNote"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewNote"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewNote"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Notes"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateNote"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateNote"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateNote"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateNote"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Notes/{id}": {
+            "get": {
+                "tags": [
+                    "Notes"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/NewNote"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Notes"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Notes/Approve/{id}": {
+            "put": {
+                "tags": [
+                    "Notes"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Notes/Reject/{id}": {
+            "put": {
+                "tags": [
+                    "Notes"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/OsmChangeFile/GetChangeFile": {
+            "get": {
+                "tags": [
+                    "OsmChangeFile"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateChangeFileRequestInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Roles": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/RoleUser"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Roles"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/RoleUser"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Stop": {
+            "get": {
+                "tags": [
+                    "Stop"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Stop"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Tile/GetAllTiles": {
+            "get": {
+                "tags": [
+                    "Tile"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Tile"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Tile/GetTiles": {
+            "get": {
+                "tags": [
+                    "Tile"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Tile"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Tile/GetStops/{id}": {
+            "get": {
+                "tags": [
+                    "Tile"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Stop"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Tile/GetUsers/{id}": {
+            "get": {
+                "tags": [
+                    "Tile"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Tile"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Tile/RemoveUser/{id}": {
+            "delete": {
+                "tags": [
+                    "Tile"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Tile/UpdateUser/{id}": {
+            "put": {
+                "tags": [
+                    "Tile"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Tile/Approve/{id}": {
+            "put": {
+                "tags": [
+                    "Tile"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/User": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/User/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Version": {
+            "get": {
+                "tags": [
+                    "Version"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ConfirmEmail": {
+                "required": [
+                    "newEmail",
+                    "oldEmail",
+                    "token"
+                ],
+                "type": "object",
+                "properties": {
+                    "newEmail": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "oldEmail": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "token": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "ConfirmRegistration": {
+                "required": [
+                    "email",
+                    "token"
+                ],
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "token": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "Connection": {
+                "type": "object",
+                "properties": {
+                    "gtfsStopId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "osmStopId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "osmStop": {
+                        "$ref": "#/components/schemas/Stop"
+                    },
+                    "gtfsStop": {
+                        "$ref": "#/components/schemas/Stop"
+                    },
+                    "imported": {
+                        "type": "boolean"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "ConnectionAction": {
+                "required": [
+                    "gtfsStopId",
+                    "osmStopId"
+                ],
+                "type": "object",
+                "properties": {
+                    "osmStopId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "gtfsStopId": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CreateChangeFileRequestInput": {
+                "required": [
+                    "tileUuid"
+                ],
+                "type": "object",
+                "properties": {
+                    "tileUuid": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "ForgotPassword": {
+                "required": [
+                    "email"
+                ],
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "LoginData": {
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "NewConnectionAction": {
+                "required": [
+                    "gtfsStopId",
+                    "osmStopId",
+                    "tileId"
+                ],
+                "type": "object",
+                "properties": {
+                    "tileId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "osmStopId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "gtfsStopId": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "NewNote": {
+                "required": [
+                    "lat",
+                    "lon",
+                    "tileId"
+                ],
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "lat": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "lon": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "tileId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "text": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "ProblemDetails": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "title": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "integer",
+                        "format": "int32",
+                        "nullable": true
+                    },
+                    "detail": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "instance": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": {}
+            },
+            "ProviderType": {
+                "enum": [
+                    0,
+                    1
+                ],
+                "type": "integer",
+                "format": "int32"
+            },
+            "RegisterData": {
+                "required": [
+                    "email",
+                    "password",
+                    "username"
+                ],
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "username": {
+                        "maxLength": 16,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "password": {
+                        "maxLength": 32,
+                        "minLength": 8,
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "ResetEmail": {
+                "required": [
+                    "email"
+                ],
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "ResetPassword": {
+                "required": [
+                    "email",
+                    "password",
+                    "token"
+                ],
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string",
+                        "format": "password"
+                    },
+                    "token": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "RolePair": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "value": {
+                        "type": "boolean"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "RoleUser": {
+                "required": [
+                    "id",
+                    "roles",
+                    "userName"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "userName": {
+                        "type": "string"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RolePair"
+                        }
+                    }
+                },
+                "additionalProperties": false
+            },
+            "Stop": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "stopId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "lat": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "lon": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "number": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Tag"
+                        },
+                        "nullable": true
+                    },
+                    "stopType": {
+                        "$ref": "#/components/schemas/StopType"
+                    },
+                    "providerType": {
+                        "$ref": "#/components/schemas/ProviderType"
+                    },
+                    "tileId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "tile": {
+                        "$ref": "#/components/schemas/Tile"
+                    },
+                    "outsideSelectedTile": {
+                        "type": "boolean"
+                    },
+                    "version": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "changeset": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "StopType": {
+                "enum": [
+                    0,
+                    1
+                ],
+                "type": "integer",
+                "format": "int32"
+            },
+            "Tag": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "value": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "Tile": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "x": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "y": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "maxLat": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "minLon": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "minLat": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "maxLon": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "overlapMaxLat": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "overlapMinLon": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "overlapMinLat": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "overlapMaxLon": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "osmStopsCount": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "gtfsStopsCount": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "usersCount": {
+                        "type": "integer",
+                        "format": "int32",
+                        "nullable": true
+                    },
+                    "stops": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Stop"
+                        },
+                        "nullable": true
+                    },
+                    "approvedByEditor": {
+                        "type": "boolean"
+                    },
+                    "approvedBySupervisor": {
+                        "type": "boolean"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "TokenData": {
+                "required": [
+                    "refreshToken",
+                    "token"
+                ],
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    },
+                    "refreshToken": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "UpdateNote": {
+                "required": [
+                    "id",
+                    "lat",
+                    "lon",
+                    "text"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "lat": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "lon": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "text": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "User": {
+                "required": [
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "userName": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "nullable": true
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            }
+        }
+    }
 }

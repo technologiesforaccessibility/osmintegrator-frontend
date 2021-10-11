@@ -1,8 +1,11 @@
+import PropTypes, {bool, arrayOf, func} from 'prop-types';
 import {Rectangle, Tooltip} from 'react-leaflet';
+
+import {tileType} from '../../types/index';
 
 import colors from '../../stylesheets/config/colors.module.scss';
 
-const MapTiles = ({isTileActive, tiles, activeTile, setActiveTile, addReportMarker, isReportMapMode}) => {
+const MapTiles = ({isTileActive, tiles, activeTile, setActiveTile, addReportMarker, isCreateReportMapMode}) => {
   const color = tile => {
     if (!tile.approvedByEditor && !tile.approvedBySupervisor) {
       return colors.colorTileAll;
@@ -34,7 +37,7 @@ const MapTiles = ({isTileActive, tiles, activeTile, setActiveTile, addReportMark
           pathOptions={{color: colors.colorTileActive}}
           eventHandlers={{
             click: e => {
-              isReportMapMode && addReportMarker(e);
+              isCreateReportMapMode && addReportMarker(e);
             },
           }}
         />
@@ -63,6 +66,15 @@ const MapTiles = ({isTileActive, tiles, activeTile, setActiveTile, addReportMark
       )}
     </>
   );
+};
+
+PropTypes.MapTiles = {
+  isTileActive: bool,
+  tiles: arrayOf(tileType),
+  activeTile: tileType,
+  setActiveTile: func,
+  addReportMarker: func,
+  isCreateReportMapMode: bool,
 };
 
 export default MapTiles;

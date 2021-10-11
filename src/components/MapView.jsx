@@ -42,7 +42,7 @@ export const MapView = () => {
     areStopsVisible,
     isViewMode,
     isConnectionMode,
-    isReportMapMode,
+    isCreateReportMapMode,
     displayPropertyGrid,
     updateConnectionData,
     connectionData,
@@ -58,12 +58,12 @@ export const MapView = () => {
     setImportedConnections,
     importedReports,
     setImportedReports,
-    setOpenReport,
-    setIsEditingReportMode,
+    setOpenReportContent,
     setConnectedStopIds,
     connectedStopVisibility,
     connectedStopIds,
     connectionLineVisbility,
+    setAreManageReportButtonsVisible,
   } = useContext(MapContext);
 
   useEffect(() => {
@@ -91,7 +91,7 @@ export const MapView = () => {
 
   useEffect(() => {
     if (!isTileActive) {
-      setActiveTile({});
+      setActiveTile(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTileActive]);
@@ -210,8 +210,8 @@ export const MapView = () => {
   const clickBusStop = stop => {
     setActiveBusStopId(stop === undefined ? null : stop.id);
     displayPropertyGrid(stop === undefined ? null : stop);
-    setOpenReport(null);
-    setIsEditingReportMode(false);
+    setOpenReportContent(null);
+    setAreManageReportButtonsVisible(false);
   };
 
   return (
@@ -233,7 +233,7 @@ export const MapView = () => {
         tiles={tiles}
         activeTile={activeTile}
         setActiveTile={setActiveTile}
-        isReportMapMode={isReportMapMode}
+        isCreateReportMapMode={isCreateReportMapMode}
         addReportMarker={addReportMarker}
       />
       <TileStops

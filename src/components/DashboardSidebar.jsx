@@ -3,44 +3,46 @@ import {useSelector} from 'react-redux';
 
 import PropertyGrid from './PropertyGrid';
 import MapPanel from './MapPanel';
-
 import FinishTile from './FinishTile';
 import {MapContext} from './contexts/MapContextProvider';
 import {selectLoggedInUserRoles} from '../redux/selectors/authSelector';
-import {roles} from '../utilities/constants';
 import NewReport from './NewReport';
-import EditReport from './EditReport';
+import ReportForm from './ReportForm';
 import ConnectionSidePanel from './ConnectionSidePanel';
-
-import dots from './../assets/authDots.png';
+import SidebarContainer from './SidebarContainer';
+import {roles as appRoles} from '../utilities/constants';
 
 import './../stylesheets/dashboardSidebar.scss';
 
 const DashboardSidebar = () => {
-  const {propertyGrid, isTileActive, isViewMode, isReportMapMode, isConnectionMode, isEditingReportMode, openReport} =
-    useContext(MapContext);
+  const {
+    propertyGrid,
+    isTileActive,
+    isViewMode,
+    isCreateReportMapMode,
+    isConnectionMode,
+    isEditingReportMode,
+    openReportContent,
+    areManageReportButtonsVisible,
+  } = useContext(MapContext);
   const authRoles = useSelector(selectLoggedInUserRoles);
 
   return (
-    <div className="sidebar">
-      <img src={dots} className="sidebar__image" alt="BackgroundDots"></img>
-      <div className="sidebar__navigation">
-        <MapPanel />
-      </div>
-      <div className="sidebar__details">
+    <SidebarContainer
+      navigation={<MapPanel />}
+      finishTileButton={<FinishTile />}
+      isTileActive={isTileActive}
+      userRoles={authRoles}
+      appRoles={appRoles}>
+      <>
         {propertyGrid && isViewMode && <PropertyGrid propertyGrid={propertyGrid} />}
-        {isReportMapMode && <NewReport />}
-        {isEditingReportMode && openReport && <EditReport />}
-        {isConnectionMode && <ConnectionSidePanel />}
-      </div>
-      <div className="sidebar__approve">
-        {isTileActive && authRoles.some(role => [roles.SUPERVISOR, roles.EDITOR].includes(role)) && (
-          <div className="sidebar__finish-tile">
-            <FinishTile />
-          </div>
+        {isCreateReportMapMode && <NewReport />}
+        {isEditingReportMode && openReportContent && (
+          <ReportForm areManageReportButtonsVisible={areManageReportButtonsVisible} />
         )}
-      </div>
-    </div>
+        {isConnectionMode && <ConnectionSidePanel />}
+      </>
+    </SidebarContainer>
   );
 };
 
