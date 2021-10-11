@@ -10,6 +10,12 @@ export const pl = {
       reset: 'Wyczyść',
       send: 'Wyślij',
     },
+    cookies: {
+      title: 'Szanowny Kliencie',
+      content:
+        'Nasza strona internetowa używa plików cookies (tzw. ciasteczka) w celach statystycznych oraz funkcjonalnych. Dzięki nim możemy indywidualnie dostosować stronę do twoich potrzeb. Każdy może zaakceptować pliki cookies albo ma możliwość wyłączenia ich w przeglądarce, dzięki czemu nie będą zbierane żadne informacje.',
+      button: 'Akceptuję',
+    },
     connection: {
       formTitle: 'Stwórz nowe połączenie',
       createSuccessMessage: 'Stworzono nowe połączenie',
@@ -25,7 +31,8 @@ export const pl = {
       visible: 'Pełna widoczność',
       semiTransparent: 'Częściowo przeźroczyste',
       hidden: 'Ukryte',
-      hiddenConnectionLinesWarning: 'Zalecamy nie wyłączać widoczności linii, gdy połączone przystanki nadal pozostają widoczne',
+      hiddenConnectionLinesWarning:
+        'Zalecamy nie wyłączać widoczności linii, gdy połączone przystanki nadal pozostają widoczne',
     },
     contactForm: {
       description: 'Problem z logowaniem? Potrzebujesz się skontaktować? Wyślij nam ',
