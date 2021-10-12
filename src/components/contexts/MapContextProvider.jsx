@@ -23,7 +23,7 @@ const MapContextProvider = ({children}) => {
   const [openReportContent, setOpenReportContent] = useState(null);
   const [tiles, setTiles] = useState([]);
   const [rerenderTiles, setRerenderTiles] = useState(false);
-  const [connectedStopIds, setConnectedStopIds] = useState(null);
+  const [connectedStopIds, setConnectedStopIds] = useState([]);
   const [connectedStopVisibility, setConnectedStopVisibility] = useState('Visible');
   const [connectionLineVisbility, setConnectionLineVisbility] = useState('Visible');
   const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);

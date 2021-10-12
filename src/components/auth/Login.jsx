@@ -41,66 +41,66 @@ const Login = () => {
       <div className="register__logo">
         <Logo />
       </div>
+      <Formik
+        onSubmit={({email, password}) => {
+          runLogin(email, password);
+        }}
+        initialValues={{
+          email: '',
+          password: '',
+        }}
+        validationSchema={LoginSchema}>
+        {({handleChange, values, handleSubmit, errors, touched}) => (
+          <form onSubmit={handleSubmit}>
+            <TextField
+              className="content-container__text-field"
+              type="email"
+              id="email"
+              placeholder="E-mail"
+              onChange={handleChange('email')}
+              value={values.email}
+              disabled={isLoading}
+              error={errors.email && touched.email}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AlternateEmailIcon />
+                  </InputAdornment>
+                ),
+              }}
+              helperText={errors.email && touched.email && errors.email}
+            />
 
-      <div>
-        <Formik
-          onSubmit={({email, password}) => {
-            runLogin(email, password);
-          }}
-          initialValues={{
-            email: '',
-            password: '',
-          }}
-          validationSchema={LoginSchema}>
-          {({handleChange, values, handleSubmit, errors, touched}) => (
-            <div>
-              <TextField
-                className="content-container__text-field"
-                type="email"
-                id="email"
-                placeholder="E-mail"
-                onChange={handleChange('email')}
-                value={values.email}
-                disabled={isLoading}
-                error={errors.email && touched.email}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AlternateEmailIcon />
-                    </InputAdornment>
-                  ),
-                }}
-                helperText={errors.email && touched.email && errors.email}
-              />
-
-              <TextField
-                className="content-container__text-field"
-                type="password"
-                id="password"
-                placeholder={t('register.passwordPlaceholder')}
-                onChange={handleChange('password')}
-                value={values.password}
-                disabled={isLoading}
-                error={errors.password && touched.password}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Tooltip title={t('register.passwordPrompt')}>
-                        <VpnKeyIcon />
-                      </Tooltip>
-                    </InputAdornment>
-                  ),
-                }}
-                helperText={errors.password && touched.password}
-              />
-
-              <Button variant="contained" disabled={isLoading} onClick={handleSubmit} className="register__button">
-                {t('login.loginText')}
-              </Button>
-            </div>
-          )}
-        </Formik>
-      </div>
+            <TextField
+              className="content-container__text-field"
+              type="password"
+              id="password"
+              placeholder={t('register.passwordPlaceholder')}
+              onChange={handleChange('password')}
+              value={values.password}
+              disabled={isLoading}
+              error={errors.password && touched.password}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Tooltip title={t('register.passwordPrompt')}>
+                      <VpnKeyIcon />
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
+              helperText={errors.password && touched.password}
+            />
+            <Button
+              variant="contained"
+              disabled={isLoading}
+              className="register__button"
+              type="submit">
+              {t('login.loginText')}
+            </Button>
+          </form>
+        )}
+      </Formik>
 
       <p className="login-link">
         {t('login.forgotPassword') + ' '}
