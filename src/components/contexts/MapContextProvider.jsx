@@ -24,8 +24,8 @@ const MapContextProvider = ({children}) => {
   const [tiles, setTiles] = useState([]);
   const [rerenderTiles, setRerenderTiles] = useState(false);
   const [connectedStopIds, setConnectedStopIds] = useState([]);
-  const [connectedStopVisibility, setConnectedStopVisibility] = useState('Visible');
-  const [connectionLineVisbility, setConnectionLineVisbility] = useState('Visible');
+  const [connectedStopVisibility, setConnectedStopVisibility] = useState('Semi-transparent');
+  const [unconnectedStopVisibility, setUnconnectedStopVisibility] = useState('Visible');
   const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);
 
   const singleTileToggle = isActive => {
@@ -112,8 +112,8 @@ const MapContextProvider = ({children}) => {
 
   const resetMapSettings = () => {
     setConnectedStopIds(null);
-    setConnectedStopVisibility('Visible');
-    setConnectionLineVisbility('Visible');
+    setConnectedStopVisibility('Semi-transparent');
+    setUnconnectedStopVisibility('Visible');
   };
 
   return (
@@ -139,10 +139,10 @@ const MapContextProvider = ({children}) => {
         tiles,
         connectedStopIds,
         connectedStopVisibility,
-        connectionLineVisbility,
+        unconnectedStopVisibility,
         areManageReportButtonsVisible,
         setAreManageReportButtonsVisible,
-        setConnectionLineVisbility,
+        setUnconnectedStopVisibility,
         resetMapSettings,
         setConnectedStopVisibility,
         setConnectedStopIds,

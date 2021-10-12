@@ -8,6 +8,7 @@ const BusMarker = ({
   busStop,
   connectedStopIds,
   connectedStopVisibility,
+  unconnectedStopVisibility,
   isConnectionMode,
   createConnection,
   isViewMode,
@@ -25,6 +26,8 @@ const BusMarker = ({
           ? connectedStopVisibility === connectedStopVisibilityProps.semiTransparent
             ? 0.5
             : 1
+          : unconnectedStopVisibility === connectedStopVisibilityProps.semiTransparent
+          ? 0.5
           : 1
       }
       eventHandlers={{
