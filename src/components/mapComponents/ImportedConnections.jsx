@@ -12,9 +12,7 @@ import {NotificationActions} from '../../redux/actions/notificationActions';
 import colors from '../../stylesheets/config/colors.module.scss';
 import {exception} from '../../utilities/exceptionHelper';
 
-import {connectionLineVisibilityProps} from '../../utilities/constants';
-
-const ImportedConnections = ({stops, importedConnections, shouldRenderConnections, connectionLineVisbility}) => {
+const ImportedConnections = ({stops, importedConnections, shouldRenderConnections}) => {
   const popupRef = useRef(null);
   const {t} = useTranslation();
   const dispatch = useDispatch();
@@ -41,12 +39,10 @@ const ImportedConnections = ({stops, importedConnections, shouldRenderConnection
     popupRef.current._close();
   };
 
-  const connections = connectionLineVisbility === connectionLineVisibilityProps.hidden ? [] : importedConnections;
-
   return (
     <>
       {stops.length > 0 &&
-        connections.map(({osmStopId, gtfsStopId}, index) => {
+        importedConnections.map(({osmStopId, gtfsStopId}, index) => {
           const foundOSM = stops.find(stop => stop.id === osmStopId);
           const foundGTFS = stops.find(stop => stop.id === gtfsStopId);
           if (foundOSM !== undefined && foundGTFS !== undefined) {

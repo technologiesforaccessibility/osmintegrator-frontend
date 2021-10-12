@@ -20,24 +20,17 @@ export const roles = {
   COORDINATOR: 'Coordinator',
   SUPERVISOR: 'Supervisor',
   EDITOR: 'Editor',
-  USER: 'User'
+  USER: 'User',
 };
 
 export const connectionVisibilityTexts = {
-  visible:  i18n.t('connectionVisibility.visible'),
+  visible: i18n.t('connectionVisibility.visible'),
   semiTransparent: i18n.t('connectionVisibility.semiTransparent'),
   hidden: i18n.t('connectionVisibility.hidden'),
 };
 
-
-
 export const connectedStopVisibilityProps = {
   visible: 'Visible',
   semiTransparent: 'Semi-transparent',
-  hidden: 'Hidden',
-};
-
-export const connectionLineVisibilityProps = {
-  visible: 'Visible',
   hidden: 'Hidden',
 };
