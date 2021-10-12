@@ -28,7 +28,7 @@ const TileStops = ({
   return (
     <>
       {areStopsVisible &&
-        stopsToRender().map(busStop => (
+        stopsToRender().map((busStop, index) => (
           <BusMarker
             busStop={busStop}
             connectedStopIds={connectedStopIds}
@@ -38,6 +38,7 @@ const TileStops = ({
             isViewMode={isViewMode}
             isActiveStopClicked={isActiveStopClicked}
             clickBusStop={clickBusStop}
+            key={`bust_stop_${index}`}
           />
         ))}
     </>
