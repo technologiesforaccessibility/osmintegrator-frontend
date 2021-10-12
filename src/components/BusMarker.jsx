@@ -19,6 +19,7 @@ const BusMarker = ({
       key={busStop.id}
       position={[busStop.lat, busStop.lon]}
       icon={getBusStopIcon(busStop)}
+      riseOnHover={true}
       opacity={
         connectedStopIds.includes(busStop.id)
           ? connectedStopVisibility === connectedStopVisibilityProps.semiTransparent
