@@ -1,6 +1,7 @@
 import 'leaflet/dist/leaflet.css';
+import '../stylesheets/mapView.scss';
 import {useContext, useEffect, useState} from 'react';
-import {MapContainer, TileLayer} from 'react-leaflet';
+import {MapContainer, TileLayer, Pane} from 'react-leaflet';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
@@ -221,13 +222,15 @@ export const MapView = () => {
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         maxZoom={maxZoom}
       />
-      <NewConnections connections={connectionData} isTileActive={isTileActive} />
-      <ImportedConnections
-        stops={allStops}
-        importedConnections={importedConnections}
-        shouldRenderConnections={shouldRenderConnections}
-        connectionLineVisbility={connectionLineVisbility}
-      />
+      <Pane name="connections">
+        <NewConnections connections={connectionData} isTileActive={isTileActive} />
+        <ImportedConnections
+          stops={allStops}
+          importedConnections={importedConnections}
+          shouldRenderConnections={shouldRenderConnections}
+          connectionLineVisbility={connectionLineVisbility}
+        />
+      </Pane>
       <MapTiles
         isTileActive={isTileActive}
         tiles={tiles}
