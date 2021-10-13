@@ -228,6 +228,8 @@ export const MapView = () => {
           stops={allStops}
           importedConnections={importedConnections}
           shouldRenderConnections={shouldRenderConnections}
+          connectedStopVisibility={connectedStopVisibility}
+          unconnectedStopVisibility={unconnectedStopVisibility}
         />
       </Pane>
       <MapTiles
