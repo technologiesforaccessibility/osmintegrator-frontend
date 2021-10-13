@@ -74,18 +74,19 @@ const FinishTile = () => {
           <div className="finish-tile__buttons">
             <Button
               className="finish-tile__decision-button"
-              type="submit"
-              variant="contained"
-              disabled={areDisabledConfirmationButtons}
-              onClick={() => approveTile()}>
-              {t('buttons.send')}
-            </Button>
-            <Button
-              className="finish-tile__decision-button"
               variant="contained"
               disabled={areDisabledConfirmationButtons}
               onClick={() => setOpenModal(false)}>
               {t('buttons.cancel')}
+            </Button>
+            <Button
+              className="finish-tile__decision-button"
+              type="submit"
+              color="primary"
+              variant="contained"
+              disabled={areDisabledConfirmationButtons}
+              onClick={() => approveTile()}>
+              {t('buttons.send')}
             </Button>
           </div>
         </DialogContent>
