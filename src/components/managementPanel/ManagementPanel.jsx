@@ -7,7 +7,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
-import {CircularProgress} from '@material-ui/core';
+import {CircularProgress} from '@mui/material';
 
 import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';

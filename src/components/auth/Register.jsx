@@ -11,7 +11,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import InputAdornment from '@mui/material/InputAdornment';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
-import {FormControlLabel} from '@material-ui/core';
+import {FormControlLabel} from '@mui/material';
 
 import AuthContainer from '../AuthContainer';
 import Loader from '../Loader';

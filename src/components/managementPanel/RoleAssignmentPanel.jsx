@@ -7,7 +7,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import {Checkbox, CircularProgress} from '@material-ui/core';
+import {Checkbox, CircularProgress} from '@mui/material';
 import Button from '@mui/material/Button';
 
 import H4Title from '../customs/H4Title';
