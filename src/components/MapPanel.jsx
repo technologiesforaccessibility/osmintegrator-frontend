@@ -1,4 +1,7 @@
 import {useContext, useState} from 'react';
+import {useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
+
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -6,13 +9,15 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import ReportIcon from '@material-ui/icons/Report';
 import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import {useTranslation} from 'react-i18next';
-import ConnectionVisibilityPanel from './ConnectionVisibilityPanel';
-import MapOptions from './MapOptions';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 
-import {MapContext} from './contexts/MapContextProvider';
+import {selectLoggedInUserRoles} from '../redux/selectors/authSelector';
+import {MapContext, MapModes} from './contexts/MapContextProvider';
+import ConnectionVisibilityPanel from './ConnectionVisibilityPanel';
+import MapOptions from './MapOptions';
+import {roles} from '../utilities/constants';
 
 import '../stylesheets/mapPanel.scss';
 
@@ -32,14 +37,13 @@ const MapPanel = () => {
   const {
     isTileActive,
     singleTileToggle,
-    viewModeToggle,
-    reportModeToggle,
-    connectionModeToggle,
+    mapMode,
+    toogleMapMode,
     hideTileElements,
     resetMapSettings,
   } = useContext(MapContext);
-  const [toggleButton, setToggleButton] = useState('View');
   const {t} = useTranslation();
+  const authRoles = useSelector(selectLoggedInUserRoles);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -48,36 +52,28 @@ const MapPanel = () => {
   const radios = [
     {
       title: t('tileModePrompts.view'),
-      name: 'View',
+      name: MapModes.view,
       icon: () => <VisibilityIcon />,
     },
     {
       title: t('tileModePrompts.report'),
-      name: 'Report',
+      name: MapModes.report,
       icon: () => <ReportIcon />,
     },
     {
       title: t('tileModePrompts.connection'),
-      name: 'Connection',
+      name: MapModes.connection,
       icon: () => <SettingsEthernetIcon />,
+    },
+    (authRoles || []).includes(roles.SUPERVISOR) && {
+      title: t('tileModePrompts.approveConnections'),
+      name: MapModes.approveConnections,
+      icon: () => <AssignmentTurnedInIcon />,
     },
   ];
 
   const handleChange = (_, value) => {
-    setToggleButton(value);
-    switch (value) {
-      case 'View':
-        viewModeToggle();
-        break;
-      case 'Report':
-        reportModeToggle();
-        break;
-      case 'Connection':
-        connectionModeToggle();
-        break;
-      default:
-        break;
-    }
+    toogleMapMode(value);
   };
 
   return (
@@ -100,7 +96,7 @@ const MapPanel = () => {
             </ToggleButton>
             <ToggleButtonGroup
               className="map-panel__toggle-group"
-              value={toggleButton}
+              value={mapMode}
               exclusive
               color="primary"
               onChange={handleChange}>

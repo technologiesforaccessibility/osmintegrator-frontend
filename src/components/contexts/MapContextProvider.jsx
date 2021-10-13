@@ -2,6 +2,13 @@ import {createContext, useState} from 'react';
 
 export const MapContext = createContext();
 
+export const MapModes = {
+  view: 'View',
+  report: 'Report',
+  connection: 'Connection',
+  approveConnections: 'Approve Connections',
+};
+
 const initialReportCoords = {lat: null, lon: null};
 
 const MapContextProvider = ({children}) => {
@@ -11,9 +18,7 @@ const MapContextProvider = ({children}) => {
   const [propertyGrid, setPropertyGrid] = useState(null);
   const [rerenderConnections, setRerenderConnections] = useState(false);
   const [connectionData, setConnectionData] = useState([]);
-  const [isViewMode, setIsViewMode] = useState(true);
-  const [isCreateReportMapMode, setIsCreateReportMapMode] = useState(false);
-  const [isConnectionMode, setIsConnectionMode] = useState(false);
+  const [mapMode, setMapMode] = useState(MapModes.view);
   const [isEditingReportMode, setIsEditingReportMode] = useState(false);
   const [newReportCoordinates, setNewReportCoordinates] = useState(initialReportCoords);
   const [rerenderReports, setRerenderReports] = useState(false);
@@ -31,35 +36,7 @@ const MapContextProvider = ({children}) => {
   const singleTileToggle = isActive => {
     setIsTileActive(isActive);
     setAreStopsVisible(isActive);
-    viewModeToggle();
-  };
-
-  const viewModeToggle = () => {
-    if (!isViewMode) {
-      setIsViewMode(true);
-      setIsCreateReportMapMode(false);
-      setIsConnectionMode(false);
-    }
-  };
-
-  const reportModeToggle = () => {
-    if (!isCreateReportMapMode) {
-      setIsViewMode(false);
-      setIsCreateReportMapMode(true);
-      setIsConnectionMode(false);
-      setIsEditingReportMode(false);
-      setOpenReportContent(null);
-    }
-  };
-
-  const connectionModeToggle = () => {
-    if (!isConnectionMode) {
-      setIsViewMode(false);
-      setIsCreateReportMapMode(false);
-      setIsConnectionMode(true);
-      setIsEditingReportMode(false);
-      setOpenReportContent(null);
-    }
+    toogleMapMode(MapModes.view);
   };
 
   const activeMapToggle = setIsMapActive;
@@ -90,14 +67,25 @@ const MapContextProvider = ({children}) => {
     setNewReportCoordinates(initialReportCoords);
   };
 
+  const toogleMapMode = mode => {
+    if (!Object.values(MapModes).includes(mode)) {
+      return;
+    }
+
+    if (mode !== MapModes.view) {
+      setIsEditingReportMode(false);
+      setOpenReportContent(null);
+    }
+
+    setMapMode(mode);
+  };
+
   const resetMapContext = () => {
     setIsTileActive(false);
     setAreStopsVisible(false);
     setConnectionData([]);
     setPropertyGrid(null);
-    setIsViewMode(true);
-    setIsCreateReportMapMode(false);
-    setIsConnectionMode(false);
+    setMapMode(MapModes.view);
     setIsEditingReportMode(false);
     setActiveTile({});
     setImportedConnections([]);
@@ -120,9 +108,7 @@ const MapContextProvider = ({children}) => {
     <MapContext.Provider
       value={{
         isTileActive,
-        isViewMode,
-        isCreateReportMapMode,
-        isConnectionMode,
+        mapMode,
         isMapActive,
         areStopsVisible,
         propertyGrid,
@@ -154,9 +140,7 @@ const MapContextProvider = ({children}) => {
         updateConnectionData,
         reset,
         shouldRenderConnections,
-        viewModeToggle,
-        reportModeToggle,
-        connectionModeToggle,
+        toogleMapMode,
         setNewReportCoordinates,
         resetReportCoordinates,
         setActiveTile,

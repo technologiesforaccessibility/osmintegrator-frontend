@@ -144,6 +144,7 @@ export const pl = {
       report: 'Stwórz nowe zgłoszenie na mapie',
       connection: 'Stwórz nowe połączenie',
       back: 'Ukryj kafelek',
+      approveConnections: 'Zatwierdź połączenia'
     },
     error: {
       unrecognizedProblem: 'Coś poszło nie tak. Skontaktuj się z administratorem.',

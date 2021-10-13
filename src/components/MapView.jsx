@@ -8,7 +8,7 @@ import {useTranslation} from 'react-i18next';
 import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
 import {NotificationActions} from '../redux/actions/notificationActions';
-import {MapContext} from './contexts/MapContextProvider';
+import {MapContext, MapModes} from './contexts/MapContextProvider';
 import ImportedConnections from './mapComponents/ImportedConnections';
 import ImportedReports from './mapComponents/ImportedReports';
 import MapTiles from './mapComponents/MapTiles';
@@ -41,9 +41,7 @@ export const MapView = () => {
     isTileActive,
     singleTileToggle,
     areStopsVisible,
-    isViewMode,
-    isConnectionMode,
-    isCreateReportMapMode,
+    mapMode,
     displayPropertyGrid,
     updateConnectionData,
     connectionData,
@@ -236,7 +234,7 @@ export const MapView = () => {
         tiles={tiles}
         activeTile={activeTile}
         setActiveTile={setActiveTile}
-        isCreateReportMapMode={isCreateReportMapMode}
+        isCreateReportMapMode={mapMode === MapModes.report}
         addReportMarker={addReportMarker}
       />
       <TileStops
@@ -245,8 +243,8 @@ export const MapView = () => {
         createConnection={createConnection}
         isActiveStopClicked={isActiveStopClicked}
         clickBusStop={clickBusStop}
-        isConnectionMode={isConnectionMode}
-        isViewMode={isViewMode}
+        isConnectionMode={mapMode === MapModes.connection}
+        isViewMode={mapMode === MapModes.view}
         connectedStopVisibility={connectedStopVisibility}
         connectedStopIds={connectedStopIds}
       />
