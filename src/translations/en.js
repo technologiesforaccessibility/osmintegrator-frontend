@@ -29,6 +29,9 @@ export const en = {
       editConnectionConfirmation: 'Choose action',
       mark2Stops: 'Mark 2 stops',
       differentTypeError: 'It is not allowed to connect stops of the same type.',
+      unapproveConnectionConfirmation: 'Delete connection approval?',
+      unapproveConnectionInfo: 'Click line if you want to unapprove connection.',
+      unapproveSuccessMessage: 'Connection approval deleted.'
     },
     connectionVisibility: {
       nameConnected: 'Connected stops',

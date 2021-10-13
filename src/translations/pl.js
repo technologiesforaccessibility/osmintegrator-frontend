@@ -29,6 +29,9 @@ export const pl = {
       editConnectionConfirmation: 'Wybierz akcję',
       mark2Stops: 'Zaznacz 2 przystanki',
       differentTypeError: 'Nie można łączyć przystanków tego samego typu.',
+      unapproveConnectionConfirmation: 'Usunąć zatwierdzenie połączenia?',
+      unapproveConnectionInfo: 'Kliknij na linię, jeśli chcesz usunąć zatwierdzenie połączenia',
+      unapproveSuccessMessage: 'Usunięto zatwierdzenie połączenia',
     },
     connectionVisibility: {
       nameConnected: 'Połączone przystanki',
@@ -147,7 +150,7 @@ export const pl = {
       report: 'Stwórz nowe zgłoszenie na mapie',
       connection: 'Stwórz nowe połączenie',
       back: 'Ukryj kafelek',
-      approveConnections: 'Zatwierdź połączenia'
+      approveConnections: 'Zatwierdź połączenia',
     },
     error: {
       unrecognizedProblem: 'Coś poszło nie tak. Skontaktuj się z administratorem.',

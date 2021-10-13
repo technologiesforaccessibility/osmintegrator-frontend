@@ -13,6 +13,7 @@ import colors from '../../stylesheets/config/colors.module.scss';
 import {exception} from '../../utilities/exceptionHelper';
 
 import {connectedStopVisibilityProps} from '../../utilities/constants';
+import UnapproveConnectionPopup from './UnapproveConnectionPopup';
 
 const ImportedConnections = ({
   stops,
@@ -20,9 +21,10 @@ const ImportedConnections = ({
   shouldRenderConnections,
   connectedStopVisibility,
   unconnectedStopVisibility,
-  inApproveMode
+  inApproveMode,
 }) => {
   const popupRef = useRef(null);
+  const unapproveRef = useRef(null);
   const {t} = useTranslation();
   const dispatch = useDispatch();
 
@@ -56,8 +58,20 @@ const ImportedConnections = ({
     }
   };
 
+  const unapproveConnection = async id => {
+    try {
+      await api.connectionsUnapproveUpdate(id, {
+        headers: basicHeaders(),
+      });
+      shouldRenderConnections(true);
+      dispatch(NotificationActions.success(t('connection.unapproveSuccessMessage')));
+    } catch (error) {
+      exception(error);
+    }
+  };
+
   const closePopup = () => {
-    popupRef.current._close();
+    popupRef.current && popupRef.current._close();
   };
 
   const connections = connectedStopVisibility === connectedStopVisibilityProps.hidden ? [] : importedConnections;
@@ -75,14 +89,15 @@ const ImportedConnections = ({
                 key={index}
                 pathOptions={{
                   color: colors.colorConnectionImported,
+                  opacity: approved ? 0.5 : 1,
                 }}
                 positions={getPosition(foundOSM, foundGTFS)}>
-                {!approved && (
+                {(!approved && (
                   <>
                     <Tooltip direction="bottom">
                       {(inApproveMode && t('connection.editConnectionInfo')) || t('connection.deleteConnectionInfo')}
                     </Tooltip>
-                    <Popup ref={popupRef} key={index} closeButton={false}>
+                    <Popup ref={popupRef} key={`popup_${index}`} closeButton={false}>
                       <EditConnectionPopup
                         closePopup={closePopup}
                         deleteConnection={deleteConnection}
@@ -92,7 +107,20 @@ const ImportedConnections = ({
                       />
                     </Popup>
                   </>
-                )}
+                )) ||
+                  (inApproveMode && (
+                    <>
+                      <Tooltip direction="bottom">
+                        {t('connection.unapproveConnectionInfo')}
+                      </Tooltip>
+                      <Popup ref={unapproveRef} key={`popup_${index}`} closeButton={false}>
+                        <UnapproveConnectionPopup
+                          closePopup={() => (unapproveRef.current && unapproveRef.current._close()) || null}
+                          unapproveConnection={() => unapproveConnection(id)}
+                        />
+                      </Popup>
+                    </>
+                  ))}
               </Polyline>
             );
           }
