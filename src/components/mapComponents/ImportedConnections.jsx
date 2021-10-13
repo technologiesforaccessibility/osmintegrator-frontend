@@ -12,9 +12,15 @@ import {NotificationActions} from '../../redux/actions/notificationActions';
 import colors from '../../stylesheets/config/colors.module.scss';
 import {exception} from '../../utilities/exceptionHelper';
 
-import {connectionLineVisibilityProps} from '../../utilities/constants';
+import {connectedStopVisibilityProps} from '../../utilities/constants';
 
-const ImportedConnections = ({stops, importedConnections, shouldRenderConnections, connectionLineVisbility}) => {
+const ImportedConnections = ({
+  stops,
+  importedConnections,
+  shouldRenderConnections,
+  connectedStopVisibility,
+  unconnectedStopVisibility,
+}) => {
   const popupRef = useRef(null);
   const {t} = useTranslation();
   const dispatch = useDispatch();
@@ -41,7 +47,7 @@ const ImportedConnections = ({stops, importedConnections, shouldRenderConnection
     popupRef.current._close();
   };
 
-  const connections = connectionLineVisbility === connectionLineVisibilityProps.hidden ? [] : importedConnections;
+  const connections = connectedStopVisibility === connectedStopVisibilityProps.hidden ? [] : importedConnections;
 
   return (
     <>

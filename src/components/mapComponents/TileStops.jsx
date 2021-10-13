@@ -10,12 +10,18 @@ const TileStops = ({
   isConnectionMode,
   isViewMode,
   connectedStopVisibility,
+  unconnectedStopVisibility,
   connectedStopIds,
 }) => {
   const stopsToRender = () => {
     const stopsAfterVisibilityFilter =
-      connectedStopVisibility === connectedStopVisibilityProps.hidden
+      connectedStopVisibility === connectedStopVisibilityProps.hidden &&
+      unconnectedStopVisibility === connectedStopVisibilityProps.hidden
+        ? []
+        : connectedStopVisibility === connectedStopVisibilityProps.hidden
         ? stops.filter(stop => !connectedStopIds.includes(stop.id))
+        : unconnectedStopVisibility === connectedStopVisibilityProps.hidden
+        ? stops.filter(stop => connectedStopIds.includes(stop.id))
         : stops;
 
     const stopsWithoutOSMOutsideTile = stopsAfterVisibilityFilter.filter(
@@ -33,6 +39,7 @@ const TileStops = ({
             busStop={busStop}
             connectedStopIds={connectedStopIds}
             connectedStopVisibility={connectedStopVisibility}
+            unconnectedStopVisibility={unconnectedStopVisibility}
             isConnectionMode={isConnectionMode}
             createConnection={createConnection}
             isViewMode={isViewMode}

@@ -62,8 +62,8 @@ export const MapView = () => {
     setOpenReportContent,
     setConnectedStopIds,
     connectedStopVisibility,
+    unconnectedStopVisibility,
     connectedStopIds,
-    connectionLineVisbility,
     setAreManageReportButtonsVisible,
   } = useContext(MapContext);
 
@@ -228,7 +228,8 @@ export const MapView = () => {
           stops={allStops}
           importedConnections={importedConnections}
           shouldRenderConnections={shouldRenderConnections}
-          connectionLineVisbility={connectionLineVisbility}
+          connectedStopVisibility={connectedStopVisibility}
+          unconnectedStopVisibility={unconnectedStopVisibility}
         />
       </Pane>
       <MapTiles
@@ -248,6 +249,7 @@ export const MapView = () => {
         isConnectionMode={isConnectionMode}
         isViewMode={isViewMode}
         connectedStopVisibility={connectedStopVisibility}
+        unconnectedStopVisibility={unconnectedStopVisibility}
         connectedStopIds={connectedStopIds}
       />
       <NewReportMarker newReportCoordinates={newReportCoordinates} />
