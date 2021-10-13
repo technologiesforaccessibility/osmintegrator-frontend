@@ -9,6 +9,8 @@ export const en = {
       cancel: 'Cancel',
       reset: 'Reset',
       send: 'Send',
+      delete: 'Delete',
+      approve: 'Approve',
     },
     cookies: {
       title: 'Dear Customer',
@@ -22,6 +24,9 @@ export const en = {
       deleteSuccessMessage: 'Connection deleted',
       deleteConnectionInfo: 'Click line if you want to delete connection',
       deleteConnectionConfirmation: 'Delete?',
+      approveSuccessMessage: 'Connection approved',
+      editConnectionInfo: 'Click line if you want to edit connection',
+      editConnectionConfirmation: 'Choose action',
       mark2Stops: 'Mark 2 stops',
       differentTypeError: 'It is not allowed to connect stops of the same type.',
     },

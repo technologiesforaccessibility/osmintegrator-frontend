@@ -6,7 +6,7 @@ import {useTranslation} from 'react-i18next';
 import {generateConnectionData, getPosition} from '../../utilities/mapUtilities';
 import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';
-import DeleteConnectionPopup from './DeleteConnectionPopup';
+import EditConnectionPopup from './EditConnectionPopup';
 import {NotificationActions} from '../../redux/actions/notificationActions';
 
 import colors from '../../stylesheets/config/colors.module.scss';
@@ -14,7 +14,7 @@ import {exception} from '../../utilities/exceptionHelper';
 
 import {connectionLineVisibilityProps} from '../../utilities/constants';
 
-const ImportedConnections = ({stops, importedConnections, shouldRenderConnections, connectionLineVisbility}) => {
+const ImportedConnections = ({stops, importedConnections, shouldRenderConnections, connectionLineVisbility, inApproveMode}) => {
   const popupRef = useRef(null);
   const {t} = useTranslation();
   const dispatch = useDispatch();
@@ -37,6 +37,18 @@ const ImportedConnections = ({stops, importedConnections, shouldRenderConnection
     }
   };
 
+  const approveConnection = async id => {
+    try {
+      await api.connectionsApproveUpdate(id, {
+        headers: basicHeaders(),
+      });
+      shouldRenderConnections(true);
+      dispatch(NotificationActions.success(t('connection.approveSuccessMessage')));
+    } catch (error) {
+      exception(error);
+    }
+  };
+
   const closePopup = () => {
     popupRef.current._close();
   };
@@ -46,7 +58,7 @@ const ImportedConnections = ({stops, importedConnections, shouldRenderConnection
   return (
     <>
       {stops.length > 0 &&
-        connections.map(({osmStopId, gtfsStopId}, index) => {
+        connections.map(({osmStopId, gtfsStopId, approved, id}, index) => {
           const foundOSM = stops.find(stop => stop.id === osmStopId);
           const foundGTFS = stops.find(stop => stop.id === gtfsStopId);
           if (foundOSM !== undefined && foundGTFS !== undefined) {
@@ -58,15 +70,22 @@ const ImportedConnections = ({stops, importedConnections, shouldRenderConnection
                   color: colors.colorConnectionImported,
                 }}
                 positions={getPosition(foundOSM, foundGTFS)}>
-                <Tooltip direction="bottom">{t('connection.deleteConnectionInfo')}</Tooltip>
-                <Popup ref={popupRef} key={index} closeButton={false}>
-                  <DeleteConnectionPopup
-                    closePopup={closePopup}
-                    deleteConnection={deleteConnection}
-                    gtfs={foundGTFS}
-                    osm={foundOSM}
-                  />
-                </Popup>
+                {!approved && (
+                  <>
+                    <Tooltip direction="bottom">
+                      {(inApproveMode && t('connection.editConnectionInfo')) || t('connection.deleteConnectionInfo')}
+                    </Tooltip>
+                    <Popup ref={popupRef} key={index} closeButton={false}>
+                      <EditConnectionPopup
+                        closePopup={closePopup}
+                        deleteConnection={deleteConnection}
+                        gtfs={foundGTFS}
+                        osm={foundOSM}
+                        approveConnection={(inApproveMode && (() => approveConnection(id))) || null}
+                      />
+                    </Popup>
+                  </>
+                )}
               </Polyline>
             );
           }

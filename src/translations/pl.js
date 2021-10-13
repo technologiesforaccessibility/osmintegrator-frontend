@@ -9,6 +9,8 @@ export const pl = {
       cancel: 'Anuluj',
       reset: 'Wyczyść',
       send: 'Wyślij',
+      delete: 'Usuń',
+      approve: 'Zatwierdź',
     },
     cookies: {
       title: 'Szanowny Kliencie',
@@ -22,6 +24,9 @@ export const pl = {
       deleteSuccessMessage: 'Usunięto połączenie',
       deleteConnectionInfo: 'Kliknij na linię, jeśli chcesz usunąć połączenie',
       deleteConnectionConfirmation: 'Usunąć?',
+      approveSuccessMessage: 'Zatwierdzono połączenie',
+      editConnectionInfo: 'Kliknij na linię, jeśli chcesz edytować połączenie',
+      editConnectionConfirmation: 'Wybierz akcję',
       mark2Stops: 'Zaznacz 2 przystanki',
       differentTypeError: 'Nie można łączyć przystanków tego samego typu.',
     },

@@ -227,6 +227,7 @@ export const MapView = () => {
           importedConnections={importedConnections}
           shouldRenderConnections={shouldRenderConnections}
           connectionLineVisbility={connectionLineVisbility}
+          inApproveMode={mapMode === MapModes.approveConnections}
         />
       </Pane>
       <MapTiles
