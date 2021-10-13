@@ -47,6 +47,13 @@ const FinishTile = () => {
     return t('finishTile.supervisorMainButton');
   };
 
+  const approveText = () => {
+    if (authRoles.includes(roles.EDITOR) && !activeTile.approvedByEditor) {
+      return t('finishTile.editorConfirmation');
+    }
+    return t('finishTile.supervisorConfirmation');
+  };
+
   return (
     <>
       {((authRoles.includes(roles.SUPERVISOR) && activeTile.approvedByEditor) ||
@@ -62,7 +69,7 @@ const FinishTile = () => {
         </Button>
       )}
       <Dialog open={openModal} onClose={handleClose}>
-        <DialogTitle>{t('finishTile.confirmation')}</DialogTitle>
+        <DialogTitle>{approveText()}</DialogTitle>
         <DialogContent>
           <div className="finish-tile__buttons">
             <Button
