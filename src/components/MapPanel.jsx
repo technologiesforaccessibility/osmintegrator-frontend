@@ -4,11 +4,11 @@ import {useTranslation} from 'react-i18next';
 
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import Tooltip from '@material-ui/core/Tooltip';
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import ReportIcon from '@material-ui/icons/Report';
-import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Tooltip from '@mui/material/Tooltip';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import ReportIcon from '@mui/icons-material/Report';
+import SettingsEthernetIcon from '@mui/icons-material/SettingsEthernet';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';

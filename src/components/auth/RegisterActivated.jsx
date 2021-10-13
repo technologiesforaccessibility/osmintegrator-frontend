@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 
 import AuthContainer from '../AuthContainer';
 import {ReactComponent as Logo} from './../../assets/accountLogo.svg';

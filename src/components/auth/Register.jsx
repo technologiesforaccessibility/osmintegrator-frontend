@@ -3,14 +3,14 @@ import {useTranslation} from 'react-i18next';
 import {Formik} from 'formik';
 import {Redirect} from 'react-router-dom';
 
-import TextField from '@material-ui/core/TextField';
-import Tooltip from '@material-ui/core/Tooltip';
-import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+import InputAdornment from '@mui/material/InputAdornment';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import {FormControlLabel} from '@material-ui/core';
 
 import AuthContainer from '../AuthContainer';

@@ -1,5 +1,5 @@
 import SettingsIcon from '@mui/icons-material/Settings';
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from '@mui/material/Tooltip';
 
 const MapOptions = ({handleClick}) => {
   return (
