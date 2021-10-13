@@ -21,10 +21,14 @@ export default function AuthContainer({children}) {
           <div className="auth__form-box">{children}</div>
         </div>
         <div className="auth__logos">
-          <a className="auth__logos--rdn" href="https://rozwiazaniadlaniewidomych.org/">
+          <a
+            className="auth__logos--rdn"
+            href="https://rozwiazaniadlaniewidomych.org/"
+            target="_blank"
+            rel="noreferrer">
             <img src={rdnLogo} alt="Logo Rozwiązania dla niewidomych" />
           </a>
-          <a className="auth__logos--revolve" href="https://revolve.healthcare/">
+          <a className="auth__logos--revolve" href="https://revolve.healthcare/" target="_blank" rel="noreferrer">
             <RevolveLogo />
           </a>
         </div>
