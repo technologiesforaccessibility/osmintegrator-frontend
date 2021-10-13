@@ -44,6 +44,7 @@ const ImportedReports = ({reports}) => {
           key={index}
           position={[lat, lon]}
           icon={getReportIcon(status)}
+          zIndexOffset={100}
           eventHandlers={{
             click: () => {
               handleReportClick(lat, lon, text, id, tileId, status);
