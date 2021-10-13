@@ -1,4 +1,5 @@
 import {createContext, useState} from 'react';
+import {connectedStopVisibilityProps} from '../../utilities/constants';
 
 export const MapContext = createContext();
 
@@ -24,8 +25,8 @@ const MapContextProvider = ({children}) => {
   const [tiles, setTiles] = useState([]);
   const [rerenderTiles, setRerenderTiles] = useState(false);
   const [connectedStopIds, setConnectedStopIds] = useState([]);
-  const [connectedStopVisibility, setConnectedStopVisibility] = useState('Semi-transparent');
-  const [unconnectedStopVisibility, setUnconnectedStopVisibility] = useState('Visible');
+  const [connectedStopVisibility, setConnectedStopVisibility] = useState(connectedStopVisibilityProps.semiTransparent);
+  const [unconnectedStopVisibility, setUnconnectedStopVisibility] = useState(connectedStopVisibilityProps.visible);
   const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);
 
   const singleTileToggle = isActive => {
