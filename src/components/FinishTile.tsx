@@ -47,6 +47,13 @@ const FinishTile = () => {
     return t('finishTile.supervisorMainButton');
   };
 
+  const approveText = () => {
+    if (authRoles.includes(roles.EDITOR) && !activeTile.approvedByEditor) {
+      return t('finishTile.editorConfirmation');
+    }
+    return t('finishTile.supervisorConfirmation');
+  };
+
   return (
     <>
       {((authRoles.includes(roles.SUPERVISOR) && activeTile.approvedByEditor) ||
@@ -62,23 +69,24 @@ const FinishTile = () => {
         </Button>
       )}
       <Dialog open={openModal} onClose={handleClose}>
-        <DialogTitle>{t('finishTile.confirmation')}</DialogTitle>
+        <DialogTitle>{approveText()}</DialogTitle>
         <DialogContent>
           <div className="finish-tile__buttons">
-            <Button
-              className="finish-tile__decision-button"
-              type="submit"
-              variant="contained"
-              disabled={areDisabledConfirmationButtons}
-              onClick={() => approveTile()}>
-              {t('buttons.send')}
-            </Button>
             <Button
               className="finish-tile__decision-button"
               variant="contained"
               disabled={areDisabledConfirmationButtons}
               onClick={() => setOpenModal(false)}>
               {t('buttons.cancel')}
+            </Button>
+            <Button
+              className="finish-tile__decision-button"
+              type="submit"
+              color="primary"
+              variant="contained"
+              disabled={areDisabledConfirmationButtons}
+              onClick={() => approveTile()}>
+              {t('buttons.send')}
             </Button>
           </div>
         </DialogContent>

@@ -38,8 +38,10 @@ export const pl = {
     },
     finishTile: {
       editorMainButton: 'Wyślij kafelek do weryfikacji',
-      supervisorMainButton: 'Zatwierdź pracę edytora',
-      confirmation: 'Jesteś pewien?',
+      supervisorMainButton: 'Zatwierdź pracę edytora na wybranym kafelku',
+      editorConfirmation:
+        'Czy jesteś pewien, że chcesz wysłać kafelek do weryfikacji? Dokonanie późniejszych zmian nie będzie możliwe.',
+      supervisorConfirmation: 'Czy jesteś pewien, że chcesz zatwierdzić wszystkie połączenia na wybranym kafelku?',
       successMessage: 'Kafelek został wysłany',
     },
     login: {
