@@ -1,4 +1,5 @@
 import {createContext, useState} from 'react';
+import {connectedStopVisibilityProps} from '../../utilities/constants';
 
 export const MapContext = createContext();
 
@@ -29,8 +30,8 @@ const MapContextProvider = ({children}) => {
   const [tiles, setTiles] = useState([]);
   const [rerenderTiles, setRerenderTiles] = useState(false);
   const [connectedStopIds, setConnectedStopIds] = useState([]);
-  const [connectedStopVisibility, setConnectedStopVisibility] = useState('Visible');
-  const [connectionLineVisbility, setConnectionLineVisbility] = useState('Visible');
+  const [connectedStopVisibility, setConnectedStopVisibility] = useState(connectedStopVisibilityProps.semiTransparent);
+  const [unconnectedStopVisibility, setUnconnectedStopVisibility] = useState(connectedStopVisibilityProps.visible);
   const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);
 
   const singleTileToggle = isActive => {
@@ -100,8 +101,8 @@ const MapContextProvider = ({children}) => {
 
   const resetMapSettings = () => {
     setConnectedStopIds(null);
-    setConnectedStopVisibility('Visible');
-    setConnectionLineVisbility('Visible');
+    setConnectedStopVisibility('Semi-transparent');
+    setUnconnectedStopVisibility('Visible');
   };
 
   return (
@@ -125,10 +126,10 @@ const MapContextProvider = ({children}) => {
         tiles,
         connectedStopIds,
         connectedStopVisibility,
-        connectionLineVisbility,
+        unconnectedStopVisibility,
         areManageReportButtonsVisible,
         setAreManageReportButtonsVisible,
-        setConnectionLineVisbility,
+        setUnconnectedStopVisibility,
         resetMapSettings,
         setConnectedStopVisibility,
         setConnectedStopIds,
