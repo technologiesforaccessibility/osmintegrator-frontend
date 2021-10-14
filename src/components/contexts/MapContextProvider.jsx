@@ -55,7 +55,7 @@ const MapContextProvider = ({children}) => {
   const authRoles = useSelector(selectLoggedInUserRoles);
 
   useEffect(() => {
-    if (authRoles.includes(roles.SUPERVISOR)) {
+    if ((authRoles || []).includes(roles.SUPERVISOR)) {
       setVisibilityOptions({
         connected: {
           name: i18n.t('connectionVisibility.nameConnected'),
