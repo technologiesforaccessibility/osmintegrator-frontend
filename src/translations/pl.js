@@ -36,6 +36,7 @@ export const pl = {
     connectionVisibility: {
       nameConnected: 'Połączone przystanki',
       nameUnconnected: 'Niepołączone przystanki',
+      nameApproved: 'Zatwierdzone przystanki',
       visible: 'Pełna widoczność',
       semiTransparent: 'Częściowo przeźroczyste',
       hidden: 'Ukryte',
