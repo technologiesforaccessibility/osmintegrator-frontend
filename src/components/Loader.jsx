@@ -7,7 +7,7 @@ const Loader = ({isLoading}) => {
     <>
       {isLoading && (
         <div className="loader-area">
-          <CircularProgress />
+          <CircularProgress size={100} />
         </div>
       )}
     </>

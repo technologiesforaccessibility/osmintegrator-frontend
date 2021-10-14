@@ -16,12 +16,14 @@ import NewConnections from './mapComponents/NewConnections';
 import NewReportMarker from './mapComponents/NewReportMarker';
 import TileStops from './mapComponents/TileStops';
 import {exception} from '../utilities/exceptionHelper';
+import Loader from './Loader';
 
 export const MapView = () => {
   const {t} = useTranslation();
   const [allStops, setAllStops] = useState([]);
   const [activeBusStopId, setActiveBusStopId] = useState(null);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
 
   const currentLocation = {lat: 50.29, lng: 19.01};
   const zoom = 10;
@@ -76,6 +78,7 @@ export const MapView = () => {
 
   useEffect(() => {
     if (activeTile && activeTile.id) {
+      setIsLoading(true);
       getTileStops(activeTile.id);
       getTileConnections(activeTile.id);
       getTileReports(activeTile.id);
@@ -132,6 +135,7 @@ export const MapView = () => {
       const response = await api.tileGetTilesList({
         headers: basicHeaders(),
       });
+      setIsLoading(false);
       setTiles(response.data);
     } catch (error) {
       exception(error);
@@ -165,6 +169,7 @@ export const MapView = () => {
       });
       setAllStops(response.data);
       singleTileToggle(true);
+      setIsLoading(false);
     } catch (error) {
       exception(error);
     }
@@ -220,35 +225,38 @@ export const MapView = () => {
   };
 
   return (
-    <MapContainer center={currentLocation} zoom={zoom} maxZoom={maxZoom} style={mapStyle}>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        maxZoom={maxZoom}
-      />
-      <Pane name="connections">
-        <NewConnections connections={connectionData} isTileActive={isTileActive} />
-        <ImportedConnections stops={allStops} inApproveMode={mapMode === MapModes.approveConnections} />
-      </Pane>
-      <MapTiles
-        isTileActive={isTileActive}
-        tiles={tiles}
-        activeTile={activeTile}
-        setActiveTile={setActiveTile}
-        isCreateReportMapMode={mapMode === MapModes.report}
-        addReportMarker={addReportMarker}
-      />
-      <TileStops
-        stops={allStops}
-        createConnection={createConnection}
-        isActiveStopClicked={isActiveStopClicked}
-        clickBusStop={clickBusStop}
-        isConnectionMode={mapMode === MapModes.connection}
-        isViewMode={mapMode === MapModes.view}
-      />
-      <NewReportMarker newReportCoordinates={newReportCoordinates} />
-      <ImportedReports reports={importedReports} />
-    </MapContainer>
+    <>
+      <Loader isLoading={isLoading} />
+      <MapContainer center={currentLocation} zoom={zoom} maxZoom={maxZoom} style={mapStyle}>
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          maxZoom={maxZoom}
+        />
+        <Pane name="connections">
+          <NewConnections connections={connectionData} isTileActive={isTileActive} />
+          <ImportedConnections stops={allStops} inApproveMode={mapMode === MapModes.approveConnections} />
+        </Pane>
+        <MapTiles
+          isTileActive={isTileActive}
+          tiles={tiles}
+          activeTile={activeTile}
+          setActiveTile={setActiveTile}
+          isCreateReportMapMode={mapMode === MapModes.report}
+          addReportMarker={addReportMarker}
+        />
+        <TileStops
+          stops={allStops}
+          createConnection={createConnection}
+          isActiveStopClicked={isActiveStopClicked}
+          clickBusStop={clickBusStop}
+          isConnectionMode={mapMode === MapModes.connection}
+          isViewMode={mapMode === MapModes.view}
+        />
+        <NewReportMarker newReportCoordinates={newReportCoordinates} />
+        <ImportedReports reports={importedReports} />
+      </MapContainer>
+    </>
   );
 };
 
