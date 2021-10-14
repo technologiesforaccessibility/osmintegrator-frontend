@@ -36,6 +36,7 @@ export const en = {
     connectionVisibility: {
       nameConnected: 'Connected stops',
       nameUnconnected: 'Unconnected stops',
+      nameApproved: 'Approved stops',
       visible: 'Visible',
       semiTransparent: 'Semi transparent',
       hidden: 'Hidden',

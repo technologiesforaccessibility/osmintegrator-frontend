@@ -1,5 +1,8 @@
-import {createContext, useState} from 'react';
-import {connectedStopVisibilityProps} from '../../utilities/constants';
+import {createContext, useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
+import {selectLoggedInUserRoles} from '../../redux/selectors/authSelector';
+import i18n from '../../translations/i18n';
+import {connectionVisibility, roles} from '../../utilities/constants';
 
 export const MapContext = createContext();
 
@@ -11,6 +14,21 @@ export const MapModes = {
 };
 
 const initialReportCoords = {lat: null, lon: null};
+
+const initialVisibility = {
+  connected: {
+    name: i18n.t('connectionVisibility.nameConnected'),
+    value: connectionVisibility.semiTransparent,
+  },
+  unconnected: {
+    name: i18n.t('connectionVisibility.nameUnconnected'),
+    value: connectionVisibility.visible,
+  },
+  approved: {
+    name: i18n.t('connectionVisibility.nameApproved'),
+    value: connectionVisibility.semiTransparent,
+  },
+};
 
 const MapContextProvider = ({children}) => {
   const [isTileActive, setIsTileActive] = useState(false);
@@ -30,9 +48,30 @@ const MapContextProvider = ({children}) => {
   const [tiles, setTiles] = useState([]);
   const [rerenderTiles, setRerenderTiles] = useState(false);
   const [connectedStopIds, setConnectedStopIds] = useState([]);
-  const [connectedStopVisibility, setConnectedStopVisibility] = useState(connectedStopVisibilityProps.semiTransparent);
-  const [unconnectedStopVisibility, setUnconnectedStopVisibility] = useState(connectedStopVisibilityProps.visible);
+  const [approvedStopIds, setApprovedStopIds] = useState([]);
   const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);
+  const [visibilityOptions, setVisibilityOptions] = useState(initialVisibility);
+
+  const authRoles = useSelector(selectLoggedInUserRoles);
+
+  useEffect(() => {
+    if (authRoles.includes(roles.SUPERVISOR)) {
+      setVisibilityOptions({
+        connected: {
+          name: i18n.t('connectionVisibility.nameConnected'),
+          value: connectionVisibility.visible,
+        },
+        unconnected: {
+          name: i18n.t('connectionVisibility.nameUnconnected'),
+          value: connectionVisibility.semiTransparent,
+        },
+        approved: {
+          name: i18n.t('connectionVisibility.nameApproved'),
+          value: connectionVisibility.semiTransparent,
+        },
+      });
+    }
+  }, [authRoles]);
 
   const singleTileToggle = isActive => {
     setIsTileActive(isActive);
@@ -101,8 +140,7 @@ const MapContextProvider = ({children}) => {
 
   const resetMapSettings = () => {
     setConnectedStopIds(null);
-    setConnectedStopVisibility('Semi-transparent');
-    setUnconnectedStopVisibility('Visible');
+    setVisibilityOptions(initialVisibility);
   };
 
   return (
@@ -125,13 +163,12 @@ const MapContextProvider = ({children}) => {
         rerenderTiles,
         tiles,
         connectedStopIds,
-        connectedStopVisibility,
-        unconnectedStopVisibility,
         areManageReportButtonsVisible,
+        visibilityOptions,
+        approvedStopIds,
+        setApprovedStopIds,
         setAreManageReportButtonsVisible,
-        setUnconnectedStopVisibility,
         resetMapSettings,
-        setConnectedStopVisibility,
         setConnectedStopIds,
         setTiles,
         setRerenderTiles,
@@ -154,6 +191,7 @@ const MapContextProvider = ({children}) => {
         resetMapContext,
         setIsTileActive,
         closeTile,
+        setVisibilityOptions,
       }}>
       {children}
     </MapContext.Provider>

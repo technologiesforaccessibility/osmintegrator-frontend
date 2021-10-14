@@ -1,4 +1,4 @@
-import {useRef} from 'react';
+import {useContext, useMemo, useRef} from 'react';
 import {Polyline, Tooltip, Popup} from 'react-leaflet';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -12,21 +12,15 @@ import {NotificationActions} from '../../redux/actions/notificationActions';
 import colors from '../../stylesheets/config/colors.module.scss';
 import {exception} from '../../utilities/exceptionHelper';
 
-import {connectedStopVisibilityProps} from '../../utilities/constants';
 import UnapproveConnectionPopup from './UnapproveConnectionPopup';
+import {MapContext} from '../contexts/MapContextProvider';
 
-const ImportedConnections = ({
-  stops,
-  importedConnections,
-  shouldRenderConnections,
-  connectedStopVisibility,
-  unconnectedStopVisibility,
-  inApproveMode,
-}) => {
+const ImportedConnections = ({stops, inApproveMode}) => {
   const popupRef = useRef(null);
   const unapproveRef = useRef(null);
   const {t} = useTranslation();
   const dispatch = useDispatch();
+  const {importedConnections, shouldRenderConnections, visibilityOptions} = useContext(MapContext);
 
   const checkStopType = stopList => {
     return stopList.map(stop => {
@@ -74,7 +68,15 @@ const ImportedConnections = ({
     popupRef.current && popupRef.current._close();
   };
 
-  const connections = connectedStopVisibility === connectedStopVisibilityProps.hidden ? [] : importedConnections;
+  const connections = useMemo(
+    () =>
+      importedConnections.filter(
+        connection =>
+          (connection.approved && visibilityOptions.approved.value.opacityValue) ||
+          (!connection.approved && visibilityOptions.connected.value.opacityValue),
+      ),
+    [importedConnections, visibilityOptions],
+  );
 
   return (
     <>
@@ -89,7 +91,9 @@ const ImportedConnections = ({
                 key={index}
                 pathOptions={{
                   color: colors.colorConnectionImported,
-                  opacity: approved ? 0.5 : 1,
+                  opacity: approved
+                    ? visibilityOptions.approved.value.opacityValue
+                    : visibilityOptions.connected.value.opacityValue,
                 }}
                 positions={getPosition(foundOSM, foundGTFS)}>
                 {(!approved && (
@@ -110,9 +114,7 @@ const ImportedConnections = ({
                 )) ||
                   (inApproveMode && (
                     <>
-                      <Tooltip direction="bottom">
-                        {t('connection.unapproveConnectionInfo')}
-                      </Tooltip>
+                      <Tooltip direction="bottom">{t('connection.unapproveConnectionInfo')}</Tooltip>
                       <Popup ref={unapproveRef} key={`popup_${index}`} closeButton={false}>
                         <UnapproveConnectionPopup
                           closePopup={() => (unapproveRef.current && unapproveRef.current._close()) || null}

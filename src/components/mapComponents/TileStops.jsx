@@ -1,45 +1,39 @@
-import {connectedStopVisibilityProps} from '../../utilities/constants';
+import {useContext, useMemo} from 'react';
 import BusMarker from '../BusMarker';
+import {MapContext} from '../contexts/MapContextProvider';
 
-const TileStops = ({
-  areStopsVisible,
-  clickBusStop,
-  createConnection,
-  isActiveStopClicked,
-  stops,
-  isConnectionMode,
-  isViewMode,
-  connectedStopVisibility,
-  unconnectedStopVisibility,
-  connectedStopIds,
-}) => {
-  const stopsToRender = () => {
-    const stopsAfterVisibilityFilter =
-      connectedStopVisibility === connectedStopVisibilityProps.hidden &&
-      unconnectedStopVisibility === connectedStopVisibilityProps.hidden
-        ? []
-        : connectedStopVisibility === connectedStopVisibilityProps.hidden
-        ? stops.filter(stop => !connectedStopIds.includes(stop.id))
-        : unconnectedStopVisibility === connectedStopVisibilityProps.hidden
-        ? stops.filter(stop => connectedStopIds.includes(stop.id))
-        : stops;
+const TileStops = ({clickBusStop, createConnection, isActiveStopClicked, stops, isConnectionMode, isViewMode}) => {
+  const {areStopsVisible, connectedStopIds, approvedStopIds, visibilityOptions} = useContext(MapContext);
 
-    const stopsWithoutOSMOutsideTile = stopsAfterVisibilityFilter.filter(
-      stop => !(stop.stopType === 0 && stop.outsideSelectedTile),
-    );
-
-    return stopsWithoutOSMOutsideTile;
-  };
+  const stopsToRender = useMemo(
+    () =>
+      stops.filter(stop => {
+        if (!visibilityOptions.connected.value.opacityValue) {
+          if (connectedStopIds.includes(stop.id)) {
+            return false;
+          }
+        }
+        if (!visibilityOptions.approved.value.opacityValue) {
+          if (approvedStopIds.includes(stop.id)) {
+            return false;
+          }
+        }
+        if (!visibilityOptions.unconnected.value.opacityValue) {
+          if (!connectedStopIds.includes(stop.id) && !approvedStopIds.includes(stop.id)) {
+            return false;
+          }
+        }
+        return true;
+      }),
+    [stops, visibilityOptions, connectedStopIds, approvedStopIds],
+  );
 
   return (
     <>
       {areStopsVisible &&
-        stopsToRender().map((busStop, index) => (
+        stopsToRender.map((busStop, index) => (
           <BusMarker
             busStop={busStop}
-            connectedStopIds={connectedStopIds}
-            connectedStopVisibility={connectedStopVisibility}
-            unconnectedStopVisibility={unconnectedStopVisibility}
             isConnectionMode={isConnectionMode}
             createConnection={createConnection}
             isViewMode={isViewMode}

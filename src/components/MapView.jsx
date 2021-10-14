@@ -40,7 +40,6 @@ export const MapView = () => {
     activeMapToggle,
     isTileActive,
     singleTileToggle,
-    areStopsVisible,
     mapMode,
     displayPropertyGrid,
     updateConnectionData,
@@ -53,15 +52,12 @@ export const MapView = () => {
     setActiveTile,
     rerenderReports,
     setRerenderReports,
-    importedConnections,
     setImportedConnections,
     importedReports,
     setImportedReports,
     setOpenReportContent,
     setConnectedStopIds,
-    connectedStopVisibility,
-    unconnectedStopVisibility,
-    connectedStopIds,
+    setApprovedStopIds,
     setAreManageReportButtonsVisible,
   } = useContext(MapContext);
 
@@ -180,15 +176,25 @@ export const MapView = () => {
         headers: basicHeaders(),
       });
       setImportedConnections(response.data);
-      const connectedStopsArray = getConnectedStopsIds(response.data);
-      setConnectedStopIds(connectedStopsArray);
+      setConnectedStopIds(getConnectedStopsIds(response.data));
+      setApprovedStopIds(getApprovedStopsIds(response.data));
     } catch (error) {
       exception(error);
     }
   };
 
   const getConnectedStopsIds = connectionArray => {
-    return connectionArray.map(({gtfsStopId, osmStopId}) => [gtfsStopId, osmStopId]).flat();
+    return connectionArray
+      .filter(con => !con.approved)
+      .map(({gtfsStopId, osmStopId}) => [gtfsStopId, osmStopId])
+      .flat();
+  };
+
+  const getApprovedStopsIds = connectionArray => {
+    return connectionArray
+      .filter(con => con.approved)
+      .map(({gtfsStopId, osmStopId}) => [gtfsStopId, osmStopId])
+      .flat();
   };
 
   const getTileReports = async id => {
@@ -222,14 +228,7 @@ export const MapView = () => {
       />
       <Pane name="connections">
         <NewConnections connections={connectionData} isTileActive={isTileActive} />
-        <ImportedConnections
-          stops={allStops}
-          importedConnections={importedConnections}
-          shouldRenderConnections={shouldRenderConnections}
-          inApproveMode={mapMode === MapModes.approveConnections}
-          connectedStopVisibility={connectedStopVisibility}
-          unconnectedStopVisibility={unconnectedStopVisibility}
-        />
+        <ImportedConnections stops={allStops} inApproveMode={mapMode === MapModes.approveConnections} />
       </Pane>
       <MapTiles
         isTileActive={isTileActive}
@@ -240,16 +239,12 @@ export const MapView = () => {
         addReportMarker={addReportMarker}
       />
       <TileStops
-        areStopsVisible={areStopsVisible}
         stops={allStops}
         createConnection={createConnection}
         isActiveStopClicked={isActiveStopClicked}
         clickBusStop={clickBusStop}
         isConnectionMode={mapMode === MapModes.connection}
         isViewMode={mapMode === MapModes.view}
-        connectedStopVisibility={connectedStopVisibility}
-        unconnectedStopVisibility={unconnectedStopVisibility}
-        connectedStopIds={connectedStopIds}
       />
       <NewReportMarker newReportCoordinates={newReportCoordinates} />
       <ImportedReports reports={importedReports} />
