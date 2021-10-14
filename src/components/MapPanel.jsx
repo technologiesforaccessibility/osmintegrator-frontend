@@ -34,14 +34,8 @@ const style = {
 };
 
 const MapPanel = () => {
-  const {
-    isTileActive,
-    singleTileToggle,
-    mapMode,
-    toogleMapMode,
-    hideTileElements,
-    resetMapSettings,
-  } = useContext(MapContext);
+  const {isTileActive, singleTileToggle, mapMode, toogleMapMode, hideTileElements, resetMapSettings} =
+    useContext(MapContext);
   const {t} = useTranslation();
   const authRoles = useSelector(selectLoggedInUserRoles);
 
@@ -65,11 +59,14 @@ const MapPanel = () => {
       name: MapModes.connection,
       icon: () => <SettingsEthernetIcon />,
     },
-    (authRoles || []).includes(roles.SUPERVISOR) && {
-      title: t('tileModePrompts.approveConnections'),
-      name: MapModes.approveConnections,
-      icon: () => <AssignmentTurnedInIcon />,
-    },
+    ...(((authRoles || []).includes(roles.SUPERVISOR) && [
+      {
+        title: t('tileModePrompts.approveConnections'),
+        name: MapModes.approveConnections,
+        icon: () => <AssignmentTurnedInIcon />,
+      },
+    ]) ||
+      []),
   ];
 
   const handleChange = (_, value) => {
