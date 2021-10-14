@@ -1,25 +1,25 @@
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
 
-import '../../stylesheets/deleteConnectionPopup.scss';
+import '../../stylesheets/editConnectionPopup.scss';
 
-const DeleteConnectionPopup = ({closePopup, deleteConnection, osm, gtfs, id}) => {
+const UnapproveConnectionPopup = ({closePopup, unapproveConnection}) => {
   const {t} = useTranslation();
 
   return (
     <div>
       <div className="global-styles__text--center-align connection-popup__message">
-        {t('connection.deleteConnectionConfirmation')}
+        {t('connection.unapproveConnectionConfirmation')}
       </div>
       <div>
         <button
           type="button"
           className="btn btn-outline-success btn-sm"
           onClick={() => {
-            deleteConnection(osm, gtfs);
+            unapproveConnection();
             closePopup();
           }}>
-          {t('buttons.confirm')}
+          {t('buttons.delete')}
         </button>
         <button
           type="button"
@@ -34,4 +34,4 @@ const DeleteConnectionPopup = ({closePopup, deleteConnection, osm, gtfs, id}) =>
   );
 };
 
-export default DeleteConnectionPopup;
+export default UnapproveConnectionPopup;

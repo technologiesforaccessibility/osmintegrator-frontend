@@ -2,13 +2,13 @@ import {useEffect, useState} from 'react';
 
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import {Checkbox, CircularProgress} from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import {Checkbox, CircularProgress} from '@mui/material';
+import Button from '@mui/material/Button';
 
 import H4Title from '../customs/H4Title';
 import api from '../../api/apiInstance';

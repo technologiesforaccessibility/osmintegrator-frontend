@@ -2,12 +2,12 @@ import {useEffect, useState} from 'react';
 import {Rectangle, Tooltip} from 'react-leaflet';
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Button from '@material-ui/core/Button';
-import {CircularProgress} from '@material-ui/core';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Button from '@mui/material/Button';
+import {CircularProgress} from '@mui/material';
 
 import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';

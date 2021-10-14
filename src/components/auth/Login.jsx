@@ -2,13 +2,13 @@ import {Redirect} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
 
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import {Formik} from 'formik';
-import Button from '@material-ui/core/Button';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
-import Tooltip from '@material-ui/core/Tooltip';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import Button from '@mui/material/Button';
+import InputAdornment from '@mui/material/InputAdornment';
+import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+import Tooltip from '@mui/material/Tooltip';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
 import {unsafeFormApiError} from '../../utilities/utilities';
 import {ReactComponent as Logo} from './../../assets/accountLogo.svg';

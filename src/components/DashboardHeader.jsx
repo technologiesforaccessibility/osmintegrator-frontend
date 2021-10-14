@@ -8,7 +8,7 @@ import {roles} from '../utilities/constants';
 import {logout} from '../redux/actions/authActions';
 import logo from './../assets/OsmIntegrator.png';
 
-import {Button, IconButton} from '@material-ui/core/';
+import {Button, IconButton} from '@mui/material/';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ChatIcon from '@mui/icons-material/Chat';

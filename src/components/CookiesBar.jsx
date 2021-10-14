@@ -2,7 +2,7 @@ import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {useCookies} from 'react-cookie';
 
-import {Button} from '@material-ui/core';
+import {Button} from '@mui/material';
 
 const CookiesBar = () => {
   const [cookies, setCookie] = useCookies(['cookies_info']);

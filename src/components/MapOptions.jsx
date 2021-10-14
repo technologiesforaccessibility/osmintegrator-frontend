@@ -1,13 +1,21 @@
 import SettingsIcon from '@mui/icons-material/Settings';
-import Tooltip from '@material-ui/core/Tooltip';
+import {ToggleButton} from '@mui/material';
+import Tooltip from '@mui/material/Tooltip';
+
+import '../stylesheets/mapPanel.scss';
 
 const MapOptions = ({handleClick}) => {
   return (
-    <div style={{alignSelf: 'center'}}>
+    <ToggleButton
+      value="check"
+      className="map-panel__toggle--back"
+      selected={false}
+      onChange={handleClick}
+      color={'primary'}>
       <Tooltip title={'Ustawienia mapy'}>
-        <SettingsIcon onClick={() => handleClick()} />
+        <SettingsIcon />
       </Tooltip>
-    </div>
+    </ToggleButton>
   );
 };
 

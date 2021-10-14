@@ -9,6 +9,8 @@ export const en = {
       cancel: 'Cancel',
       reset: 'Reset',
       send: 'Send',
+      delete: 'Delete',
+      approve: 'Approve',
     },
     cookies: {
       title: 'Dear Customer',
@@ -22,12 +24,19 @@ export const en = {
       deleteSuccessMessage: 'Connection deleted',
       deleteConnectionInfo: 'Click line if you want to delete connection',
       deleteConnectionConfirmation: 'Delete?',
+      approveSuccessMessage: 'Connection approved',
+      editConnectionInfo: 'Click line if you want to edit connection',
+      editConnectionConfirmation: 'Choose action',
       mark2Stops: 'Mark 2 stops',
       differentTypeError: 'It is not allowed to connect stops of the same type.',
+      unapproveConnectionConfirmation: 'Delete connection approval?',
+      unapproveConnectionInfo: 'Click line if you want to unapprove connection.',
+      unapproveSuccessMessage: 'Connection approval deleted.'
     },
     connectionVisibility: {
       nameConnected: 'Connected stops',
       nameUnconnected: 'Unconnected stops',
+      nameApproved: 'Approved stops',
       visible: 'Visible',
       semiTransparent: 'Semi transparent',
       hidden: 'Hidden',
@@ -144,6 +153,7 @@ export const en = {
       report: 'Create report on map',
       connection: 'Create new connection',
       back: 'Hide tile',
+      approveConnections: 'Approve Connections'
     },
     error: {
       unrecognizedProblem: 'Something went wrong. Please contact administrator.',
