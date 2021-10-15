@@ -28,7 +28,7 @@ const VersionLabel = () => {
     <>
       {t('version')}
       <span>F: {pack.version}</span>
-      {!err && <span>, B: {version}</span>}
+      {!err && version ? <span>, B: {version}</span> : null}
     </>
   );
 };
