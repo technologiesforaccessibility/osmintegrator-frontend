@@ -1,11 +1,12 @@
 .finish-tile {
   &__buttons {
     display: flex;
+    justify-content: center;
   }
   &__decision-button {
-    margin: 10;
+    margin: 0 1rem 0.5rem !important;
   }
-  &__confirmation-area{
+  &__confirmation-area {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,6 +14,6 @@
   }
 
   &__main-button {
-      margin-bottom: 15px;
+    margin-bottom: 15px;
   }
 }

@@ -2,30 +2,28 @@ import {Marker, Tooltip} from 'react-leaflet';
 
 import {getBusStopIcon} from '../utilities/utilities';
 import {generateStopName} from '../utilities/mapUtilities';
-import {connectedStopVisibilityProps} from '../utilities/constants';
+import {useContext, useMemo} from 'react';
+import {MapContext} from './contexts/MapContextProvider';
 
-const BusMarker = ({
-  busStop,
-  connectedStopIds,
-  connectedStopVisibility,
-  isConnectionMode,
-  createConnection,
-  isViewMode,
-  isActiveStopClicked,
-  clickBusStop,
-}) => {
+const BusMarker = ({busStop, isConnectionMode, createConnection, isViewMode, isActiveStopClicked, clickBusStop}) => {
+  const {visibilityOptions, connectedStopIds, approvedStopIds} = useContext(MapContext);
+  const opacity = useMemo(() => {
+    if (connectedStopIds.includes(busStop.id)) {
+      return visibilityOptions.connected.value.opacityValue;
+    }
+    if (approvedStopIds.includes(busStop.id)) {
+      return visibilityOptions.approved.value.opacityValue;
+    }
+    return visibilityOptions.unconnected.value.opacityValue;
+  }, [visibilityOptions, busStop.id, connectedStopIds, approvedStopIds]);
+
   return (
     <Marker
       key={busStop.id}
       position={[busStop.lat, busStop.lon]}
       icon={getBusStopIcon(busStop)}
-      opacity={
-        connectedStopIds.includes(busStop.id)
-          ? connectedStopVisibility === connectedStopVisibilityProps.semiTransparent
-            ? 0.5
-            : 1
-          : 1
-      }
+      riseOnHover={true}
+      opacity={opacity}
       eventHandlers={{
         click: () => {
           if (isConnectionMode) {

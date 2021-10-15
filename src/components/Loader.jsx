@@ -1,4 +1,4 @@
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import '../stylesheets/loader.scss';
 
@@ -7,7 +7,7 @@ const Loader = ({isLoading}) => {
     <>
       {isLoading && (
         <div className="loader-area">
-          <CircularProgress />
+          <CircularProgress size={100} />
         </div>
       )}
     </>

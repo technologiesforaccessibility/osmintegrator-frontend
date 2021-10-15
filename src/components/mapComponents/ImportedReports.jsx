@@ -6,13 +6,13 @@ import {useSelector} from 'react-redux';
 import {selectLoggedInUserRoles} from '../../redux/selectors/authSelector';
 import {getReportIcon} from '../../utilities/utilities';
 import {roles} from '../../utilities/constants';
-import {MapContext} from '../contexts/MapContextProvider';
+import {MapContext, MapModes} from '../contexts/MapContextProvider';
 
 const ImportedReports = ({reports}) => {
   const authRoles = useSelector(selectLoggedInUserRoles);
   const {
     setOpenReportContent,
-    isViewMode,
+    mapMode,
     openReportContent,
     displayPropertyGrid,
     setAreManageReportButtonsVisible,
@@ -20,7 +20,7 @@ const ImportedReports = ({reports}) => {
   } = useContext(MapContext);
 
   const handleReportClick = (lat, lon, text, id, tileId, status) => {
-    if (isViewMode) {
+    if (mapMode === MapModes.view) {
       if (openReportContent && openReportContent.id === id) {
         setOpenReportContent(null);
         setAreManageReportButtonsVisible(false);
@@ -44,6 +44,7 @@ const ImportedReports = ({reports}) => {
           key={index}
           position={[lat, lon]}
           icon={getReportIcon(status)}
+          zIndexOffset={100}
           eventHandlers={{
             click: () => {
               handleReportClick(lat, lon, text, id, tileId, status);

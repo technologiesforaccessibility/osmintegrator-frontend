@@ -1,7 +1,7 @@
 import {NavLink} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from '@mui/material/Tooltip';
 
 import '../../stylesheets/authBottomPanel.scss';
 

@@ -8,7 +8,7 @@ import {useTranslation} from 'react-i18next';
 import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
 import {NotificationActions} from '../redux/actions/notificationActions';
-import {MapContext} from './contexts/MapContextProvider';
+import {MapContext, MapModes} from './contexts/MapContextProvider';
 import ImportedConnections from './mapComponents/ImportedConnections';
 import ImportedReports from './mapComponents/ImportedReports';
 import MapTiles from './mapComponents/MapTiles';
@@ -16,12 +16,14 @@ import NewConnections from './mapComponents/NewConnections';
 import NewReportMarker from './mapComponents/NewReportMarker';
 import TileStops from './mapComponents/TileStops';
 import {exception} from '../utilities/exceptionHelper';
+import Loader from './Loader';
 
 export const MapView = () => {
   const {t} = useTranslation();
   const [allStops, setAllStops] = useState([]);
   const [activeBusStopId, setActiveBusStopId] = useState(null);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
 
   const currentLocation = {lat: 50.29, lng: 19.01};
   const zoom = 10;
@@ -40,10 +42,7 @@ export const MapView = () => {
     activeMapToggle,
     isTileActive,
     singleTileToggle,
-    areStopsVisible,
-    isViewMode,
-    isConnectionMode,
-    isCreateReportMapMode,
+    mapMode,
     displayPropertyGrid,
     updateConnectionData,
     connectionData,
@@ -55,15 +54,12 @@ export const MapView = () => {
     setActiveTile,
     rerenderReports,
     setRerenderReports,
-    importedConnections,
     setImportedConnections,
     importedReports,
     setImportedReports,
     setOpenReportContent,
     setConnectedStopIds,
-    connectedStopVisibility,
-    connectedStopIds,
-    connectionLineVisbility,
+    setApprovedStopIds,
     setAreManageReportButtonsVisible,
   } = useContext(MapContext);
 
@@ -82,6 +78,7 @@ export const MapView = () => {
 
   useEffect(() => {
     if (activeTile && activeTile.id) {
+      setIsLoading(true);
       getTileStops(activeTile.id);
       getTileConnections(activeTile.id);
       getTileReports(activeTile.id);
@@ -142,6 +139,7 @@ export const MapView = () => {
     } catch (error) {
       exception(error);
     }
+    setIsLoading(false);
   }
 
   const addReportMarker = e => {
@@ -174,6 +172,7 @@ export const MapView = () => {
     } catch (error) {
       exception(error);
     }
+    setIsLoading(false);
   };
 
   const getTileConnections = async id => {
@@ -182,15 +181,25 @@ export const MapView = () => {
         headers: basicHeaders(),
       });
       setImportedConnections(response.data);
-      const connectedStopsArray = getConnectedStopsIds(response.data);
-      setConnectedStopIds(connectedStopsArray);
+      setConnectedStopIds(getConnectedStopsIds(response.data));
+      setApprovedStopIds(getApprovedStopsIds(response.data));
     } catch (error) {
       exception(error);
     }
   };
 
   const getConnectedStopsIds = connectionArray => {
-    return connectionArray.map(({gtfsStopId, osmStopId}) => [gtfsStopId, osmStopId]).flat();
+    return connectionArray
+      .filter(con => !con.approved)
+      .map(({gtfsStopId, osmStopId}) => [gtfsStopId, osmStopId])
+      .flat();
+  };
+
+  const getApprovedStopsIds = connectionArray => {
+    return connectionArray
+      .filter(con => con.approved)
+      .map(({gtfsStopId, osmStopId}) => [gtfsStopId, osmStopId])
+      .flat();
   };
 
   const getTileReports = async id => {
@@ -216,43 +225,38 @@ export const MapView = () => {
   };
 
   return (
-    <MapContainer center={currentLocation} zoom={zoom} maxZoom={maxZoom} style={mapStyle}>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        maxZoom={maxZoom}
-      />
-      <Pane name="connections">
-        <NewConnections connections={connectionData} isTileActive={isTileActive} />
-        <ImportedConnections
-          stops={allStops}
-          importedConnections={importedConnections}
-          shouldRenderConnections={shouldRenderConnections}
-          connectionLineVisbility={connectionLineVisbility}
+    <>
+      <Loader isLoading={isLoading} />
+      <MapContainer center={currentLocation} zoom={zoom} maxZoom={maxZoom} style={mapStyle}>
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          maxZoom={maxZoom}
         />
-      </Pane>
-      <MapTiles
-        isTileActive={isTileActive}
-        tiles={tiles}
-        activeTile={activeTile}
-        setActiveTile={setActiveTile}
-        isCreateReportMapMode={isCreateReportMapMode}
-        addReportMarker={addReportMarker}
-      />
-      <TileStops
-        areStopsVisible={areStopsVisible}
-        stops={allStops}
-        createConnection={createConnection}
-        isActiveStopClicked={isActiveStopClicked}
-        clickBusStop={clickBusStop}
-        isConnectionMode={isConnectionMode}
-        isViewMode={isViewMode}
-        connectedStopVisibility={connectedStopVisibility}
-        connectedStopIds={connectedStopIds}
-      />
-      <NewReportMarker newReportCoordinates={newReportCoordinates} />
-      <ImportedReports reports={importedReports} />
-    </MapContainer>
+        <Pane name="connections">
+          <NewConnections connections={connectionData} isTileActive={isTileActive} />
+          <ImportedConnections stops={allStops} inApproveMode={mapMode === MapModes.approveConnections} />
+        </Pane>
+        <MapTiles
+          isTileActive={isTileActive}
+          tiles={tiles}
+          activeTile={activeTile}
+          setActiveTile={setActiveTile}
+          isCreateReportMapMode={mapMode === MapModes.report}
+          addReportMarker={addReportMarker}
+        />
+        <TileStops
+          stops={allStops}
+          createConnection={createConnection}
+          isActiveStopClicked={isActiveStopClicked}
+          clickBusStop={clickBusStop}
+          isConnectionMode={mapMode === MapModes.connection}
+          isViewMode={mapMode === MapModes.view}
+        />
+        <NewReportMarker newReportCoordinates={newReportCoordinates} />
+        <ImportedReports reports={importedReports} />
+      </MapContainer>
+    </>
   );
 };
 

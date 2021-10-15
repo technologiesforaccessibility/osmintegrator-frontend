@@ -9,6 +9,8 @@ export const pl = {
       cancel: 'Anuluj',
       reset: 'Wyczyść',
       send: 'Wyślij',
+      delete: 'Usuń',
+      approve: 'Zatwierdź',
     },
     cookies: {
       title: 'Szanowny Kliencie',
@@ -22,17 +24,22 @@ export const pl = {
       deleteSuccessMessage: 'Usunięto połączenie',
       deleteConnectionInfo: 'Kliknij na linię, jeśli chcesz usunąć połączenie',
       deleteConnectionConfirmation: 'Usunąć?',
+      approveSuccessMessage: 'Zatwierdzono połączenie',
+      editConnectionInfo: 'Kliknij na linię, jeśli chcesz edytować połączenie',
+      editConnectionConfirmation: 'Wybierz akcję',
       mark2Stops: 'Zaznacz 2 przystanki',
       differentTypeError: 'Nie można łączyć przystanków tego samego typu.',
+      unapproveConnectionConfirmation: 'Usunąć zatwierdzenie połączenia?',
+      unapproveConnectionInfo: 'Kliknij na linię, jeśli chcesz usunąć zatwierdzenie połączenia',
+      unapproveSuccessMessage: 'Usunięto zatwierdzenie połączenia',
     },
     connectionVisibility: {
-      name: 'Połączone przystanki',
-      connectionLines: 'Linie połączeń',
+      nameConnected: 'Połączone przystanki',
+      nameUnconnected: 'Niepołączone przystanki',
+      nameApproved: 'Zatwierdzone przystanki',
       visible: 'Pełna widoczność',
       semiTransparent: 'Częściowo przeźroczyste',
       hidden: 'Ukryte',
-      hiddenConnectionLinesWarning:
-        'Zalecamy nie wyłączać widoczności linii, gdy połączone przystanki nadal pozostają widoczne',
     },
     contactForm: {
       description: 'Problem z logowaniem? Potrzebujesz się skontaktować? Wyślij nam ',
@@ -40,8 +47,10 @@ export const pl = {
     },
     finishTile: {
       editorMainButton: 'Wyślij kafelek do weryfikacji',
-      supervisorMainButton: 'Zatwierdź pracę edytora',
-      confirmation: 'Jesteś pewien?',
+      supervisorMainButton: 'Zatwierdź pracę edytora na wybranym kafelku',
+      editorConfirmation:
+        'Czy jesteś pewien, że chcesz wysłać kafelek do weryfikacji? Dokonanie późniejszych zmian nie będzie możliwe.',
+      supervisorConfirmation: 'Czy jesteś pewien, że chcesz zatwierdzić wszystkie połączenia na wybranym kafelku?',
       successMessage: 'Kafelek został wysłany',
     },
     login: {
@@ -144,6 +153,7 @@ export const pl = {
       report: 'Stwórz nowe zgłoszenie na mapie',
       connection: 'Stwórz nowe połączenie',
       back: 'Ukryj kafelek',
+      approveConnections: 'Zatwierdź połączenia',
     },
     error: {
       unrecognizedProblem: 'Coś poszło nie tak. Skontaktuj się z administratorem.',

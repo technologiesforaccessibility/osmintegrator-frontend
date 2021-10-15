@@ -1,10 +1,10 @@
 import {useState, useContext} from 'react';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
 
 import {MapContext} from './contexts/MapContextProvider';
 import {basicHeaders} from '../config/apiConfig';
@@ -47,6 +47,13 @@ const FinishTile = () => {
     return t('finishTile.supervisorMainButton');
   };
 
+  const approveText = () => {
+    if (authRoles.includes(roles.EDITOR) && !activeTile.approvedByEditor) {
+      return t('finishTile.editorConfirmation');
+    }
+    return t('finishTile.supervisorConfirmation');
+  };
+
   return (
     <>
       {((authRoles.includes(roles.SUPERVISOR) && activeTile.approvedByEditor) ||
@@ -62,23 +69,24 @@ const FinishTile = () => {
         </Button>
       )}
       <Dialog open={openModal} onClose={handleClose}>
-        <DialogTitle>{t('finishTile.confirmation')}</DialogTitle>
+        <DialogTitle>{approveText()}</DialogTitle>
         <DialogContent>
           <div className="finish-tile__buttons">
-            <Button
-              className="finish-tile__decision-button"
-              type="submit"
-              variant="contained"
-              disabled={areDisabledConfirmationButtons}
-              onClick={() => approveTile()}>
-              {t('buttons.send')}
-            </Button>
             <Button
               className="finish-tile__decision-button"
               variant="contained"
               disabled={areDisabledConfirmationButtons}
               onClick={() => setOpenModal(false)}>
               {t('buttons.cancel')}
+            </Button>
+            <Button
+              className="finish-tile__decision-button"
+              type="submit"
+              color="primary"
+              variant="contained"
+              disabled={areDisabledConfirmationButtons}
+              onClick={() => approveTile()}>
+              {t('buttons.send')}
             </Button>
           </div>
         </DialogContent>

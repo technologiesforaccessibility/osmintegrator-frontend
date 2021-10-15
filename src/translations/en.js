@@ -9,6 +9,8 @@ export const en = {
       cancel: 'Cancel',
       reset: 'Reset',
       send: 'Send',
+      delete: 'Delete',
+      approve: 'Approve',
     },
     cookies: {
       title: 'Dear Customer',
@@ -22,17 +24,22 @@ export const en = {
       deleteSuccessMessage: 'Connection deleted',
       deleteConnectionInfo: 'Click line if you want to delete connection',
       deleteConnectionConfirmation: 'Delete?',
+      approveSuccessMessage: 'Connection approved',
+      editConnectionInfo: 'Click line if you want to edit connection',
+      editConnectionConfirmation: 'Choose action',
       mark2Stops: 'Mark 2 stops',
       differentTypeError: 'It is not allowed to connect stops of the same type.',
+      unapproveConnectionConfirmation: 'Delete connection approval?',
+      unapproveConnectionInfo: 'Click line if you want to unapprove connection.',
+      unapproveSuccessMessage: 'Connection approval deleted.'
     },
     connectionVisibility: {
-      name: 'Connected stops',
-      connectionLines: 'Connection lines',
+      nameConnected: 'Connected stops',
+      nameUnconnected: 'Unconnected stops',
+      nameApproved: 'Approved stops',
       visible: 'Visible',
       semiTransparent: 'Semi transparent',
       hidden: 'Hidden',
-      hiddenConnectionLinesWarning:
-        'It is not advices to have disabled connection lines when connected stops are visible',
     },
     contactForm: {
       description: 'Login problem? Need to contact? Send us a ',
@@ -40,8 +47,10 @@ export const en = {
     },
     finishTile: {
       editorMainButton: 'Send tile to verification',
-      supervisorMainButton: 'Approve editor\'s work',
-      confirmation: 'Are you sure?',
+      supervisorMainButton: 'Approve editor\'s work on the selected tile',
+      editorConfirmation:
+        'Are you sure you want to submit the tile for verification? It will not be possible to make any subsequent changes.',
+      supervisorConfirmation: 'Are you sure you want to approve all connections on the selected tile?',
       successMessage: 'Tile has been sent',
     },
     login: {
@@ -144,6 +153,7 @@ export const en = {
       report: 'Create report on map',
       connection: 'Create new connection',
       back: 'Hide tile',
+      approveConnections: 'Approve Connections'
     },
     error: {
       unrecognizedProblem: 'Something went wrong. Please contact administrator.',

@@ -4,7 +4,7 @@ import {useSelector} from 'react-redux';
 import PropertyGrid from './PropertyGrid';
 import MapPanel from './MapPanel';
 import FinishTile from './FinishTile';
-import {MapContext} from './contexts/MapContextProvider';
+import {MapContext, MapModes} from './contexts/MapContextProvider';
 import {selectLoggedInUserRoles} from '../redux/selectors/authSelector';
 import NewReport from './NewReport';
 import ReportForm from './ReportForm';
@@ -18,9 +18,7 @@ const DashboardSidebar = () => {
   const {
     propertyGrid,
     isTileActive,
-    isViewMode,
-    isCreateReportMapMode,
-    isConnectionMode,
+    mapMode,
     isEditingReportMode,
     openReportContent,
     areManageReportButtonsVisible,
@@ -35,12 +33,12 @@ const DashboardSidebar = () => {
       userRoles={authRoles}
       appRoles={appRoles}>
       <>
-        {propertyGrid && isViewMode && <PropertyGrid propertyGrid={propertyGrid} />}
-        {isCreateReportMapMode && <NewReport />}
+        {propertyGrid && mapMode === MapModes.view && <PropertyGrid propertyGrid={propertyGrid} />}
+        {mapMode === MapModes.report && <NewReport />}
         {isEditingReportMode && openReportContent && (
           <ReportForm areManageReportButtonsVisible={areManageReportButtonsVisible} />
         )}
-        {isConnectionMode && <ConnectionSidePanel />}
+        {mapMode === MapModes.connection && <ConnectionSidePanel />}
       </>
     </SidebarContainer>
   );

@@ -1,4 +1,7 @@
 import i18n from '../translations/i18n';
+import StarHalfIcon from '@mui/icons-material/StarHalf';
+import StarIcon from '@mui/icons-material/Star';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
 
 export const paths = {
   HOME: '/',
@@ -20,24 +23,24 @@ export const roles = {
   COORDINATOR: 'Coordinator',
   SUPERVISOR: 'Supervisor',
   EDITOR: 'Editor',
-  USER: 'User'
+  USER: 'User',
 };
 
-export const connectionVisibilityTexts = {
-  visible:  i18n.t('connectionVisibility.visible'),
-  semiTransparent: i18n.t('connectionVisibility.semiTransparent'),
-  hidden: i18n.t('connectionVisibility.hidden'),
-};
+export const connectionVisibility = {
+  hidden: {
+    text: i18n.t('connectionVisibility.hidden'),
+    opacityValue: 0,
+    icon: () => <StarOutlineIcon />,
+  },
+  semiTransparent: {
+    text: i18n.t('connectionVisibility.semiTransparent'),
+    opacityValue: 0.5,
+    icon: () => <StarHalfIcon />,
+  },
 
-
-
-export const connectedStopVisibilityProps = {
-  visible: 'Visible',
-  semiTransparent: 'Semi-transparent',
-  hidden: 'Hidden',
-};
-
-export const connectionLineVisibilityProps = {
-  visible: 'Visible',
-  hidden: 'Hidden',
+  visible: {
+    text: i18n.t('connectionVisibility.visible'),
+    opacityValue: 1,
+    icon: () => <StarIcon />,
+  },
 };
