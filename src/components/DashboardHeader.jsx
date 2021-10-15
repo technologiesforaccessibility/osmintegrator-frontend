@@ -3,7 +3,7 @@ import {useHistory} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {paths} from '../utilities/constants';
-import {selectLoggedInUserRoles} from '../redux/selectors/authSelector';
+import {selectLoggedInUserRoles, selectUserName} from '../redux/selectors/authSelector';
 import {roles} from '../utilities/constants';
 import {logout} from '../redux/actions/authActions';
 import logo from './../assets/OsmIntegrator.png';
@@ -25,6 +25,7 @@ const DashboardHeader = () => {
   const {t} = useTranslation();
   let history = useHistory();
   const dispatch = useDispatch();
+  const name = useSelector(selectUserName);
 
   function logoutClicked() {
     dispatch(logout());
@@ -75,7 +76,7 @@ const DashboardHeader = () => {
           <Chip
             className="dashboard-header--button-profile"
             avatar={<AccountCircleIcon color="warning" />}
-            label="avatar"
+            label={name ? name : ''}
             variant="outlined"
             color="primary"
             clickable

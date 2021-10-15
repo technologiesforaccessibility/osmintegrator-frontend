@@ -3,11 +3,12 @@ import Dashboard from './Dashboard';
 import '../stylesheets/profileLayout.scss';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {selectLoggedInUserRoles} from '../redux/selectors/authSelector';
+import {selectLoggedInUserRoles, selectUserName} from '../redux/selectors/authSelector';
 
 export default function ProfileLayout({children}) {
   const {t} = useTranslation();
   const authRoles = useSelector(selectLoggedInUserRoles);
+  const name = useSelector(selectUserName);
 
   return (
     <Dashboard>
@@ -18,7 +19,7 @@ export default function ProfileLayout({children}) {
           <div className="profile-layout__data">
             <div className="profile-layout__data-el">
               <h4 className="profile-layout__heading">{t('profile.userName')}</h4>
-              <p className="profile-layout__text">m.niemirski</p>
+              <p className="profile-layout__text">{name ? name : '-'}</p>
             </div>
             <div className="profile-layout__data-el">
               <h4 className="profile-layout__heading">{t('profile.roles')}</h4>
