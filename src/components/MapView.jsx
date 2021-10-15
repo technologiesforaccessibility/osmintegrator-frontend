@@ -135,11 +135,11 @@ export const MapView = () => {
       const response = await api.tileGetTilesList({
         headers: basicHeaders(),
       });
-      setIsLoading(false);
       setTiles(response.data);
     } catch (error) {
       exception(error);
     }
+    setIsLoading(false);
   }
 
   const addReportMarker = e => {
@@ -169,10 +169,10 @@ export const MapView = () => {
       });
       setAllStops(response.data);
       singleTileToggle(true);
-      setIsLoading(false);
     } catch (error) {
       exception(error);
     }
+    setIsLoading(false);
   };
 
   const getTileConnections = async id => {
