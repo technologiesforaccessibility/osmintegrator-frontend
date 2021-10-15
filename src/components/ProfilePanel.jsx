@@ -18,7 +18,7 @@ const ProfilePanel = () => {
   return (
     <ProfileLayout>
       {REACT_APP_MVP_DISABLED ? (
-        <p>{t('profileMVPPlaceholder')}</p>
+        <p>{t('profile.MVPPlaceholder')}</p>
       ) : (
         <ul>
           {linkList.map(({link, title}, index) => (

@@ -68,9 +68,13 @@ export const pl = {
       loginButton: 'Zaloguj',
     },
     map: {},
-    profileHeader: 'Profil',
-    profileMVPPlaceholder:
-      'Jeśli chcesz zmienić email lub hasło, wyślij wiadomość do kontakt@rozwiazaniadlaniewidomych.org lub napisz wiadomość na Slacku na kanale #problems',
+    profile: {
+      header: 'Profil',
+      userName: 'Użytkownik',
+      roles: 'Role',
+      MVPPlaceholder:
+        'Jeśli chcesz zmienić email lub hasło, wyślij wiadomość do kontakt@rozwiazaniadlaniewidomych.org lub napisz wiadomość na Slacku na kanale #problems',
+    },
     recover: {
       title: 'Odzyskaj swoje hasło',
       button: 'Zresetuj swoje hasło',

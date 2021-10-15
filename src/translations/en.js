@@ -68,9 +68,13 @@ export const en = {
       loginButton: 'Log in',
     },
     map: {},
-    profileHeader: 'Profile',
-    profileMVPPlaceholder:
-      'If you want to change email or password, please send email to kontakt@rozwiazaniadlaniewidomych.org or write a message on Slack #problems channel',
+    profile: {
+      header: 'Profile',
+      userName: 'User name',
+      roles: 'Roles',
+      MVPPlaceholder:
+        'If you want to change email or password, please send email to kontakt@rozwiazaniadlaniewidomych.org or write a message on Slack #problems channel',
+    },
     recover: {
       title: 'Recover your password',
       button: 'Reset your password',
