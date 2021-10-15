@@ -8,7 +8,7 @@ import {roles} from '../utilities/constants';
 import {logout} from '../redux/actions/authActions';
 import logo from './../assets/OsmIntegrator.png';
 
-import {Button, IconButton} from '@mui/material/';
+import {Button, IconButton, Chip} from '@mui/material/';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -61,7 +61,6 @@ const DashboardHeader = () => {
             </Button>
           </div>
         )}
-
         <div className="dashboard-header--button-box">
           <Button
             color="primary"
@@ -72,13 +71,17 @@ const DashboardHeader = () => {
             {t('sidebar.contact')}
           </Button>
         </div>
-
         <Tooltip title={t('sidebar.profile')}>
-          <IconButton color="primary" href={paths.PROFILE}>
-            <AccountCircleIcon fontSize="medium" />
-          </IconButton>
+          <Chip
+            className="dashboard-header--button-profile"
+            avatar={<AccountCircleIcon color="warning" />}
+            label="avatar"
+            variant="outlined"
+            color="primary"
+            clickable
+            onClick={() => history.push(paths.PROFILE)}
+          />
         </Tooltip>
-
         <Tooltip title={t('logout.button')}>
           <IconButton color="primary" onClick={logoutClicked}>
             <LogoutIcon fontSize="medium" />
