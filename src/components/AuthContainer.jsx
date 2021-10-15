@@ -1,7 +1,7 @@
 import Footer from './Footer';
 import dots from './../assets/authDots.png';
 import logo from './../assets/OsmIntegrator.png';
-import rdnLogo from './../assets/logos/rdn-logo.png';
+import rdnLogo from './../assets/logos/rdn-logo_new.png';
 import {paths} from '../utilities/constants';
 import {ReactComponent as RevolveLogo} from './../assets/logos/revolve-logo.svg';
 
