@@ -139,7 +139,8 @@ const MapContextProvider = ({children}) => {
   };
 
   const resetMapSettings = () => {
-    setConnectedStopIds(null);
+    setConnectedStopIds([]);
+    setApprovedStopIds([]);
     setVisibilityOptions(initialVisibility);
   };
 
