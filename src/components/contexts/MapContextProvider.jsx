@@ -193,6 +193,7 @@ const MapContextProvider = ({children}) => {
         setIsTileActive,
         closeTile,
         setVisibilityOptions,
+        authRoles,
       }}>
       {children}
     </MapContext.Provider>

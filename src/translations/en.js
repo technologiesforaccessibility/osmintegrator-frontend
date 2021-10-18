@@ -171,6 +171,14 @@ export const en = {
       exception: 'Unknown exception occurred. Please contact administrator.',
     },
     version: 'Version: ',
+    welcomeModal: {
+      title: 'Welcome to the Osm Integrator system',
+      content:
+        'Thanks to your work, blind people will be able to better use the possibilities of navigation applications. \n \n You do not currently have any editing area assigned. To access the area, write to us at  kontakt@rozwiazaniadlaniewidomych.org. \n \n To understand how the system works, see the instruction available at the link below.',
+      button: 'User manual',
+      checkbox: 'Do not show again',
+      hide: 'Hide',
+    },
     managementPanel: {
       assignRoleTitle: 'Assign role to user',
       chooseUser: 'Choose user',
