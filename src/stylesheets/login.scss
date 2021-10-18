@@ -1,8 +1,8 @@
 @import 'config/colors.module';
 @import 'config/authMixins';
 
-
-#loginEmail, #loginPassword {
+#loginEmail,
+#loginPassword {
   @include input-textbox;
   @include font-type;
   @include font-size;
@@ -19,7 +19,7 @@
 }
 
 .link {
-padding: 10px;
+  padding: 10px;
   text-align: center;
   font-style: italic;
 }
@@ -32,14 +32,11 @@ a {
 a:hover {
   color: $color-link-hover;
   text-decoration-line: underline;
-
 }
 
-.login-link{
-  margin-top: 2rem;
-  font-size: 1rem;
+.login-link {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.825rem;
   text-align: center;
 }
-
-
-

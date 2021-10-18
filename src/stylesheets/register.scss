@@ -5,11 +5,12 @@
   color: $color-blue-link;
   font-weight: bold;
   text-decoration-color: $color-blue-link;
-  text-decoration-thickness: .125em;
+  text-decoration-thickness: 0.125em;
   text-underline-offset: 1.5px;
 }
 
-#loginEmail, #loginPassword {
+#loginEmail,
+#loginPassword {
   @include input-textbox;
   @include font-type;
   @include font-size;
@@ -33,35 +34,38 @@ a {
 a:hover {
   color: $color-link-hover;
   text-decoration-line: underline;
-
 }
 
-.register__button{
+.register__button {
   margin-top: 20px;
 }
-.register__spacer{
+.register__spacer {
   height: 30px;
 }
-.register__regulations{
+.register__regulations {
   font-size: 0.75rem;
   text-align: justify;
 }
-.register__regulations-container{
+.register__regulations-container {
   display: flex;
   flex-direction: row;
 }
-.register__regulations-checkbox{
-  display:inline-flex;
+.register__regulations-checkbox {
+  display: inline-flex;
 }
 
 .register {
   display: grid;
-  grid-template-areas: "logo" "content" "bottom";
+  grid-template-areas: 'logo' 'content' 'bottom';
   grid-template-columns: 1fr;
 
   &__logo {
     grid-area: logo;
     margin-bottom: 1rem;
+  }
+  &__title {
+    color: #0d6efd;
+    font-size: 1.25rem;
   }
 
   &__content {
@@ -81,7 +85,6 @@ a:hover {
   margin-right: 1rem;
 
   &__text-field {
-    height: 4.5rem;
+    height: 3.5rem;
   }
 }
-

@@ -31,7 +31,7 @@ export const en = {
       differentTypeError: 'It is not allowed to connect stops of the same type.',
       unapproveConnectionConfirmation: 'Delete connection approval?',
       unapproveConnectionInfo: 'Click line if you want to unapprove connection.',
-      unapproveSuccessMessage: 'Connection approval deleted.'
+      unapproveSuccessMessage: 'Connection approval deleted.',
     },
     connectionVisibility: {
       nameConnected: 'Connected stops',
@@ -47,7 +47,7 @@ export const en = {
     },
     finishTile: {
       editorMainButton: 'Send tile to verification',
-      supervisorMainButton: 'Approve editor\'s work on the selected tile',
+      supervisorMainButton: "Approve editor's work on the selected tile",
       editorConfirmation:
         'Are you sure you want to submit the tile for verification? It will not be possible to make any subsequent changes.',
       supervisorConfirmation: 'Are you sure you want to approve all connections on the selected tile?',
@@ -78,6 +78,7 @@ export const en = {
       emailSent: 'Recovery link has been sent to your email',
     },
     register: {
+      title: 'Register',
       password: 'Password',
       confirmPassword: 'Confirm Password',
       button: 'Register',
@@ -153,7 +154,7 @@ export const en = {
       report: 'Create report on map',
       connection: 'Create new connection',
       back: 'Hide tile',
-      approveConnections: 'Approve Connections'
+      approveConnections: 'Approve Connections',
     },
     error: {
       unrecognizedProblem: 'Something went wrong. Please contact administrator.',
@@ -179,5 +180,6 @@ export const en = {
     },
     yes: 'Yes',
     no: 'No',
+    or: 'Or',
   },
 };
