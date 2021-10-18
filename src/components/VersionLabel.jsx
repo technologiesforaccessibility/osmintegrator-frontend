@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import * as pack from '../../package.json';
 import api from '../api/apiInstance';
-import {basicHeaders} from '../config/apiConfig';
+import {noTokenHeaders} from '../config/apiConfig';
+import {exception} from '../utilities/exceptionHelper';
 
 const VersionLabel = () => {
   const {t} = useTranslation();
@@ -14,10 +15,11 @@ const VersionLabel = () => {
       try {
         setErr(false);
         const response = await api.versionList({
-          headers: basicHeaders(),
+          headers: noTokenHeaders(),
         });
         setVersion(response.data);
       } catch (error) {
+        exception(error);
         setErr(true);
       }
     }
