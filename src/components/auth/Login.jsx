@@ -11,7 +11,6 @@ import Tooltip from '@mui/material/Tooltip';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
 import {unsafeFormApiError} from '../../utilities/utilities';
-import {ReactComponent as Logo} from './../../assets/accountLogo.svg';
 import AuthContainer from '../AuthContainer';
 import {LoginSchema} from '../../utilities/validationSchema';
 import {login} from '../../redux/actions/authActions';

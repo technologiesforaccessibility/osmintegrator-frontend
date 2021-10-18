@@ -17,7 +17,6 @@ import AuthContainer from '../AuthContainer';
 import Loader from '../Loader';
 import {paths} from '../../utilities/constants';
 import {RegisterSchema} from '../../utilities/validationSchema';
-import {ReactComponent as Logo} from './../../assets/accountLogo.svg';
 import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';
 import AuthBottomPanel from './AuthBottomPanel';
