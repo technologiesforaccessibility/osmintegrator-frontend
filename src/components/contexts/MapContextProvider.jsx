@@ -2,7 +2,7 @@ import {createContext, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {selectLoggedInUserRoles} from '../../redux/selectors/authSelector';
 import i18n from '../../translations/i18n';
-import {connectionVisibility, roles} from '../../utilities/constants';
+import {connectionVisibility, roles, localStorageStopTypes} from '../../utilities/constants';
 
 export const MapContext = createContext();
 
@@ -15,20 +15,35 @@ export const MapModes = {
 
 const initialReportCoords = {lat: null, lon: null};
 
+const getValueFromStateOrReturn = itemKey => {
+  const storageItem = localStorage.getItem(itemKey);
+  console.log({itemKey: storageItem});
+  if (storageItem) {
+    return {...connectionVisibility.visible, ...JSON.parse(storageItem)};
+  } else {
+    return connectionVisibility.visible;
+  }
+};
+
 const initialVisibility = {
   connected: {
+    localStorageName: localStorageStopTypes.connected,
     name: i18n.t('connectionVisibility.nameConnected'),
-    value: connectionVisibility.semiTransparent,
+    value: getValueFromStateOrReturn(localStorageStopTypes.connected),
   },
   unconnected: {
+    localStorageName: localStorageStopTypes.unconnected,
     name: i18n.t('connectionVisibility.nameUnconnected'),
-    value: connectionVisibility.visible,
+    value: getValueFromStateOrReturn(localStorageStopTypes.unconnected),
   },
   approved: {
+    localStorageName: localStorageStopTypes.approved,
     name: i18n.t('connectionVisibility.nameApproved'),
-    value: connectionVisibility.semiTransparent,
+    value: getValueFromStateOrReturn(localStorageStopTypes.approved),
   },
 };
+
+console.log({initialVisibility});
 
 const MapContextProvider = ({children}) => {
   const [isTileActive, setIsTileActive] = useState(false);

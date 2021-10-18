@@ -12,18 +12,15 @@ import '../stylesheets/connectionVisibilityPanel.scss';
 const ConnectionVisibilityPanel = () => {
   const {visibilityOptions, setVisibilityOptions} = useContext(MapContext);
 
-  const handleChange = (key, newValue) => {
+  const handleChange = (key, newValue, storageItem) => {
     if (!newValue) {
       return;
     }
+    console.log({key, newValue, storageItem});
+    // Setitem in local storage
+    localStorage.setItem(storageItem, JSON.stringify(newValue));
 
-    setVisibilityOptions({
-      ...visibilityOptions,
-      [key]: {
-        ...visibilityOptions[key],
-        value: newValue,
-      },
-    });
+    setVisibilityOptions({...visibilityOptions, [key]: {...visibilityOptions[key], value: newValue,},});
   };
 
   return (
@@ -37,7 +34,7 @@ const ConnectionVisibilityPanel = () => {
               value={value.value}
               exclusive
               color="primary"
-              onChange={(_, newValue) => handleChange(key, newValue)}>
+              onChange={(_, newValue) => handleChange(key, newValue, value.localStorageName)}>
               {Object.values(connectionVisibility).map((val, index) => (
                 <ToggleButton
                   className="connection-visibility-panel__toggle--modes"

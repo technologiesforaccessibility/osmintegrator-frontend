@@ -44,3 +44,9 @@ export const connectionVisibility = {
     icon: () => <StarIcon />,
   },
 };
+
+export const localStorageStopTypes = {
+  connected: 'connectedStopVisibility',
+  unconnected: 'unconnectedStopVisibility',
+  approved: 'stopWithApprovedConnectionVisibility'
+}
