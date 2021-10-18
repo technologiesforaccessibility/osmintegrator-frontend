@@ -291,11 +291,7 @@ export const MapView = () => {
         <ImportedReports reports={importedReports} />
       </MapContainer>
       {modal && !welcomeModalCookie.welcome_modal && (
-        <Modal
-          open={modal}
-          onClose={closeModal}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description">
+        <Modal open={modal} onClose={closeModal}>
           <Box sx={modalBoxStyle}>
             <WelcomeModal handleClose={closeModal} />
           </Box>
