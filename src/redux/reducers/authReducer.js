@@ -40,7 +40,8 @@ function parseToken(token) {
 
   const parsedToken = JSON.parse(jsonPayload);
 
-  const roleKey = Object.keys(parsedToken).find((key) => key.search(('role')) > -1);
+  const roleKey = Object.keys(parsedToken).find(key => key.search('role') > -1);
+  const nameKey = Object.keys(parsedToken).filter(key => key.includes('name') && !key.includes('identifier'));
 
   if (roleKey) {
     const role = parsedToken[roleKey];
@@ -50,6 +51,11 @@ function parseToken(token) {
     } else {
       parsedToken.roles = [role];
     }
+  }
+
+  if (nameKey) {
+    const name = parsedToken[nameKey];
+    parsedToken.name = name;
   }
 
   return parsedToken;
@@ -62,6 +68,7 @@ const authReducer = createReducer(initialState, (builder) => {
     state.error = true;
     state.token = undefined;
     state.loggedInUserRoles = undefined;
+    state.name = undefined;
 
     if (action.payload) {
       state.errorMessage = action.payload.message;
@@ -84,39 +91,42 @@ const authReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(login.pending, handlePending)
     .addCase(login.fulfilled, (state, action) => {
-      const { token, refreshToken } = action.payload;
-      const { roles } = parseToken(token);
+      const {token, refreshToken} = action.payload;
+      const {roles, name} = parseToken(token);
 
       state.isLoggedIn = true;
       state.loading = false;
       state.token = token;
       state.loggedInUserRoles = roles;
-
+      state.name = name;
       setTokens(token, refreshToken);
     })
     .addCase(login.rejected, handleRejected)
-    .addCase(logout, (state) => {
+    .addCase(logout, state => {
       state.isLoggedIn = false;
       state.token = undefined;
       state.loggedInUserRoles = undefined;
+      state.name = undefined;
 
       setTokens();
     })
     .addCase(validateLogin.pending, handlePending)
-    .addCase(validateLogin.fulfilled, (state) => {
+    .addCase(validateLogin.fulfilled, state => {
       const token = localStorage.getItem('token');
-      const { roles } = parseToken(token);
+      const {roles, name} = parseToken(token);
 
       state.isLoggedIn = true;
       state.loading = false;
       state.token = token;
       state.loggedInUserRoles = roles;
+      state.name = name;
     })
-    .addCase(validateLogin.rejected, (state) => {
+    .addCase(validateLogin.rejected, state => {
       state.isLoggedIn = false;
       state.loading = false;
       state.token = undefined;
       state.loggedInUserRoles = undefined;
+      state.name = undefined;
     });
 });
 

@@ -10,6 +10,10 @@ export const selectLoggedInUserRoles = state => {
   return state.auth.loggedInUserRoles;
 };
 
+export const selectUserName = state => {
+  return state.auth.name;
+};
+
 export const selectAuthLoading = state => {
   return state.auth.loading;
 };

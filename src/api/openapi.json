@@ -521,7 +521,7 @@
                 }
             }
         },
-        "/api/Connections/Unpprove/{id}": {
+        "/api/Connections/Unapprove/{id}": {
             "put": {
                 "tags": [
                     "Connections"
