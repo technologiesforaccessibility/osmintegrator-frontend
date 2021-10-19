@@ -171,6 +171,14 @@ export const pl = {
       exception: 'Nieobsługiwany wyjątek. Skontaktuj się z administratorem.',
     },
     version: 'Wersja: ',
+    welcomeModal: {
+      title: 'Witam w systemie Osm Integrator',
+      content:
+        'Dzięki Twojej pracy osoby niewidome będą mogły lepiej wykorzystać możliwości aplikacji służących do nowigacji. \n \n Obecnie nie masz przypisanego żadnego obszaru do edycji. Aby uzyskać dostęp do obszaru napisz do nas wiadomość na email kontakt@rozwiazaniadlaniewidomych.org. \n \n Aby zrozumieć zasadę działania systemu zapoznaj się z instrukcją dostępną pod linkiem poniżej.',
+      button: 'Instrukcja obsługi',
+      checkbox: 'Nie pokazuj więcej',
+      hide: 'Ukryj',
+    },
     managementPanel: {
       assignRoleTitle: 'Przypisz rolę do użytkownika',
       chooseUser: 'Wybierz użytkownika',

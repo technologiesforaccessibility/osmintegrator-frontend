@@ -17,11 +17,18 @@ import NewReportMarker from './mapComponents/NewReportMarker';
 import TileStops from './mapComponents/TileStops';
 import {exception} from '../utilities/exceptionHelper';
 import Loader from './Loader';
+import {Modal} from '@mui/material';
+import {Box} from '@mui/system';
+import WelcomeModal from './WelcomeModal';
+import {useCookies} from 'react-cookie';
+import {roles} from '../utilities/constants';
 
 export const MapView = () => {
   const {t} = useTranslation();
   const [allStops, setAllStops] = useState([]);
   const [activeBusStopId, setActiveBusStopId] = useState(null);
+  const [modal, setModal] = useState(false);
+  const [welcomeModalCookie, setWelcomeModalCookie] = useCookies(['welcome_modal']);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -32,6 +39,18 @@ export const MapView = () => {
   const mapStyle = {
     position: 'relative',
     height: 'calc(100vh - 5rem)',
+  };
+
+  const modalBoxStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 600,
+    bgcolor: 'white',
+    border: '0px solid #000',
+    boxShadow: 24,
+    p: 4,
   };
 
   const {
@@ -61,6 +80,7 @@ export const MapView = () => {
     setConnectedStopIds,
     setApprovedStopIds,
     setAreManageReportButtonsVisible,
+    authRoles,
   } = useContext(MapContext);
 
   useEffect(() => {
@@ -136,6 +156,12 @@ export const MapView = () => {
         headers: basicHeaders(),
       });
       setTiles(response.data);
+
+      const noTilesAndIsEditor =
+        response.data.length === 0 && authRoles.length === 1 && (authRoles || []).includes(roles.EDITOR);
+      if (noTilesAndIsEditor) {
+        setModal(true);
+      }
     } catch (error) {
       exception(error);
     }
@@ -224,6 +250,14 @@ export const MapView = () => {
     setAreManageReportButtonsVisible(false);
   };
 
+  const closeModal = checkbox => {
+    if (checkbox === true) {
+      setModal(false);
+      setWelcomeModalCookie('welcome_modal', 'true', {path: '/'});
+    }
+    setModal(false);
+  };
+
   return (
     <>
       <Loader isLoading={isLoading} />
@@ -256,6 +290,13 @@ export const MapView = () => {
         <NewReportMarker newReportCoordinates={newReportCoordinates} />
         <ImportedReports reports={importedReports} />
       </MapContainer>
+      {modal && !welcomeModalCookie.welcome_modal && (
+        <Modal open={modal} onClose={closeModal}>
+          <Box sx={modalBoxStyle}>
+            <WelcomeModal handleClose={closeModal} />
+          </Box>
+        </Modal>
+      )}
     </>
   );
 };
