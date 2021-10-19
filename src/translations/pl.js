@@ -68,9 +68,13 @@ export const pl = {
       loginButton: 'Zaloguj',
     },
     map: {},
-    profileHeader: 'Profil',
-    profileMVPPlaceholder:
-      'Jeśli chcesz zmienić email lub hasło, wyślij wiadomość do kontakt@rozwiazaniadlaniewidomych.org lub napisz wiadomość na Slacku na kanale #problems',
+    profile: {
+      header: 'Profil',
+      userName: 'Użytkownik',
+      roles: 'Role',
+      MVPPlaceholder:
+        'Jeśli chcesz zmienić email lub hasło, wyślij wiadomość do kontakt@rozwiazaniadlaniewidomych.org lub napisz wiadomość na Slacku na kanale #problems',
+    },
     recover: {
       title: 'Odzyskaj swoje hasło',
       button: 'Zresetuj swoje hasło',
@@ -168,6 +172,14 @@ export const pl = {
       exception: 'Nieobsługiwany wyjątek. Skontaktuj się z administratorem.',
     },
     version: 'Wersja: ',
+    welcomeModal: {
+      title: 'Witam w systemie Osm Integrator',
+      content:
+        'Dzięki Twojej pracy osoby niewidome będą mogły lepiej wykorzystać możliwości aplikacji służących do nowigacji. \n \n Obecnie nie masz przypisanego żadnego obszaru do edycji. Aby uzyskać dostęp do obszaru napisz do nas wiadomość na email kontakt@rozwiazaniadlaniewidomych.org. \n \n Aby zrozumieć zasadę działania systemu zapoznaj się z instrukcją dostępną pod linkiem poniżej.',
+      button: 'Instrukcja obsługi',
+      checkbox: 'Nie pokazuj więcej',
+      hide: 'Ukryj',
+    },
     managementPanel: {
       assignRoleTitle: 'Przypisz rolę do użytkownika',
       chooseUser: 'Wybierz użytkownika',

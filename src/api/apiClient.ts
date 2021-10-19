@@ -686,8 +686,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Connections
-     * @name ConnectionsUnpproveUpdate
-     * @request PUT:/api/Connections/Approve/{id}
+     * @name ConnectionsUnapproveUpdate
+     * @request PUT:/api/Connections/Unapprove/{id}
      */
     connectionsUnapproveUpdate: (id: string, params: RequestParams = {}) =>
       this.request<string, ProblemDetails>({

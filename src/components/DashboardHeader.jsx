@@ -3,12 +3,12 @@ import {useHistory} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {paths} from '../utilities/constants';
-import {selectLoggedInUserRoles} from '../redux/selectors/authSelector';
+import {selectLoggedInUserRoles, selectUserName} from '../redux/selectors/authSelector';
 import {roles} from '../utilities/constants';
 import {logout} from '../redux/actions/authActions';
 import logo from './../assets/OsmIntegrator.png';
 
-import {Button, IconButton} from '@mui/material/';
+import {Button, IconButton, Chip} from '@mui/material/';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -25,6 +25,7 @@ const DashboardHeader = () => {
   const {t} = useTranslation();
   let history = useHistory();
   const dispatch = useDispatch();
+  const name = useSelector(selectUserName);
 
   function logoutClicked() {
     dispatch(logout());
@@ -61,7 +62,6 @@ const DashboardHeader = () => {
             </Button>
           </div>
         )}
-
         <div className="dashboard-header--button-box">
           <Button
             color="primary"
@@ -72,13 +72,17 @@ const DashboardHeader = () => {
             {t('sidebar.contact')}
           </Button>
         </div>
-
         <Tooltip title={t('sidebar.profile')}>
-          <IconButton color="primary" href={paths.PROFILE}>
-            <AccountCircleIcon fontSize="medium" />
-          </IconButton>
+          <Chip
+            className="dashboard-header--button-profile"
+            avatar={<AccountCircleIcon color="warning" />}
+            label={name ? name : ''}
+            variant="outlined"
+            color="primary"
+            clickable
+            onClick={() => history.push(paths.PROFILE)}
+          />
         </Tooltip>
-
         <Tooltip title={t('logout.button')}>
           <IconButton color="primary" onClick={logoutClicked}>
             <LogoutIcon fontSize="medium" />
