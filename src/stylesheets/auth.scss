@@ -23,9 +23,9 @@ body {
     align-items: center;
     height: 100%;
     width: 100%;
-    max-height: 1500px;
+    max-height: 93.75rem;
     transition: 0.2s;
-    min-height: 380px;
+    min-height: 23.75rem;
   }
   &__logos {
     z-index: 0;
@@ -33,16 +33,16 @@ body {
     display: flex;
     align-items: center;
     padding-top: 2rem;
-    bottom: 200px;
+    bottom: 12.5rem;
     @media screen and (max-height: 900px) {
-      bottom: 100px;
+      bottom: 6.25rem;
     }
     @media screen and (max-height: 750px) {
-      bottom: 60px;
+      bottom: 3.75rem;
     }
     img {
       width: 100%;
-      max-width: 120px;
+      max-width: 7.5rem;
     }
     svg {
       width: 100%;
@@ -71,20 +71,20 @@ body {
   &__image--left {
     position: absolute;
     z-index: -1;
-    left: -169px;
+    left: -10.5625rem;
     height: 100%;
   }
   &__image--right {
     position: absolute;
     z-index: -1;
-    right: -169px;
+    right: -10.5625rem;
     height: 100%;
   }
 
   &__form-area {
     display: flex;
     flex: 2;
-    margin-top: 80px;
+    margin-top: 5rem;
     height: 100%;
     justify-content: center;
     align-items: center;
@@ -97,8 +97,8 @@ body {
     background: #fcfcfc 0% 0% no-repeat padding-box;
     border: 2px solid #d8e0e3;
     border-radius: 45px;
-    width: 350px;
-    padding: 20px 20px 30px;
+    width: 21.875rem;
+    padding: 1.25rem 1.25rem 1.875rem;
     position: relative;
   }
 }
@@ -131,15 +131,15 @@ body {
 
 .auth-info-placeholder {
   position: absolute;
-  bottom: 10px;
+  bottom: 0.625rem;
   left: 50%;
   width: 100%;
   transform: translate(-50%);
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .auth-message {
-  padding: 30px 0 30px;
-  font-size: 14px;
+  padding: 1.875rem 0;
+  font-size: 0.875rem;
   color: $color-message-success;
 }
 
