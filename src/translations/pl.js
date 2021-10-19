@@ -59,7 +59,7 @@ export const pl = {
       forgotPassword: 'Nie pamiętasz hasła?',
       clickHere: 'Kliknij tutaj',
       401: 'Niepoprawny email lub hasło',
-      register: 'Zarejestruj',
+      register: 'Zarejestruj się',
     },
     logout: {
       title: 'Nastąpiło wylogowanie',
@@ -82,6 +82,7 @@ export const pl = {
       emailSent: 'Na podany adres została wysłana wiadomość z instrukcją odzyskania hasła',
     },
     register: {
+      title: 'Rejestracja',
       password: 'Hasło',
       confirmPassword: 'Powtórz hasło',
       button: 'Zarejestruj',
@@ -191,5 +192,6 @@ export const pl = {
     },
     yes: 'Tak',
     no: 'Nie',
+    or: 'Lub',
   },
 };

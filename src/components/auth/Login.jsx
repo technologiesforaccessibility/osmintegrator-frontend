@@ -11,7 +11,6 @@ import Tooltip from '@mui/material/Tooltip';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
 import {unsafeFormApiError} from '../../utilities/utilities';
-import {ReactComponent as Logo} from './../../assets/accountLogo.svg';
 import AuthContainer from '../AuthContainer';
 import {LoginSchema} from '../../utilities/validationSchema';
 import {login} from '../../redux/actions/authActions';
@@ -21,6 +20,7 @@ import {paths} from '../../utilities/constants';
 import '../../stylesheets/login.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
 import AuthBottomPanel from './AuthBottomPanel';
+import {Chip, Divider} from '@mui/material';
 
 const Login = () => {
   const {t} = useTranslation();
@@ -39,7 +39,9 @@ const Login = () => {
   ) : (
     <AuthContainer>
       <div className="register__logo">
-        <Logo />
+        <h1 className="register__title" color="primary">
+          {t('login.loginText')}
+        </h1>
       </div>
       <Formik
         onSubmit={({email, password}) => {
@@ -61,6 +63,7 @@ const Login = () => {
               value={values.email}
               disabled={isLoading}
               error={errors.email && touched.email}
+              size="small"
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -80,6 +83,7 @@ const Login = () => {
               value={values.password}
               disabled={isLoading}
               error={errors.password && touched.password}
+              size="small"
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -91,11 +95,7 @@ const Login = () => {
               }}
               helperText={errors.password && touched.password}
             />
-            <Button
-              variant="contained"
-              disabled={isLoading}
-              className="register__button"
-              type="submit">
+            <Button variant="contained" disabled={isLoading} className="register__button" type="submit">
               {t('login.loginText')}
             </Button>
           </form>
@@ -110,11 +110,17 @@ const Login = () => {
         !
       </p>
 
+      <Divider>
+        <Chip label={t('or')} />
+      </Divider>
+
       <AuthBottomPanel linkText={t('login.register')} link={paths.REGISTER} />
 
-      <div className="auth-info-placeholder centered">
-        {error && <span style={{color: colors['colorMessageFail']}}>{unsafeFormApiError(error, t, 'login')}</span>}
-      </div>
+      {error && (
+        <div className="auth-info-placeholder centered">
+          <span style={{color: colors['colorMessageFail']}}>{unsafeFormApiError(error, t, 'login')}</span>
+        </div>
+      )}
     </AuthContainer>
   );
 };

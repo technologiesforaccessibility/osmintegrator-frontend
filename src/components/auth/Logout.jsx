@@ -7,7 +7,7 @@ import AuthContainer from '../AuthContainer';
 import {paths} from '../../utilities/constants';
 import {MapContext} from './../contexts/MapContextProvider';
 
-import colors from '../../stylesheets/config/colors.module.scss';
+import {CircularProgress} from '@mui/material';
 
 const Logout = () => {
   const history = useHistory();
@@ -27,17 +27,9 @@ const Logout = () => {
 
   return (
     <AuthContainer>
-      <h1 className="auth-title">{t('logout.title')} </h1>
-      <div className="auth-info-placeholder centered">
-        <span
-          style={{
-            paddingTop: '10px',
-            color: colors.colorMessageSuccess,
-          }}>
-          {' '}
-          {t('logout.message')}
-        </span>
-      </div>
+      <h5 className="auth-title">{t('logout.title')} </h5>
+      <div className="auth-message">{t('logout.message')}</div>
+      <CircularProgress color="success" />
     </AuthContainer>
   );
 };

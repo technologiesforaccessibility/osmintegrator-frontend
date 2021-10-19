@@ -17,7 +17,6 @@ import AuthContainer from '../AuthContainer';
 import Loader from '../Loader';
 import {paths} from '../../utilities/constants';
 import {RegisterSchema} from '../../utilities/validationSchema';
-import {ReactComponent as Logo} from './../../assets/accountLogo.svg';
 import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';
 import AuthBottomPanel from './AuthBottomPanel';
@@ -54,7 +53,9 @@ const Register = () => {
       <Loader isLoading={isLoading} />
       <AuthContainer>
         <div className="register__logo">
-          <Logo />
+          <h1 className="register__title" color="primary">
+            {t('register.title')}
+          </h1>
         </div>
         <div className="register__content">
           <Formik
@@ -80,6 +81,7 @@ const Register = () => {
                   value={values.username}
                   disabled={isLoading}
                   error={errors.username && touched.username}
+                  size="small"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -101,6 +103,7 @@ const Register = () => {
                   value={values.email}
                   disabled={isLoading}
                   error={errors.email && touched.email}
+                  size="small"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -120,6 +123,7 @@ const Register = () => {
                   value={values.password1}
                   disabled={isLoading}
                   error={errors.password1 && touched.password1}
+                  size="small"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -141,6 +145,7 @@ const Register = () => {
                   value={values.password2}
                   disabled={isLoading}
                   error={errors.password2 && touched.password2}
+                  size="small"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -179,11 +184,7 @@ const Register = () => {
                   }
                 />
 
-                <Button
-                  variant="contained"
-                  disabled={!checked || isLoading}
-                  type="submit"
-                  className="register__button">
+                <Button variant="contained" disabled={!checked || isLoading} type="submit" className="register__button">
                   {t('register.button')}
                 </Button>
               </form>
