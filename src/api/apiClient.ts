@@ -47,6 +47,29 @@ export interface ConnectionAction {
   gtfsStopId: string;
 }
 
+export interface Conversation {
+  /** @format uuid */
+  id?: string | null;
+
+  /** @format double */
+  lat?: number | null;
+
+  /** @format double */
+  lon?: number | null;
+
+  /** @format uuid */
+  stopId?: string | null;
+
+  /** @format uuid */
+  tileId?: string;
+  messages?: Message[] | null;
+}
+
+export interface ConversationResponse {
+  stopConversations?: Conversation[] | null;
+  geoConversations?: Conversation[] | null;
+}
+
 export interface CreateChangeFileRequestInput {
   /** @format uuid */
   tileUuid: string;
@@ -61,6 +84,42 @@ export interface LoginData {
   /** @format email */
   email: string;
   password: string;
+}
+
+export interface Message {
+  /** @format uuid */
+  id?: string | null;
+
+  /** @format uuid */
+  userId?: string | null;
+  text?: string | null;
+  username?: string | null;
+  status?: NoteStatus;
+
+  /** @format date-time */
+  createdAt?: string | null;
+
+  /** @format uuid */
+  conversationId?: string | null;
+  conversation?: Conversation;
+}
+
+export interface MessageInput {
+  /** @format uuid */
+  conversationId?: string | null;
+  text?: string | null;
+
+  /** @format double */
+  lat?: number | null;
+
+  /** @format double */
+  lon?: number | null;
+
+  /** @format uuid */
+  stopId?: string | null;
+
+  /** @format uuid */
+  tileId?: string;
 }
 
 export interface NewConnectionAction {
@@ -88,6 +147,11 @@ export interface NewNote {
   tileId: string;
   text?: string | null;
 }
+
+/**
+ * @format int32
+ */
+export type NoteStatus = 0 | 1 | 2;
 
 export interface ProblemDetails {
   type?: string | null;
@@ -694,6 +758,101 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/Connections/Unapprove/${id}`,
         method: 'PUT',
         format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conversation
+     * @name ConversationCreate
+     * @request POST:/api/Conversation
+     */
+    conversationCreate: (data: MessageInput, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Conversation`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conversation
+     * @name ConversationDetail
+     * @request GET:/api/Conversation/{id}
+     */
+    conversationDetail: (id: string, params: RequestParams = {}) =>
+      this.request<ConversationResponse, ProblemDetails>({
+        path: `/api/Conversation/${id}`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conversation
+     * @name ConversationApproveUpdate
+     * @request PUT:/api/Conversation/Approve/{id}
+     */
+    conversationApproveUpdate: (id: string, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Conversation/Approve/${id}`,
+        method: 'PUT',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conversation
+     * @name ConversationRejectUpdate
+     * @request PUT:/api/Conversation/Reject/{id}
+     */
+    conversationRejectUpdate: (id: string, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Conversation/Reject/${id}`,
+        method: 'PUT',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conversation
+     * @name ConversationApproveUpdate2
+     * @request PUT:/api/Conversation/Approve
+     * @originalName conversationApproveUpdate
+     * @duplicate
+     */
+    conversationApproveUpdate2: (data: MessageInput, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Conversation/Approve`,
+        method: 'PUT',
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conversation
+     * @name ConversationRejectUpdate2
+     * @request PUT:/api/Conversation/Reject
+     * @originalName conversationRejectUpdate
+     * @duplicate
+     */
+    conversationRejectUpdate2: (data: MessageInput, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Conversation/Reject`,
+        method: 'PUT',
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
