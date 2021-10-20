@@ -37,7 +37,6 @@ export const connectionVisibility = {
     opacityValue: 0.5,
     icon: () => <StarHalfIcon />,
   },
-
   visible: {
     text: i18n.t('connectionVisibility.visible'),
     opacityValue: 1,
@@ -48,5 +47,5 @@ export const connectionVisibility = {
 export const localStorageStopTypes = {
   connected: 'connectedStopVisibility',
   unconnected: 'unconnectedStopVisibility',
-  approved: 'stopWithApprovedConnectionVisibility'
-}
+  approved: 'stopWithApprovedConnectionVisibility',
+};

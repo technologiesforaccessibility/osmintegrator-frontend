@@ -17,9 +17,14 @@ const initialReportCoords = {lat: null, lon: null};
 
 const getValueFromStateOrReturn = itemKey => {
   const storageItem = localStorage.getItem(itemKey);
-  console.log({itemKey: storageItem});
+
   if (storageItem) {
-    return {...connectionVisibility.visible, ...JSON.parse(storageItem)};
+    //good for now - can be rafactored later
+    const connectionVisibilityKey = Object.entries(connectionVisibility).filter(
+      el => el[1].text === JSON.parse(storageItem).text,
+    )[0][0];
+
+    return connectionVisibility[connectionVisibilityKey];
   } else {
     return connectionVisibility.visible;
   }
@@ -69,24 +74,24 @@ const MapContextProvider = ({children}) => {
 
   const authRoles = useSelector(selectLoggedInUserRoles);
 
-  useEffect(() => {
-    if ((authRoles || []).includes(roles.SUPERVISOR)) {
-      setVisibilityOptions({
-        connected: {
-          name: i18n.t('connectionVisibility.nameConnected'),
-          value: connectionVisibility.visible,
-        },
-        unconnected: {
-          name: i18n.t('connectionVisibility.nameUnconnected'),
-          value: connectionVisibility.semiTransparent,
-        },
-        approved: {
-          name: i18n.t('connectionVisibility.nameApproved'),
-          value: connectionVisibility.semiTransparent,
-        },
-      });
-    }
-  }, [authRoles]);
+  // useEffect(() => {
+  //   if ((authRoles || []).includes(roles.SUPERVISOR)) {
+  //     setVisibilityOptions({
+  //       connected: {
+  //         name: i18n.t('connectionVisibility.nameConnected'),
+  //         value: connectionVisibility.visible,
+  //       },
+  //       unconnected: {
+  //         name: i18n.t('connectionVisibility.nameUnconnected'),
+  //         value: connectionVisibility.semiTransparent,
+  //       },
+  //       approved: {
+  //         name: i18n.t('connectionVisibility.nameApproved'),
+  //         value: connectionVisibility.semiTransparent,
+  //       },
+  //     });
+  //   }
+  // }, [authRoles]);
 
   const singleTileToggle = isActive => {
     setIsTileActive(isActive);
