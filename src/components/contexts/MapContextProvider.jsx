@@ -1,6 +1,4 @@
 import {createContext, useState} from 'react';
-import {useSelector} from 'react-redux';
-import {selectLoggedInUserRoles} from '../../redux/selectors/authSelector';
 import i18n from '../../translations/i18n';
 import {connectionVisibility, localStorageStopTypes} from '../../utilities/constants';
 
@@ -71,8 +69,6 @@ const MapContextProvider = ({children}) => {
   const [approvedStopIds, setApprovedStopIds] = useState([]);
   const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);
   const [visibilityOptions, setVisibilityOptions] = useState(initialVisibility());
-
-  const authRoles = useSelector(selectLoggedInUserRoles);
 
   const singleTileToggle = isActive => {
     setIsTileActive(isActive);
