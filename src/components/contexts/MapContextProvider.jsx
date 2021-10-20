@@ -1,8 +1,8 @@
-import {createContext, useEffect, useState} from 'react';
+import {createContext, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {selectLoggedInUserRoles} from '../../redux/selectors/authSelector';
 import i18n from '../../translations/i18n';
-import {connectionVisibility, roles, localStorageStopTypes} from '../../utilities/constants';
+import {connectionVisibility, localStorageStopTypes} from '../../utilities/constants';
 
 export const MapContext = createContext();
 
@@ -15,10 +15,10 @@ export const MapModes = {
 
 const initialReportCoords = {lat: null, lon: null};
 
-const getValueFromStateOrReturn = itemKey => {
+const getValueFromStateOrReturn = (itemKey, reset) => {
   const storageItem = localStorage.getItem(itemKey);
 
-  if (storageItem) {
+  if (storageItem && !reset) {
     //good for now - can be rafactored later
     const connectionVisibilityKey = Object.entries(connectionVisibility).filter(
       el => el[1].text === JSON.parse(storageItem).text,
@@ -30,25 +30,25 @@ const getValueFromStateOrReturn = itemKey => {
   }
 };
 
-const initialVisibility = {
-  connected: {
-    localStorageName: localStorageStopTypes.connected,
-    name: i18n.t('connectionVisibility.nameConnected'),
-    value: getValueFromStateOrReturn(localStorageStopTypes.connected),
-  },
-  unconnected: {
-    localStorageName: localStorageStopTypes.unconnected,
-    name: i18n.t('connectionVisibility.nameUnconnected'),
-    value: getValueFromStateOrReturn(localStorageStopTypes.unconnected),
-  },
-  approved: {
-    localStorageName: localStorageStopTypes.approved,
-    name: i18n.t('connectionVisibility.nameApproved'),
-    value: getValueFromStateOrReturn(localStorageStopTypes.approved),
-  },
+const initialVisibility = (reset = false) => {
+  return {
+    connected: {
+      localStorageName: localStorageStopTypes.connected,
+      name: i18n.t('connectionVisibility.nameConnected'),
+      value: getValueFromStateOrReturn(localStorageStopTypes.connected, reset),
+    },
+    unconnected: {
+      localStorageName: localStorageStopTypes.unconnected,
+      name: i18n.t('connectionVisibility.nameUnconnected'),
+      value: getValueFromStateOrReturn(localStorageStopTypes.unconnected, reset),
+    },
+    approved: {
+      localStorageName: localStorageStopTypes.approved,
+      name: i18n.t('connectionVisibility.nameApproved'),
+      value: getValueFromStateOrReturn(localStorageStopTypes.approved, reset),
+    },
+  };
 };
-
-console.log({initialVisibility});
 
 const MapContextProvider = ({children}) => {
   const [isTileActive, setIsTileActive] = useState(false);
@@ -70,28 +70,9 @@ const MapContextProvider = ({children}) => {
   const [connectedStopIds, setConnectedStopIds] = useState([]);
   const [approvedStopIds, setApprovedStopIds] = useState([]);
   const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);
-  const [visibilityOptions, setVisibilityOptions] = useState(initialVisibility);
+  const [visibilityOptions, setVisibilityOptions] = useState(initialVisibility());
 
   const authRoles = useSelector(selectLoggedInUserRoles);
-
-  // useEffect(() => {
-  //   if ((authRoles || []).includes(roles.SUPERVISOR)) {
-  //     setVisibilityOptions({
-  //       connected: {
-  //         name: i18n.t('connectionVisibility.nameConnected'),
-  //         value: connectionVisibility.visible,
-  //       },
-  //       unconnected: {
-  //         name: i18n.t('connectionVisibility.nameUnconnected'),
-  //         value: connectionVisibility.semiTransparent,
-  //       },
-  //       approved: {
-  //         name: i18n.t('connectionVisibility.nameApproved'),
-  //         value: connectionVisibility.semiTransparent,
-  //       },
-  //     });
-  //   }
-  // }, [authRoles]);
 
   const singleTileToggle = isActive => {
     setIsTileActive(isActive);
@@ -164,6 +145,11 @@ const MapContextProvider = ({children}) => {
     setVisibilityOptions(initialVisibility);
   };
 
+  const resetMapVisibility = () => {
+    setVisibilityOptions(initialVisibility(true));
+    Object.values(localStorageStopTypes).forEach(item => localStorage.removeItem(item));
+  };
+
   return (
     <MapContext.Provider
       value={{
@@ -213,6 +199,7 @@ const MapContextProvider = ({children}) => {
         setIsTileActive,
         closeTile,
         setVisibilityOptions,
+        resetMapVisibility,
       }}>
       {children}
     </MapContext.Provider>

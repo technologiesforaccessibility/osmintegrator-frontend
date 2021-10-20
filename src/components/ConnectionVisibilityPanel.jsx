@@ -1,4 +1,4 @@
-import {useContext} from 'react';
+import {useContext, useState} from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Tooltip from '@mui/material/Tooltip';
@@ -8,19 +8,30 @@ import {MapContext} from './contexts/MapContextProvider';
 import {connectionVisibility} from '../utilities/constants';
 
 import '../stylesheets/connectionVisibilityPanel.scss';
+import {Button, Grid, Modal} from '@mui/material';
+import {useTranslation} from 'react-i18next';
+import {Box} from '@mui/system';
 
-const ConnectionVisibilityPanel = () => {
-  const {visibilityOptions, setVisibilityOptions} = useContext(MapContext);
+const ConnectionVisibilityPanel = ({modalStyle}) => {
+  const {visibilityOptions, setVisibilityOptions, resetMapVisibility} = useContext(MapContext);
+  const {t} = useTranslation();
+  const [childModal, setChildModal] = useState(false);
 
   const handleChange = (key, newValue, storageItem) => {
     if (!newValue) {
       return;
     }
-    console.log({key, newValue, storageItem});
-    // Setitem in local storage
     localStorage.setItem(storageItem, JSON.stringify(newValue));
 
-    setVisibilityOptions({...visibilityOptions, [key]: {...visibilityOptions[key], value: newValue,},});
+    setVisibilityOptions({...visibilityOptions, [key]: {...visibilityOptions[key], value: newValue}});
+  };
+
+  const handleModal = value => {
+    setChildModal(value);
+  };
+  const handleReset = () => {
+    resetMapVisibility();
+    handleModal(false);
   };
 
   return (
@@ -47,6 +58,25 @@ const ConnectionVisibilityPanel = () => {
             </ToggleButtonGroup>
           </div>
         ))}
+        <Grid container justifyContent="flex-end" pt={1}>
+          <Button onClick={() => handleModal(true)} variant="contained">
+            {t('connectionVisibility.resetButton')}
+          </Button>
+        </Grid>
+
+        <Modal open={childModal}>
+          <Box sx={modalStyle}>
+            <p>{t('connectionVisibility.resetInfo')}</p>
+            <Grid container justifyContent="space-evenly" pt={2}>
+              <Button onClick={() => handleModal(false)} variant="outlined">
+                {t('no')}
+              </Button>
+              <Button onClick={handleReset} variant="contained">
+                {t('yes')}
+              </Button>
+            </Grid>
+          </Box>
+        </Modal>
       </div>
     </>
   );

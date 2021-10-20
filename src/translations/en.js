@@ -31,7 +31,7 @@ export const en = {
       differentTypeError: 'It is not allowed to connect stops of the same type.',
       unapproveConnectionConfirmation: 'Delete connection approval?',
       unapproveConnectionInfo: 'Click line if you want to unapprove connection.',
-      unapproveSuccessMessage: 'Connection approval deleted.'
+      unapproveSuccessMessage: 'Connection approval deleted.',
     },
     connectionVisibility: {
       nameConnected: 'Connected stops',
@@ -40,6 +40,8 @@ export const en = {
       visible: 'Visible',
       semiTransparent: 'Semi transparent',
       hidden: 'Hidden',
+      resetButton: 'Reset',
+      resetInfo: 'Are you sure you want to reset objects visibility to default?',
     },
     contactForm: {
       description: 'Login problem? Need to contact? Send us a ',
@@ -153,7 +155,7 @@ export const en = {
       report: 'Create report on map',
       connection: 'Create new connection',
       back: 'Hide tile',
-      approveConnections: 'Approve Connections'
+      approveConnections: 'Approve Connections',
     },
     error: {
       unrecognizedProblem: 'Something went wrong. Please contact administrator.',
