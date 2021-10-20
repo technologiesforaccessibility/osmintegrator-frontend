@@ -1,36 +1,13 @@
 .role-assignmentPanel {
-  display: grid;
-  grid-template-areas: "header" "dropdown" "checkboxes" "button";
-
   border-color: black;
   border-width: 1px;
   border-style: solid;
   border-radius: 1rem;
   padding: 1rem;
-
-  &__header {
-    grid-row: header;
-    grid-column: header;
-  }
-
-  &__dropdown {
-    grid-row: dropdown;
-    grid-column: dropdown;
-
-    &--dropdown {
-      width: 100%;
-    }
-  }
+  width: 100%;
 
   &__checkboxes {
-    grid-row: checkboxes;
-    grid-column: checkboxes;
     margin-top: 1rem;
     margin-bottom: 1rem;
-  }
-
-  &__button {
-    grid-row: button;
-    grid-column: button;
   }
 }
