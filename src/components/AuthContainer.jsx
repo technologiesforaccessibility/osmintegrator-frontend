@@ -1,9 +1,9 @@
 import Footer from './Footer';
 import dots from './../assets/authDots.png';
 import logo from './../assets/OsmIntegrator.png';
-import rdnLogo from './../assets/logos/rdn-logo_new.png';
 import {paths} from '../utilities/constants';
 import {ReactComponent as RevolveLogo} from './../assets/logos/revolve-logo.svg';
+import {ReactComponent as RDNLogo} from './../assets/logos/rozwiazania-logo.svg';
 
 import '../stylesheets/auth.scss';
 
@@ -26,7 +26,7 @@ export default function AuthContainer({children}) {
             href="https://rozwiazaniadlaniewidomych.org/"
             target="_blank"
             rel="noreferrer">
-            <img src={rdnLogo} alt="Logo Rozwiązania dla niewidomych" />
+            <RDNLogo />
           </a>
           <a className="auth__logos--revolve" href="https://revolve.healthcare/" target="_blank" rel="noreferrer">
             <RevolveLogo />

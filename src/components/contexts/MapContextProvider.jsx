@@ -200,6 +200,7 @@ const MapContextProvider = ({children}) => {
         closeTile,
         setVisibilityOptions,
         resetMapVisibility,
+        authRoles,
       }}>
       {children}
     </MapContext.Provider>
