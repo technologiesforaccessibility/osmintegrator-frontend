@@ -15,14 +15,8 @@ import {roles as appRoles} from '../utilities/constants';
 import './../stylesheets/dashboardSidebar.scss';
 
 const DashboardSidebar = () => {
-  const {
-    propertyGrid,
-    isTileActive,
-    mapMode,
-    isEditingReportMode,
-    openReportContent,
-    areManageReportButtonsVisible,
-  } = useContext(MapContext);
+  const {propertyGrid, isTileActive, mapMode, isEditingReportMode, openReportContent, areManageReportButtonsVisible} =
+    useContext(MapContext);
   const authRoles = useSelector(selectLoggedInUserRoles);
 
   return (
@@ -33,7 +27,13 @@ const DashboardSidebar = () => {
       userRoles={authRoles}
       appRoles={appRoles}>
       <>
-        {propertyGrid && mapMode === MapModes.view && <PropertyGrid propertyGrid={propertyGrid} />}
+        {mapMode === MapModes.view ? (
+          propertyGrid ? (
+            <PropertyGrid propertyGrid={propertyGrid} />
+          ) : (
+            <p>Click on stop or report pin to display details.</p>
+          )
+        ) : null}
         {mapMode === MapModes.report && <NewReport />}
         {isEditingReportMode && openReportContent && (
           <ReportForm areManageReportButtonsVisible={areManageReportButtonsVisible} />
