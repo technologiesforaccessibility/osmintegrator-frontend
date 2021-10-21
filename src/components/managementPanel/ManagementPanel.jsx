@@ -2,12 +2,9 @@ import {useEffect, useState} from 'react';
 import {Rectangle, Tooltip} from 'react-leaflet';
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
-import {CircularProgress} from '@mui/material';
+import {CircularProgress, TextField} from '@mui/material';
 
 import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';
@@ -231,47 +228,46 @@ function ManagementPanel() {
   return (
     <Dashboard>
       <div className="management-panel">
-        <div className="management-panel__header">
+        <div className="management-panel__head">
           <H3Title title="Management panel" />
-        </div>
-        <div className="management-panel__tile-assignment">
           <div className="tile-assignment">
             <H4Title className="tile-assignment__header" title={t('managementPanel.assignUserToTile')} />
-
-            <div className="tile-assignment__tile-dropdown">
-              {!tilesLoaded && <CircularProgress />}
-              {tilesLoaded && (
-                <FormControl className="tile-assignment--dropdown">
-                  <InputLabel>{t('managementPanel.selectTile')}</InputLabel>
-                  <Select value={selectedTileId} onChange={e => handleTileSelected(e.target.value)}>
-                    {tilesDropDown}
-                  </Select>
-                </FormControl>
-              )}
-            </div>
-            {!usersLoaded && <CircularProgress className="tile-assignment__user-dropdown--loader" />}
-            {usersLoaded && (
-              <div className="tile-assignment__user-dropdown">
-                <FormControl className="tile-assignment--dropdown" disabled={!userSelected}>
-                  <InputLabel>{t('managementPanel.chooseUser')}</InputLabel>
-                  <Select value={selectedUser} onChange={e => handleUserChanged(e.target.value)}>
-                    {dropdownUsers}
-                  </Select>
-                </FormControl>
-              </div>
+            {((!tilesLoaded || !tilesDropDown) && <CircularProgress className="tile-assignment__tile-dropdown" />) || (
+              <TextField
+                id={'select-tile-id'}
+                variant={'filled'}
+                select
+                label={t('managementPanel.selectTile')}
+                value={selectedTileId}
+                onChange={e => handleTileSelected(e.target.value)}
+                margin="normal"
+                fullWidth>
+                {tilesDropDown}
+              </TextField>
             )}
-
+            {((!usersLoaded) && <CircularProgress />) || (
+              <TextField
+                id={'select-user-id'}
+                variant={'filled'}
+                select
+                label={t('managementPanel.chooseUser')}
+                value={selectedUser}
+                onChange={e => handleUserChanged(e.target.value)}
+                margin="normal"
+                fullWidth>
+                {dropdownUsers || []}
+              </TextField>
+            )}
             <Button
               className="tile-assignment__button"
               onClick={handleSave}
               color="primary"
               variant="contained"
-              disabled={!userSelected}>
+              disabled={!userSelected}
+              fullWidth>
               {t('buttons.save')}
             </Button>
           </div>
-        </div>
-        <div className="management-panel__role-assignment">
           <RoleAssignmentPanel />
         </div>
         <div className="management-panel__map">

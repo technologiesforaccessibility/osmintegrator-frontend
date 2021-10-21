@@ -40,6 +40,8 @@ export const en = {
       visible: 'Visible',
       semiTransparent: 'Semi transparent',
       hidden: 'Hidden',
+      resetButton: 'Reset',
+      resetInfo: 'Are you sure you want to reset objects visibility to default?',
     },
     contactForm: {
       description: 'Login problem? Need to contact? Send us a ',

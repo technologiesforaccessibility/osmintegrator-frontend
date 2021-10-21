@@ -2,12 +2,9 @@ import {useEffect, useState} from 'react';
 
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import {Checkbox, CircularProgress} from '@mui/material';
+import {Checkbox, CircularProgress, TextField} from '@mui/material';
 import Button from '@mui/material/Button';
 
 import H4Title from '../customs/H4Title';
@@ -64,8 +61,16 @@ function RoleAssignmentPanel() {
       selectedUserRoles.map(({name, value}, index) => {
         return (
           <FormControlLabel
+            id={`role_${index}`}
+            key={`role_${index}`}
             control={
-              <Checkbox key={index} checked={value} onChange={() => handleCheckboxChanged(value, index)} name={name} />
+              <Checkbox
+                key={index}
+                checked={value}
+                onChange={() => handleCheckboxChanged(value, index)}
+                name={name}
+                labelId={`role_${index}`}
+              />
             }
             label={name}
           />
@@ -131,27 +136,27 @@ function RoleAssignmentPanel() {
   return (
     <div className="role-assignmentPanel">
       <H4Title className="role-assignmentPanel__header" title={t('managementPanel.assignRoleTitle')} />
-
-      <div className="role-assignmentPanel__dropdown">
-        {showLoader && <CircularProgress />}
-        {!showLoader && (
-          <FormControl className="role-assignmentPanel__dropdown--dropdown">
-            <InputLabel>{t('managementPanel.chooseUser')}</InputLabel>
-            <Select onChange={handleUsersListChanged} value={roleUserName}>
-              {users}
-            </Select>
-          </FormControl>
-        )}
-      </div>
-
+      {((showLoader || !users) && <CircularProgress />) || (
+        <TextField
+          id={'select-user-id'}
+          variant={'filled'}
+          select
+          label={t('managementPanel.chooseUser')}
+          value={roleUserName}
+          onChange={handleUsersListChanged}
+          margin="normal"
+          fullWidth>
+          {users}
+        </TextField>
+      )}
       <div className="role-assignmentPanel__checkboxes">{selectedRoles}</div>
-
       <Button
         className="role-assignmentPanel__button"
         onClick={assignRole}
         color="primary"
         variant="contained"
-        disabled={buttonDisabled}>
+        disabled={buttonDisabled}
+        fullWidth>
         {t('buttons.save')}
       </Button>
     </div>

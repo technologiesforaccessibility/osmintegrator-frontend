@@ -87,7 +87,6 @@ const ImportedConnections = ({stops, inApproveMode}) => {
           if (foundOSM !== undefined && foundGTFS !== undefined) {
             return (
               <Polyline
-                pane={'markerPane'}
                 key={index}
                 pathOptions={{
                   color: colors.colorConnectionImported,

@@ -40,6 +40,8 @@ export const pl = {
       visible: 'Pełna widoczność',
       semiTransparent: 'Częściowo przeźroczyste',
       hidden: 'Ukryte',
+      resetButton: 'Zresetuj ustawienia',
+      resetInfo: 'Czy na pewno chcesz przywrócić domyślną widoczność obiektów?',
     },
     contactForm: {
       description: 'Problem z logowaniem? Potrzebujesz się skontaktować? Wyślij nam ',
