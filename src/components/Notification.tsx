@@ -42,7 +42,8 @@ const Notification: FC = () => {
   const dispatch = useDispatch();
 
   const handleClose = () => {
-    dispatch(NotificationActions.clear());
+    // after onClose is called, snackbar is visible during "fade-out" phase
+    setTimeout(() => dispatch(NotificationActions.clear()), 1500);
   };
 
   const style = useMemo(
@@ -51,14 +52,12 @@ const Notification: FC = () => {
         backgroundColor: notificationBackgroundStyle(notification),
         borderRadius: 3,
         border: 0,
-        color: 'white',
-        height: 48,
-        padding: '0 2rem',
         boxShadow: `0 3px 5px 2px ${notificationShadowStyle(notification) || ''}`,
       },
       content: {
         backgroundColor: notificationBackgroundStyle(notification),
-        boxShadow: `0 3px 5px 2px ${notificationShadowStyle(notification) || ''}`,
+        color: 'white',
+        padding: '0 2rem',
       },
     }),
     [notification],
