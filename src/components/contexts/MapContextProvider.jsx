@@ -71,6 +71,7 @@ const MapContextProvider = ({children}) => {
   const [approvedStopIds, setApprovedStopIds] = useState([]);
   const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);
   const [visibilityOptions, setVisibilityOptions] = useState(initialVisibility());
+  const [activeStop, setActiveStop] = useState(null);
 
   const authRoles = useSelector(selectLoggedInUserRoles);
 
@@ -201,6 +202,8 @@ const MapContextProvider = ({children}) => {
         setVisibilityOptions,
         resetMapVisibility,
         authRoles,
+        activeStop,
+        setActiveStop,
       }}>
       {children}
     </MapContext.Provider>

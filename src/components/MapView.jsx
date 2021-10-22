@@ -22,6 +22,7 @@ import {Box} from '@mui/system';
 import WelcomeModal from './WelcomeModal';
 import {useCookies} from 'react-cookie';
 import {roles} from '../utilities/constants';
+import ConversationContextProvider, {ConversationContext} from './contexts/ConversationProvider';
 
 export const MapView = () => {
   const {t} = useTranslation();
@@ -81,6 +82,7 @@ export const MapView = () => {
     setApprovedStopIds,
     setAreManageReportButtonsVisible,
     authRoles,
+    setActiveStop,
   } = useContext(MapContext);
 
   useEffect(() => {
@@ -89,6 +91,8 @@ export const MapView = () => {
       activeMapToggle(false);
     };
   });
+
+  const {setGeoConversations, setStopConversations, reload} = useContext(ConversationContext);
 
   useEffect(() => {
     getAvailableTiles();
@@ -106,6 +110,14 @@ export const MapView = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTile]);
+
+  useEffect(() => {
+    if ((activeTile && activeTile.id) || reload) {
+      getTileConversations(activeTile.id);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTile, reload]);
 
   useEffect(() => {
     if (!isTileActive) {
@@ -171,6 +183,7 @@ export const MapView = () => {
   const addReportMarker = e => {
     const coords = {lat: e.latlng.lat, lon: e.latlng.lng};
     setNewReportCoordinates(coords);
+    setActiveStop(null);
   };
 
   const createConnection = (coordinates, id, stopType, name, ref) => {
@@ -209,6 +222,19 @@ export const MapView = () => {
       setImportedConnections(response.data);
       setConnectedStopIds(getConnectedStopsIds(response.data));
       setApprovedStopIds(getApprovedStopsIds(response.data));
+    } catch (error) {
+      exception(error);
+    }
+  };
+
+  const getTileConversations = async tileID => {
+    try {
+      const response = await api.conversationDetail(tileID, {
+        headers: basicHeaders(),
+      });
+      console.log(response.data.stopConversations);
+      setGeoConversations(response.data.geoConversations);
+      setStopConversations(response.data.stopConversations);
     } catch (error) {
       exception(error);
     }
@@ -286,6 +312,7 @@ export const MapView = () => {
           clickBusStop={clickBusStop}
           isConnectionMode={mapMode === MapModes.connection}
           isViewMode={mapMode === MapModes.view}
+          isReportMode={mapMode === MapModes.report}
         />
         <NewReportMarker newReportCoordinates={newReportCoordinates} />
         <ImportedReports reports={importedReports} />
