@@ -89,7 +89,7 @@ const ImportedConnections = ({stops, inApproveMode}) => {
               <Polyline
                 key={index}
                 pathOptions={{
-                  color: colors.colorConnectionImported,
+                  color: approved ? colors.colorApprovedBySupervisor : colors.colorConnectionImported,
                   opacity: approved
                     ? visibilityOptions.approved.value.opacityValue
                     : visibilityOptions.connected.value.opacityValue,
