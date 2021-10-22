@@ -160,7 +160,6 @@ export const en = {
       report: 'Create report on map',
       connection: 'Create new connection',
       back: 'Hide tile',
-      approveConnections: 'Approve Connections',
     },
     error: {
       unrecognizedProblem: 'Something went wrong. Please contact administrator.',
