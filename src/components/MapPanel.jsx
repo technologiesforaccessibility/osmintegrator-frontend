@@ -110,7 +110,7 @@ const MapPanel = () => {
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description">
               <Box sx={style}>
-                <ConnectionVisibilityPanel modalStyle={style} />
+                <ConnectionVisibilityPanel modalStyle={style} handleClose={handleClose} />
               </Box>
             </Modal>
           </div>
