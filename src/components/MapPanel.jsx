@@ -1,5 +1,4 @@
 import {useContext, useState} from 'react';
-import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import ToggleButton from '@mui/material/ToggleButton';
@@ -9,15 +8,12 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import ReportIcon from '@mui/icons-material/Report';
 import SettingsEthernetIcon from '@mui/icons-material/SettingsEthernet';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 
-import {selectLoggedInUserRoles} from '../redux/selectors/authSelector';
 import {MapContext, MapModes} from './contexts/MapContextProvider';
 import ConnectionVisibilityPanel from './ConnectionVisibilityPanel';
 import MapOptions from './MapOptions';
-import {roles} from '../utilities/constants';
 
 import '../stylesheets/mapPanel.scss';
 
@@ -37,7 +33,6 @@ const MapPanel = () => {
   const {isTileActive, singleTileToggle, mapMode, toogleMapMode, hideTileElements, resetMapSettings} =
     useContext(MapContext);
   const {t} = useTranslation();
-  const authRoles = useSelector(selectLoggedInUserRoles);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -59,14 +54,6 @@ const MapPanel = () => {
       name: MapModes.connection,
       icon: () => <SettingsEthernetIcon />,
     },
-    ...(((authRoles || []).includes(roles.SUPERVISOR) && [
-      {
-        title: t('tileModePrompts.approveConnections'),
-        name: MapModes.approveConnections,
-        icon: () => <AssignmentTurnedInIcon />,
-      },
-    ]) ||
-      []),
   ];
 
   const handleChange = (_, value) => {
