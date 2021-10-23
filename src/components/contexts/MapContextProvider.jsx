@@ -72,6 +72,9 @@ const MapContextProvider = ({children}) => {
   const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);
   const [visibilityOptions, setVisibilityOptions] = useState(initialVisibility());
 
+  const [isSidebarConnectionHandlerVisible, setIsSidebarConnectionHandlerVisible] = useState(false);
+  const [connectedStopPair, setConnectedStopPair] = useState({markedStop: null, connectedStop: null}); // id & name needed for each
+
   const authRoles = useSelector(selectLoggedInUserRoles);
 
   const singleTileToggle = isActive => {
@@ -173,6 +176,10 @@ const MapContextProvider = ({children}) => {
         areManageReportButtonsVisible,
         visibilityOptions,
         approvedStopIds,
+        isSidebarConnectionHandlerVisible,
+        connectedStopPair,
+        setConnectedStopPair,
+        setIsSidebarConnectionHandlerVisible,
         setApprovedStopIds,
         setAreManageReportButtonsVisible,
         resetMapSettings,

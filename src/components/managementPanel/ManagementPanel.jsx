@@ -245,7 +245,7 @@ function ManagementPanel() {
                 {tilesDropDown}
               </TextField>
             )}
-            {((!usersLoaded) && <CircularProgress />) || (
+            {(!usersLoaded && <CircularProgress />) || (
               <TextField
                 id={'select-user-id'}
                 variant={'filled'}

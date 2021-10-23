@@ -6,7 +6,13 @@ import {useContext, useMemo} from 'react';
 import {MapContext} from './contexts/MapContextProvider';
 
 const BusMarker = ({busStop, isConnectionMode, createConnection, isViewMode, isActiveStopClicked, clickBusStop}) => {
-  const {visibilityOptions, connectedStopIds, approvedStopIds} = useContext(MapContext);
+  const {
+    visibilityOptions,
+    connectedStopIds,
+    approvedStopIds,
+    setIsSidebarConnectionHandlerVisible,
+    setConnectedStopPair,
+  } = useContext(MapContext);
   const opacity = useMemo(() => {
     if (connectedStopIds.includes(busStop.id)) {
       return visibilityOptions.connected.value.opacityValue;
@@ -16,6 +22,23 @@ const BusMarker = ({busStop, isConnectionMode, createConnection, isViewMode, isA
     }
     return visibilityOptions.unconnected.value.opacityValue;
   }, [visibilityOptions, busStop.id, connectedStopIds, approvedStopIds]);
+
+  const handleViewModeStopClick = busStop => {
+    clickBusStop(busStop);
+    if (connectedStopIds.includes(busStop.id)) {
+      // Get connected stops ids and names
+
+      // update state
+      setConnectedStopPair({markedStop: {name: 'TODO', id: 'TODO'}, connectedStop: {name: 'TODO', id: 'TODO'}});
+      setIsSidebarConnectionHandlerVisible(true);
+    }
+  };
+
+  const handleViewModeStopUnclick = () => {
+    clickBusStop();
+    setIsSidebarConnectionHandlerVisible(false);
+    setConnectedStopPair({markedStop: null, connectedStop: null});
+  };
 
   return (
     <Marker
@@ -29,7 +52,7 @@ const BusMarker = ({busStop, isConnectionMode, createConnection, isViewMode, isA
           if (isConnectionMode) {
             createConnection([busStop.lat, busStop.lon], busStop.id, busStop.stopType, busStop.name, busStop.number);
           } else if (isViewMode) {
-            isActiveStopClicked(busStop.id) ? clickBusStop() : clickBusStop(busStop);
+            isActiveStopClicked(busStop.id) ? handleViewModeStopUnclick() : handleViewModeStopClick(busStop);
           }
         },
       }}>

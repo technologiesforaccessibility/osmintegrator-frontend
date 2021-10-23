@@ -22,7 +22,7 @@ export const en = {
       formTitle: 'Create new connection',
       createSuccessMessage: 'New connection created',
       deleteSuccessMessage: 'Connection deleted',
-      deleteConnectionInfo: 'Click line if you want to delete connection',
+      deleteConnectionInfo: 'If you want to delete connection, click on connection line or click on connected stop icon',
       deleteConnectionConfirmation: 'Delete?',
       approveSuccessMessage: 'Connection approved',
       editConnectionInfo: 'Click line if you want to edit connection',

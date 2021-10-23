@@ -22,7 +22,7 @@ export const pl = {
       formTitle: 'Stwórz nowe połączenie',
       createSuccessMessage: 'Stworzono nowe połączenie',
       deleteSuccessMessage: 'Usunięto połączenie',
-      deleteConnectionInfo: 'Kliknij na linię, jeśli chcesz usunąć połączenie',
+      deleteConnectionInfo: 'Jeśli chcesz usunąć połączenie, kliknij na linię lub na ikonę połączonego przystanku ',
       deleteConnectionConfirmation: 'Usunąć?',
       approveSuccessMessage: 'Zatwierdzono połączenie',
       editConnectionInfo: 'Kliknij na linię, jeśli chcesz edytować połączenie',
