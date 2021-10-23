@@ -42,6 +42,7 @@ export const pl = {
       hidden: 'Ukryte',
       resetButton: 'Zresetuj ustawienia',
       resetInfo: 'Czy na pewno chcesz przywrócić domyślną widoczność obiektów?',
+      header: 'Dostosuj widoczność',
     },
     contactForm: {
       description: 'Problem z logowaniem? Potrzebujesz się skontaktować? Wyślij nam ',
