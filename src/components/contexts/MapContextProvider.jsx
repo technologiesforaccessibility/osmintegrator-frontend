@@ -54,6 +54,7 @@ const MapContextProvider = ({children}) => {
   const [isTileActive, setIsTileActive] = useState(false);
   const [isMapActive, setIsMapActive] = useState(false);
   const [areStopsVisible, setAreStopsVisible] = useState(false);
+  const [tileStops, setTileStops] = useState([]);
   const [propertyGrid, setPropertyGrid] = useState(null);
   const [rerenderConnections, setRerenderConnections] = useState(false);
   const [connectionData, setConnectionData] = useState([]);
@@ -178,6 +179,8 @@ const MapContextProvider = ({children}) => {
         approvedStopIds,
         isSidebarConnectionHandlerVisible,
         connectedStopPair,
+        tileStops,
+        setTileStops,
         setConnectedStopPair,
         setIsSidebarConnectionHandlerVisible,
         setApprovedStopIds,

@@ -25,7 +25,6 @@ import {roles} from '../utilities/constants';
 
 export const MapView = () => {
   const {t} = useTranslation();
-  const [allStops, setAllStops] = useState([]);
   const [activeBusStopId, setActiveBusStopId] = useState(null);
   const [modal, setModal] = useState(false);
   const [welcomeModalCookie, setWelcomeModalCookie] = useCookies(['welcome_modal']);
@@ -81,6 +80,8 @@ export const MapView = () => {
     setApprovedStopIds,
     setAreManageReportButtonsVisible,
     authRoles,
+    tileStops,
+    setTileStops,
   } = useContext(MapContext);
 
   useEffect(() => {
@@ -193,7 +194,7 @@ export const MapView = () => {
       const response = await api.tileGetStopsDetail(id, {
         headers: basicHeaders(),
       });
-      setAllStops(response.data);
+      setTileStops(response.data);
       singleTileToggle(true);
     } catch (error) {
       exception(error);
@@ -269,7 +270,7 @@ export const MapView = () => {
         />
         <Pane name="connections">
           <NewConnections connections={connectionData} isTileActive={isTileActive} />
-          <ImportedConnections stops={allStops} inApproveMode={mapMode === MapModes.approveConnections} />
+          <ImportedConnections stops={tileStops} inApproveMode={mapMode === MapModes.approveConnections} />
         </Pane>
         <MapTiles
           isTileActive={isTileActive}
@@ -280,7 +281,7 @@ export const MapView = () => {
           addReportMarker={addReportMarker}
         />
         <TileStops
-          stops={allStops}
+          stops={tileStops}
           createConnection={createConnection}
           isActiveStopClicked={isActiveStopClicked}
           clickBusStop={clickBusStop}

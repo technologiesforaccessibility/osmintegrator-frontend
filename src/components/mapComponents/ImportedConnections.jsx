@@ -95,6 +95,7 @@ const ImportedConnections = ({stops, inApproveMode}) => {
                     : visibilityOptions.connected.value.opacityValue,
                 }}
                 positions={getPosition(foundOSM, foundGTFS)}>
+                {/*TODO:  Add clearing connectedStopPair when action performed successfully */}
                 {(!approved && (
                   <>
                     <Tooltip direction="bottom">
