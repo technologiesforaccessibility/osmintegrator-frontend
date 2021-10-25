@@ -71,7 +71,7 @@ const Register = () => {
             }}
             validationSchema={RegisterSchema}>
             {({handleChange, values, handleSubmit, errors, touched}) => (
-              <form className="content-container" onSubmit={handleSubmit}>
+              <form className="content-container" onSubmit={handleSubmit} noValidate>
                 <div className="content-container__text-field">
                   <TextField
                     type="text"
@@ -164,6 +164,7 @@ const Register = () => {
                       checked={checked}
                       color="primary"
                       onChange={handleChange}
+                      id="terms-checkbox"
                       inputProps={{'aria-label': 'primary checkbox'}}
                       onClick={() => {
                         setChecked(!checked);

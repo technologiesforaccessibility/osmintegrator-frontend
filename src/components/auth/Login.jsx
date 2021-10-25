@@ -53,7 +53,7 @@ const Login = () => {
         }}
         validationSchema={LoginSchema}>
         {({handleChange, values, handleSubmit, errors, touched}) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} noValidate>
             <div className="content-container__text-field">
               <TextField
                 type="email"
