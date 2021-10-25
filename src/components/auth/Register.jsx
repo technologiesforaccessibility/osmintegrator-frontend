@@ -71,7 +71,7 @@ const Register = () => {
             }}
             validationSchema={RegisterSchema}>
             {({handleChange, values, handleSubmit, errors, touched}) => (
-              <form className="content-container" onSubmit={handleSubmit}>
+              <form className="content-container" onSubmit={handleSubmit} noValidate>
                 <div className="content-container__text-field">
                   <TextField
                     type="text"
@@ -82,6 +82,7 @@ const Register = () => {
                     disabled={isLoading}
                     error={errors.username && touched.username}
                     variant={'standard'}
+                    fullWidth
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -104,6 +105,7 @@ const Register = () => {
                     disabled={isLoading}
                     error={errors.email && touched.email}
                     variant={'standard'}
+                    fullWidth
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -124,6 +126,7 @@ const Register = () => {
                     disabled={isLoading}
                     error={errors.password1 && touched.password1}
                     variant={'standard'}
+                    fullWidth
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -146,6 +149,7 @@ const Register = () => {
                     disabled={isLoading}
                     error={errors.password2 && touched.password2}
                     variant={'standard'}
+                    fullWidth
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -164,6 +168,7 @@ const Register = () => {
                       checked={checked}
                       color="primary"
                       onChange={handleChange}
+                      id="terms-checkbox"
                       inputProps={{'aria-label': 'primary checkbox'}}
                       onClick={() => {
                         setChecked(!checked);

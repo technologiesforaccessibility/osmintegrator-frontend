@@ -9,14 +9,16 @@ import '../stylesheets/auth.scss';
 
 export default function AuthContainer({children}) {
   return (
-    <>
-      <a className="auth-image-container" href={paths.LOGIN}>
-        <img src={logo} alt="logo" />
-      </a>
+    <div className="auth">
+      <div className="auth-image-container">
+        <a href={paths.LOGIN} title="login page">
+          <img src={logo} alt="logo" />
+        </a>
+      </div>
+      <div className="auth__dots auth__dots--left ">
+        <img src={dots} className="auth__image--left" alt="BackgroundLeft"></img>
+      </div>
       <div className="auth__container">
-        <div className="auth__dots auth__dots--left ">
-          <img src={dots} className="auth__image--left" alt="BackgroundLeft"></img>
-        </div>
         <div className="auth__form-area">
           <div className="auth__form-box">{children}</div>
         </div>
@@ -32,13 +34,13 @@ export default function AuthContainer({children}) {
             <RevolveLogo />
           </a>
         </div>
-        <div className="auth__dots auth__dots--right ">
-          <img src={dots} className="auth__image--right" alt="BackgroundRight"></img>
-        </div>
+      </div>
+      <div className="auth__dots auth__dots--right ">
+        <img src={dots} className="auth__image--right" alt="BackgroundRight"></img>
       </div>
       <div className="auth__footer">
         <Footer />
       </div>
-    </>
+    </div>
   );
 }
