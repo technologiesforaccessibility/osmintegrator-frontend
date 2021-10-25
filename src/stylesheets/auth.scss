@@ -4,6 +4,7 @@
 .auth {
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 100%;
   height: 100%;
 
@@ -78,22 +79,23 @@
     right: -10.5625rem;
     height: 100%;
   }
+  &__form {
+    &-area {
+      height: 100%;
+      text-align: center;
+      align-content: center;
+      z-index: 1;
+      background-color: white;
+    }
 
-  &__form-area {
-    height: 100%;
-    text-align: center;
-    align-content: center;
-    z-index: 1;
-    background-color: white;
-  }
-
-  &__form-box {
-    background: #fcfcfc 0% 0% no-repeat padding-box;
-    border: 2px solid #d8e0e3;
-    border-radius: 45px;
-    width: 21.875rem;
-    padding: 1.25rem 1.25rem 1.875rem;
-    position: relative;
+    &-box {
+      background: #fcfcfc 0% 0% no-repeat padding-box;
+      border: 2px solid #d8e0e3;
+      border-radius: 45px;
+      width: 21.875rem;
+      padding: 1.25rem 1.25rem 1.875rem;
+      position: relative;
+    }
   }
 }
 

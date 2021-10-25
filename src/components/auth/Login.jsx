@@ -64,6 +64,7 @@ const Login = () => {
                 disabled={isLoading}
                 error={errors.email && touched.email}
                 variant={'standard'}
+                fullWidth
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -84,6 +85,7 @@ const Login = () => {
                 disabled={isLoading}
                 error={errors.password && touched.password}
                 variant={'standard'}
+                fullWidth
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
