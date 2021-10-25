@@ -11,6 +11,8 @@
     flex-direction: column;
     width: 30%;
     min-width: 17rem;
+    max-height: calc(100vh - 5rem);
+    overflow-y: auto;
   }
 
   &__map {
