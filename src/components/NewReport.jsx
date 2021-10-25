@@ -2,19 +2,20 @@ import {useContext, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useFormik} from 'formik';
 import {useDispatch} from 'react-redux';
-import CustomBlockButton from './customs/CustomBlockButton';
 import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
 import {MapContext} from './contexts/MapContextProvider';
 import {NotificationActions} from '../redux/actions/notificationActions';
-import buttonStyle from '../stylesheets/modules/mapPanelButton.module.scss';
 import {exception} from '../utilities/exceptionHelper';
 
 import '../stylesheets/newReport.scss';
 import {ConversationContext} from './contexts/ConversationProvider';
 import ConversationMessage from './ConversationMessage';
-
+import {Button, Checkbox, CircularProgress, FormControlLabel, Grid, TextareaAutosize} from '@mui/material';
+import '../stylesheets/report.scss';
 const NewReport = () => {
+  const [loading, setLoading] = useState(false);
+  const [isReportActive, setReportActive] = useState(false);
   const {t} = useTranslation();
   const dispatch = useDispatch();
   const {newReportCoordinates, resetReportCoordinates, activeTile, setRerenderReports, activeStop} =
@@ -25,25 +26,46 @@ const NewReport = () => {
   const {lat, lon} = newReportCoordinates;
 
   useEffect(() => {
-    if (activeStop) {
-      resetReportCoordinates();
-      const currentStopConversation = stopConversations.filter(conv => conv.stopId === activeStop.id)[0];
-      setConversation(currentStopConversation);
+    getStopConversation();
+    if (loading) {
+      setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeStop, stopConversations]);
 
   useEffect(() => {
-    const currentGeoConversation = geoConversations.filter(conv => conv.lat === lat && conv.lon === lon)[0];
-    console.log(currentGeoConversation);
-    setConversation(currentGeoConversation);
+    getGeoConversation();
+
+    if (loading) {
+      setLoading(false);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newReportCoordinates, geoConversations]);
 
   useEffect(() => {
-    setConversation(null);
+    getUsers();
+    async function firstRender() {
+      await getStopConversation();
+    }
+    firstRender();
+    return () => {
+      resetCurrentReport();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newReportCoordinates]);
+  }, []);
+
+  async function getGeoConversation() {
+    const currentGeoConversation = geoConversations.filter(conv => conv.lat === lat && conv.lon === lon)[0];
+    setConversation(currentGeoConversation);
+    setReportActive(checkReportStatus(currentGeoConversation));
+  }
+  async function getStopConversation() {
+    if (activeStop) {
+      const currentStopConversation = stopConversations.filter(conv => conv.stopId === activeStop.id)[0];
+      setConversation(currentStopConversation);
+      setReportActive(checkReportStatus(currentStopConversation));
+    }
+  }
 
   const getUsers = async id => {
     try {
@@ -56,13 +78,16 @@ const NewReport = () => {
     }
   };
 
-  useEffect(() => {
-    getUsers();
-    return () => {
-      resetCurrentReport();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const checkReportStatus = conv => {
+    if (conv) {
+      const lastMessageInConversation = conv.messages
+        .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+        .at(-1);
+
+      return !lastMessageInConversation.status;
+    }
+    return false;
+  };
 
   const resetCurrentReport = () => {
     resetReportCoordinates();
@@ -70,6 +95,7 @@ const NewReport = () => {
   };
 
   const createStopConversation = async text => {
+    setLoading(true);
     try {
       const response = await api.conversationCreate(
         {text, stopId: activeStop.id, tileId: activeTile.id},
@@ -77,7 +103,6 @@ const NewReport = () => {
           headers: basicHeaders(),
         },
       );
-
       dispatch(NotificationActions.success(t('report.success')));
       formik.resetForm();
       setReload(response.data);
@@ -87,6 +112,7 @@ const NewReport = () => {
   };
 
   const createGeoConversation = async text => {
+    setLoading(true);
     try {
       const response = await api.conversationCreate(
         {text, lat, lon, tileId: activeTile.id},
@@ -94,11 +120,9 @@ const NewReport = () => {
           headers: basicHeaders(),
         },
       );
-
       dispatch(NotificationActions.success(t('report.success')));
       formik.resetForm();
       setReload(response.data);
-      resetReportCoordinates();
       setRerenderReports(true);
     } catch (error) {
       console.log('nope');
@@ -106,9 +130,11 @@ const NewReport = () => {
     }
   };
 
-  const updateConversation = async text => {
+  const updateConversation = async (text, approve) => {
+    const isApproveApi = approve ? 'conversationApproveUpdate2' : 'conversationCreate';
+    setLoading(true);
     try {
-      const response = await api.conversationCreate(
+      const response = await api[isApproveApi](
         {conversationId: conversation.id, text, tileId: activeTile.id},
         {
           headers: basicHeaders(),
@@ -125,21 +151,25 @@ const NewReport = () => {
   const formik = useFormik({
     initialValues: {
       reportText: '',
+      approveReport: false,
     },
-    onSubmit: ({reportText}) => {
+
+    onSubmit: ({reportText, approveReport}) => {
       if (activeStop === null && (lat === null || lon === null)) {
         dispatch(NotificationActions.error(t('report.noPinFound')));
         return;
       }
+
       if (!reportText) {
         dispatch(NotificationActions.error(t('report.noTextFound')));
         return;
       }
 
       if (conversation) {
-        updateConversation(reportText);
+        updateConversation(reportText, approveReport);
         return;
       }
+
       if (activeStop !== null) {
         createStopConversation(reportText);
         return;
@@ -151,90 +181,72 @@ const NewReport = () => {
       }
     },
   });
-  // const updateGeoConversation = async text => {
-  //   try {
-  //     const response = await api.conversationCreate(
-  //       {conversationId: conversation.id, text, tileId: activeTile.id},
-  //       {
-  //         headers: basicHeaders(),
-  //       },
-  //     );
-
-  //     dispatch(NotificationActions.success(t('report.success')));
-  //     formik.resetForm();
-  //     setReload(response.data);
-  //   } catch (error) {
-  //     exception(error);
-  //   }
-  // };
-
-  // const sendReport = async text => {
-  //   if (lat === null || lon === null) {
-  //     dispatch(NotificationActions.error(t('report.noPinFound')));
-  //     return;
-  //   }
-  //   if (!text) {
-  //     dispatch(NotificationActions.error(t('report.noTextFound')));
-  //     return;
-  //   }
-  //   try {
-  //     await api.notesCreate(
-  //       {lat, lon, text, tileId: activeTile.id},
-  //       {
-  //         headers: basicHeaders(),
-  //       },
-  //     );
-  //     dispatch(NotificationActions.success(t('report.success')));
-  //     resetReportCoordinates();
-  //     setRerenderReports(true);
-  //     formik.resetForm();
-  //   } catch (error) {
-  //     exception(error);
-  //   }
-  // };
 
   return (
-    <>
+    <div className="report">
+      {loading && (
+        <div className="report__loader">
+          <CircularProgress />
+        </div>
+      )}
       <div className="report__info">
         <div className="report__heading">
-          <span className="report__heading-type">Stop</span>
+          <span className="report__heading-type">{activeStop ? 'Stop' : lat || lon ? 'Report' : ''}</span>
+          <br />
           {activeStop && (
-            <span className="report__heading-name">
+            <b className="report__heading-name">
               {activeStop.name} {activeStop.number}
-            </span>
+            </b>
+          )}
+          <br />
+          <br />
+        </div>
+
+        <div className="report__status">
+          <p>Report state: {isReportActive ? 'Active' : 'Inactive'}</p>
+        </div>
+
+        <h6 className="report__title">Conversation</h6>
+        <div className="report__conversation">
+          {conversation ? (
+            conversation.messages
+              .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+              .map(message => <ConversationMessage key={message.id} data={message} users={users} />)
+          ) : (
+            <p>No reports</p>
           )}
         </div>
-        {/* <div className="report__status">{conversation && <span>{conversation.message[0].status}</span>}</div> */}
-
-        <h4 className="report__title">Conversation</h4>
-        {conversation ? (
-          conversation.messages.map(message => <ConversationMessage key={message.id} data={message} users={users} />)
-        ) : (
-          <p>No reports</p>
-        )}
       </div>
-      <form onSubmit={formik.handleSubmit} className="report__add-message">
+      <form onSubmit={formik.handleSubmit} onChange={formik.handleChange} className="report__add-message">
         <div className="report__container">
-          <textarea
+          <TextareaAutosize
+            minRows={3}
             className="report__form"
             placeholder="Your report..."
             id="reportText"
             onChange={formik.handleChange}
             value={formik.values.reportText}
-          />
-          <CustomBlockButton
-            buttonTitle={t('report.button')}
-            style={buttonStyle}
-            type="submit"
-            onClickHandler={() => {}}
+            style={{marginBottom: 10}}
           />
 
-          {/* <Button style={buttonStyle} type="submit" onClickHandler={() => {}}>
-            {t('report.button')}
-          </Button> */}
+          <Grid container justifyContent="space-between">
+            <Grid item>
+              <FormControlLabel
+                control={<Checkbox disabled={!isReportActive} id="approveReport" />}
+                size="small"
+                label="Approve report"
+                onChange={formik.handleChange}
+              />
+            </Grid>
+            <Grid item>
+              <Button variant="contained" type="submit">
+                {t('report.button')}
+              </Button>
+            </Grid>
+          </Grid>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 

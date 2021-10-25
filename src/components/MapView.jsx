@@ -112,7 +112,7 @@ export const MapView = () => {
   }, [activeTile]);
 
   useEffect(() => {
-    if ((activeTile && activeTile.id) || reload) {
+    if (activeTile && activeTile.id) {
       getTileConversations(activeTile.id);
     }
 

@@ -9,31 +9,12 @@ import {roles} from '../../utilities/constants';
 import {MapContext, MapModes} from '../contexts/MapContextProvider';
 
 const ImportedReports = ({reports}) => {
-  const authRoles = useSelector(selectLoggedInUserRoles);
-  const {
-    setOpenReportContent,
-    mapMode,
-    openReportContent,
-    displayPropertyGrid,
-    setAreManageReportButtonsVisible,
-    setIsEditingReportMode,
-  } = useContext(MapContext);
+  // const authRoles = useSelector(selectLoggedInUserRoles);
+  const {mapMode, toogleMapMode, setNewReportCoordinates, setActiveStop} = useContext(MapContext);
 
   const handleReportClick = (lat, lon, text, id, tileId, status) => {
     if (mapMode === MapModes.view) {
-      if (openReportContent && openReportContent.id === id) {
-        setOpenReportContent(null);
-        setAreManageReportButtonsVisible(false);
-      } else {
-        setOpenReportContent({lat, lon, text, id, tileId, status});
-        displayPropertyGrid(null);
-        setIsEditingReportMode(true);
-        if (authRoles.some(role => [roles.ADMIN, roles.COORDINATOR, roles.SUPERVISOR].includes(role))) {
-          setAreManageReportButtonsVisible(true);
-        } else {
-          setAreManageReportButtonsVisible(false);
-        }
-      }
+      toogleMapMode('Report');
     }
   };
 
@@ -48,6 +29,8 @@ const ImportedReports = ({reports}) => {
           eventHandlers={{
             click: () => {
               handleReportClick(lat, lon, text, id, tileId, status);
+              setNewReportCoordinates({lat, lon});
+              setActiveStop(null);
             },
           }}>
           <Tooltip direction="top" offset={[0, -55]}>

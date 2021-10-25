@@ -1,17 +1,14 @@
 import React from 'react';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 const ConversationMessage = ({data, users}) => {
   const getMessageDate = () => {
     const currentDate = new Date(data.createdAt);
-
-    // const month = currentDate.get
     return `${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}`;
   };
 
   const getUser = () => {
     const currentUser = users.filter(user => user.id === data.userId);
-
-    // console.log(currentUser);
     if (currentUser) {
       return currentUser[0]?.userName;
     }
@@ -22,7 +19,7 @@ const ConversationMessage = ({data, users}) => {
     <>
       <div className="message">
         <div className="message__top">
-          <ChatBubbleIcon />
+          {data.status === 0 ? <ChatBubbleIcon color="primary" /> : <CheckCircleIcon color="success" />}
           <div className="message__date">{getMessageDate()}</div>
           <div className="message__user">{getUser()}</div>
         </div>
