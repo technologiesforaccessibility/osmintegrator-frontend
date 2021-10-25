@@ -92,7 +92,7 @@ export const MapView = () => {
     };
   });
 
-  const {setGeoConversations, setStopConversations, reload} = useContext(ConversationContext);
+  const {setGeoConversations, setStopConversations, reload, stopConversations} = useContext(ConversationContext);
 
   useEffect(() => {
     getAvailableTiles();
@@ -118,6 +118,13 @@ export const MapView = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTile, reload]);
+
+  useEffect(() => {
+    if (activeTile && activeTile.id) {
+      getTileStops(activeTile.id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTile, stopConversations]);
 
   useEffect(() => {
     if (!isTileActive) {
@@ -206,7 +213,16 @@ export const MapView = () => {
       const response = await api.tileGetStopsDetail(id, {
         headers: basicHeaders(),
       });
-      setAllStops(response.data);
+
+      const stops = response.data.map(stop => {
+        const stopWithReport = stopConversations.filter(report => report.stopId === stop.id);
+        if (stopWithReport.length > 0) {
+          return {...stop, hasReport: 1};
+        } else {
+          return stop;
+        }
+      });
+      setAllStops(stops);
       singleTileToggle(true);
     } catch (error) {
       exception(error);
