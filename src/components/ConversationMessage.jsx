@@ -1,6 +1,7 @@
 import React from 'react';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import {Chip, TextField} from '@mui/material';
 const ConversationMessage = ({data, users}) => {
   const getMessageDate = () => {
     const currentDate = new Date(data.createdAt);
@@ -15,6 +16,18 @@ const ConversationMessage = ({data, users}) => {
     return 'no user';
   };
 
+  const getIcon = () =>
+    data.status === 0 ? (
+      <Chip
+        sx={{border: 'none'}}
+        variant="outlined"
+        icon={<ChatBubbleIcon />}
+        label={getMessageDate() + ' ' + getUser()}
+        color="primary"
+      />
+    ) : (
+      <CheckCircleIcon color="success" />
+    );
   return (
     <>
       <div className="message">
@@ -24,6 +37,8 @@ const ConversationMessage = ({data, users}) => {
           <div className="message__user">{getUser()}</div>
         </div>
         <p className="message__content">{data.text}</p>
+
+        <TextField disabled id="outlined-disabled" label={getIcon()} defaultValue="Hello World" />
       </div>
     </>
   );

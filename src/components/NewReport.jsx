@@ -13,6 +13,7 @@ import {ConversationContext} from './contexts/ConversationProvider';
 import ConversationMessage from './ConversationMessage';
 import {Button, Checkbox, CircularProgress, FormControlLabel, Grid, TextareaAutosize} from '@mui/material';
 import '../stylesheets/report.scss';
+import ConversationHeading from './ConversationHeading';
 const NewReport = () => {
   const [loading, setLoading] = useState(false);
   const [isReportActive, setReportActive] = useState(false);
@@ -67,7 +68,7 @@ const NewReport = () => {
     }
   }
 
-  const getUsers = async id => {
+  const getUsers = async () => {
     try {
       const response = await api.usersList({
         headers: basicHeaders(),
@@ -197,33 +198,17 @@ const NewReport = () => {
             </div>
           )}
           <Button onClick={handleCloseReport}>X</Button>
-          <div className="report__info">
-            <div className="report__heading">
-              <span className="report__heading-type">{activeStop ? 'Stop' : lat || lon ? 'Report' : ''}</span>
-              <br />
-              {activeStop && (
-                <b className="report__heading-name">
-                  {activeStop.name} {activeStop.number}
-                </b>
-              )}
-              <br />
-              <br />
-            </div>
 
-            <div className="report__status">
-              <p>Report state: {isReportActive ? 'Active' : 'Inactive'}</p>
-            </div>
+          <ConversationHeading lat={lat} lon={lon} activeStop={activeStop} isReportActive={isReportActive} />
 
-            <h6 className="report__title">Conversation</h6>
-            <div className="report__conversation">
-              {conversation ? (
-                conversation.messages
-                  .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
-                  .map(message => <ConversationMessage key={message.id} data={message} users={users} />)
-              ) : (
-                <p>No reports</p>
-              )}
-            </div>
+          <div className="report__conversation">
+            {conversation ? (
+              conversation.messages
+                .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+                .map(message => <ConversationMessage key={message.id} data={message} users={users} />)
+            ) : (
+              <p>No reports</p>
+            )}
           </div>
           <form onSubmit={formik.handleSubmit} onChange={formik.handleChange} className="report__add-message">
             <div className="report__container">
