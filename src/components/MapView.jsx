@@ -121,7 +121,7 @@ export const MapView = () => {
 
   useEffect(() => {
     if (activeTile && activeTile.id) {
-      getTileStops(activeTile.id);
+      getTileStops(activeTile.id, false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTile, stopConversations]);
@@ -208,7 +208,7 @@ export const MapView = () => {
     }
   };
 
-  const getTileStops = async id => {
+  const getTileStops = async (id, toggleTile = true) => {
     try {
       const response = await api.tileGetStopsDetail(id, {
         headers: basicHeaders(),
@@ -223,7 +223,9 @@ export const MapView = () => {
         }
       });
       setAllStops(stops);
-      singleTileToggle(true);
+      if (toggleTile) {
+        singleTileToggle(true);
+      }
     } catch (error) {
       exception(error);
     }
