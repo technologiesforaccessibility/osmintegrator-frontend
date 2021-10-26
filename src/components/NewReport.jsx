@@ -18,7 +18,7 @@ const NewReport = () => {
   const [isReportActive, setReportActive] = useState(false);
   const {t} = useTranslation();
   const dispatch = useDispatch();
-  const {newReportCoordinates, resetReportCoordinates, activeTile, setRerenderReports, activeStop} =
+  const {newReportCoordinates, resetReportCoordinates, activeTile, setRerenderReports, activeStop, setActiveStop} =
     useContext(MapContext);
 
   const {geoConversations, stopConversations, setUsers, users, setReload} = useContext(ConversationContext);
@@ -92,6 +92,11 @@ const NewReport = () => {
   const resetCurrentReport = () => {
     resetReportCoordinates();
     formik.resetForm();
+  };
+
+  const handleCloseReport = () => {
+    setActiveStop(null);
+    resetReportCoordinates();
   };
 
   const createStopConversation = async text => {
@@ -184,68 +189,77 @@ const NewReport = () => {
 
   return (
     <div className="report">
-      {loading && (
-        <div className="report__loader">
-          <CircularProgress />
-        </div>
-      )}
-      <div className="report__info">
-        <div className="report__heading">
-          <span className="report__heading-type">{activeStop ? 'Stop' : lat || lon ? 'Report' : ''}</span>
-          <br />
-          {activeStop && (
-            <b className="report__heading-name">
-              {activeStop.name} {activeStop.number}
-            </b>
+      {activeStop || (lat && lon) ? (
+        <div className="report__wrapper">
+          {loading && (
+            <div className="report__loader">
+              <CircularProgress />
+            </div>
           )}
-          <br />
-          <br />
-        </div>
+          <Button onClick={handleCloseReport}>X</Button>
+          <div className="report__info">
+            <div className="report__heading">
+              <span className="report__heading-type">{activeStop ? 'Stop' : lat || lon ? 'Report' : ''}</span>
+              <br />
+              {activeStop && (
+                <b className="report__heading-name">
+                  {activeStop.name} {activeStop.number}
+                </b>
+              )}
+              <br />
+              <br />
+            </div>
 
-        <div className="report__status">
-          <p>Report state: {isReportActive ? 'Active' : 'Inactive'}</p>
-        </div>
+            <div className="report__status">
+              <p>Report state: {isReportActive ? 'Active' : 'Inactive'}</p>
+            </div>
 
-        <h6 className="report__title">Conversation</h6>
-        <div className="report__conversation">
-          {conversation ? (
-            conversation.messages
-              .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
-              .map(message => <ConversationMessage key={message.id} data={message} users={users} />)
-          ) : (
-            <p>No reports</p>
-          )}
-        </div>
-      </div>
-      <form onSubmit={formik.handleSubmit} onChange={formik.handleChange} className="report__add-message">
-        <div className="report__container">
-          <TextareaAutosize
-            minRows={3}
-            className="report__form"
-            placeholder="Your report..."
-            id="reportText"
-            onChange={formik.handleChange}
-            value={formik.values.reportText}
-            style={{marginBottom: 10}}
-          />
-
-          <Grid container justifyContent="space-between">
-            <Grid item>
-              <FormControlLabel
-                control={<Checkbox disabled={!isReportActive} id="approveReport" />}
-                size="small"
-                label="Approve report"
+            <h6 className="report__title">Conversation</h6>
+            <div className="report__conversation">
+              {conversation ? (
+                conversation.messages
+                  .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+                  .map(message => <ConversationMessage key={message.id} data={message} users={users} />)
+              ) : (
+                <p>No reports</p>
+              )}
+            </div>
+          </div>
+          <form onSubmit={formik.handleSubmit} onChange={formik.handleChange} className="report__add-message">
+            <div className="report__container">
+              <TextareaAutosize
+                minRows={3}
+                className="report__form"
+                placeholder="Your report..."
+                id="reportText"
                 onChange={formik.handleChange}
+                value={formik.values.reportText}
+                style={{marginBottom: 10}}
               />
-            </Grid>
-            <Grid item>
-              <Button variant="contained" type="submit">
-                {t('report.button')}
-              </Button>
-            </Grid>
-          </Grid>
+
+              <Grid container justifyContent="space-between">
+                <Grid item>
+                  <FormControlLabel
+                    control={
+                      <Checkbox checked={formik.values.approveReport} disabled={!isReportActive} id="approveReport" />
+                    }
+                    size="small"
+                    label="Approve report"
+                    onChange={formik.handleChange}
+                  />
+                </Grid>
+                <Grid item>
+                  <Button variant="contained" type="submit">
+                    {t('report.button')}
+                  </Button>
+                </Grid>
+              </Grid>
+            </div>
+          </form>
         </div>
-      </form>
+      ) : (
+        <div>Click on stop or report pin to display report details or add new report</div>
+      )}
     </div>
   );
 };

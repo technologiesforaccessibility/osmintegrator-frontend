@@ -92,7 +92,8 @@ export const MapView = () => {
     };
   });
 
-  const {setGeoConversations, setStopConversations, reload, stopConversations} = useContext(ConversationContext);
+  const {setGeoConversations, setStopConversations, reload, stopConversations, geoConversations} =
+    useContext(ConversationContext);
 
   useEffect(() => {
     getAvailableTiles();
@@ -122,9 +123,10 @@ export const MapView = () => {
   useEffect(() => {
     if (activeTile && activeTile.id) {
       getTileStops(activeTile.id, false);
+      getTileReports(activeTile.id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTile, stopConversations]);
+  }, [activeTile, stopConversations, geoConversations]);
 
   useEffect(() => {
     if (!isTileActive) {
@@ -216,7 +218,11 @@ export const MapView = () => {
 
       const stops = response.data.map(stop => {
         const stopWithReport = stopConversations.filter(report => report.stopId === stop.id);
-        if (stopWithReport.length > 0) {
+
+        if (
+          stopWithReport.length > 0 &&
+          stopWithReport[0].messages.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)).at(-1).status === 0
+        ) {
           return {...stop, hasReport: 1};
         } else {
           return stop;
@@ -250,7 +256,6 @@ export const MapView = () => {
       const response = await api.conversationDetail(tileID, {
         headers: basicHeaders(),
       });
-      console.log(response.data.stopConversations);
       setGeoConversations(response.data.geoConversations);
       setStopConversations(response.data.stopConversations);
     } catch (error) {
@@ -274,10 +279,10 @@ export const MapView = () => {
 
   const getTileReports = async id => {
     try {
-      const response = await api.notesDetail(id, {
+      const response = await api.conversationDetail(id, {
         headers: basicHeaders(),
       });
-      setImportedReports(response.data);
+      setImportedReports(response.data.geoConversations);
     } catch (error) {
       exception(error);
     }

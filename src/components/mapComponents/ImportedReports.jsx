@@ -20,24 +20,27 @@ const ImportedReports = ({reports}) => {
 
   return (
     <>
-      {reports.map(({lat, lon, text, id, tileId, status}, index) => (
-        <Marker
-          key={index}
-          position={[lat, lon]}
-          icon={getReportIcon(status)}
-          zIndexOffset={100}
-          eventHandlers={{
-            click: () => {
-              handleReportClick(lat, lon, text, id, tileId, status);
-              setNewReportCoordinates({lat, lon});
-              setActiveStop(null);
-            },
-          }}>
-          <Tooltip direction="top" offset={[0, -55]}>
-            {text}
-          </Tooltip>
-        </Marker>
-      ))}
+      {reports.map(({lat, lon, id, tileId, messages}, index) => {
+        const status = messages.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)).at(-1).status;
+        return (
+          <Marker
+            key={index}
+            position={[lat, lon]}
+            icon={getReportIcon(status)}
+            zIndexOffset={100}
+            eventHandlers={{
+              click: () => {
+                handleReportClick(lat, lon, id, tileId, status);
+                setNewReportCoordinates({lat, lon});
+                setActiveStop(null);
+              },
+            }}>
+            <Tooltip direction="top" offset={[0, -55]}>
+              {lat.toString().slice(0, 6)} {lon.toString().slice(0, 6)}
+            </Tooltip>
+          </Marker>
+        );
+      })}
     </>
   );
 };
