@@ -42,6 +42,7 @@ export const en = {
       hidden: 'Hidden',
       resetButton: 'Reset',
       resetInfo: 'Are you sure you want to reset objects visibility to default?',
+      header: 'Adjust visibility',
     },
     contactForm: {
       description: 'Login problem? Need to contact? Send us a ',
@@ -160,7 +161,6 @@ export const en = {
       report: 'Create report on map',
       connection: 'Create new connection',
       back: 'Hide tile',
-      approveConnections: 'Approve Connections',
     },
     error: {
       unrecognizedProblem: 'Something went wrong. Please contact administrator.',

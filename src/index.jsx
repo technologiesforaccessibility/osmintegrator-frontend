@@ -4,10 +4,9 @@ import './translations/i18n';
 
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
+import 'normalize.css';
 
 import './stylesheets/index.scss';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 ReactDOM.render(
   <React.StrictMode>

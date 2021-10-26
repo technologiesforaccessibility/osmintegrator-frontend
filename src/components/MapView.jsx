@@ -318,7 +318,7 @@ export const MapView = () => {
         />
         <Pane name="connections">
           <NewConnections connections={connectionData} isTileActive={isTileActive} />
-          <ImportedConnections stops={allStops} inApproveMode={mapMode === MapModes.approveConnections} />
+          <ImportedConnections stops={allStops} inApproveMode={(authRoles || []).includes(roles.SUPERVISOR)} />
         </Pane>
         <MapTiles
           isTileActive={isTileActive}

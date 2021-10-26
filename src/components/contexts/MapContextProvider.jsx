@@ -10,7 +10,6 @@ export const MapModes = {
   view: 'View',
   report: 'Report',
   connection: 'Connection',
-  approveConnections: 'Approve Connections',
 };
 
 const initialReportCoords = {lat: null, lon: null};

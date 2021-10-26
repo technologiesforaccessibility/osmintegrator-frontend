@@ -1,18 +1,19 @@
 import {useContext, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Tooltip from '@mui/material/Tooltip';
+import {Button, Grid, Modal} from '@mui/material';
+import {Box} from '@mui/system';
+import CloseIcon from '@mui/icons-material/Close';
 
 import {MapContext} from './contexts/MapContextProvider';
-
 import {connectionVisibility} from '../utilities/constants';
 
 import '../stylesheets/connectionVisibilityPanel.scss';
-import {Button, Grid, Modal} from '@mui/material';
-import {useTranslation} from 'react-i18next';
-import {Box} from '@mui/system';
 
-const ConnectionVisibilityPanel = ({modalStyle}) => {
+
+const ConnectionVisibilityPanel = ({modalStyle, handleClose}) => {
   const {visibilityOptions, setVisibilityOptions, resetMapVisibility} = useContext(MapContext);
   const {t} = useTranslation();
   const [childModal, setChildModal] = useState(false);
@@ -37,6 +38,8 @@ const ConnectionVisibilityPanel = ({modalStyle}) => {
   return (
     <>
       <div className="connection-visibility-panel__container">
+        <CloseIcon className="connection-visibility-panel__close" onClick={handleClose} />
+        <p className="connection-visibility-panel__header">{t('connectionVisibility.header')}</p>
         {Object.entries(visibilityOptions).map(([key, value]) => (
           <div className="connection-visibility-panel__toggle-group-container" key={key}>
             {value.name || ''}{' '}
