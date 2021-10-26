@@ -606,14 +606,14 @@
                 }
             }
         },
-        "/api/Conversation/{id}": {
+        "/api/Conversation/{tileId}": {
             "get": {
                 "tags": [
                     "Conversation"
                 ],
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "tileId",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -645,14 +645,14 @@
                 }
             }
         },
-        "/api/Conversation/Approve/{id}": {
+        "/api/Conversation/Approve/{conversationId}": {
             "put": {
                 "tags": [
                     "Conversation"
                 ],
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "conversationId",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -677,14 +677,14 @@
                 }
             }
         },
-        "/api/Conversation/Reject/{id}": {
+        "/api/Conversation/Reject/{conversationId}": {
             "put": {
                 "tags": [
                     "Conversation"
                 ],
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "conversationId",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -1667,6 +1667,9 @@
                 "additionalProperties": false
             },
             "Conversation": {
+                "required": [
+                    "tileId"
+                ],
                 "type": "object",
                 "properties": {
                     "id": {
@@ -1807,6 +1810,9 @@
                 "additionalProperties": false
             },
             "MessageInput": {
+                "required": [
+                    "tileId"
+                ],
                 "type": "object",
                 "properties": {
                     "conversationId": {

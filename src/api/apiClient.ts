@@ -61,7 +61,7 @@ export interface Conversation {
   stopId?: string | null;
 
   /** @format uuid */
-  tileId?: string;
+  tileId: string;
   messages?: Message[] | null;
 }
 
@@ -119,7 +119,7 @@ export interface MessageInput {
   stopId?: string | null;
 
   /** @format uuid */
-  tileId?: string;
+  tileId: string;
 }
 
 export interface NewConnectionAction {
@@ -782,11 +782,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags Conversation
      * @name ConversationDetail
-     * @request GET:/api/Conversation/{id}
+     * @request GET:/api/Conversation/{tileId}
      */
-    conversationDetail: (id: string, params: RequestParams = {}) =>
+    conversationDetail: (tileId: string, params: RequestParams = {}) =>
       this.request<ConversationResponse, ProblemDetails>({
-        path: `/api/Conversation/${id}`,
+        path: `/api/Conversation/${tileId}`,
         method: 'GET',
         format: 'json',
         ...params,
@@ -797,11 +797,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags Conversation
      * @name ConversationApproveUpdate
-     * @request PUT:/api/Conversation/Approve/{id}
+     * @request PUT:/api/Conversation/Approve/{conversationId}
      */
-    conversationApproveUpdate: (id: string, params: RequestParams = {}) =>
+    conversationApproveUpdate: (conversationId: string, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
-        path: `/api/Conversation/Approve/${id}`,
+        path: `/api/Conversation/Approve/${conversationId}`,
         method: 'PUT',
         ...params,
       }),
@@ -811,11 +811,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags Conversation
      * @name ConversationRejectUpdate
-     * @request PUT:/api/Conversation/Reject/{id}
+     * @request PUT:/api/Conversation/Reject/{conversationId}
      */
-    conversationRejectUpdate: (id: string, params: RequestParams = {}) =>
+    conversationRejectUpdate: (conversationId: string, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
-        path: `/api/Conversation/Reject/${id}`,
+        path: `/api/Conversation/Reject/${conversationId}`,
         method: 'PUT',
         ...params,
       }),
