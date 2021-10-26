@@ -53,7 +53,7 @@ const Login = () => {
         }}
         validationSchema={LoginSchema}>
         {({handleChange, values, handleSubmit, errors, touched}) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} noValidate>
             <div className="content-container__text-field">
               <TextField
                 type="email"
@@ -64,6 +64,7 @@ const Login = () => {
                 disabled={isLoading}
                 error={errors.email && touched.email}
                 variant={'standard'}
+                fullWidth
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -84,6 +85,7 @@ const Login = () => {
                 disabled={isLoading}
                 error={errors.password && touched.password}
                 variant={'standard'}
+                fullWidth
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">

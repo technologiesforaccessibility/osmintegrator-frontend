@@ -79,6 +79,7 @@ const SetPassword = () => {
             onChange={formik.handleChange}
             value={formik.values.newPassword1}
             variant={'standard'}
+            fullWidth
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -98,6 +99,7 @@ const SetPassword = () => {
             onChange={formik.handleChange}
             value={formik.values.newPassword2}
             variant={'standard'}
+            fullWidth
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
