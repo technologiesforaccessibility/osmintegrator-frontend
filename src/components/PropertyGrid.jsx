@@ -21,7 +21,7 @@ const PropertyGrid = ({propertyGrid}) => {
           entries.map(([key, value]) =>
             key === 'tags' ? (
               value && value.map(({key, value}) => <PropertyGridRow key={key} title={key} value={value} />)
-            ) : (
+            ) : key === 'messages' ? null : (
               <PropertyGridRow key={key} title={key} value={value} />
             ),
           )}

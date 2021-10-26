@@ -1,20 +1,17 @@
 import {useContext} from 'react';
 import PropTypes, {shape, string, number} from 'prop-types';
 import {Marker, Tooltip} from 'react-leaflet';
-import {useSelector} from 'react-redux';
 
-import {selectLoggedInUserRoles} from '../../redux/selectors/authSelector';
 import {getReportIcon} from '../../utilities/utilities';
-import {roles} from '../../utilities/constants';
 import {MapContext, MapModes} from '../contexts/MapContextProvider';
 
 const ImportedReports = ({reports}) => {
   // const authRoles = useSelector(selectLoggedInUserRoles);
-  const {mapMode, toogleMapMode, setNewReportCoordinates, setActiveStop} = useContext(MapContext);
+  const {mapMode, setNewReportCoordinates, setActiveStop, displayPropertyGrid} = useContext(MapContext);
 
-  const handleReportClick = (lat, lon, text, id, tileId, status) => {
+  const handleReportClick = data => {
     if (mapMode === MapModes.view) {
-      toogleMapMode('Report');
+      displayPropertyGrid(data);
     }
   };
 
@@ -30,7 +27,7 @@ const ImportedReports = ({reports}) => {
             zIndexOffset={100}
             eventHandlers={{
               click: () => {
-                handleReportClick(lat, lon, id, tileId, status);
+                handleReportClick({lat, lon, id, tileId, messages});
                 setNewReportCoordinates({lat, lon});
                 setActiveStop(null);
               },
