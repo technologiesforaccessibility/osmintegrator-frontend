@@ -8,7 +8,7 @@ import colors from '../../stylesheets/config/colors.module.scss';
 const MapTiles = ({isTileActive, tiles, activeTile, setActiveTile, addReportMarker, isCreateReportMapMode}) => {
   const color = tile => {
     if (!tile.approvedByEditor && !tile.approvedBySupervisor) {
-      return colors.colorTileAll;
+      return colors.colorTileAssigned;
     }
     if (tile.approvedByEditor && !tile.approvedBySupervisor) {
       return colors.colorApprovedByEditor;
