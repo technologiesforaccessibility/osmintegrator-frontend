@@ -3,12 +3,13 @@ import {useFormik} from 'formik';
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
 import {NotificationActions} from '../redux/actions/notificationActions';
-import {Button, Checkbox, FormControlLabel, Grid, TextareaAutosize} from '@mui/material';
+import {Button, Checkbox, FormControlLabel, TextareaAutosize} from '@mui/material';
 import {MapContext} from './contexts/MapContextProvider';
 import {ConversationContext} from './contexts/ConversationProvider';
 import {basicHeaders} from '../config/apiConfig';
 import api from '../api/apiInstance';
 import {exception} from '../utilities/exceptionHelper';
+import '../stylesheets/conversationForm.scss';
 
 const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}) => {
   const {t} = useTranslation();
@@ -105,36 +106,28 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
   };
 
   return (
-    <div>
+    <div className="conversation-form">
       <form onSubmit={formik.handleSubmit} onChange={formik.handleChange} className="report__add-message">
-        <div className="report__container">
-          <TextareaAutosize
-            minRows={3}
-            className="report__form"
-            placeholder="Your report..."
-            id="reportText"
+        <TextareaAutosize
+          minRows={4}
+          placeholder="Your report..."
+          className="conversation-form__textarea"
+          id="reportText"
+          onChange={formik.handleChange}
+          value={formik.values.reportText}
+        />
+
+        <div className="conversation-form__bottom">
+          <FormControlLabel
+            control={<Checkbox checked={formik.values.approveReport} disabled={!isReportActive} id="approveReport" />}
+            size="small"
+            label="Approve report"
             onChange={formik.handleChange}
-            value={formik.values.reportText}
-            style={{marginBottom: 10}}
           />
 
-          <Grid container justifyContent="space-between">
-            <Grid item>
-              <FormControlLabel
-                control={
-                  <Checkbox checked={formik.values.approveReport} disabled={!isReportActive} id="approveReport" />
-                }
-                size="small"
-                label="Approve report"
-                onChange={formik.handleChange}
-              />
-            </Grid>
-            <Grid item>
-              <Button variant="contained" type="submit">
-                {t('report.button')}
-              </Button>
-            </Grid>
-          </Grid>
+          <Button variant="outlined" type="submit">
+            {t('report.button')}
+          </Button>
         </div>
       </form>
     </div>

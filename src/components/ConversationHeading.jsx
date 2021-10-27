@@ -1,30 +1,35 @@
-import {Button} from '@mui/material';
+import {Button, Chip} from '@mui/material';
 import React from 'react';
-
+import CloseIcon from '@mui/icons-material/Close';
+import '../stylesheets/conversationHeading.scss';
 const ConversationHeading = ({lat, lon, activeStop, isReportActive, handleCloseReport}) => {
   return (
-    <div className="report__info">
-      <Button onClick={handleCloseReport}>X</Button>
+    <div className="conversation-heading bordered-wrapper">
+      <div className="conversation-heading__top">
+        <fieldset>
+          <legend>{activeStop ? 'Nazwa przystanku:' : lat || lon ? 'Współrzędne raportu' : null}</legend>
 
-      <div className="report__heading">
-        <span className="report__heading-type">{activeStop ? 'Stop' : lat || lon ? 'Report' : ''}</span>
-        <br />
-        {activeStop && (
-          <b className="report__heading-name">
-            {activeStop.name} {activeStop.number}
-          </b>
-        )}
-        {lat && lon && !activeStop && (
-          <b>
-            {lat.toString().slice(0, 6)}N, {lon.toString().slice(0, 6)}E
-          </b>
-        )}
-        <br />
-        <br />
+          {activeStop
+            ? `${activeStop.name} ${activeStop.number}`
+            : lat || lon
+            ? `${lat.toString().slice(0, 6)}N, ${lon.toString().slice(0, 6)}E`
+            : null}
+        </fieldset>
+
+        <button className="conversation-heading__close">
+          <CloseIcon color="primary" />
+        </button>
       </div>
 
-      <div className="report__status">
-        <p>Report state: {isReportActive ? 'Active' : 'Inactive'}</p>
+      <div className="conversation-heading__status">
+        <span>Status raportu: </span>
+        <Chip
+          sx={{borderRadius: '5px', textTransform: 'uppercase', fontWeight: 700, marginLeft: '0.625rem'}}
+          label={isReportActive ? 'Active' : 'Inactive'}
+          size="medium"
+          variant="outlined"
+          color={isReportActive ? 'error' : 'success'}
+        />{' '}
       </div>
     </div>
   );

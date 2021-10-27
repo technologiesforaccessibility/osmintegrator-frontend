@@ -4,7 +4,7 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import '../stylesheets/conversationMessage.scss';
 import dayjs from 'dayjs';
 const ConversationMessage = ({data, users}) => {
-  const getMessageDate = () => dayjs(data.createdAt).format('DD.MM.YYYY H:m');
+  const getMessageDate = () => dayjs(data.createdAt).format('DD.MM.YYYY HH:mm');
 
   const getUser = () => {
     const currentUser = users.filter(user => user.id === data.userId);

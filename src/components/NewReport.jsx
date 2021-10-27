@@ -112,22 +112,26 @@ const NewReport = () => {
             handleCloseReport={handleCloseReport}
           />
 
-          <div className="report__conversation">
-            {conversation ? (
-              conversation.messages
-                .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
-                .map(message => <ConversationMessage key={message.id} data={message} users={users} />)
-            ) : (
-              <p>No reports</p>
-            )}
+          <div className="report__content bordered-wrapper">
+            <div className="report__conversation">
+              {conversation ? (
+                conversation.messages
+                  .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+                  .map(message => <ConversationMessage key={message.id} data={message} users={users} />)
+              ) : (
+                <p>No reports</p>
+              )}
+            </div>
+            <div className="report__form">
+              <ConversationForm
+                lat={lat}
+                lon={lon}
+                isReportActive={isReportActive}
+                conversation={conversation}
+                handleLoader={handleLoader}
+              />
+            </div>
           </div>
-          <ConversationForm
-            lat={lat}
-            lon={lon}
-            isReportActive={isReportActive}
-            conversation={conversation}
-            handleLoader={handleLoader}
-          />
         </div>
       ) : (
         <div>Click on stop or report pin to display report details or add new report</div>
