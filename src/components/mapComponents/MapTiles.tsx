@@ -1,12 +1,29 @@
-import PropTypes, {bool, arrayOf, func} from 'prop-types';
+import { LeafletMouseEvent } from 'leaflet';
+import {FC} from 'react';
 import {Rectangle, Tooltip} from 'react-leaflet';
 
-import {tileType} from '../../types/index';
+import {Tile} from '../../api/apiClient';
 
 import colors from '../../stylesheets/config/colors.module.scss';
 
-const MapTiles = ({isTileActive, tiles, activeTile, setActiveTile, addReportMarker, isCreateReportMapMode}) => {
-  const color = ({approvedBySupervisor, approvedByEditor, usersCount}) => {
+interface MapTilesProps {
+  isTileActive: boolean;
+  tiles: Array<Tile>;
+  activeTile: Tile;
+  setActiveTile: (arg: Tile) => void;
+  addReportMarker: (e: LeafletMouseEvent) => void;
+  isCreateReportMapMode: boolean;
+}
+
+const MapTiles: FC<MapTilesProps> = ({
+  isTileActive,
+  tiles,
+  activeTile,
+  setActiveTile,
+  addReportMarker,
+  isCreateReportMapMode,
+}) => {
+  const color = ({approvedBySupervisor, approvedByEditor, usersCount}: Tile): string => {
     if (approvedBySupervisor) {
       return colors.colorApprovedBySupervisor;
     }
@@ -17,7 +34,7 @@ const MapTiles = ({isTileActive, tiles, activeTile, setActiveTile, addReportMark
     return colors.colorTileAll;
   };
 
-  const opacity = tile => {
+  const opacity = (tile: Tile) => {
     if (!tile.approvedByEditor && !tile.approvedBySupervisor) {
       return 0.2;
     }
@@ -67,15 +84,6 @@ const MapTiles = ({isTileActive, tiles, activeTile, setActiveTile, addReportMark
       )}
     </>
   );
-};
-
-PropTypes.MapTiles = {
-  isTileActive: bool,
-  tiles: arrayOf(tileType),
-  activeTile: tileType,
-  setActiveTile: func,
-  addReportMarker: func,
-  isCreateReportMapMode: bool,
 };
 
 export default MapTiles;
