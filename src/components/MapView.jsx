@@ -218,15 +218,16 @@ export const MapView = () => {
 
       const stops = response.data.map(stop => {
         const stopWithReport = stopConversations.filter(report => report.stopId === stop.id);
-
         if (
           stopWithReport.length > 0 &&
-          stopWithReport[0].messages.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)).at(-1).status === 0
+          stopWithReport[0].messages.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)).at(-1).status === 1
         ) {
-          return {...stop, hasReport: 1};
-        } else {
-          return stop;
+          return {...stop, hasReport: 1, reportApproved: 1};
         }
+        if (stopWithReport.length > 0) {
+          return {...stop, hasReport: 1, reportApproved: 0};
+        }
+        return stop;
       });
       setAllStops(stops);
       if (toggleTile) {

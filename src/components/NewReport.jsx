@@ -1,18 +1,16 @@
 import {useContext, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-
+import {ConversationContext} from './contexts/ConversationProvider';
 import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
 import {MapContext} from './contexts/MapContextProvider';
 import {exception} from '../utilities/exceptionHelper';
 
-import '../stylesheets/newReport.scss';
-import {ConversationContext} from './contexts/ConversationProvider';
 import ConversationMessage from './ConversationMessage';
 import {CircularProgress} from '@mui/material';
-import '../stylesheets/report.scss';
 import ConversationHeading from './ConversationHeading';
 import ConversationForm from './ConversationForm';
+import '../stylesheets/newReport.scss';
 
 const NewReport = () => {
   const [loading, setLoading] = useState(false);
