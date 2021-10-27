@@ -67,8 +67,6 @@ const getEmailFromPath = urlString => {
 };
 
 const getBusStopIcon = busStopPropeties => {
-  // console.log(busStopPropeties?.hasReport);
-  // if(busStopPropeties)
   const iconProps = getStopIconProps(busStopPropeties);
   const {iconUrl, iconAnchor} = iconProps;
 

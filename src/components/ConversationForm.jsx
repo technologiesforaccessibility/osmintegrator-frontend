@@ -87,7 +87,6 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
       setReload(response.data);
       setRerenderReports(true);
     } catch (error) {
-      console.log('nope');
       exception(error);
     }
   };
