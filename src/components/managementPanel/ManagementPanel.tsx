@@ -191,7 +191,7 @@ function ManagementPanel() {
     () =>
       tileUsers
         .filter(u => u.isEditor && (u.id !== selectedSupervisor || u.id === NONE))
-        .map(({id, userName, isAssigned}) => (
+        .map(({id, userName}) => (
           <MenuItem key={id} value={id}>
             {userName === NONE ? t('managementPanel.noUser') : userName}
           </MenuItem>
@@ -203,7 +203,7 @@ function ManagementPanel() {
     () =>
       tileUsers
         .filter(u => u.isSupervisor && (u.id !== selectedUser || u.id === NONE))
-        .map(({id, userName, isAssigned}) => (
+        .map(({id, userName}) => (
           <MenuItem key={id} value={id}>
             {userName === NONE ? t('managementPanel.noUser') : userName}
           </MenuItem>
@@ -279,28 +279,32 @@ function ManagementPanel() {
             )}
             {(!usersLoaded && <CircularProgress />) || (
               <>
-                <TextField
-                  id={'select-user-id'}
-                  variant={'filled'}
-                  select
-                  label={t('managementPanel.editor')}
-                  value={selectedUser}
-                  onChange={e => handleUserChanged(e.target.value)}
-                  margin="normal"
-                  fullWidth>
-                  {dropdownUsers}
-                </TextField>
-                <TextField
-                  id={'select-user-id'}
-                  variant={'filled'}
-                  select
-                  label={t('managementPanel.supervisor')}
-                  value={selectedSupervisor}
-                  onChange={e => handleSupervisorChanged(e.target.value)}
-                  margin="normal"
-                  fullWidth>
-                  {dropdownSupervisors}
-                </TextField>
+                {!!dropdownUsers.length && (
+                  <TextField
+                    id={'select-user-id'}
+                    variant={'filled'}
+                    select
+                    label={t('managementPanel.editor')}
+                    value={selectedUser}
+                    onChange={e => handleUserChanged(e.target.value)}
+                    margin="normal"
+                    fullWidth>
+                    {dropdownUsers}
+                  </TextField>
+                )}
+                {!!dropdownSupervisors.length && (
+                  <TextField
+                    id={'select-user-id'}
+                    variant={'filled'}
+                    select
+                    label={t('managementPanel.supervisor')}
+                    value={selectedSupervisor}
+                    onChange={e => handleSupervisorChanged(e.target.value)}
+                    margin="normal"
+                    fullWidth>
+                    {dropdownSupervisors}
+                  </TextField>
+                )}
               </>
             )}
             <Button
@@ -308,7 +312,7 @@ function ManagementPanel() {
               onClick={handleSave}
               color="primary"
               variant="contained"
-              disabled={!userSelected}
+              disabled={!userSelected || selectedUser === NONE || selectedSupervisor === NONE}
               fullWidth>
               {t('buttons.save')}
             </Button>
