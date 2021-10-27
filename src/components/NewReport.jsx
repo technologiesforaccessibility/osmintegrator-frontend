@@ -9,7 +9,7 @@ import {exception} from '../utilities/exceptionHelper';
 import '../stylesheets/newReport.scss';
 import {ConversationContext} from './contexts/ConversationProvider';
 import ConversationMessage from './ConversationMessage';
-import {Button, CircularProgress} from '@mui/material';
+import {CircularProgress} from '@mui/material';
 import '../stylesheets/report.scss';
 import ConversationHeading from './ConversationHeading';
 import ConversationForm from './ConversationForm';
@@ -18,6 +18,7 @@ const NewReport = () => {
   const [loading, setLoading] = useState(false);
   const [isReportActive, setReportActive] = useState(false);
   const [conversation, setConversation] = useState(null);
+  const {t} = useTranslation();
   const {newReportCoordinates, resetReportCoordinates, activeStop, setActiveStop} = useContext(MapContext);
   const {geoConversations, stopConversations, setUsers, users} = useContext(ConversationContext);
   const {lat, lon} = newReportCoordinates;
@@ -119,7 +120,7 @@ const NewReport = () => {
                   .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
                   .map(message => <ConversationMessage key={message.id} data={message} users={users} />)
               ) : (
-                <p>No reports</p>
+                <p>{t('report.noReportFound')}</p>
               )}
             </div>
             <div className="report__form">
@@ -134,7 +135,7 @@ const NewReport = () => {
           </div>
         </div>
       ) : (
-        <div>Click on stop or report pin to display report details or add new report</div>
+        <div>{t('report.introInfo')}</div>
       )}
     </div>
   );

@@ -110,7 +110,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
       <form onSubmit={formik.handleSubmit} onChange={formik.handleChange} className="report__add-message">
         <TextareaAutosize
           minRows={4}
-          placeholder="Your report..."
+          placeholder={t('report.placeholder')}
           className="conversation-form__textarea"
           id="reportText"
           onChange={formik.handleChange}
@@ -121,7 +121,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
           <FormControlLabel
             control={<Checkbox checked={formik.values.approveReport} disabled={!isReportActive} id="approveReport" />}
             size="small"
-            label="Approve report"
+            label={t('report.approve')}
             onChange={formik.handleChange}
           />
 

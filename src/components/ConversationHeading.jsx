@@ -1,13 +1,16 @@
-import {Button, Chip} from '@mui/material';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
+import {Chip} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import '../stylesheets/conversationHeading.scss';
+
 const ConversationHeading = ({lat, lon, activeStop, isReportActive, handleCloseReport}) => {
+  const {t} = useTranslation();
   return (
     <div className="conversation-heading bordered-wrapper">
       <div className="conversation-heading__top">
         <fieldset>
-          <legend>{activeStop ? 'Nazwa przystanku:' : lat || lon ? 'Współrzędne raportu' : null}</legend>
+          <legend>{activeStop ? t('report.stopName') : lat || lon ? t('report.coordinatesName') : null}</legend>
 
           {activeStop
             ? `${activeStop.name} ${activeStop.number}`
@@ -16,16 +19,16 @@ const ConversationHeading = ({lat, lon, activeStop, isReportActive, handleCloseR
             : null}
         </fieldset>
 
-        <button className="conversation-heading__close">
+        <button className="conversation-heading__close" onClick={handleCloseReport}>
           <CloseIcon color="primary" />
         </button>
       </div>
 
       <div className="conversation-heading__status">
-        <span>Status raportu: </span>
+        <span>{t('report.status')}</span>
         <Chip
           sx={{borderRadius: '5px', textTransform: 'uppercase', fontWeight: 700, marginLeft: '0.625rem'}}
-          label={isReportActive ? 'Active' : 'Inactive'}
+          label={isReportActive ? t('report.active') : t('report.inactive')}
           size="medium"
           variant="outlined"
           color={isReportActive ? 'error' : 'success'}

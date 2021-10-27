@@ -126,11 +126,11 @@ export const en = {
       },
     },
     report: {
-      button: 'Send report',
+      button: 'Send',
       clear: 'Clear text and map pin location',
       success: 'Report has been sent',
       pinInfo: 'Click elsewhere to move marker',
-      approve: 'Approve',
+      approve: 'Approve report',
       approved: 'Report approved!',
       decline: 'Decline',
       closed: 'Report closed',
@@ -138,6 +138,14 @@ export const en = {
       rejectInfo: 'Report is rejected and will not be considered.',
       noTextFound: 'Fill report text',
       noPinFound: 'Click on map to create a location pin',
+      stopName: 'Stop name:',
+      coordinatesName: 'Report coordinates:',
+      status: 'Report status:',
+      active: 'Active',
+      inactive: 'Inactive',
+      placeholder: 'Yout report...',
+      introInfo:
+        'Click on stop or report pin to display report details or click on the map to add new report',
     },
     setPassword: {
       title: 'Set a new password',
