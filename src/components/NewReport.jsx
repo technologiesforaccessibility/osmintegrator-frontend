@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {ConversationContext} from './contexts/ConversationProvider';
 import api from '../api/apiInstance';
@@ -7,18 +7,22 @@ import {MapContext} from './contexts/MapContextProvider';
 import {exception} from '../utilities/exceptionHelper';
 
 import ConversationMessage from './ConversationMessage';
-import {CircularProgress} from '@mui/material';
+import {Button, CircularProgress, Modal} from '@mui/material';
 import ConversationHeading from './ConversationHeading';
 import ConversationForm from './ConversationForm';
 import '../stylesheets/newReport.scss';
+import {Box} from '@mui/system';
+import {modalStyle} from './MapPanel';
 
 const NewReport = () => {
   const [loading, setLoading] = useState(false);
   const [isReportActive, setReportActive] = useState(false);
   const [conversation, setConversation] = useState(null);
+
   const {t} = useTranslation();
   const {newReportCoordinates, resetReportCoordinates, activeStop, setActiveStop} = useContext(MapContext);
-  const {geoConversations, stopConversations, setUsers, users} = useContext(ConversationContext);
+  const {geoConversations, stopConversations, setUsers, users, inputContent, openModal, setOpenModal} =
+    useContext(ConversationContext);
   const {lat, lon} = newReportCoordinates;
 
   useEffect(() => {
@@ -85,13 +89,20 @@ const NewReport = () => {
   };
 
   const handleCloseReport = () => {
-    setActiveStop(null);
-    resetReportCoordinates();
+    if (!inputContent) {
+      setActiveStop(null);
+      resetReportCoordinates();
+    } else {
+      handleOpenModal();
+    }
   };
 
   const handleLoader = value => {
     setLoading(value);
   };
+
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
 
   return (
     <div className="report">
@@ -135,6 +146,30 @@ const NewReport = () => {
       ) : (
         <div>{t('report.introInfo')}</div>
       )}
+
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description">
+        <Box sx={modalStyle} className="report__modal">
+          <p>{t('report.modal')}</p>
+          <div className="report__modal-buttons">
+            <Button variant="outlined" onClick={handleCloseModal}>
+              {t('no')}
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setActiveStop(null);
+                resetReportCoordinates();
+                handleCloseModal();
+              }}>
+              {t('yes')}
+            </Button>
+          </div>
+        </Box>
+      </Modal>
     </div>
   );
 };

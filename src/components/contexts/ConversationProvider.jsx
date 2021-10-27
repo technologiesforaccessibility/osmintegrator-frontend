@@ -7,6 +7,8 @@ const ConversationContextProvider = ({children}) => {
   const [geoConversations, setGeoConversations] = useState([]);
   const [stopConversations, setStopConversations] = useState([]);
   const [reload, setReload] = useState(null);
+  const [inputContent, setInputContent] = useState('');
+  const [openModal, setOpenModal] = useState(false);
 
   return (
     <ConversationContext.Provider
@@ -19,6 +21,10 @@ const ConversationContextProvider = ({children}) => {
         setStopConversations,
         reload,
         setReload,
+        inputContent,
+        setInputContent,
+        openModal,
+        setOpenModal,
       }}>
       {children}
     </ConversationContext.Provider>

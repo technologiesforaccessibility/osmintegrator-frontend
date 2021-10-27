@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import api from '../api/apiInstance';
 import {useSelector} from 'react-redux';
 import {useFormik} from 'formik';
@@ -13,14 +13,21 @@ import {exception} from '../utilities/exceptionHelper';
 import {roles} from '../utilities/constants';
 import {Button, Checkbox, FormControlLabel, TextareaAutosize} from '@mui/material';
 import '../stylesheets/conversationForm.scss';
+import useDebounce from '../hooks/useDebounce';
 
 const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}) => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
   const authRoles = useSelector(selectLoggedInUserRoles);
-
+  const [currentInputValue, setCurrentInputValue] = useState('');
   const {activeTile, setRerenderReports, activeStop} = useContext(MapContext);
-  const {setReload} = useContext(ConversationContext);
+  const {setReload, setInputContent} = useContext(ConversationContext);
+  const debouncedValue = useDebounce(currentInputValue, 500);
+
+  useEffect(() => {
+    setInputContent(debouncedValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedValue]);
 
   const formik = useFormik({
     initialValues: {
@@ -53,6 +60,10 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
         createGeoConversation(reportText);
         return;
       }
+    },
+
+    onChange: e => {
+      console.log(e);
     },
   });
 
@@ -125,7 +136,10 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
           placeholder={t('report.placeholder')}
           className="conversation-form__textarea"
           id="reportText"
-          onChange={formik.handleChange}
+          onChange={e => {
+            formik.handleChange(e);
+            setCurrentInputValue(e.target.value);
+          }}
           value={formik.values.reportText}
         />
 

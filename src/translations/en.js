@@ -146,6 +146,7 @@ export const en = {
       inactive: 'Inactive',
       placeholder: 'Yout report...',
       introInfo: 'Click on stop or report pin to display report details or click on the map to add new report',
+      modal: 'Your changes will not be saved. Are you sure?'
     },
     setPassword: {
       title: 'Set a new password',

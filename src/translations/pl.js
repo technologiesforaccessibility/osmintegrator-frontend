@@ -148,6 +148,7 @@ export const pl = {
       placeholder: 'Twój raport...',
       introInfo:
         'Wybierz przystanek lub pinezkę z raportem, aby wyświetlić szczegóły raportu. Kliknij gdziekolwiek na mapie, aby dodać nowy raport.',
+      modal: 'Twoje zmiany nie zostaną zapisane. Jesteś pewny?'
     },
     setPassword: {
       title: 'Ustaw nowe hasło',
