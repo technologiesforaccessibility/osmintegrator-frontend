@@ -105,7 +105,7 @@ function ManagementPanel() {
       if (approvedByEditor) {
         return colors.colorApprovedByEditor;
       }
-      if (usersCount === 1) return colors.colorTileAssigned;
+      if (!!usersCount) return colors.colorTileAssigned;
       return colors.colorTileAll;
     },
     [selectedTileId],

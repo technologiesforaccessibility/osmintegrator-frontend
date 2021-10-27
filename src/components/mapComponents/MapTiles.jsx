@@ -6,14 +6,15 @@ import {tileType} from '../../types/index';
 import colors from '../../stylesheets/config/colors.module.scss';
 
 const MapTiles = ({isTileActive, tiles, activeTile, setActiveTile, addReportMarker, isCreateReportMapMode}) => {
-  const color = tile => {
-    if (!tile.approvedByEditor && !tile.approvedBySupervisor) {
-      return colors.colorTileAssigned;
+  const color = ({approvedBySupervisor, approvedByEditor, usersCount}) => {
+    if (approvedBySupervisor) {
+      return colors.colorApprovedBySupervisor;
     }
-    if (tile.approvedByEditor && !tile.approvedBySupervisor) {
+    if (approvedByEditor) {
       return colors.colorApprovedByEditor;
     }
-    return colors.colorApprovedBySupervisor;
+    if (usersCount) return colors.colorTileAssigned;
+    return colors.colorTileAll;
   };
 
   const opacity = tile => {
