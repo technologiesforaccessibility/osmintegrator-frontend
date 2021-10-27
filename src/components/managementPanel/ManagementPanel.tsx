@@ -288,7 +288,8 @@ function ManagementPanel() {
                     value={selectedUser}
                     onChange={e => handleUserChanged(e.target.value)}
                     margin="normal"
-                    fullWidth>
+                    fullWidth
+                    disabled={!!tiles.find(t => t.id === selectedTileId)?.approvedByEditor}>
                     {dropdownUsers}
                   </TextField>
                 )}
@@ -301,7 +302,8 @@ function ManagementPanel() {
                     value={selectedSupervisor}
                     onChange={e => handleSupervisorChanged(e.target.value)}
                     margin="normal"
-                    fullWidth>
+                    fullWidth
+                    disabled={!!tiles.find(t => t.id === selectedTileId)?.approvedBySupervisor}>
                     {dropdownSupervisors}
                   </TextField>
                 )}
