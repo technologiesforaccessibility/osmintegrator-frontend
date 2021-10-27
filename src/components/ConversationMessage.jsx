@@ -1,12 +1,10 @@
 import React from 'react';
-import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import {Chip, TextField} from '@mui/material';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import '../stylesheets/conversationMessage.scss';
+import dayjs from 'dayjs';
 const ConversationMessage = ({data, users}) => {
-  const getMessageDate = () => {
-    const currentDate = new Date(data.createdAt);
-    return `${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}`;
-  };
+  const getMessageDate = () => dayjs(data.createdAt).format('DD.MM.YYYY H:m');
 
   const getUser = () => {
     const currentUser = users.filter(user => user.id === data.userId);
@@ -18,27 +16,20 @@ const ConversationMessage = ({data, users}) => {
 
   const getIcon = () =>
     data.status === 0 ? (
-      <Chip
-        sx={{border: 'none'}}
-        variant="outlined"
-        icon={<ChatBubbleIcon />}
-        label={getMessageDate() + ' ' + getUser()}
-        color="primary"
-      />
+      <ErrorOutlineIcon color="primary" sx={{transform: 'rotate(180deg)'}} />
     ) : (
-      <CheckCircleIcon color="success" />
+      <CheckCircleOutlineIcon color="success" />
     );
   return (
     <>
-      <div className="message">
-        <div className="message__top">
-          {data.status === 0 ? <ChatBubbleIcon color="primary" /> : <CheckCircleIcon color="success" />}
-          <div className="message__date">{getMessageDate()}</div>
-          <div className="message__user">{getUser()}</div>
-        </div>
-        <p className="message__content">{data.text}</p>
+      <div className="conversation-message">
+        <fieldset>
+          <legend>
+            {getIcon()} {getMessageDate()} - {getUser()}
+          </legend>
 
-        <TextField disabled id="outlined-disabled" label={getIcon()} defaultValue="Hello World" />
+          <p>{data.text}</p>
+        </fieldset>
       </div>
     </>
   );

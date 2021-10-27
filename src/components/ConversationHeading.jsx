@@ -1,8 +1,11 @@
+import {Button} from '@mui/material';
 import React from 'react';
 
-const ConversationHeading = ({lat, lon, activeStop, isReportActive}) => {
+const ConversationHeading = ({lat, lon, activeStop, isReportActive, handleCloseReport}) => {
   return (
     <div className="report__info">
+      <Button onClick={handleCloseReport}>X</Button>
+
       <div className="report__heading">
         <span className="report__heading-type">{activeStop ? 'Stop' : lat || lon ? 'Report' : ''}</span>
         <br />
