@@ -22,7 +22,7 @@ import {Box} from '@mui/system';
 import WelcomeModal from './WelcomeModal';
 import {useCookies} from 'react-cookie';
 import {roles} from '../utilities/constants';
-import ConversationContextProvider, {ConversationContext} from './contexts/ConversationProvider';
+import {ConversationContext} from './contexts/ConversationProvider';
 
 export const MapView = () => {
   const {t} = useTranslation();
