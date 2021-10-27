@@ -13,7 +13,7 @@ const ConversationHeading = ({lat, lon, activeStop, isReportActive, handleCloseR
           <legend>{activeStop ? t('report.stopName') : lat || lon ? t('report.coordinatesName') : null}</legend>
 
           {activeStop
-            ? `${activeStop.name} ${activeStop.number}`
+            ? `${activeStop.name} ${activeStop.number ? activeStop.number : ''}`
             : lat || lon
             ? `${lat.toString().slice(0, 6)}N, ${lon.toString().slice(0, 6)}E`
             : null}

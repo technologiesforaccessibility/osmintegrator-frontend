@@ -1,6 +1,4 @@
 .conversation-heading {
-  color: #666;
-
   &__top {
     display: flex;
     align-items: flex-start;
@@ -9,6 +7,7 @@
       border: 3px solid #1976d2;
       border-radius: 5px;
       margin-bottom: 0.625rem;
+      width: 100%;
       legend {
         float: none;
         font-size: 0.75rem;

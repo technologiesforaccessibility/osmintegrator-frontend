@@ -13,11 +13,13 @@ import SidebarContainer from './SidebarContainer';
 import {roles as appRoles} from '../utilities/constants';
 
 import './../stylesheets/dashboardSidebar.scss';
+import {useTranslation} from 'react-i18next';
 
 const DashboardSidebar = () => {
   const {propertyGrid, isTileActive, mapMode, isEditingReportMode, openReportContent, areManageReportButtonsVisible} =
     useContext(MapContext);
   const authRoles = useSelector(selectLoggedInUserRoles);
+  const {t} = useTranslation();
 
   return (
     <SidebarContainer
@@ -31,7 +33,7 @@ const DashboardSidebar = () => {
           propertyGrid ? (
             <PropertyGrid propertyGrid={propertyGrid} />
           ) : (
-            <p>Click on stop or report pin to display details.</p>
+            <p>{t('sidebar.viewPlaceholder')}</p>
           )
         ) : null}
         {mapMode === MapModes.report && <NewReport />}

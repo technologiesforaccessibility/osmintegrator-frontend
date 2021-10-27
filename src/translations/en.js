@@ -130,6 +130,7 @@ export const en = {
       clear: 'Clear text and map pin location',
       success: 'Report has been sent',
       pinInfo: 'Click elsewhere to move marker',
+      edit: 'Edit report',
       approve: 'Approve report',
       approved: 'Report approved!',
       decline: 'Decline',
@@ -144,8 +145,7 @@ export const en = {
       active: 'Active',
       inactive: 'Inactive',
       placeholder: 'Yout report...',
-      introInfo:
-        'Click on stop or report pin to display report details or click on the map to add new report',
+      introInfo: 'Click on stop or report pin to display report details or click on the map to add new report',
     },
     setPassword: {
       title: 'Set a new password',
@@ -163,6 +163,7 @@ export const en = {
       profile: 'Profile',
       managementDashboard: 'Management Dashboard',
       history: 'History',
+      viewPlaceholder: 'Click on stop or report pin to display details.',
     },
     tileModePrompts: {
       view: 'View mode - see bus stop or report details',

@@ -130,6 +130,7 @@ export const pl = {
       clear: 'Wyczyść',
       success: 'Zgłoszenie zostało wysłane',
       pinInfo: 'Kliknij w inne miejsce aby przenieść znacznik',
+      edit: 'Edytuj raport',
       approve: 'Rozwiąż raport',
       approved: 'Zgłoszenie zatwierdzone!',
       decline: 'Odrzuć',
@@ -164,6 +165,7 @@ export const pl = {
       profile: 'Profil',
       managementDashboard: 'Panel administracyjny',
       history: 'Historia',
+      viewPlaceholder: 'Kliknij ikonę przystanku lub zgłoszenia, aby wyświetlić szczegóły.',
     },
     tileModePrompts: {
       view: 'Tryb widoku - pokaż szczegóły przystanku lub zgłoszenia',
