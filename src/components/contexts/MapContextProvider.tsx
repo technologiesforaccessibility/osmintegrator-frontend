@@ -29,7 +29,13 @@ interface IMapContext {
   isMapActive: boolean;
   areStopsVisible: boolean;
   propertyGrid: Stop | null;
-  connectionData: Array<Record<string, unknown>>;
+  connectionData: Array<{
+    coordinates: {lat: number; lon: number};
+    id: string;
+    name: string;
+    ref: string;
+    isOsm: boolean;
+  }>;
   rerenderConnections: boolean;
   newReportCoordinates: {lat: number | null; lon: number | null};
   activeTile: Tile | null;
@@ -53,13 +59,19 @@ interface IMapContext {
   singleTileToggle: (arg: boolean) => void;
   activeMapToggle: (arg: boolean) => void;
   displayPropertyGrid: (arg: Stop | null) => void;
-  updateConnectionData: (arg: Record<string, unknown>) => void;
+  updateConnectionData: (arg: {
+    coordinates: {lat: number; lon: number};
+    id: string;
+    name: string;
+    ref: string;
+    isOsm: boolean;
+  }) => void;
   reset: () => void;
   shouldRenderConnections: (arg: boolean) => void;
   toogleMapMode: (arg: string) => void;
   setNewReportCoordinates: (arg: {lat: number | null; lon: number | null}) => void;
   resetReportCoordinates: () => void;
-  setActiveTile: (arg: Tile) => void;
+  setActiveTile: (arg: Tile | null) => void;
   setRerenderReports: (arg: boolean) => void;
   setImportedConnections: (arg: Array<Connection>) => void;
   setImportedReports: (arg: Array<NewNote>) => void;
@@ -203,7 +215,9 @@ const MapContextProvider: FC = ({children}) => {
   const [areStopsVisible, setAreStopsVisible] = useState(false);
   const [propertyGrid, setPropertyGrid] = useState<Stop | null>(null);
   const [rerenderConnections, setRerenderConnections] = useState(false);
-  const [connectionData, setConnectionData] = useState<Array<Record<string, unknown>>>([]);
+  const [connectionData, setConnectionData] = useState<
+    Array<{coordinates: {lat: number; lon: number}; id: string; name: string; ref: string; isOsm: boolean}>
+  >([]);
   const [mapMode, setMapMode] = useState(MapModes.view);
   const [isEditingReportMode, setIsEditingReportMode] = useState(false);
   const [newReportCoordinates, setNewReportCoordinates] =
@@ -239,7 +253,13 @@ const MapContextProvider: FC = ({children}) => {
 
   const displayPropertyGrid = setPropertyGrid;
 
-  const updateConnectionData = (data: Record<string, unknown>) => {
+  const updateConnectionData = (data: {
+    coordinates: {lat: number; lon: number};
+    id: string;
+    name: string;
+    ref: string;
+    isOsm: boolean;
+  }) => {
     if (data) {
       setConnectionData(oldState => [...oldState, data]);
     }

@@ -1,4 +1,4 @@
-import { LeafletMouseEvent } from 'leaflet';
+import {LeafletMouseEvent} from 'leaflet';
 import {FC} from 'react';
 import {Rectangle, Tooltip} from 'react-leaflet';
 
@@ -9,7 +9,7 @@ import colors from '../../stylesheets/config/colors.module.scss';
 interface MapTilesProps {
   isTileActive: boolean;
   tiles: Array<Tile>;
-  activeTile: Tile;
+  activeTile: Tile | null;
   setActiveTile: (arg: Tile) => void;
   addReportMarker: (e: LeafletMouseEvent) => void;
   isCreateReportMapMode: boolean;
@@ -46,7 +46,7 @@ const MapTiles: FC<MapTilesProps> = ({
 
   return (
     <>
-      {isTileActive ? (
+      {isTileActive && activeTile ? (
         <Rectangle
           bounds={[
             [activeTile.maxLat, activeTile.maxLon],

@@ -1,11 +1,12 @@
 import 'leaflet/dist/leaflet.css';
 import '../stylesheets/mapView.scss';
-import {useContext, useEffect, useState} from 'react';
+import {useCallback, useContext, useEffect, useState} from 'react';
 import {MapContainer, TileLayer, Pane} from 'react-leaflet';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import api from '../api/apiInstance';
+import {Connection, Stop} from '../api/apiClient';
 import {basicHeaders} from '../config/apiConfig';
 import {NotificationActions} from '../redux/actions/notificationActions';
 import {MapContext, MapModes} from './contexts/MapContextProvider';
@@ -22,11 +23,12 @@ import {Box} from '@mui/system';
 import WelcomeModal from './WelcomeModal';
 import {useCookies} from 'react-cookie';
 import {roles} from '../utilities/constants';
+import {LeafletMouseEvent} from 'leaflet';
 
 export const MapView = () => {
   const {t} = useTranslation();
-  const [allStops, setAllStops] = useState([]);
-  const [activeBusStopId, setActiveBusStopId] = useState(null);
+  const [allStops, setAllStops] = useState<Array<Stop>>([]);
+  const [activeBusStopId, setActiveBusStopId] = useState<string | null>(null);
   const [modal, setModal] = useState(false);
   const [welcomeModalCookie, setWelcomeModalCookie] = useCookies(['welcome_modal']);
   const dispatch = useDispatch();
@@ -35,23 +37,6 @@ export const MapView = () => {
   const currentLocation = {lat: 50.29, lng: 19.01};
   const zoom = 10;
   const maxZoom = 19;
-
-  const mapStyle = {
-    position: 'relative',
-    height: 'calc(100vh - 5rem)',
-  };
-
-  const modalBoxStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 600,
-    bgcolor: 'white',
-    border: '0px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
 
   const {
     tiles,
@@ -83,74 +68,7 @@ export const MapView = () => {
     authRoles,
   } = useContext(MapContext);
 
-  useEffect(() => {
-    activeMapToggle(true);
-    return () => {
-      activeMapToggle(false);
-    };
-  });
-
-  useEffect(() => {
-    getAvailableTiles();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (activeTile && activeTile.id) {
-      setIsLoading(true);
-      getTileStops(activeTile.id);
-      getTileConnections(activeTile.id);
-      getTileReports(activeTile.id);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTile]);
-
-  useEffect(() => {
-    if (!isTileActive) {
-      setActiveTile(null);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isTileActive]);
-
-  useEffect(() => {
-    async function getConnections() {
-      await getTileConnections(activeTile.id);
-      shouldRenderConnections(false);
-    }
-    if (rerenderConnections) {
-      getConnections();
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rerenderConnections]);
-
-  useEffect(() => {
-    async function getReports() {
-      await getTileReports(activeTile.id);
-      setRerenderReports(false);
-    }
-    if (rerenderReports) {
-      getReports();
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rerenderReports]);
-
-  useEffect(() => {
-    async function getTiles() {
-      await getAvailableTiles();
-      setRerenderTiles(false);
-    }
-    if (rerenderTiles) {
-      getTiles();
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rerenderTiles]);
-
-  async function getAvailableTiles() {
+  const getAvailableTiles = useCallback(async () => {
     try {
       const response = await api.tileGetTilesList({
         headers: basicHeaders(),
@@ -166,19 +84,25 @@ export const MapView = () => {
       exception(error);
     }
     setIsLoading(false);
-  }
+  }, [authRoles, setTiles]);
 
-  const addReportMarker = e => {
+  const addReportMarker = (e: LeafletMouseEvent) => {
     const coords = {lat: e.latlng.lat, lon: e.latlng.lng};
     setNewReportCoordinates(coords);
   };
 
-  const createConnection = (coordinates, id, stopType, name, ref) => {
+  const createConnection = (
+    coordinates: {lat: number; lon: number},
+    id: string,
+    stopType: number,
+    name: string,
+    ref: string,
+  ) => {
     if (connectionData.length < 2) {
       const isOsm = stopType === 0;
       const entryPoint = {coordinates, id, isOsm, name, ref};
 
-      if (connectionData.length === 1 && !(connectionData[0].isOsm ^ isOsm)) {
+      if (connectionData.length === 1 && connectionData[0].isOsm === isOsm) {
         if (connectionData[0].id !== id) {
           dispatch(NotificationActions.error(t('connection.differentTypeError')));
         }
@@ -188,69 +112,78 @@ export const MapView = () => {
     }
   };
 
-  const getTileStops = async id => {
-    try {
-      const response = await api.tileGetStopsDetail(id, {
-        headers: basicHeaders(),
-      });
-      setAllStops(response.data);
-      singleTileToggle(true);
-    } catch (error) {
-      exception(error);
-    }
-    setIsLoading(false);
-  };
+  const getTileStops = useCallback(
+    async id => {
+      try {
+        const response = await api.tileGetStopsDetail(id, {
+          headers: basicHeaders(),
+        });
+        setAllStops(response.data);
+        singleTileToggle(true);
+      } catch (error) {
+        exception(error);
+      }
+      setIsLoading(false);
+    },
+    [singleTileToggle],
+  );
 
-  const getTileConnections = async id => {
-    try {
-      const response = await api.connectionsDetail(id, {
-        headers: basicHeaders(),
-      });
-      setImportedConnections(response.data);
-      setConnectedStopIds(getConnectedStopsIds(response.data));
-      setApprovedStopIds(getApprovedStopsIds(response.data));
-    } catch (error) {
-      exception(error);
-    }
-  };
+  const getTileConnections = useCallback(
+    async id => {
+      try {
+        const response = await api.connectionsDetail(id, {
+          headers: basicHeaders(),
+        });
+        setImportedConnections(response.data);
+        setConnectedStopIds(getConnectedStopsIds(response.data));
+        setApprovedStopIds(getApprovedStopsIds(response.data));
+      } catch (error) {
+        exception(error);
+      }
+    },
+    [setApprovedStopIds, setConnectedStopIds, setImportedConnections],
+  );
 
-  const getConnectedStopsIds = connectionArray => {
+  const getConnectedStopsIds = (connectionArray: Array<Connection>) => {
     return connectionArray
-      .filter(con => !con.approved)
-      .map(({gtfsStopId, osmStopId}) => [gtfsStopId, osmStopId])
+      .filter(con => !con.approved && con.gtfsStopId && con.osmStopId)
+      .map(({gtfsStopId, osmStopId}) => [gtfsStopId || '', osmStopId || ''])
       .flat();
   };
 
-  const getApprovedStopsIds = connectionArray => {
+  const getApprovedStopsIds = (connectionArray: Array<Connection>) => {
     return connectionArray
-      .filter(con => con.approved)
-      .map(({gtfsStopId, osmStopId}) => [gtfsStopId, osmStopId])
+      .filter(con => con.approved && con.gtfsStopId && con.osmStopId)
+      .map(({gtfsStopId, osmStopId}) => [gtfsStopId || '', osmStopId || ''])
       .flat();
   };
 
-  const getTileReports = async id => {
-    try {
-      const response = await api.notesDetail(id, {
-        headers: basicHeaders(),
-      });
-      setImportedReports(response.data);
-    } catch (error) {
-      exception(error);
-    }
-  };
+  const getTileReports = useCallback(
+    async id => {
+      try {
+        const response = await api.notesDetail(id, {
+          headers: basicHeaders(),
+        });
+        setImportedReports(response.data);
+      } catch (error) {
+        exception(error);
+      }
+    },
+    [setImportedReports],
+  );
 
-  const isActiveStopClicked = clickedStopId => {
+  const isActiveStopClicked = (clickedStopId: string) => {
     return activeBusStopId === clickedStopId;
   };
 
-  const clickBusStop = stop => {
-    setActiveBusStopId(stop === undefined ? null : stop.id);
-    displayPropertyGrid(stop === undefined ? null : stop);
+  const clickBusStop = (stop: Stop) => {
+    setActiveBusStopId(stop?.id || null);
+    displayPropertyGrid(stop || null);
     setOpenReportContent(null);
     setAreManageReportButtonsVisible(false);
   };
 
-  const closeModal = checkbox => {
+  const closeModal = (checkbox: boolean) => {
     if (checkbox === true) {
       setModal(false);
       setWelcomeModalCookie('welcome_modal', 'true', {path: '/'});
@@ -258,10 +191,73 @@ export const MapView = () => {
     setModal(false);
   };
 
+  useEffect(() => {
+    activeMapToggle(true);
+    return () => {
+      activeMapToggle(false);
+    };
+  });
+
+  useEffect(() => {
+    getAvailableTiles();
+  }, [getAvailableTiles]);
+
+  useEffect(() => {
+    if (activeTile && activeTile.id) {
+      setIsLoading(true);
+      getTileStops(activeTile.id);
+      getTileConnections(activeTile.id);
+      getTileReports(activeTile.id);
+    }
+  }, [activeTile, getTileConnections, getTileReports, getTileStops]);
+
+  useEffect(() => {
+    if (!isTileActive) {
+      setActiveTile(null);
+    }
+  }, [isTileActive, setActiveTile]);
+
+  useEffect(() => {
+    async function getConnections() {
+      await getTileConnections(activeTile?.id);
+      shouldRenderConnections(false);
+    }
+    if (rerenderConnections) {
+      getConnections();
+    }
+  }, [activeTile, getTileConnections, rerenderConnections, shouldRenderConnections]);
+
+  useEffect(() => {
+    async function getReports() {
+      await getTileReports(activeTile?.id);
+      setRerenderReports(false);
+    }
+    if (rerenderReports) {
+      getReports();
+    }
+  }, [activeTile, getTileReports, rerenderReports, setRerenderReports]);
+
+  useEffect(() => {
+    async function getTiles() {
+      await getAvailableTiles();
+      setRerenderTiles(false);
+    }
+    if (rerenderTiles) {
+      getTiles();
+    }
+  }, [getAvailableTiles, rerenderTiles, setRerenderTiles]);
+
   return (
     <>
       <Loader isLoading={isLoading} />
-      <MapContainer center={currentLocation} zoom={zoom} maxZoom={maxZoom} style={mapStyle}>
+      <MapContainer
+        center={currentLocation}
+        zoom={zoom}
+        maxZoom={maxZoom}
+        style={{
+          position: 'relative',
+          height: 'calc(100vh - 5rem)',
+        }}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -292,7 +288,17 @@ export const MapView = () => {
       </MapContainer>
       {modal && !welcomeModalCookie.welcome_modal && (
         <Modal open={modal} onClose={closeModal}>
-          <Box sx={modalBoxStyle}>
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: 600,
+              bgcolor: 'white',
+              border: '0px solid #000',
+              boxShadow: 24,
+            }}>
             <WelcomeModal handleClose={closeModal} />
           </Box>
         </Modal>
