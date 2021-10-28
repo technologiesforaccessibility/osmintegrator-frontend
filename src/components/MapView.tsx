@@ -265,7 +265,10 @@ export const MapView = () => {
         />
         <Pane name="connections">
           <NewConnections connections={connectionData} isTileActive={isTileActive} />
-          <ImportedConnections stops={allStops} inApproveMode={(authRoles || []).includes(roles.SUPERVISOR)} />
+          <ImportedConnections
+            stops={allStops}
+            inApproveMode={(authRoles || []).includes(roles.SUPERVISOR) && !!activeTile?.approvedByEditor}
+          />
         </Pane>
         <MapTiles
           isTileActive={isTileActive}
