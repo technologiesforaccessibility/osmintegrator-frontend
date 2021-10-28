@@ -191,6 +191,8 @@ export const en = {
       assignUserToTile: 'Assign user to the tile',
       assigned: 'Assigned',
       noUser: 'None',
+      editor: 'Editor',
+      supervisor: 'Supervisor'
     },
     yes: 'Yes',
     no: 'No',

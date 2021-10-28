@@ -191,6 +191,8 @@ export const pl = {
       assignUserToTile: 'Przypisz użytkownika do kafelka',
       assigned: 'Przypisany',
       noUser: 'Brak',
+      editor: 'Edytor',
+      supervisor: 'Supervisor'
     },
     yes: 'Tak',
     no: 'Nie',
