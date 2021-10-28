@@ -29,3 +29,7 @@ export const selectAuthError = state => {
 export const selectNotification = state => {
   return state.notification;
 };
+
+export const selectVersion = state => {
+  return state.app.version;
+};

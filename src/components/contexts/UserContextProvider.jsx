@@ -2,6 +2,7 @@ import React, {createContext, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectAuthToken} from '../../redux/selectors/authSelector';
 import {validateLogin} from '../../redux/actions/authActions';
+import {getVersion} from '../../redux/actions/appActions';
 
 export const UserContext = createContext();
 
@@ -18,6 +19,10 @@ const UserContextProvider = ({children}) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
+
+  useEffect(() => {
+    dispatch(getVersion());
+  }, [dispatch]);
 
   //Todo: change name and change value to false
   const [isUnsafeAuthorized, setIsUnsafeAuthorized] = useState(true);

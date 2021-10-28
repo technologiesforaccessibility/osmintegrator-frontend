@@ -1,36 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useTranslation} from 'react-i18next';
+import {useSelector} from 'react-redux';
 import * as pack from '../../package.json';
-import api from '../api/apiInstance';
-import {noTokenHeaders} from '../config/apiConfig';
-import {exception} from '../utilities/exceptionHelper';
+
+import {selectVersion} from '../redux/selectors/authSelector';
 
 const VersionLabel = () => {
   const {t} = useTranslation();
-  const [version, setVersion] = useState('');
-  const [err, setErr] = useState(false);
 
-  useEffect(() => {
-    async function getVersion() {
-      try {
-        setErr(false);
-        const response = await api.versionList({
-          headers: noTokenHeaders(),
-        });
-        setVersion(response.data);
-      } catch (error) {
-        exception(error);
-        setErr(true);
-      }
-    }
-    getVersion();
-  }, []);
+  const version = useSelector(selectVersion);
 
   return (
     <>
       {t('version')}
       <span>F: {pack.version}</span>
-      {!err && version ? <span>, B: {version}</span> : null}
+      {version && <span>, B: {version}</span>}
     </>
   );
 };
