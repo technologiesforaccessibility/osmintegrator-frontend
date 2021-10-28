@@ -21,7 +21,7 @@ const NewReport = () => {
 
   const {t} = useTranslation();
   const {newReportCoordinates, resetReportCoordinates, activeStop, setActiveStop} = useContext(MapContext);
-  const {geoConversations, stopConversations, setUsers, users, inputContent, openModal, setOpenModal} =
+  const {geoConversations, stopConversations, setUsers, users, inputContent, setInputContent, openModal, setOpenModal} =
     useContext(ConversationContext);
   const {lat, lon} = newReportCoordinates;
 
@@ -98,7 +98,12 @@ const NewReport = () => {
   };
 
   const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
+  const handleCloseModal = () => {
+    setInputContent('');
+    setOpenModal(false);
+    setActiveStop(null);
+    resetReportCoordinates();
+  };
 
   return (
     <div className="report">
@@ -145,22 +150,16 @@ const NewReport = () => {
 
       <Modal
         open={openModal}
-        onClose={handleCloseModal}
+        onClose={() => setOpenModal(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
         <Box sx={modalStyle} className="report__modal">
           <p>{t('report.modal')}</p>
           <div className="report__modal-buttons">
-            <Button variant="outlined" onClick={handleCloseModal}>
+            <Button variant="outlined" onClick={() => setOpenModal(false)}>
               {t('no')}
             </Button>
-            <Button
-              variant="contained"
-              onClick={() => {
-                setActiveStop(null);
-                resetReportCoordinates();
-                handleCloseModal();
-              }}>
+            <Button variant="contained" onClick={() => handleCloseModal()}>
               {t('yes')}
             </Button>
           </div>
