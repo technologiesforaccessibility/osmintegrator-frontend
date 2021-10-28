@@ -1,4 +1,4 @@
-import {createContext, FC, useState} from 'react';
+import {createContext, FC, useCallback, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {Connection, NewNote, NoteStatus, Stop, Tile} from '../../api/apiClient';
 import {selectLoggedInUserRoles} from '../../redux/selectors/authSelector';
@@ -69,21 +69,28 @@ interface IMapContext {
   reset: () => void;
   shouldRenderConnections: (arg: boolean) => void;
   toogleMapMode: (arg: string) => void;
-  setNewReportCoordinates: (arg: {lat: number | null; lon: number | null}) => void;
+  setNewReportCoordinates: React.Dispatch<React.SetStateAction<{lat: number | null; lon: number | null}>>;
   resetReportCoordinates: () => void;
-  setActiveTile: (arg: Tile | null) => void;
-  setRerenderReports: (arg: boolean) => void;
-  setImportedConnections: (arg: Array<Connection>) => void;
-  setImportedReports: (arg: Array<NewNote>) => void;
+  setActiveTile: React.Dispatch<React.SetStateAction<Tile | null>>;
+  setRerenderReports: React.Dispatch<React.SetStateAction<boolean>>;
+  setImportedConnections: React.Dispatch<React.SetStateAction<Array<Connection>>>;
+  setImportedReports: React.Dispatch<React.SetStateAction<Array<NewNote>>>;
   hideTileElements: () => void;
-  setIsEditingReportMode: (arg: boolean) => void;
-  setOpenReportContent: (
-    arg: null | {lat: number; lon: number; text: string; id: string; tileId: string; status: NoteStatus},
-  ) => void;
+  setIsEditingReportMode: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenReportContent: React.Dispatch<
+    React.SetStateAction<null | {
+      lat: number;
+      lon: number;
+      text: string;
+      id: string;
+      tileId: string;
+      status: NoteStatus;
+    }>
+  >;
   resetMapContext: () => void;
-  setIsTileActive: (arg: boolean) => void;
+  setIsTileActive: React.Dispatch<React.SetStateAction<boolean>>;
   closeTile: () => void;
-  setVisibilityOptions: (arg: VisibilityOptions) => void;
+  setVisibilityOptions: React.Dispatch<React.SetStateAction<VisibilityOptions>>;
   resetMapVisibility: () => void;
   authRoles: Array<string>;
 }
@@ -243,47 +250,7 @@ const MapContextProvider: FC = ({children}) => {
 
   const authRoles = useSelector(selectLoggedInUserRoles);
 
-  const singleTileToggle = (isActive: boolean) => {
-    setIsTileActive(isActive);
-    setAreStopsVisible(isActive);
-    toogleMapMode(MapModes.view);
-  };
-
-  const activeMapToggle = setIsMapActive;
-
-  const displayPropertyGrid = setPropertyGrid;
-
-  const updateConnectionData = (data: {
-    coordinates: {lat: number; lon: number};
-    id: string;
-    name: string;
-    ref: string;
-    isOsm: boolean;
-  }) => {
-    if (data) {
-      setConnectionData(oldState => [...oldState, data]);
-    }
-  };
-
-  const reset = () => {
-    setConnectionData([]);
-    setPropertyGrid(null);
-  };
-
-  const hideTileElements = () => {
-    setConnectionData([]);
-    setPropertyGrid(null);
-    setImportedConnections([]);
-    setImportedReports([]);
-  };
-
-  const shouldRenderConnections = setRerenderConnections;
-
-  const resetReportCoordinates = () => {
-    setNewReportCoordinates(initialReportCoords);
-  };
-
-  const toogleMapMode = (mode: string) => {
+  const toogleMapMode = useCallback((mode: string) => {
     if (!Object.values(MapModes).includes(mode)) {
       return;
     }
@@ -294,9 +261,42 @@ const MapContextProvider: FC = ({children}) => {
     }
 
     setMapMode(mode);
-  };
+  }, []);
+  const singleTileToggle = useCallback(
+    (isActive: boolean) => {
+      setIsTileActive(isActive);
+      setAreStopsVisible(isActive);
+      toogleMapMode(MapModes.view);
+    },
+    [toogleMapMode],
+  );
 
-  const resetMapContext = () => {
+  const updateConnectionData = useCallback(
+    (data: {coordinates: {lat: number; lon: number}; id: string; name: string; ref: string; isOsm: boolean}) => {
+      if (data) {
+        setConnectionData(oldState => [...oldState, data]);
+      }
+    },
+    [],
+  );
+
+  const reset = useCallback(() => {
+    setConnectionData([]);
+    setPropertyGrid(null);
+  }, []);
+
+  const hideTileElements = useCallback(() => {
+    setConnectionData([]);
+    setPropertyGrid(null);
+    setImportedConnections([]);
+    setImportedReports([]);
+  }, []);
+
+  const resetReportCoordinates = useCallback(() => {
+    setNewReportCoordinates(initialReportCoords);
+  }, []);
+
+  const resetMapContext = useCallback(() => {
     setIsTileActive(false);
     setAreStopsVisible(false);
     setConnectionData([]);
@@ -306,24 +306,24 @@ const MapContextProvider: FC = ({children}) => {
     setActiveTile(null);
     setImportedConnections([]);
     setImportedReports([]);
-  };
+  }, []);
 
-  const closeTile = () => {
+  const closeTile = useCallback(() => {
     singleTileToggle(false);
     hideTileElements();
     setRerenderTiles(true);
-  };
+  }, [hideTileElements, singleTileToggle]);
 
-  const resetMapSettings = () => {
+  const resetMapSettings = useCallback(() => {
     setConnectedStopIds([]);
     setApprovedStopIds([]);
     setVisibilityOptions(initialVisibility());
-  };
+  }, []);
 
-  const resetMapVisibility = () => {
+  const resetMapVisibility = useCallback(() => {
     setVisibilityOptions(initialVisibility(true));
     Object.values(localStorageStopTypes).forEach(item => localStorage.removeItem(item));
-  };
+  }, []);
 
   return (
     <MapContext.Provider
@@ -355,11 +355,11 @@ const MapContextProvider: FC = ({children}) => {
         setTiles,
         setRerenderTiles,
         singleTileToggle,
-        activeMapToggle,
-        displayPropertyGrid,
+        activeMapToggle: setIsMapActive,
+        displayPropertyGrid: setPropertyGrid,
         updateConnectionData,
         reset,
-        shouldRenderConnections,
+        shouldRenderConnections: setRerenderConnections,
         toogleMapMode,
         setNewReportCoordinates,
         resetReportCoordinates,
