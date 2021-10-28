@@ -22,8 +22,8 @@ interface ImportedConnectionsProps {
 }
 
 const ImportedConnections: FC<ImportedConnectionsProps> = ({stops, inApproveMode}) => {
-  const popupRef = useRef<Popup>(null);
-  const unapproveRef = useRef<Popup>(null);
+  const popupRef = useRef(null);
+  const unapproveRef = useRef(null);
   const {t} = useTranslation();
   const dispatch = useDispatch();
   const {importedConnections, shouldRenderConnections, visibilityOptions} = useContext(MapContext);
@@ -71,7 +71,7 @@ const ImportedConnections: FC<ImportedConnectionsProps> = ({stops, inApproveMode
   };
 
   const closePopup = () => {
-    popupRef.current && popupRef.current._close();
+    popupRef.current && (popupRef.current as unknown as Record<string, () => void>)._close();
   };
 
   const connections = useMemo(
@@ -124,7 +124,11 @@ const ImportedConnections: FC<ImportedConnectionsProps> = ({stops, inApproveMode
                         <Tooltip direction="bottom">{t('connection.unapproveConnectionInfo')}</Tooltip>
                         <Popup ref={unapproveRef} key={`popup_${index}`} closeButton={false}>
                           <UnapproveConnectionPopup
-                            closePopup={() => (unapproveRef.current && unapproveRef.current._close()) || null}
+                            closePopup={() =>
+                              (unapproveRef.current &&
+                                (unapproveRef.current as unknown as Record<string, () => void>)._close()) ||
+                              null
+                            }
                             unapproveConnection={() => id && unapproveConnection(id)}
                           />
                         </Popup>

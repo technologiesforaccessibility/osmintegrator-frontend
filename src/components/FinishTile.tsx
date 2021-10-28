@@ -25,6 +25,10 @@ const FinishTile = () => {
   const [openModal, setOpenModal] = useState(false);
 
   const approveTile = async () => {
+    if (!activeTile) {
+      return;
+    }
+
     setAreDisabledConfirmationButtons(true);
 
     try {
@@ -41,18 +45,22 @@ const FinishTile = () => {
   };
 
   const submitButtonText = () => {
-    if (authRoles.includes(roles.EDITOR) && !activeTile.approvedByEditor) {
+    if (authRoles.includes(roles.EDITOR) && !activeTile?.approvedByEditor) {
       return t('finishTile.editorMainButton');
     }
     return t('finishTile.supervisorMainButton');
   };
 
   const approveText = () => {
-    if (authRoles.includes(roles.EDITOR) && !activeTile.approvedByEditor) {
+    if (authRoles.includes(roles.EDITOR) && !activeTile?.approvedByEditor) {
       return t('finishTile.editorConfirmation');
     }
     return t('finishTile.supervisorConfirmation');
   };
+
+  if (!activeTile) {
+    return null;
+  }
 
   return (
     <>
