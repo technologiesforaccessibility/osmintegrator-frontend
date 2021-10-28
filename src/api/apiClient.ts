@@ -884,6 +884,101 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
+     * @tags Conversation
+     * @name ConversationCreate
+     * @request POST:/api/Conversation
+     */
+    conversationCreate: (data: MessageInput, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Conversation`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conversation
+     * @name ConversationDetail
+     * @request GET:/api/Conversation/{tileId}
+     */
+    conversationDetail: (tileId: string, params: RequestParams = {}) =>
+      this.request<ConversationResponse, ProblemDetails>({
+        path: `/api/Conversation/${tileId}`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conversation
+     * @name ConversationApproveUpdate
+     * @request PUT:/api/Conversation/Approve/{conversationId}
+     */
+    conversationApproveUpdate: (conversationId: string, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Conversation/Approve/${conversationId}`,
+        method: 'PUT',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conversation
+     * @name ConversationRejectUpdate
+     * @request PUT:/api/Conversation/Reject/{conversationId}
+     */
+    conversationRejectUpdate: (conversationId: string, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Conversation/Reject/${conversationId}`,
+        method: 'PUT',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conversation
+     * @name ConversationApproveUpdate2
+     * @request PUT:/api/Conversation/Approve
+     * @originalName conversationApproveUpdate
+     * @duplicate
+     */
+    conversationApproveUpdate2: (data: MessageInput, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Conversation/Approve`,
+        method: 'PUT',
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conversation
+     * @name ConversationRejectUpdate2
+     * @request PUT:/api/Conversation/Reject
+     * @originalName conversationRejectUpdate
+     * @duplicate
+     */
+    conversationRejectUpdate2: (data: MessageInput, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Conversation/Reject`,
+        method: 'PUT',
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags Notes
      * @name NotesCreate
      * @request POST:/api/Notes

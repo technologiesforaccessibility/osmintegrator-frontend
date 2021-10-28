@@ -6,7 +6,7 @@ import {useContext, useMemo} from 'react';
 import {MapContext} from './contexts/MapContextProvider';
 
 const BusMarker = ({busStop, isConnectionMode, createConnection, isViewMode, isActiveStopClicked, clickBusStop}) => {
-  const {visibilityOptions, connectedStopIds, approvedStopIds} = useContext(MapContext);
+  const {visibilityOptions, connectedStopIds, approvedStopIds, setActiveStop} = useContext(MapContext);
   const opacity = useMemo(() => {
     if (connectedStopIds.includes(busStop.id)) {
       return visibilityOptions.connected.value.opacityValue;
@@ -26,6 +26,7 @@ const BusMarker = ({busStop, isConnectionMode, createConnection, isViewMode, isA
       opacity={opacity}
       eventHandlers={{
         click: () => {
+          setActiveStop(busStop);
           if (isConnectionMode) {
             createConnection([busStop.lat, busStop.lon], busStop.id, busStop.stopType, busStop.name, busStop.number);
           } else if (isViewMode) {

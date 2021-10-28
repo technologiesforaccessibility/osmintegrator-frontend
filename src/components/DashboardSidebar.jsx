@@ -13,17 +13,13 @@ import SidebarContainer from './SidebarContainer';
 import {roles as appRoles} from '../utilities/constants';
 
 import './../stylesheets/dashboardSidebar.scss';
+import {useTranslation} from 'react-i18next';
 
 const DashboardSidebar = () => {
-  const {
-    propertyGrid,
-    isTileActive,
-    mapMode,
-    isEditingReportMode,
-    openReportContent,
-    areManageReportButtonsVisible,
-  } = useContext(MapContext);
+  const {propertyGrid, isTileActive, mapMode, isEditingReportMode, openReportContent, areManageReportButtonsVisible} =
+    useContext(MapContext);
   const authRoles = useSelector(selectLoggedInUserRoles);
+  const {t} = useTranslation();
 
   return (
     <SidebarContainer
@@ -33,7 +29,13 @@ const DashboardSidebar = () => {
       userRoles={authRoles}
       appRoles={appRoles}>
       <>
-        {propertyGrid && mapMode === MapModes.view && <PropertyGrid propertyGrid={propertyGrid} />}
+        {mapMode === MapModes.view ? (
+          propertyGrid ? (
+            <PropertyGrid propertyGrid={propertyGrid} />
+          ) : (
+            <p>{t('sidebar.viewPlaceholder')}</p>
+          )
+        ) : null}
         {mapMode === MapModes.report && <NewReport />}
         {isEditingReportMode && openReportContent && (
           <ReportForm areManageReportButtonsVisible={areManageReportButtonsVisible} />

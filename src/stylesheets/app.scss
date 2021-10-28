@@ -1,4 +1,4 @@
-@import "../../node_modules/bootstrap/scss/bootstrap";
+@import '../../node_modules/bootstrap/scss/bootstrap';
 
 // For custom elements styling
 
@@ -17,21 +17,27 @@
 }
 
 .custom-elements__scrollable-dropdown-menu {
-    height: auto;
-    max-height: 300px;
-    overflow-x: hidden;
+  height: auto;
+  max-height: 300px;
+  overflow-x: hidden;
 }
 
 .custom-elements__checkbox-wrapper {
   display: block;
   padding-left: 35px;
-  margin-bottom: 12px;;
+  margin-bottom: 12px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
 
-.custom-elements__checkbox-label{
+.custom-elements__checkbox-label {
   padding-left: 10px;
+}
+
+.bordered-wrapper {
+  border: 1px solid #1976d2;
+  border-radius: 5px;
+  padding: 0.625rem;
 }
