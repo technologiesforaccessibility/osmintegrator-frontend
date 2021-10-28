@@ -1702,6 +1702,9 @@
                             "$ref": "#/components/schemas/Message"
                         },
                         "nullable": true
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/NoteStatus"
                     }
                 },
                 "additionalProperties": false

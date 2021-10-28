@@ -26,8 +26,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
 
   useEffect(() => {
     setInputContent(debouncedValue);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedValue]);
+  }, [debouncedValue, setInputContent]);
 
   const formik = useFormik({
     initialValues: {
@@ -47,7 +46,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
       }
 
       if (conversation) {
-        updateConversation(reportText, approveReport);
+        approveReport ? approveConversation(reportText) : updateConversation(reportText);
         return;
       }
 
@@ -60,10 +59,6 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
         createGeoConversation(reportText);
         return;
       }
-    },
-
-    onChange: e => {
-      console.log(e);
     },
   });
 
@@ -102,11 +97,27 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
     }
   };
 
-  const updateConversation = async (text, approve) => {
-    const isApproveApi = approve ? 'conversationApproveUpdate2' : 'conversationCreate';
+  const updateConversation = async text => {
     handleLoader(true);
     try {
-      const response = await api[isApproveApi](
+      const response = await api.conversationCreate(
+        {conversationId: conversation.id, text, tileId: activeTile.id},
+        {
+          headers: basicHeaders(),
+        },
+      );
+      dispatch(NotificationActions.success(t('report.success')));
+      formik.resetForm();
+      setReload(response.data);
+    } catch (error) {
+      exception(error);
+    }
+  };
+
+  const approveConversation = async text => {
+    handleLoader(true);
+    try {
+      const response = await api.conversationApproveUpdate2(
         {conversationId: conversation.id, text, tileId: activeTile.id},
         {
           headers: basicHeaders(),
@@ -130,7 +141,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
 
   return (
     <div className="conversation-form">
-      <form onSubmit={formik.handleSubmit} onChange={formik.handleChange} className="report__add-message">
+      <form onSubmit={formik.handleSubmit} onChange={formik.handleChange} noValidate className="report__add-message">
         <TextareaAutosize
           minRows={4}
           placeholder={t('report.placeholder')}
@@ -153,7 +164,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
             />
           )}
 
-          <Button variant="outlined" type="submit" className="conversation-form__submit">
+          <Button variant="outlined" type="submit" sx={{marginLeft: 'auto'}}>
             {t('report.button')}
           </Button>
         </div>

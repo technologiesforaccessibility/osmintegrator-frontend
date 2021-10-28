@@ -16,18 +16,7 @@ import ConnectionVisibilityPanel from './ConnectionVisibilityPanel';
 import MapOptions from './MapOptions';
 
 import '../stylesheets/mapPanel.scss';
-
-export const modalStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'white',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+import {modalStyle} from '../stylesheets/sharedStyles';
 
 const MapPanel = () => {
   const {isTileActive, singleTileToggle, mapMode, toogleMapMode, hideTileElements, resetMapSettings} =
@@ -97,7 +86,7 @@ const MapPanel = () => {
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description">
               <Box sx={modalStyle}>
-                <ConnectionVisibilityPanel modalStyle={modalStyle} handleClose={handleClose} />
+                <ConnectionVisibilityPanel handleClose={handleClose} />
               </Box>
             </Modal>
           </div>

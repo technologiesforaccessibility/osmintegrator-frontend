@@ -12,7 +12,7 @@ import ConversationHeading from './ConversationHeading';
 import ConversationForm from './ConversationForm';
 import '../stylesheets/newReport.scss';
 import {Box} from '@mui/system';
-import {modalStyle} from './MapPanel';
+import {modalStyle} from '../stylesheets/sharedStyles';
 
 const NewReport = () => {
   const [loading, setLoading] = useState(false);
@@ -79,11 +79,7 @@ const NewReport = () => {
 
   const checkReportStatus = conv => {
     if (conv) {
-      const lastMessageInConversation = conv.messages
-        .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
-        .at(-1);
-
-      return !lastMessageInConversation.status;
+      return !conv.status;
     }
     return false;
   };

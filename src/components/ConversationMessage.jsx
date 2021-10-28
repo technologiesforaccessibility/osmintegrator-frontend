@@ -21,17 +21,15 @@ const ConversationMessage = ({data, users}) => {
       <CheckCircleOutlineIcon color="success" />
     );
   return (
-    <>
-      <div className="conversation-message">
-        <fieldset>
-          <legend>
-            {getIcon()} {getMessageDate()} - {getUser()}
-          </legend>
+    <div className="conversation-message">
+      <fieldset>
+        <legend>
+          {getIcon()} {getMessageDate()} - {getUser()}
+        </legend>
 
-          <p>{data.text}</p>
-        </fieldset>
-      </div>
-    </>
+        <p>{data.text}</p>
+      </fieldset>
+    </div>
   );
 };
 

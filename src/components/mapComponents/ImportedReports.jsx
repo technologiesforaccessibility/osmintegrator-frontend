@@ -17,10 +17,7 @@ const ImportedReports = ({reports}) => {
 
   return (
     <>
-      {reports.map(({lat, lon, id, tileId, messages}, index) => {
-        const status = messages
-          ? messages.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)).at(-1).status
-          : 99;
+      {reports.map(({lat, lon, id, tileId, messages, status}, index) => {
         return (
           <Marker
             key={index}

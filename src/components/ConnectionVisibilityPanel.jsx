@@ -11,9 +11,9 @@ import {MapContext} from './contexts/MapContextProvider';
 import {connectionVisibility} from '../utilities/constants';
 
 import '../stylesheets/connectionVisibilityPanel.scss';
+import {modalStyle} from '../stylesheets/sharedStyles';
 
-
-const ConnectionVisibilityPanel = ({modalStyle, handleClose}) => {
+const ConnectionVisibilityPanel = ({handleClose}) => {
   const {visibilityOptions, setVisibilityOptions, resetMapVisibility} = useContext(MapContext);
   const {t} = useTranslation();
   const [childModal, setChildModal] = useState(false);

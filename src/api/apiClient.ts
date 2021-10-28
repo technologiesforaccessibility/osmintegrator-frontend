@@ -63,6 +63,7 @@ export interface Conversation {
   /** @format uuid */
   tileId: string;
   messages?: Message[] | null;
+  status?: NoteStatus;
 }
 
 export interface ConversationResponse {
