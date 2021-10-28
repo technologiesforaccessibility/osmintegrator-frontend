@@ -2,6 +2,8 @@ import {useState} from 'react';
 import {useFormik} from 'formik';
 import {Redirect} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
+import {Button, InputAdornment, TextField, Tooltip} from '@mui/material';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
 import {
   comparePasswords,
@@ -68,30 +70,50 @@ const SetPassword = () => {
 
       <h1 className="auth-title">{t('setPassword.title')}</h1>
       <h3 className="subtitle">{getEmailFromPath(window.location.href)}</h3>
-      <form onSubmit={formik.handleSubmit}>
-        <div className="inputbox-spacer">
-          <input
+      <form className="content-container" onSubmit={formik.handleSubmit}>
+        <div className="content-container__text-field">
+          <TextField
             type="password"
             id="newPassword1"
-            placeholder={t('setPassword.password')}
+            label={t('setPassword.password')}
             onChange={formik.handleChange}
             value={formik.values.newPassword1}
+            variant={'standard'}
+            fullWidth
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Tooltip title={t('register.passwordPrompt')}>
+                    <VpnKeyIcon />
+                  </Tooltip>
+                </InputAdornment>
+              ),
+            }}
           />
         </div>
-        <div className="inputbox-spacer">
-          <input
+        <div className="content-container__text-field">
+          <TextField
             type="password"
-            id="newPassword2"
-            placeholder={t('setPassword.repeatPassword')}
+            id="password2"
+            label={t('setPassword.repeatPassword')}
             onChange={formik.handleChange}
             value={formik.values.newPassword2}
+            variant={'standard'}
+            fullWidth
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Tooltip title={t('register.passwordPrompt')}>
+                    <VpnKeyIcon />
+                  </Tooltip>
+                </InputAdornment>
+              ),
+            }}
           />
         </div>
-        <div className="setPassword-button-area">
-          <button type="submit" id="button-set-password">
-            {t('setPassword.button')}
-          </button>
-        </div>
+        <Button variant="contained" type="submit" className="register__button">
+          {t('setPassword.button')}
+        </Button>
       </form>
       <div className="centered auth-info-placeholder">
         {message && <span style={{color: messageColor}}>{message}</span>}

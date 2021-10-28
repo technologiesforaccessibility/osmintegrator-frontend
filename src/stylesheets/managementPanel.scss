@@ -1,72 +1,42 @@
 @import 'config/colors.module';
 
 .management-panel {
-  display: grid;
-  grid-template-areas: "header map" "tile-assignment map" "role-assignment map";
-  grid-template-columns: 30%;
-  grid-template-rows: 0fr 0fr;
+  display: flex;
   margin-right: 0.5rem;
   margin-left: 0.5rem;
 
-  &__header {
-    grid-area: header;
-  }
-
-  &__tile-assignment {
-    grid-area: tile-assignment;
-  }
-
-  &__role-assignment {
-    grid-area: role-assignment;
+  &__head {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    min-width: 17rem;
+    max-height: calc(100vh - 5rem);
+    overflow-y: auto;
   }
 
   &__map {
-    grid-area: map;
     margin-left: 0.5rem;
+    width: 100%;
   }
 }
 
 .tile-assignment {
-  display: grid;
-  grid-template-areas: "header" "tile-dropdown" "user-dropdown" "button";
-  grid-template-rows: auto auto 6rem auto;
-
   border-color: black;
   border-width: 1px;
   border-style: solid;
   border-radius: 1rem;
   padding: 1rem;
   margin-bottom: 1rem;
-
-  &--dropdown {
-    width: 100%;
-  }
-
-  &__header {
-    grid-row: header;
-    grid-column: header;
-  }
-
-  &__tile-dropdown {
-    grid-row: tile-dropdown;
-    grid-column: tile-dropdown;
-  }
-
+  width: 100%;
+  
   &__user-dropdown {
     padding-top: 1rem;
     padding-bottom: 1rem;
-    grid-row: user-dropdown;
-    grid-column: user-dropdown;
-    width: 100%;
 
     &--loader {
       margin-top: 1rem;
     }
-  }
-
-  &__button {
-    grid-row: button;
-    grid-column: button;
   }
 }
 

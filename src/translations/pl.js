@@ -42,6 +42,7 @@ export const pl = {
       hidden: 'Ukryte',
       resetButton: 'Zresetuj ustawienia',
       resetInfo: 'Czy na pewno chcesz przywrócić domyślną widoczność obiektów?',
+      header: 'Dostosuj widoczność',
     },
     contactForm: {
       description: 'Problem z logowaniem? Potrzebujesz się skontaktować? Wyślij nam ',
@@ -160,7 +161,6 @@ export const pl = {
       report: 'Stwórz nowe zgłoszenie na mapie',
       connection: 'Stwórz nowe połączenie',
       back: 'Ukryj kafelek',
-      approveConnections: 'Zatwierdź połączenia',
     },
     error: {
       unrecognizedProblem: 'Coś poszło nie tak. Skontaktuj się z administratorem.',
@@ -191,6 +191,8 @@ export const pl = {
       assignUserToTile: 'Przypisz użytkownika do kafelka',
       assigned: 'Przypisany',
       noUser: 'Brak',
+      editor: 'Edytor',
+      supervisor: 'Supervisor'
     },
     yes: 'Tak',
     no: 'Nie',
