@@ -14,7 +14,7 @@ const CookiesBar = () => {
   return (
     <>
       {!cookies.cookies_info && (
-        <div class="fixed-bottom pt-3 pb-4 bg-white shadow-lg">
+        <div className="fixed-bottom pt-3 pb-4 bg-white shadow-lg">
           <div className="container">
             <p className="h6"> {t('cookies.title')}</p>
             <p className="small ">{t('cookies.content')}</p>
