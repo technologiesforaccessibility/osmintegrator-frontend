@@ -1,1 +1,6 @@
-* text= eol=lf
+* text=auto
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.png -text
