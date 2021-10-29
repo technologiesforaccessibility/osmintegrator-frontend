@@ -15,6 +15,7 @@ import ChangeEmail from './ChangeEmail';
 import ChangePassword from './ChangePassword';
 import MapContextProvider from './contexts/MapContextProvider';
 import UserContextProvider from './contexts/UserContextProvider';
+import ConversationContextProvider from './contexts/ConversationProvider';
 import DashboardMain from './DashboardMain';
 import ManagementPanel from './managementPanel/ManagementPanel';
 import Notification from './Notification';
@@ -35,18 +36,20 @@ class App extends Component {
             <Switch>
               <UserContextProvider>
                 <MapContextProvider>
-                  <Route path={paths.LOGIN} component={Login} />
-                  <Route path={paths.REGISTER} component={Register} />
-                  <Route path={paths.REGISTER_CONFIRM} component={RegisterConfirm} />
-                  <Route path={paths.REGISTER_ACTIVATED} component={RegisterActivated} />
-                  <Route path={paths.RECOVER_PASSWORD} component={Recover} />
-                  <Route path={paths.LOGOUT} component={Logout} />
-                  <Route path={paths.RESET_PASSWORD} component={SetPassword} />
-                  <PrivateRoute path={paths.MANAGEMENT_PANEL} exact component={ManagementPanel} />
-                  <PrivateRoute path={paths.CHANGE_EMAIL} exact component={ChangeEmail} />
-                  <PrivateRoute path={paths.CHANGE_PASSWORD} exact component={ChangePassword} />
-                  <PrivateRoute path={paths.PROFILE} exact component={ProfilePanel} />
-                  <PrivateRoute path={paths.HOME} exact component={DashboardMain} />
+                  <ConversationContextProvider>
+                    <Route path={paths.LOGIN} component={Login} />
+                    <Route path={paths.REGISTER} component={Register} />
+                    <Route path={paths.REGISTER_CONFIRM} component={RegisterConfirm} />
+                    <Route path={paths.REGISTER_ACTIVATED} component={RegisterActivated} />
+                    <Route path={paths.RECOVER_PASSWORD} component={Recover} />
+                    <Route path={paths.LOGOUT} component={Logout} />
+                    <Route path={paths.RESET_PASSWORD} component={SetPassword} />
+                    <PrivateRoute path={paths.MANAGEMENT_PANEL} exact component={ManagementPanel} />
+                    <PrivateRoute path={paths.CHANGE_EMAIL} exact component={ChangeEmail} />
+                    <PrivateRoute path={paths.CHANGE_PASSWORD} exact component={ChangePassword} />
+                    <PrivateRoute path={paths.PROFILE} exact component={ProfilePanel} />
+                    <PrivateRoute path={paths.HOME} exact component={DashboardMain} />
+                  </ConversationContextProvider>
                 </MapContextProvider>
               </UserContextProvider>
             </Switch>

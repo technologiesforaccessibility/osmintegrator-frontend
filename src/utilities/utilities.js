@@ -10,6 +10,12 @@ import angledBlackIcon from '../assets/angledIcons/angled_black.png';
 import angledGreykIcon from '../assets/angledIcons/angled_grey.png';
 import angledPinkIcon from '../assets/angledIcons/angled_pink.png';
 import angledMaroonIcon from '../assets/angledIcons/angled_maroon.png';
+import reportBlackIcon from '../assets/angledIcons/report_black.png';
+import reportPinkIcon from '../assets/angledIcons/report_pink.png';
+import reportMaroonIcon from '../assets/angledIcons/report_maroon.png';
+import reportApproveBlackIcon from '../assets/angledIcons/report_black_approve.png';
+import reportApprovePinkIcon from '../assets/angledIcons/report_pink_approve.png';
+import reportApproveMaroonIcon from '../assets/angledIcons/report_maroon_approve.png';
 
 export const reportIcons = {
   initial: reportGreyIcon,
@@ -22,8 +28,14 @@ export const reportIcons = {
 const stopIcons = {
   osmInside: angledBlackIcon,
   osmOutside: angledGreykIcon,
+  osmReport: reportBlackIcon,
+  osmReportApprove: reportApproveBlackIcon,
   notOsmInside: angledPinkIcon,
   notOsmOutside: angledMaroonIcon,
+  notOsmReportInside: reportPinkIcon,
+  notOsmReportOutside: reportMaroonIcon,
+  notOsmReportInsideApprove: reportApprovePinkIcon,
+  notOsmReportOutsideApprove: reportApproveMaroonIcon,
 };
 
 const comparePasswords = (pass1, pass2) => {
@@ -106,13 +118,25 @@ export {
   getReportIcon,
 };
 
-const getStopIconProps = ({outsideSelectedTile, stopType}) => {
+const getStopIconProps = ({outsideSelectedTile, stopType, hasReport, reportApproved}) => {
   return outsideSelectedTile
     ? stopType === 0
       ? {iconUrl: stopIcons.osmOutside, iconAnchor: [30, 55]}
+      : hasReport
+      ? reportApproved
+        ? {iconUrl: stopIcons.notOsmReportOutsideApprove, iconAnchor: [0, 55]}
+        : {iconUrl: stopIcons.notOsmReportOutside, iconAnchor: [0, 55]}
       : {iconUrl: stopIcons.notOsmOutside, iconAnchor: [0, 55]}
     : stopType === 0
-    ? {iconUrl: stopIcons.osmInside, iconAnchor: [30, 55]}
+    ? hasReport
+      ? reportApproved
+        ? {iconUrl: stopIcons.osmReportApprove, iconAnchor: [30, 55]}
+        : {iconUrl: stopIcons.osmReport, iconAnchor: [30, 55]}
+      : {iconUrl: stopIcons.osmInside, iconAnchor: [30, 55]}
+    : hasReport
+    ? reportApproved
+      ? {iconUrl: stopIcons.notOsmReportInsideApprove, iconAnchor: [0, 55]}
+      : {iconUrl: stopIcons.notOsmReportInside, iconAnchor: [0, 55]}
     : {iconUrl: stopIcons.notOsmInside, iconAnchor: [0, 55]};
 };
 

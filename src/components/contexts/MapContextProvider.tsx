@@ -50,6 +50,7 @@ interface IMapContext {
   areManageReportButtonsVisible: boolean;
   visibilityOptions: VisibilityOptions;
   approvedStopIds: Array<string>;
+  activeStop: Stop | null;
   setApprovedStopIds: (arg: Array<string>) => void;
   setAreManageReportButtonsVisible: (arg: boolean) => void;
   resetMapSettings: () => void;
@@ -93,6 +94,7 @@ interface IMapContext {
   setVisibilityOptions: React.Dispatch<React.SetStateAction<VisibilityOptions>>;
   resetMapVisibility: () => void;
   authRoles: Array<string>;
+  setActiveStop: React.Dispatch<React.SetStateAction<Stop | null>>;
 }
 
 export const MapModes = {
@@ -138,6 +140,7 @@ const init: IMapContext = {
     },
   },
   approvedStopIds: [],
+  activeStop: null,
   setApprovedStopIds: () => null,
   setAreManageReportButtonsVisible: () => null,
   resetMapSettings: () => null,
@@ -166,6 +169,7 @@ const init: IMapContext = {
   setVisibilityOptions: () => null,
   resetMapVisibility: () => null,
   authRoles: [],
+  setActiveStop: () => null
 };
 
 export const MapContext = createContext<IMapContext>(init);
@@ -247,6 +251,7 @@ const MapContextProvider: FC = ({children}) => {
   const [approvedStopIds, setApprovedStopIds] = useState<Array<string>>([]);
   const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);
   const [visibilityOptions, setVisibilityOptions] = useState(initialVisibility());
+  const [activeStop, setActiveStop] = useState<Stop | null>(null);
 
   const authRoles = useSelector(selectLoggedInUserRoles);
 
@@ -348,6 +353,7 @@ const MapContextProvider: FC = ({children}) => {
         areManageReportButtonsVisible,
         visibilityOptions,
         approvedStopIds,
+        activeStop,
         setApprovedStopIds,
         setAreManageReportButtonsVisible,
         resetMapSettings,
@@ -376,6 +382,7 @@ const MapContextProvider: FC = ({children}) => {
         setVisibilityOptions,
         resetMapVisibility,
         authRoles,
+        setActiveStop
       }}>
       {children}
     </MapContext.Provider>
