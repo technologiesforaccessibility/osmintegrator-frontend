@@ -1,60 +1,42 @@
 import {useContext} from 'react';
 import PropTypes, {shape, string, number} from 'prop-types';
 import {Marker, Tooltip} from 'react-leaflet';
-import {useSelector} from 'react-redux';
 
-import {selectLoggedInUserRoles} from '../../redux/selectors/authSelector';
 import {getReportIcon} from '../../utilities/utilities';
-import {roles} from '../../utilities/constants';
 import {MapContext, MapModes} from '../contexts/MapContextProvider';
 
 const ImportedReports = ({reports}) => {
-  const authRoles = useSelector(selectLoggedInUserRoles);
-  const {
-    setOpenReportContent,
-    mapMode,
-    openReportContent,
-    displayPropertyGrid,
-    setAreManageReportButtonsVisible,
-    setIsEditingReportMode,
-  } = useContext(MapContext);
+  // const authRoles = useSelector(selectLoggedInUserRoles);
+  const {mapMode, setNewReportCoordinates, setActiveStop, displayPropertyGrid} = useContext(MapContext);
 
-  const handleReportClick = (lat, lon, text, id, tileId, status) => {
+  const handleReportClick = data => {
     if (mapMode === MapModes.view) {
-      if (openReportContent && openReportContent.id === id) {
-        setOpenReportContent(null);
-        setAreManageReportButtonsVisible(false);
-      } else {
-        setOpenReportContent({lat, lon, text, id, tileId, status});
-        displayPropertyGrid(null);
-        setIsEditingReportMode(true);
-        if (authRoles.some(role => [roles.ADMIN, roles.COORDINATOR, roles.SUPERVISOR].includes(role))) {
-          setAreManageReportButtonsVisible(true);
-        } else {
-          setAreManageReportButtonsVisible(false);
-        }
-      }
+      displayPropertyGrid(data);
     }
   };
 
   return (
     <>
-      {reports.map(({lat, lon, text, id, tileId, status}, index) => (
-        <Marker
-          key={index}
-          position={[lat, lon]}
-          icon={getReportIcon(status)}
-          zIndexOffset={100}
-          eventHandlers={{
-            click: () => {
-              handleReportClick(lat, lon, text, id, tileId, status);
-            },
-          }}>
-          <Tooltip direction="top" offset={[0, -55]}>
-            {text}
-          </Tooltip>
-        </Marker>
-      ))}
+      {reports.map(({lat, lon, id, tileId, messages, status}, index) => {
+        return (
+          <Marker
+            key={index}
+            position={[lat, lon]}
+            icon={getReportIcon(status)}
+            zIndexOffset={100}
+            eventHandlers={{
+              click: () => {
+                handleReportClick({lat, lon, id, tileId, messages});
+                setNewReportCoordinates({lat, lon});
+                setActiveStop(null);
+              },
+            }}>
+            <Tooltip direction="top" offset={[0, -55]}>
+              {lat.toString().slice(0, 6)} {lon.toString().slice(0, 6)}
+            </Tooltip>
+          </Marker>
+        );
+      })}
     </>
   );
 };

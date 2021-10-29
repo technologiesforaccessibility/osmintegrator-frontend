@@ -1,0 +1,38 @@
+.conversation-heading {
+  &__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    fieldset {
+      border: 3px solid #1976d2;
+      border-radius: 5px;
+      margin-bottom: 0.625rem;
+      width: 100%;
+      legend {
+        float: none;
+        font-size: 0.75rem;
+        width: auto;
+        padding: 0 0.625rem;
+        svg {
+          margin: 0 0.25rem;
+        }
+      }
+    }
+  }
+  &__close {
+    border: 1px solid rgba(25, 118, 210, 0.5);
+    margin-top: 1rem;
+    margin-left: 0.875rem;
+    background: transparent;
+    padding: 0;
+    transition: border-color 0.1s;
+    &:hover {
+      border-color: #1976d2;
+    }
+  }
+  &__status {
+    display: flex;
+    align-items: center;
+    margin-left: 0.625rem;
+  }
+}

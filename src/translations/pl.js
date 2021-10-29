@@ -126,11 +126,12 @@ export const pl = {
       },
     },
     report: {
-      button: 'Wyślij zgłoszenie',
+      button: 'Wyślij',
       clear: 'Wyczyść',
       success: 'Zgłoszenie zostało wysłane',
       pinInfo: 'Kliknij w inne miejsce aby przenieść znacznik',
-      approve: 'Zatwierdź',
+      edit: 'Edytuj raport',
+      approve: 'Rozwiąż raport',
       approved: 'Zgłoszenie zatwierdzone!',
       decline: 'Odrzuć',
       closed: 'Zgłoszenie zamknięte',
@@ -138,6 +139,16 @@ export const pl = {
       rejectInfo: 'Zgłoszenie zostało odrzucone i nie będzie rozpatrywane.',
       noTextFound: 'Uzupełnij treść zgłoszenia',
       noPinFound: 'Kliknij na mapie aby zaznaczyć miejsce zgłoszenia',
+      noReportFound: 'Brak raportów',
+      stopName: 'Nazwa przystanku:',
+      coordinatesName: 'Współrzędne raportu:',
+      status: 'Status raportu:',
+      active: 'Aktywny',
+      inactive: 'Nieaktywny',
+      placeholder: 'Twój raport...',
+      introInfo:
+        'Wybierz przystanek lub pinezkę z raportem, aby wyświetlić szczegóły raportu. Kliknij gdziekolwiek na mapie, aby dodać nowy raport.',
+      modal: 'Twoje zmiany nie zostaną zapisane. Jesteś pewny?'
     },
     setPassword: {
       title: 'Ustaw nowe hasło',
@@ -155,6 +166,7 @@ export const pl = {
       profile: 'Profil',
       managementDashboard: 'Panel administracyjny',
       history: 'Historia',
+      viewPlaceholder: 'Kliknij ikonę przystanku lub zgłoszenia, aby wyświetlić szczegóły.',
     },
     tileModePrompts: {
       view: 'Tryb widoku - pokaż szczegóły przystanku lub zgłoszenia',
@@ -191,6 +203,8 @@ export const pl = {
       assignUserToTile: 'Przypisz użytkownika do kafelka',
       assigned: 'Przypisany',
       noUser: 'Brak',
+      editor: 'Edytor',
+      supervisor: 'Supervisor'
     },
     yes: 'Tak',
     no: 'Nie',

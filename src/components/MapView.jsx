@@ -22,6 +22,7 @@ import {Box} from '@mui/system';
 import WelcomeModal from './WelcomeModal';
 import {useCookies} from 'react-cookie';
 import {roles} from '../utilities/constants';
+import {ConversationContext} from './contexts/ConversationProvider';
 
 export const MapView = () => {
   const {t} = useTranslation();
@@ -81,6 +82,7 @@ export const MapView = () => {
     setApprovedStopIds,
     setAreManageReportButtonsVisible,
     authRoles,
+    setActiveStop,
   } = useContext(MapContext);
 
   useEffect(() => {
@@ -89,6 +91,9 @@ export const MapView = () => {
       activeMapToggle(false);
     };
   });
+
+  const {setGeoConversations, setStopConversations, reload, stopConversations, geoConversations} =
+    useContext(ConversationContext);
 
   useEffect(() => {
     getAvailableTiles();
@@ -106,6 +111,22 @@ export const MapView = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTile]);
+
+  useEffect(() => {
+    if (activeTile && activeTile.id) {
+      getTileConversations(activeTile.id);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTile, reload]);
+
+  useEffect(() => {
+    if (activeTile && activeTile.id) {
+      getTileStops(activeTile.id, false);
+      getTileReports(activeTile.id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTile, stopConversations, geoConversations]);
 
   useEffect(() => {
     if (!isTileActive) {
@@ -171,6 +192,7 @@ export const MapView = () => {
   const addReportMarker = e => {
     const coords = {lat: e.latlng.lat, lon: e.latlng.lng};
     setNewReportCoordinates(coords);
+    setActiveStop(null);
   };
 
   const createConnection = (coordinates, id, stopType, name, ref) => {
@@ -188,13 +210,27 @@ export const MapView = () => {
     }
   };
 
-  const getTileStops = async id => {
+  const getTileStops = async (id, toggleTile = true) => {
     try {
       const response = await api.tileGetStopsDetail(id, {
         headers: basicHeaders(),
       });
-      setAllStops(response.data);
-      singleTileToggle(true);
+
+      const stops = response.data.map(stop => {
+        const stopWithReport = stopConversations.filter(report => report.stopId === stop.id);
+
+        if (stopWithReport.length > 0 && stopWithReport[0].status === 1) {
+          return {...stop, hasReport: 1, reportApproved: 1};
+        }
+        if (stopWithReport.length > 0) {
+          return {...stop, hasReport: 1, reportApproved: 0};
+        }
+        return stop;
+      });
+      setAllStops(stops);
+      if (toggleTile) {
+        singleTileToggle(true);
+      }
     } catch (error) {
       exception(error);
     }
@@ -209,6 +245,18 @@ export const MapView = () => {
       setImportedConnections(response.data);
       setConnectedStopIds(getConnectedStopsIds(response.data));
       setApprovedStopIds(getApprovedStopsIds(response.data));
+    } catch (error) {
+      exception(error);
+    }
+  };
+
+  const getTileConversations = async tileID => {
+    try {
+      const response = await api.conversationDetail(tileID, {
+        headers: basicHeaders(),
+      });
+      setGeoConversations(response.data.geoConversations);
+      setStopConversations(response.data.stopConversations);
     } catch (error) {
       exception(error);
     }
@@ -230,10 +278,10 @@ export const MapView = () => {
 
   const getTileReports = async id => {
     try {
-      const response = await api.notesDetail(id, {
+      const response = await api.conversationDetail(id, {
         headers: basicHeaders(),
       });
-      setImportedReports(response.data);
+      setImportedReports(response.data.geoConversations);
     } catch (error) {
       exception(error);
     }
@@ -286,6 +334,7 @@ export const MapView = () => {
           clickBusStop={clickBusStop}
           isConnectionMode={mapMode === MapModes.connection}
           isViewMode={mapMode === MapModes.view}
+          isReportMode={mapMode === MapModes.report}
         />
         <NewReportMarker newReportCoordinates={newReportCoordinates} />
         <ImportedReports reports={importedReports} />
