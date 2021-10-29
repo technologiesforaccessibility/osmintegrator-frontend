@@ -1070,7 +1070,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/Tile/GetStops/{id}
      */
     tileGetStopsDetail: (id: string, params: RequestParams = {}) =>
-      this.request<Stop, ProblemDetails>({
+      this.request<Stop[], ProblemDetails>({
         path: `/api/Tile/GetStops/${id}`,
         method: "GET",
         format: "json",

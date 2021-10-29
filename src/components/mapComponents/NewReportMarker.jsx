@@ -8,15 +8,16 @@ const ReportMarkers = ({newReportCoordinates}) => {
   const {t} = useTranslation();
   const {lat, lon} = newReportCoordinates || {};
 
+  if (!lat || !lon) {
+    return null;
+  }
+
   return (
-    lat !== null &&
-    lon !== null && (
-      <Marker position={[lat, lon]} icon={getReportIcon(99)}>
-        <Tooltip direction="top" offset={[0, -55]}>
-          {t('report.pinInfo')}
-        </Tooltip>
-      </Marker>
-    )
+    <Marker position={[lat, lon]} icon={getReportIcon(99)}>
+      <Tooltip direction="top" offset={[0, -55]}>
+        {t('report.pinInfo')}
+      </Tooltip>
+    </Marker>
   );
 };
 
