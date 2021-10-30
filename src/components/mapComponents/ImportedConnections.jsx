@@ -20,8 +20,13 @@ const ImportedConnections = ({stops, inApproveMode}) => {
   const unapproveRef = useRef(null);
   const {t} = useTranslation();
   const dispatch = useDispatch();
-  const {importedConnections, shouldRenderConnections, visibilityOptions, setConnectedStopPair} =
-    useContext(MapContext);
+  const {
+    importedConnections,
+    shouldRenderConnections,
+    visibilityOptions,
+    setIsSidebarConnectionHandlerVisible,
+    setConnectedStopPair,
+  } = useContext(MapContext);
 
   const checkStopType = stopList => {
     return stopList.map(stop => {
@@ -36,7 +41,7 @@ const ImportedConnections = ({stops, inApproveMode}) => {
       });
       shouldRenderConnections(true);
       setIsSidebarConnectionHandlerVisible(false);
-      setConnectionStopPair({markedStop: null, connectedStop: null});
+      setConnectedStopPair({markedStop: null, connectedStop: null});
       dispatch(NotificationActions.success(t('connection.deleteSuccessMessage')));
     } catch (error) {
       exception(error);

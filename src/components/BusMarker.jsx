@@ -47,6 +47,9 @@ const BusMarker = ({busStop, isConnectionMode, createConnection, isViewMode, isA
         });
       }
       setIsSidebarConnectionHandlerVisible(true);
+    } else {
+      setIsSidebarConnectionHandlerVisible(false);
+      setConnectedStopPair({markedStop: null, connectedStop: null});
     }
   };
 

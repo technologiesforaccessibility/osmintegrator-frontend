@@ -2,9 +2,18 @@ import {useContext, useState} from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import {useDispatch, useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
+import api from '../api/apiInstance';
+import {generateConnectionData, getPosition} from '../utilities/mapUtilities';
+import {basicHeaders} from '../config/apiConfig';
 import {MapContext} from './contexts/MapContextProvider';
 import ConnectionActionConfirmation from './ConnectionActionConfirmation';
+import {NotificationActions} from '../redux/actions/notificationActions';
+import {selectLoggedInUserRoles} from './../redux/selectors/authSelector';
+import {exception} from '../utilities/exceptionHelper';
+import {roles} from '../utilities/constants';
 
 const style = {
   position: 'absolute',
@@ -24,11 +33,15 @@ const connectionActions = {
 };
 
 const SidebarConnectionHandler = () => {
-  const {connectedStopPair} = useContext(MapContext);
+  const {connectedStopPair, shouldRenderConnections, setIsSidebarConnectionHandlerVisible, setConnectedStopPair} =
+    useContext(MapContext);
   const [open, setOpen] = useState(false);
   const [connectionAction, setConnectionAction] = useState(null);
   // const handleOpen = () => setOpen(true);
+  const authRoles = useSelector(selectLoggedInUserRoles);
   const handleClose = () => setOpen(false);
+  const dispatch = useDispatch();
+  const {t} = useTranslation();
 
   const checkStopType = stopList => {
     return stopList.map(stop => {
@@ -36,14 +49,20 @@ const SidebarConnectionHandler = () => {
     });
   };
 
-  const deleteConnection = async (osm, gtfs) => {
+  const deleteConnection = async () => {
+    console.log('GENERATE', generateConnectionData([connectedStopPair.markedStop, connectedStopPair.connectedStop]));
     try {
-      await api.connectionsDelete(generateConnectionData(checkStopType([osm, gtfs])), {
-        headers: basicHeaders(),
-      });
+      await api.connectionsDelete(
+        generateConnectionData([connectedStopPair.markedStop, connectedStopPair.connectedStop]),
+        {
+          headers: basicHeaders(),
+        },
+      );
       shouldRenderConnections(true);
       setIsSidebarConnectionHandlerVisible(false);
-      setConnectionStopPair({markedStop: null, connectedStop: null});
+      console.log('BEFORE');
+      setConnectedStopPair({markedStop: null, connectedStop: null});
+      console.log('AFTER');
       dispatch(NotificationActions.success(t('connection.deleteSuccessMessage')));
     } catch (error) {
       exception(error);
@@ -74,26 +93,34 @@ const SidebarConnectionHandler = () => {
     }
   };
 
-
-
   return (
     <>
-      <div>Przystanek: <span style={{fontWeight: 'bold'}}>{connectedStopPair.markedStop.name || 'Brak nazwy przystanku'}</span></div>
-      <div>Połączony z: <span style={{fontWeight: 'bold'}}>{connectedStopPair.connectedStop.name || 'Brak nazwy przystanku'}</span></div>
+      <div>
+        Przystanek:{' '}
+        <span style={{fontWeight: 'bold'}}>{connectedStopPair.markedStop.name || 'Brak nazwy przystanku'}</span>
+      </div>
+      <div>
+        Połączony z:{' '}
+        <span style={{fontWeight: 'bold'}}>{connectedStopPair.connectedStop.name || 'Brak nazwy przystanku'}</span>
+      </div>
       <Button
         onClick={() => {
-          setConnectionAction(connectionActions.delete);
-          setOpen(true);
+          deleteConnection();
+          // setConnectionAction(connectionActions.delete);
+          // setOpen(true);
         }}>
         Usuń połączenie
       </Button>
-      <Button
-        onClick={() => {
-          setOpen(true);
-          setConnectionAction(connectionActions.approve);
-        }}>
-        Zatwierdź połączenie
-      </Button>
+      {authRoles.includes(roles.SUPERVISOR) && (
+        <Button
+          onClick={() => {
+            // setOpen(true);
+            // setConnectionAction(connectionActions.approve);
+          }}>
+          Zatwierdź połączenie
+        </Button>
+      )}
+
       <Modal
         open={open && connectionAction}
         onClose={handleClose}
