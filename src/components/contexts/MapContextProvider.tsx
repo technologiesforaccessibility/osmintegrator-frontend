@@ -51,6 +51,12 @@ interface IMapContext {
   visibilityOptions: VisibilityOptions;
   approvedStopIds: Array<string>;
   activeStop: Stop | null;
+  isSidebarConnectionHandlerVisible: boolean;
+  tileStops: Array<any>;
+  connectedStopPair: any;
+  setConnectedStopPair: (arg: any) => void;
+  setTileStops: (arg: any) => void;
+  setIsSidebarConnectionHandlerVisible: (arg: boolean) => void;
   setApprovedStopIds: (arg: Array<string>) => void;
   setAreManageReportButtonsVisible: (arg: boolean) => void;
   resetMapSettings: () => void;
@@ -141,6 +147,11 @@ const init: IMapContext = {
   },
   approvedStopIds: [],
   activeStop: null,
+  tileStops: [],
+  isSidebarConnectionHandlerVisible: false,
+  connectedStopPair: {markedStop: null, connectedStop: null},
+  setConnectedStopPair: () => null,
+  setIsSidebarConnectionHandlerVisible: () => null,
   setApprovedStopIds: () => null,
   setAreManageReportButtonsVisible: () => null,
   resetMapSettings: () => null,
@@ -169,7 +180,8 @@ const init: IMapContext = {
   setVisibilityOptions: () => null,
   resetMapVisibility: () => null,
   authRoles: [],
-  setActiveStop: () => null
+  setActiveStop: () => null,
+  setTileStops: () => null,
 };
 
 export const MapContext = createContext<IMapContext>(init);
@@ -252,6 +264,9 @@ const MapContextProvider: FC = ({children}) => {
   const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);
   const [visibilityOptions, setVisibilityOptions] = useState(initialVisibility());
   const [activeStop, setActiveStop] = useState<Stop | null>(null);
+  const [tileStops, setTileStops] = useState([]);
+  const [isSidebarConnectionHandlerVisible, setIsSidebarConnectionHandlerVisible] = useState(false);
+  const [connectedStopPair, setConnectedStopPair] = useState({markedStop: null, connectedStop: null}); // id & name needed for each
 
   const authRoles = useSelector(selectLoggedInUserRoles);
 
@@ -354,6 +369,12 @@ const MapContextProvider: FC = ({children}) => {
         visibilityOptions,
         approvedStopIds,
         activeStop,
+        isSidebarConnectionHandlerVisible,
+        connectedStopPair,
+        tileStops,
+        setTileStops,
+        setConnectedStopPair,
+        setIsSidebarConnectionHandlerVisible,
         setApprovedStopIds,
         setAreManageReportButtonsVisible,
         resetMapSettings,

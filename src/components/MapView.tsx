@@ -28,7 +28,7 @@ import {ConversationContext} from './contexts/ConversationProvider';
 
 export const MapView = () => {
   const {t} = useTranslation();
-  const [activeBusStopId, setActiveBusStopId] = useState(null);
+  const [activeBusStopId, setActiveBusStopId] = useState<any>(null);
   const [modal, setModal] = useState(false);
   const [welcomeModalCookie, setWelcomeModalCookie] = useCookies(['welcome_modal']);
   const dispatch = useDispatch();
@@ -68,6 +68,7 @@ export const MapView = () => {
     authRoles,
     tileStops,
     setTileStops,
+    setActiveStop,
   } = useContext(MapContext);
 
   const {setGeoConversations, setStopConversations, reload, stopConversations, geoConversations} =
@@ -135,7 +136,7 @@ export const MapView = () => {
           }
           return stop;
         });
-        setAllStops(stops);
+        setTileStops(stops);
         if (toggleTile) {
           singleTileToggle(true);
         }
@@ -211,7 +212,7 @@ export const MapView = () => {
   };
 
   const clickBusStop = (stop: Stop) => {
-    setActiveBusStopId(stop?.id || null);
+    setActiveBusStopId(stop && stop.id || null) ;
     displayPropertyGrid(stop || null);
     setOpenReportContent(null);
     setAreManageReportButtonsVisible(false);
@@ -326,7 +327,6 @@ export const MapView = () => {
           addReportMarker={addReportMarker}
         />
         <TileStops
-          stops={tileStops}
           createConnection={createConnection}
           isActiveStopClicked={isActiveStopClicked}
           clickBusStop={clickBusStop}

@@ -6,9 +6,9 @@ const TileStops = ({
   clickBusStop,
   createConnection,
   isActiveStopClicked,
-  stops,
   isConnectionMode,
   isViewMode,
+  inReportMode,
 }) => {
   const {areStopsVisible, connectedStopIds, approvedStopIds, visibilityOptions, tileStops: stops} = useContext(MapContext);
 
