@@ -29,6 +29,53 @@ const SidebarConnectionHandler = () => {
   const [connectionAction, setConnectionAction] = useState(null);
   // const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const checkStopType = stopList => {
+    return stopList.map(stop => {
+      return {...stop, isOsm: stop.stopType === 0};
+    });
+  };
+
+  const deleteConnection = async (osm, gtfs) => {
+    try {
+      await api.connectionsDelete(generateConnectionData(checkStopType([osm, gtfs])), {
+        headers: basicHeaders(),
+      });
+      shouldRenderConnections(true);
+      setIsSidebarConnectionHandlerVisible(false);
+      setConnectionStopPair({markedStop: null, connectedStop: null});
+      dispatch(NotificationActions.success(t('connection.deleteSuccessMessage')));
+    } catch (error) {
+      exception(error);
+    }
+  };
+
+  const approveConnection = async id => {
+    try {
+      await api.connectionsApproveUpdate(id, {
+        headers: basicHeaders(),
+      });
+      shouldRenderConnections(true);
+      dispatch(NotificationActions.success(t('connection.approveSuccessMessage')));
+    } catch (error) {
+      exception(error);
+    }
+  };
+
+  const unapproveConnection = async id => {
+    try {
+      await api.connectionsUnapproveUpdate(id, {
+        headers: basicHeaders(),
+      });
+      shouldRenderConnections(true);
+      dispatch(NotificationActions.success(t('connection.unapproveSuccessMessage')));
+    } catch (error) {
+      exception(error);
+    }
+  };
+
+
+
   return (
     <>
       <div>Przystanek: <span style={{fontWeight: 'bold'}}>{connectedStopPair.markedStop.name || 'Brak nazwy przystanku'}</span></div>
