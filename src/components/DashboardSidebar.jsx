@@ -14,6 +14,7 @@ import SidebarConnectionHandler from './SidebarConnectionHandler';
 import {roles as appRoles} from '../utilities/constants';
 
 import './../stylesheets/dashboardSidebar.scss';
+import {useTranslation} from 'react-i18next';
 
 const DashboardSidebar = () => {
   const {
@@ -26,6 +27,7 @@ const DashboardSidebar = () => {
     isSidebarConnectionHandlerVisible,
   } = useContext(MapContext);
   const authRoles = useSelector(selectLoggedInUserRoles);
+  const {t} = useTranslation();
 
   return (
     <SidebarContainer
@@ -35,8 +37,14 @@ const DashboardSidebar = () => {
       userRoles={authRoles}
       appRoles={appRoles}>
       <>
-        {isSidebarConnectionHandlerVisible && mapMode === MapModes.view && <SidebarConnectionHandler />}
-        {propertyGrid && mapMode === MapModes.view && <PropertyGrid propertyGrid={propertyGrid} />}
+      {isSidebarConnectionHandlerVisible && mapMode === MapModes.view && <SidebarConnectionHandler />}
+        {mapMode === MapModes.view ? (
+          propertyGrid ? (
+            <PropertyGrid propertyGrid={propertyGrid} />
+          ) : (
+            <p>{t('sidebar.viewPlaceholder')}</p>
+          )
+        ) : null}
         {mapMode === MapModes.report && <NewReport />}
         {isEditingReportMode && openReportContent && (
           <ReportForm areManageReportButtonsVisible={areManageReportButtonsVisible} />

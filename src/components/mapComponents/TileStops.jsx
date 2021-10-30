@@ -2,14 +2,15 @@ import {useContext, useMemo} from 'react';
 import BusMarker from '../BusMarker';
 import {MapContext} from '../contexts/MapContextProvider';
 
-const TileStops = ({clickBusStop, createConnection, isActiveStopClicked, isConnectionMode, isViewMode}) => {
-  const {
-    areStopsVisible,
-    connectedStopIds,
-    approvedStopIds,
-    visibilityOptions,
-    tileStops: stops,
-  } = useContext(MapContext);
+const TileStops = ({
+  clickBusStop,
+  createConnection,
+  isActiveStopClicked,
+  stops,
+  isConnectionMode,
+  isViewMode,
+}) => {
+  const {areStopsVisible, connectedStopIds, approvedStopIds, visibilityOptions, tileStops: stops} = useContext(MapContext);
 
   const stopsToRender = useMemo(
     () =>

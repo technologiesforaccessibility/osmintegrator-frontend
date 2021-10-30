@@ -47,6 +47,30 @@ export interface ConnectionAction {
   gtfsStopId: string;
 }
 
+export interface Conversation {
+  /** @format uuid */
+  id?: string | null;
+
+  /** @format double */
+  lat?: number | null;
+
+  /** @format double */
+  lon?: number | null;
+
+  /** @format uuid */
+  stopId?: string | null;
+
+  /** @format uuid */
+  tileId: string;
+  messages?: Message[] | null;
+  status?: NoteStatus;
+}
+
+export interface ConversationResponse {
+  stopConversations?: Conversation[] | null;
+  geoConversations?: Conversation[] | null;
+}
+
 export interface CreateChangeFileRequestInput {
   /** @format uuid */
   tileUuid: string;
@@ -61,6 +85,42 @@ export interface LoginData {
   /** @format email */
   email: string;
   password: string;
+}
+
+export interface Message {
+  /** @format uuid */
+  id?: string | null;
+
+  /** @format uuid */
+  userId?: string | null;
+  text?: string | null;
+  username?: string | null;
+  status?: NoteStatus;
+
+  /** @format date-time */
+  createdAt?: string | null;
+
+  /** @format uuid */
+  conversationId?: string | null;
+  conversation?: Conversation;
+}
+
+export interface MessageInput {
+  /** @format uuid */
+  conversationId?: string | null;
+  text?: string | null;
+
+  /** @format double */
+  lat?: number | null;
+
+  /** @format double */
+  lon?: number | null;
+
+  /** @format uuid */
+  stopId?: string | null;
+
+  /** @format uuid */
+  tileId: string;
 }
 
 export interface NewConnectionAction {
@@ -88,6 +148,11 @@ export interface NewNote {
   tileId: string;
   text?: string | null;
 }
+
+/**
+ * @format int32
+ */
+export type NoteStatus = 0 | 1 | 2;
 
 export interface ProblemDetails {
   type?: string | null;
@@ -177,37 +242,37 @@ export interface Tag {
 
 export interface Tile {
   /** @format uuid */
-  id?: string;
+  id: string;
 
   /** @format int64 */
-  x?: number;
+  x: number;
 
   /** @format int64 */
-  y?: number;
+  y: number;
 
   /** @format double */
-  maxLat?: number;
+  maxLat: number;
 
   /** @format double */
-  minLon?: number;
+  minLon: number;
 
   /** @format double */
-  minLat?: number;
+  minLat: number;
 
   /** @format double */
-  maxLon?: number;
+  maxLon: number;
 
   /** @format double */
-  overlapMaxLat?: number;
+  overlapMaxLat: number;
 
   /** @format double */
-  overlapMinLon?: number;
+  overlapMinLon: number;
 
   /** @format double */
-  overlapMinLat?: number;
+  overlapMinLat: number;
 
   /** @format double */
-  overlapMaxLon?: number;
+  overlapMaxLon: number;
 
   /** @format int32 */
   osmStopsCount?: number;
@@ -218,8 +283,24 @@ export interface Tile {
   /** @format int32 */
   usersCount?: number | null;
   stops?: Stop[] | null;
-  approvedByEditor?: boolean;
-  approvedBySupervisor?: boolean;
+  approvedByEditor: boolean;
+  approvedBySupervisor: boolean;
+}
+
+export interface TileUser {
+  /** @format uuid */
+  id: string;
+  userName: string;
+  isAssigned: boolean;
+  isAssignedAsSupervisor: boolean;
+  isSupervisor: boolean;
+  isEditor: boolean;
+}
+
+export interface TileWithUsers {
+  /** @format uuid */
+  id: string;
+  users: TileUser[];
 }
 
 export interface TokenData {
@@ -239,6 +320,14 @@ export interface UpdateNote {
   text: string;
 }
 
+export interface UpdateTileInput {
+  /** @format uuid */
+  supervisorId?: string | null;
+
+  /** @format uuid */
+  editorId?: string | null;
+}
+
 export interface User {
   /** @format uuid */
   id: string;
@@ -250,9 +339,9 @@ export interface User {
 }
 
 export type QueryParamsType = Record<string | number, any>;
-export type ResponseFormat = keyof Omit<Body, 'body' | 'bodyUsed'>;
+export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
-export interface FullRequestParams extends Omit<RequestInit, 'body'> {
+export interface FullRequestParams extends Omit<RequestInit, "body"> {
   /** set parameter to `true` for call `securityWorker` for this request */
   secure?: boolean;
   /** request path */
@@ -271,11 +360,11 @@ export interface FullRequestParams extends Omit<RequestInit, 'body'> {
   cancelToken?: CancelToken;
 }
 
-export type RequestParams = Omit<FullRequestParams, 'body' | 'method' | 'query' | 'path'>;
+export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 
 export interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
-  baseApiParams?: Omit<RequestParams, 'baseUrl' | 'cancelToken' | 'signal'>;
+  baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
   securityWorker?: (securityData: SecurityDataType | null) => Promise<RequestParams | void> | RequestParams | void;
 }
 
@@ -287,22 +376,22 @@ export interface HttpResponse<D extends unknown, E extends unknown = unknown> ex
 type CancelToken = Symbol | string | number;
 
 export enum ContentType {
-  Json = 'application/json',
-  FormData = 'multipart/form-data',
-  UrlEncoded = 'application/x-www-form-urlencoded',
+  Json = "application/json",
+  FormData = "multipart/form-data",
+  UrlEncoded = "application/x-www-form-urlencoded",
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = '';
+  public baseUrl: string = "";
   private securityData: SecurityDataType | null = null;
-  private securityWorker?: ApiConfig<SecurityDataType>['securityWorker'];
+  private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
   private abortControllers = new Map<CancelToken, AbortController>();
 
   private baseApiParams: RequestParams = {
-    credentials: 'same-origin',
+    credentials: "same-origin",
     headers: {},
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
   };
 
   constructor(apiConfig: ApiConfig<SecurityDataType> = {}) {
@@ -318,31 +407,31 @@ export class HttpClient<SecurityDataType = unknown> {
 
     return (
       encodeURIComponent(key) +
-      '=' +
-      encodeURIComponent(Array.isArray(value) ? value.join(',') : typeof value === 'number' ? value : `${value}`)
+      "=" +
+      encodeURIComponent(Array.isArray(value) ? value.join(",") : typeof value === "number" ? value : `${value}`)
     );
   }
 
   protected toQueryString(rawQuery?: QueryParamsType): string {
     const query = rawQuery || {};
-    const keys = Object.keys(query).filter(key => 'undefined' !== typeof query[key]);
+    const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
     return keys
-      .map(key =>
-        typeof query[key] === 'object' && !Array.isArray(query[key])
+      .map((key) =>
+        typeof query[key] === "object" && !Array.isArray(query[key])
           ? this.toQueryString(query[key] as QueryParamsType)
           : this.addQueryParam(query, key),
       )
-      .join('&');
+      .join("&");
   }
 
   protected addQueryParams(rawQuery?: QueryParamsType): string {
     const queryString = this.toQueryString(rawQuery);
-    return queryString ? `?${queryString}` : '';
+    return queryString ? `?${queryString}` : "";
   }
 
   private contentFormatters: Record<ContentType, (input: any) => any> = {
     [ContentType.Json]: (input: any) =>
-      input !== null && (typeof input === 'object' || typeof input === 'string') ? JSON.stringify(input) : input,
+      input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
     [ContentType.FormData]: (input: any) =>
       Object.keys(input || {}).reduce((data, key) => {
         data.append(key, input[key]);
@@ -393,7 +482,7 @@ export class HttpClient<SecurityDataType = unknown> {
     path,
     type,
     query,
-    format = 'json',
+    format = "json",
     baseUrl,
     cancelToken,
     ...params
@@ -403,21 +492,21 @@ export class HttpClient<SecurityDataType = unknown> {
     const queryString = query && this.toQueryString(query);
     const payloadFormatter = this.contentFormatters[type || ContentType.Json];
 
-    return fetch(`${baseUrl || this.baseUrl || ''}${path}${queryString ? `?${queryString}` : ''}`, {
+    return fetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? {'Content-Type': type} : {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         ...(requestParams.headers || {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
-      body: typeof body === 'undefined' || body === null ? null : payloadFormatter(body),
-    }).then(async response => {
+      body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
+    }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
       r.data = null as unknown as T;
       r.error = null as unknown as E;
 
       const data = await response[format]()
-        .then(data => {
+        .then((data) => {
           if (r.ok) {
             r.data = data;
           } else {
@@ -425,7 +514,7 @@ export class HttpClient<SecurityDataType = unknown> {
           }
           return r;
         })
-        .catch(e => {
+        .catch((e) => {
           r.error = e;
           return r;
         });
@@ -456,7 +545,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     accountIsTokenValidList: (params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Account/IsTokenValid`,
-        method: 'GET',
+        method: "GET",
         ...params,
       }),
 
@@ -467,10 +556,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name AccountLogoutCreate
      * @request POST:/api/Account/Logout
      */
-    accountLogoutCreate: (query?: {returnUrl?: string}, params: RequestParams = {}) =>
+    accountLogoutCreate: (query?: { returnUrl?: string }, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Account/Logout`,
-        method: 'POST',
+        method: "POST",
         query: query,
         ...params,
       }),
@@ -485,10 +574,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     accountLoginCreate: (data: LoginData, params: RequestParams = {}) =>
       this.request<TokenData, ProblemDetails>({
         path: `/api/Account/Login`,
-        method: 'POST',
+        method: "POST",
         body: data,
         type: ContentType.Json,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -502,10 +591,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     accountRefreshCreate: (data: TokenData, params: RequestParams = {}) =>
       this.request<TokenData, ProblemDetails>({
         path: `/api/Account/Refresh`,
-        method: 'POST',
+        method: "POST",
         body: data,
         type: ContentType.Json,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -519,7 +608,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     accountConfirmRegistrationCreate: (data: ConfirmRegistration, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Account/ConfirmRegistration`,
-        method: 'POST',
+        method: "POST",
         body: data,
         type: ContentType.Json,
         ...params,
@@ -535,7 +624,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     accountRegisterCreate: (data: RegisterData, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Account/Register`,
-        method: 'POST',
+        method: "POST",
         body: data,
         type: ContentType.Json,
         ...params,
@@ -551,7 +640,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     accountForgotPasswordCreate: (data: ForgotPassword, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Account/ForgotPassword`,
-        method: 'POST',
+        method: "POST",
         body: data,
         type: ContentType.Json,
         ...params,
@@ -567,7 +656,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     accountConfirmEmailCreate: (data: ConfirmEmail, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Account/ConfirmEmail`,
-        method: 'POST',
+        method: "POST",
         body: data,
         type: ContentType.Json,
         ...params,
@@ -583,7 +672,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     accountChangeEmailCreate: (data: ResetEmail, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Account/ChangeEmail`,
-        method: 'POST',
+        method: "POST",
         body: data,
         type: ContentType.Json,
         ...params,
@@ -599,7 +688,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     accountResetPasswordCreate: (data: ResetPassword, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Account/ResetPassword`,
-        method: 'POST',
+        method: "POST",
         body: data,
         type: ContentType.Json,
         ...params,
@@ -615,7 +704,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     connectionsUpdate: (data: NewConnectionAction, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Connections`,
-        method: 'PUT',
+        method: "PUT",
         body: data,
         type: ContentType.Json,
         ...params,
@@ -631,7 +720,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     connectionsDelete: (data: ConnectionAction, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Connections`,
-        method: 'DELETE',
+        method: "DELETE",
         body: data,
         type: ContentType.Json,
         ...params,
@@ -647,8 +736,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     connectionsList: (params: RequestParams = {}) =>
       this.request<Connection[], ProblemDetails>({
         path: `/api/Connections`,
-        method: 'GET',
-        format: 'json',
+        method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -662,8 +751,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     connectionsDetail: (id: string, params: RequestParams = {}) =>
       this.request<Connection[], ProblemDetails>({
         path: `/api/Connections/${id}`,
-        method: 'GET',
-        format: 'json',
+        method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -677,8 +766,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     connectionsApproveUpdate: (id: string, params: RequestParams = {}) =>
       this.request<string, ProblemDetails>({
         path: `/api/Connections/Approve/${id}`,
-        method: 'PUT',
-        format: 'json',
+        method: "PUT",
+        format: "json",
         ...params,
       }),
 
@@ -692,8 +781,103 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     connectionsUnapproveUpdate: (id: string, params: RequestParams = {}) =>
       this.request<string, ProblemDetails>({
         path: `/api/Connections/Unapprove/${id}`,
-        method: 'PUT',
-        format: 'json',
+        method: "PUT",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conversation
+     * @name ConversationCreate
+     * @request POST:/api/Conversation
+     */
+    conversationCreate: (data: MessageInput, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Conversation`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conversation
+     * @name ConversationDetail
+     * @request GET:/api/Conversation/{tileId}
+     */
+    conversationDetail: (tileId: string, params: RequestParams = {}) =>
+      this.request<ConversationResponse, ProblemDetails>({
+        path: `/api/Conversation/${tileId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conversation
+     * @name ConversationApproveUpdate
+     * @request PUT:/api/Conversation/Approve/{conversationId}
+     */
+    conversationApproveUpdate: (conversationId: string, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Conversation/Approve/${conversationId}`,
+        method: "PUT",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conversation
+     * @name ConversationRejectUpdate
+     * @request PUT:/api/Conversation/Reject/{conversationId}
+     */
+    conversationRejectUpdate: (conversationId: string, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Conversation/Reject/${conversationId}`,
+        method: "PUT",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conversation
+     * @name ConversationApproveUpdate2
+     * @request PUT:/api/Conversation/Approve
+     * @originalName conversationApproveUpdate
+     * @duplicate
+     */
+    conversationApproveUpdate2: (data: MessageInput, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Conversation/Approve`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conversation
+     * @name ConversationRejectUpdate2
+     * @request PUT:/api/Conversation/Reject
+     * @originalName conversationRejectUpdate
+     * @duplicate
+     */
+    conversationRejectUpdate2: (data: MessageInput, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Conversation/Reject`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -707,7 +891,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     notesCreate: (data: NewNote, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Notes`,
-        method: 'POST',
+        method: "POST",
         body: data,
         type: ContentType.Json,
         ...params,
@@ -723,7 +907,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     notesUpdate: (data: UpdateNote, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Notes`,
-        method: 'PUT',
+        method: "PUT",
         body: data,
         type: ContentType.Json,
         ...params,
@@ -739,8 +923,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     notesDetail: (id: string, params: RequestParams = {}) =>
       this.request<NewNote[], ProblemDetails>({
         path: `/api/Notes/${id}`,
-        method: 'GET',
-        format: 'json',
+        method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -754,7 +938,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     notesDelete: (id: string, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Notes/${id}`,
-        method: 'DELETE',
+        method: "DELETE",
         ...params,
       }),
 
@@ -768,7 +952,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     notesApproveUpdate: (id: string, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Notes/Approve/${id}`,
-        method: 'PUT',
+        method: "PUT",
         ...params,
       }),
 
@@ -782,7 +966,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     notesRejectUpdate: (id: string, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Notes/Reject/${id}`,
-        method: 'PUT',
+        method: "PUT",
         ...params,
       }),
 
@@ -796,7 +980,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     osmChangeFileGetChangeFileList: (data: CreateChangeFileRequestInput, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/OsmChangeFile/GetChangeFile`,
-        method: 'GET',
+        method: "GET",
         body: data,
         type: ContentType.Json,
         ...params,
@@ -812,8 +996,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     rolesList: (params: RequestParams = {}) =>
       this.request<RoleUser[], ProblemDetails>({
         path: `/api/Roles`,
-        method: 'GET',
-        format: 'json',
+        method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -827,7 +1011,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     rolesUpdate: (data: RoleUser[], params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Roles`,
-        method: 'PUT',
+        method: "PUT",
         body: data,
         type: ContentType.Json,
         ...params,
@@ -843,8 +1027,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     stopList: (params: RequestParams = {}) =>
       this.request<Stop[], ProblemDetails>({
         path: `/api/Stop`,
-        method: 'GET',
-        format: 'json',
+        method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -858,8 +1042,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     tileGetAllTilesList: (params: RequestParams = {}) =>
       this.request<Tile[], ProblemDetails>({
         path: `/api/Tile/GetAllTiles`,
-        method: 'GET',
-        format: 'json',
+        method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -873,8 +1057,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     tileGetTilesList: (params: RequestParams = {}) =>
       this.request<Tile[], ProblemDetails>({
         path: `/api/Tile/GetTiles`,
-        method: 'GET',
-        format: 'json',
+        method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -886,10 +1070,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/Tile/GetStops/{id}
      */
     tileGetStopsDetail: (id: string, params: RequestParams = {}) =>
-      this.request<Stop, ProblemDetails>({
+      this.request<Stop[], ProblemDetails>({
         path: `/api/Tile/GetStops/${id}`,
-        method: 'GET',
-        format: 'json',
+        method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -901,10 +1085,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/Tile/GetUsers/{id}
      */
     tileGetUsersDetail: (id: string, params: RequestParams = {}) =>
-      this.request<Tile, ProblemDetails>({
+      this.request<TileWithUsers, ProblemDetails>({
         path: `/api/Tile/GetUsers/${id}`,
-        method: 'GET',
-        format: 'json',
+        method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -918,8 +1102,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     tileRemoveUserDelete: (id: string, params: RequestParams = {}) =>
       this.request<string, ProblemDetails>({
         path: `/api/Tile/RemoveUser/${id}`,
-        method: 'DELETE',
-        format: 'json',
+        method: "DELETE",
+        format: "json",
         ...params,
       }),
 
@@ -933,10 +1117,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     tileUpdateUserUpdate: (id: string, data: User, params: RequestParams = {}) =>
       this.request<string, ProblemDetails>({
         path: `/api/Tile/UpdateUser/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: data,
         type: ContentType.Json,
-        format: 'json',
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tile
+     * @name TileUpdateUsersUpdate
+     * @request PUT:/api/Tile/UpdateUsers/{id}
+     */
+    tileUpdateUsersUpdate: (id: string, data: UpdateTileInput, params: RequestParams = {}) =>
+      this.request<string, ProblemDetails>({
+        path: `/api/Tile/UpdateUsers/${id}`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -950,8 +1151,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     tileApproveUpdate: (id: string, params: RequestParams = {}) =>
       this.request<string, ProblemDetails>({
         path: `/api/Tile/Approve/${id}`,
-        method: 'PUT',
-        format: 'json',
+        method: "PUT",
+        format: "json",
         ...params,
       }),
 
@@ -965,8 +1166,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     userList: (params: RequestParams = {}) =>
       this.request<User, ProblemDetails>({
         path: `/api/User`,
-        method: 'GET',
-        format: 'json',
+        method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -980,8 +1181,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     userDetail: (id: string, params: RequestParams = {}) =>
       this.request<User, ProblemDetails>({
         path: `/api/User/${id}`,
-        method: 'GET',
-        format: 'json',
+        method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -995,8 +1196,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     usersList: (params: RequestParams = {}) =>
       this.request<User[], ProblemDetails>({
         path: `/api/Users`,
-        method: 'GET',
-        format: 'json',
+        method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -1010,8 +1211,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     versionList: (params: RequestParams = {}) =>
       this.request<string, ProblemDetails>({
         path: `/api/Version`,
-        method: 'GET',
-        format: 'json',
+        method: "GET",
+        format: "json",
         ...params,
       }),
   };

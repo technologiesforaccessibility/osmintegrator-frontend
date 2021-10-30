@@ -53,48 +53,51 @@ const Login = () => {
         }}
         validationSchema={LoginSchema}>
         {({handleChange, values, handleSubmit, errors, touched}) => (
-          <form onSubmit={handleSubmit}>
-            <TextField
-              className="content-container__text-field"
-              type="email"
-              id="email"
-              placeholder="E-mail"
-              onChange={handleChange('email')}
-              value={values.email}
-              disabled={isLoading}
-              error={errors.email && touched.email}
-              size="small"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <AlternateEmailIcon />
-                  </InputAdornment>
-                ),
-              }}
-              helperText={errors.email && touched.email && errors.email}
-            />
-
-            <TextField
-              className="content-container__text-field"
-              type="password"
-              id="password"
-              placeholder={t('register.passwordPlaceholder')}
-              onChange={handleChange('password')}
-              value={values.password}
-              disabled={isLoading}
-              error={errors.password && touched.password}
-              size="small"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Tooltip title={t('register.passwordPrompt')}>
-                      <VpnKeyIcon />
-                    </Tooltip>
-                  </InputAdornment>
-                ),
-              }}
-              helperText={errors.password && touched.password}
-            />
+          <form onSubmit={handleSubmit} noValidate>
+            <div className="content-container__text-field">
+              <TextField
+                type="email"
+                id="email"
+                label="E-mail"
+                onChange={handleChange('email')}
+                value={values.email}
+                disabled={isLoading}
+                error={errors.email && touched.email}
+                variant={'standard'}
+                fullWidth
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <AlternateEmailIcon />
+                    </InputAdornment>
+                  ),
+                }}
+                helperText={errors.email && touched.email && errors.email}
+              />
+            </div>
+            <div className="content-container__text-field">
+              <TextField
+                type="password"
+                id="password"
+                label={t('register.passwordPlaceholder')}
+                onChange={handleChange('password')}
+                value={values.password}
+                disabled={isLoading}
+                error={errors.password && touched.password}
+                variant={'standard'}
+                fullWidth
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Tooltip title={t('register.passwordPrompt')}>
+                        <VpnKeyIcon />
+                      </Tooltip>
+                    </InputAdornment>
+                  ),
+                }}
+                helperText={errors.password && touched.password}
+              />
+            </div>
             <Button variant="contained" disabled={isLoading} className="register__button" type="submit">
               {t('login.loginText')}
             </Button>
