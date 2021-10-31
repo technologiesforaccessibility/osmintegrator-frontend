@@ -31,7 +31,7 @@ const SidebarConnectionHandler = () => {
       );
       shouldRenderConnections(true);
       setIsSidebarConnectionHandlerVisible(false);
-      setConnectedStopPair({markedStop: null, connectedStop: null});
+      setConnectedStopPair({markedStop: null, connectedStop: null, connection:null});
       dispatch(NotificationActions.success(t('connection.deleteSuccessMessage')));
     } catch (error) {
       exception(error);

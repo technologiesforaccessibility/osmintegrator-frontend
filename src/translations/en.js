@@ -26,7 +26,7 @@ export const en = {
         'If you want to delete connection, click on connection line or click on connected stop icon',
       deleteConnectionConfirmation: 'Delete?',
       approveSuccessMessage: 'Connection approved',
-      editConnectionInfo: 'Click line if you want to edit connection',
+      editConnectionInfo: 'If you want to edit connection, click on connection line or click on connected stop icon',
       editConnectionConfirmation: 'Choose action',
       mark2Stops: 'Mark 2 stops',
       differentTypeError: 'It is not allowed to connect stops of the same type.',

@@ -50,14 +50,14 @@ const BusMarker = ({busStop, isConnectionMode, createConnection, isViewMode, isA
       setIsSidebarConnectionHandlerVisible(true);
     } else {
       setIsSidebarConnectionHandlerVisible(false);
-      setConnectedStopPair({markedStop: null, connectedStop: null});
+      setConnectedStopPair({markedStop: null, connectedStop: null, connection: null});
     }
   };
 
   const handleViewModeStopUnclick = () => {
     clickBusStop();
     setIsSidebarConnectionHandlerVisible(false);
-    setConnectedStopPair({markedStop: null, connectedStop: null});
+    setConnectedStopPair({markedStop: null, connectedStop: null, connection: null});
   };
 
   return (

@@ -28,7 +28,7 @@ import {ConversationContext} from './contexts/ConversationProvider';
 
 export const MapView = () => {
   const {t} = useTranslation();
-  const [activeBusStopId, setActiveBusStopId] = useState<any>(null);
+  const [activeBusStopId, setActiveBusStopId] = useState<string | null>(null);
   const [modal, setModal] = useState(false);
   const [welcomeModalCookie, setWelcomeModalCookie] = useCookies(['welcome_modal']);
   const dispatch = useDispatch();
@@ -212,7 +212,7 @@ export const MapView = () => {
   };
 
   const clickBusStop = (stop: Stop) => {
-    setActiveBusStopId((stop && stop.id) || null);
+    setActiveBusStopId(stop?.id || null);
     displayPropertyGrid(stop || null);
     setOpenReportContent(null);
     setAreManageReportButtonsVisible(false);
