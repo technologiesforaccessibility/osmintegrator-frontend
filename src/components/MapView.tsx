@@ -212,7 +212,7 @@ export const MapView = () => {
   };
 
   const clickBusStop = (stop: Stop) => {
-    setActiveBusStopId(stop && stop.id || null) ;
+    setActiveBusStopId((stop && stop.id) || null);
     displayPropertyGrid(stop || null);
     setOpenReportContent(null);
     setAreManageReportButtonsVisible(false);

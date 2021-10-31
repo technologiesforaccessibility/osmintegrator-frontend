@@ -37,7 +37,7 @@ const DashboardSidebar = () => {
       userRoles={authRoles}
       appRoles={appRoles}>
       <>
-      {isSidebarConnectionHandlerVisible && mapMode === MapModes.view && <SidebarConnectionHandler />}
+        {isSidebarConnectionHandlerVisible && mapMode === MapModes.view && <SidebarConnectionHandler />}
         {mapMode === MapModes.view ? (
           propertyGrid ? (
             <PropertyGrid propertyGrid={propertyGrid} />

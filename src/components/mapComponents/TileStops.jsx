@@ -10,7 +10,13 @@ const TileStops = ({
   isViewMode,
   inReportMode,
 }) => {
-  const {areStopsVisible, connectedStopIds, approvedStopIds, visibilityOptions, tileStops: stops} = useContext(MapContext);
+  const {
+    areStopsVisible,
+    connectedStopIds,
+    approvedStopIds,
+    visibilityOptions,
+    tileStops: stops,
+  } = useContext(MapContext);
 
   const stopsToRender = useMemo(
     () =>

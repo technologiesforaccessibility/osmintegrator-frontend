@@ -38,13 +38,13 @@ const BusMarker = ({busStop, isConnectionMode, createConnection, isViewMode, isA
         setConnectedStopPair({
           markedStop: {name: busStop.name || null, id: busStop.id, isOsm: true},
           connectedStop: {name: gtfsStop.name || null, id: gtfsStop.id, isOsm: false},
-          connection: {id : connection.id,  approved : connection.approved}
+          connection: {id: connection.id, approved: connection.approved},
         });
       } else {
         setConnectedStopPair({
           markedStop: {name: busStop.name || null, id: busStop.id, isOsm: false},
           connectedStop: {name: connection.osmStop.name || null, id: connection.osmStop.id, isOsm: true},
-          connection: {id : connection.id,  approved : connection.approved}
+          connection: {id: connection.id, approved: connection.approved},
         });
       }
       setIsSidebarConnectionHandlerVisible(true);
