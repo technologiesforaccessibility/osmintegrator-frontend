@@ -145,7 +145,7 @@ export const MapView = () => {
       }
       setIsLoading(false);
     },
-    [singleTileToggle, stopConversations],
+    [singleTileToggle, stopConversations, setTileStops],
   );
 
   const getTileConnections = useCallback(

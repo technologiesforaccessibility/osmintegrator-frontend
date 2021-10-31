@@ -33,6 +33,15 @@ export const pl = {
       unapproveConnectionInfo: 'Kliknij na linię, jeśli chcesz usunąć zatwierdzenie połączenia',
       unapproveSuccessMessage: 'Usunięto zatwierdzenie połączenia',
     },
+    connectionSidebarHandler: {
+      stopName: 'Nazwa przystanku',
+      noStopName: 'Brak nazwy przystanku',
+      connectedWith: 'Połączony z',
+      approve: 'Zatwierdź',
+      unapprove: 'Cofnij zatwierdzenie',
+      deleteConnectionShort: 'Usuń',
+      deleteConnection: 'Usuń połączenie',
+    },
     connectionVisibility: {
       nameConnected: 'Połączone przystanki',
       nameUnconnected: 'Niepołączone przystanki',
@@ -148,7 +157,7 @@ export const pl = {
       placeholder: 'Twój raport...',
       introInfo:
         'Wybierz przystanek lub pinezkę z raportem, aby wyświetlić szczegóły raportu. Kliknij gdziekolwiek na mapie, aby dodać nowy raport.',
-      modal: 'Twoje zmiany nie zostaną zapisane. Jesteś pewny?'
+      modal: 'Twoje zmiany nie zostaną zapisane. Jesteś pewny?',
     },
     setPassword: {
       title: 'Ustaw nowe hasło',
@@ -204,7 +213,7 @@ export const pl = {
       assigned: 'Przypisany',
       noUser: 'Brak',
       editor: 'Edytor',
-      supervisor: 'Supervisor'
+      supervisor: 'Supervisor',
     },
     yes: 'Tak',
     no: 'Nie',

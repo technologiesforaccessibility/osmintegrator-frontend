@@ -326,6 +326,9 @@ const MapContextProvider: FC = ({children}) => {
     setActiveTile(null);
     setImportedConnections([]);
     setImportedReports([]);
+    setIsSidebarConnectionHandlerVisible(false);
+    setConnectedStopPair({markedStop: null, connectedStop: null});
+    setTileStops([]);
   }, []);
 
   const closeTile = useCallback(() => {
@@ -403,7 +406,7 @@ const MapContextProvider: FC = ({children}) => {
         setVisibilityOptions,
         resetMapVisibility,
         authRoles,
-        setActiveStop
+        setActiveStop,
       }}>
       {children}
     </MapContext.Provider>
