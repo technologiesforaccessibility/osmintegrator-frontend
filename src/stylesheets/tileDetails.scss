@@ -1,0 +1,23 @@
+.tile-details {
+  color: #555;
+
+  &__detail {
+    margin-bottom: 0.625rem;
+  }
+
+  &__heading {
+    width: fit-content;
+    padding: 0.625rem 0.3125rem;
+  }
+
+  &__body {
+    border: 1px solid #1976d27a;
+    padding: 10px;
+    border-radius: 5px;
+
+    span {
+      display: block;
+      font-size: 0.875rem;
+    }
+  }
+}

@@ -101,6 +101,7 @@ export const MapModes = {
   view: 'View',
   report: 'Report',
   connection: 'Connection',
+  tile: 'Tile',
 };
 
 const init: IMapContext = {
@@ -169,7 +170,7 @@ const init: IMapContext = {
   setVisibilityOptions: () => null,
   resetMapVisibility: () => null,
   authRoles: [],
-  setActiveStop: () => null
+  setActiveStop: () => null,
 };
 
 export const MapContext = createContext<IMapContext>(init);
@@ -382,7 +383,7 @@ const MapContextProvider: FC = ({children}) => {
         setVisibilityOptions,
         resetMapVisibility,
         authRoles,
-        setActiveStop
+        setActiveStop,
       }}>
       {children}
     </MapContext.Provider>

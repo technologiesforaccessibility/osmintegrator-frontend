@@ -43,6 +43,11 @@ const MapPanel = () => {
       name: MapModes.connection,
       icon: () => <SettingsEthernetIcon />,
     },
+    {
+      title: t('tileModePrompts.tile'),
+      name: MapModes.tile,
+      icon: () => <SettingsEthernetIcon />,
+    },
   ];
 
   const handleChange = (_, value) => {

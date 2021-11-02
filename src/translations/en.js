@@ -50,7 +50,7 @@ export const en = {
     },
     finishTile: {
       editorMainButton: 'Send tile to verification',
-      supervisorMainButton: 'Approve editor\'s work on the selected tile',
+      supervisorMainButton: "Approve editor's work on the selected tile",
       editorConfirmation:
         'Are you sure you want to submit the tile for verification? It will not be possible to make any subsequent changes.',
       supervisorConfirmation: 'Are you sure you want to approve all connections on the selected tile?',
@@ -146,7 +146,7 @@ export const en = {
       inactive: 'Inactive',
       placeholder: 'Yout report...',
       introInfo: 'Click on stop or report pin to display report details or click on the map to add new report',
-      modal: 'Your changes will not be saved. Are you sure?'
+      modal: 'Your changes will not be saved. Are you sure?',
     },
     setPassword: {
       title: 'Set a new password',
@@ -166,10 +166,18 @@ export const en = {
       history: 'History',
       viewPlaceholder: 'Click on stop or report pin to display details.',
     },
+    tileDetails: {
+      title: 'Tile details',
+      database: 'Database',
+      coordinates: 'Coordinates',
+      assignedEditor: 'Assigned Editor',
+      assignedSupervisor: 'Assigned Supervisor',
+    },
     tileModePrompts: {
       view: 'View mode - see bus stop or report details',
       report: 'Create report on map',
       connection: 'Create new connection',
+      tile: 'Tile details',
       back: 'Hide tile',
     },
     error: {
@@ -202,7 +210,7 @@ export const en = {
       assigned: 'Assigned',
       noUser: 'None',
       editor: 'Editor',
-      supervisor: 'Supervisor'
+      supervisor: 'Supervisor',
     },
     yes: 'Yes',
     no: 'No',

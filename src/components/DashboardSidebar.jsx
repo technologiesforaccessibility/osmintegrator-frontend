@@ -14,6 +14,7 @@ import {roles as appRoles} from '../utilities/constants';
 
 import './../stylesheets/dashboardSidebar.scss';
 import {useTranslation} from 'react-i18next';
+import TileDetails from './TileDetails';
 
 const DashboardSidebar = () => {
   const {propertyGrid, isTileActive, mapMode, isEditingReportMode, openReportContent, areManageReportButtonsVisible} =
@@ -41,6 +42,7 @@ const DashboardSidebar = () => {
           <ReportForm areManageReportButtonsVisible={areManageReportButtonsVisible} />
         )}
         {mapMode === MapModes.connection && <ConnectionSidePanel />}
+        {mapMode === MapModes.tile && <TileDetails />}
       </>
     </SidebarContainer>
   );
