@@ -19,7 +19,9 @@ export const pl = {
       button: 'Akceptuję',
     },
     connection: {
-      formTitle: 'Stwórz nowe połączenie',
+      formTitle: 'Stwórz nowe połączenie:',
+      chooseFirstStop: 'Wskaż pierwszy przystanek:',
+      chooseSecondStop: 'Wskaż drugi przystanek:',
       createSuccessMessage: 'Stworzono nowe połączenie',
       deleteSuccessMessage: 'Usunięto połączenie',
       deleteConnectionInfo: 'Kliknij na linię, jeśli chcesz usunąć połączenie',
@@ -148,7 +150,7 @@ export const pl = {
       placeholder: 'Twój raport...',
       introInfo:
         'Wybierz przystanek lub pinezkę z raportem, aby wyświetlić szczegóły raportu. Kliknij gdziekolwiek na mapie, aby dodać nowy raport.',
-      modal: 'Twoje zmiany nie zostaną zapisane. Jesteś pewny?'
+      modal: 'Twoje zmiany nie zostaną zapisane. Jesteś pewny?',
     },
     setPassword: {
       title: 'Ustaw nowe hasło',
@@ -204,7 +206,7 @@ export const pl = {
       assigned: 'Przypisany',
       noUser: 'Brak',
       editor: 'Edytor',
-      supervisor: 'Supervisor'
+      supervisor: 'Supervisor',
     },
     yes: 'Tak',
     no: 'Nie',

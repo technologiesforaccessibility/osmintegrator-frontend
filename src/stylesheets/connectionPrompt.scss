@@ -1,20 +1,35 @@
-.connection-prompt__label {
-  border: solid 1px black;
-  padding: 5px;
-  border-radius: 5px;
-  width: 100%;
-  background-color: #e1e6ea;
-}
+.connection-prompt {
+  color: #666;
+  &__title {
+    font-size: 1rem;
+  }
+  &__field {
+    border: 1px solid #0000001f;
+    border-radius: 5px;
+    margin-bottom: 0.625rem;
+    legend {
+      float: none;
+      font-size: 0.75rem;
+      width: auto;
+      padding: 0.3rem;
+      svg {
+        margin: 0 0.25rem;
+      }
+    }
+    &--error {
+      border-color: #d32f2f;
+      legend {
+        color: #d32f2f;
+      }
+    }
+  }
 
-.connection-prompt__wrapper {
-  border: solid 1px black;
-  padding: 10px 5px 5px;
-  border-radius: 5px;
+  &__button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    button {
+      margin: 0 0.3125rem;
+    }
+  }
 }
-
-.connection-prompt__button-container {
-  display: flex;
-  justify-content: center;
-  padding: 5px;
-}
-

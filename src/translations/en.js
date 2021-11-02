@@ -20,6 +20,8 @@ export const en = {
     },
     connection: {
       formTitle: 'Create new connection',
+      chooseFirstStop: 'Choose first stop:',
+      chooseSecondStop: 'Choose second stop:',
       createSuccessMessage: 'New connection created',
       deleteSuccessMessage: 'Connection deleted',
       deleteConnectionInfo: 'Click line if you want to delete connection',
