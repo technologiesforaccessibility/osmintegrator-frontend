@@ -1,4 +1,3 @@
-//MyComponent.jsx
 import React, {useState} from 'react';
 import {Button, IconButton} from '@mui/material';
 import Box from '@mui/material/Box';
