@@ -19,7 +19,9 @@ export const pl = {
       button: 'Akceptuję',
     },
     connection: {
-      formTitle: 'Stwórz nowe połączenie',
+      formTitle: 'Stwórz nowe połączenie:',
+      chooseFirstStop: 'Wskaż pierwszy przystanek:',
+      chooseSecondStop: 'Wskaż drugi przystanek:',
       createSuccessMessage: 'Stworzono nowe połączenie',
       deleteSuccessMessage: 'Usunięto połączenie',
       deleteConnectionInfo: 'Kliknij na linię, jeśli chcesz usunąć połączenie',

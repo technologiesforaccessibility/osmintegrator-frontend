@@ -8,6 +8,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import ReportIcon from '@mui/icons-material/Report';
 import SettingsEthernetIcon from '@mui/icons-material/SettingsEthernet';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {ReactComponent as ConnectionIcon} from '../assets/connection-panel-icon.svg';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 
@@ -41,7 +42,7 @@ const MapPanel = () => {
     {
       title: t('tileModePrompts.connection'),
       name: MapModes.connection,
-      icon: () => <SettingsEthernetIcon />,
+      icon: () => <ConnectionIcon />,
     },
   ];
 
