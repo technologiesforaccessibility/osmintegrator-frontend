@@ -6,12 +6,17 @@ const TileStops = ({
   clickBusStop,
   createConnection,
   isActiveStopClicked,
-  stops,
   isConnectionMode,
   isViewMode,
-  inReportMode,
+  isReportMode,
 }) => {
-  const {areStopsVisible, connectedStopIds, approvedStopIds, visibilityOptions} = useContext(MapContext);
+  const {
+    areStopsVisible,
+    connectedStopIds,
+    approvedStopIds,
+    visibilityOptions,
+    tileStops: stops,
+  } = useContext(MapContext);
 
   const stopsToRender = useMemo(
     () =>
@@ -43,6 +48,7 @@ const TileStops = ({
           <BusMarker
             busStop={busStop}
             isConnectionMode={isConnectionMode}
+            isReportMode={isReportMode}
             createConnection={createConnection}
             isViewMode={isViewMode}
             isActiveStopClicked={isActiveStopClicked}

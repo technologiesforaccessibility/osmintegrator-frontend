@@ -14,7 +14,7 @@ const MapManager = () => {
       className="map-manager"
       style={
         isTileActive
-          ? {gridTemplateAreas: 'sidebar map', gridTemplateColumns: '20% 80%'}
+          ? {gridTemplateAreas: 'sidebar map', gridTemplateColumns: 'minmax(280px, 340px) 80%'}
           : {gridTemplateAreas: 'sidebar map', gridTemplateColumns: '0% 100%'}
       }>
       {isTileActive && (
