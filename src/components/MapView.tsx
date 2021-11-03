@@ -336,7 +336,7 @@ export const MapView = () => {
           isReportMode={mapMode === MapModes.report}
         />
         <NewReportMarker newReportCoordinates={newReportCoordinates} />
-        <ImportedReports reports={importedReports} resetActiveStop={setActiveBusStopId} />
+        <ImportedReports reports={importedReports} resetActiveStop={() => setActiveBusStopId(null)} />
         <Legend />
       </MapContainer>
       {modal && !welcomeModalCookie.welcome_modal && (

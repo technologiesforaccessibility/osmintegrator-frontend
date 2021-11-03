@@ -28,7 +28,7 @@ const ImportedReports = ({reports, resetActiveStop}) => {
                 handleReportClick({lat, lon, id, tileId, messages});
                 setNewReportCoordinates({lat, lon});
                 setActiveStop(null);
-                resetActiveStop(null);
+                resetActiveStop();
               },
             }}>
             <Tooltip direction="top" offset={[0, -55]}>
