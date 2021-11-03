@@ -1,4 +1,4 @@
-import {useContext} from 'react';
+import {useContext, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
 import Button from '@mui/material/Button';
@@ -14,13 +14,20 @@ import '../stylesheets/connectionPrompt.scss';
 
 const ConnectionSidePanel = () => {
   const {connectionData, reset, shouldRenderConnections, activeTile} = useContext(MapContext);
+  const [error, setError] = useState(false);
   const {t} = useTranslation();
   const dispatch = useDispatch();
+
+  const resetConnection = () => {
+    reset();
+    setError(false);
+  };
 
   const sendConnection = async () => {
     try {
       if (connectionData.length !== 2) {
         dispatch(NotificationActions.error(t('connection.mark2Stops')));
+        setError(true);
         return;
       }
 
@@ -28,7 +35,7 @@ const ConnectionSidePanel = () => {
         headers: basicHeaders(),
       });
       shouldRenderConnections(true);
-      reset();
+      resetConnection();
       dispatch(NotificationActions.success(t('connection.createSuccessMessage')));
     } catch (error) {
       exception(error);
@@ -36,35 +43,52 @@ const ConnectionSidePanel = () => {
   };
 
   return (
-    <div className="connection-prompt__wrapper">
-      {t('connection.formTitle')}
-      <label className="connection-prompt__label">
-        {connectionData.length > 0
-          ? generateStopName(connectionData[0].id, connectionData[0].name || null, connectionData[0].ref || null)
-          : '...'}
-      </label>
-      <label className="connection-prompt__label">
-        {' '}
-        {connectionData.length > 1
-          ? generateStopName(connectionData[1].id, connectionData[1].name || null, connectionData[1].ref || null)
-          : '...'}
-      </label>
+    <div className="connection-prompt">
+      <div className="connection-prompt__wrapper bordered-wrapper">
+        <p className="connection-prompt__title">{t('connection.formTitle')}</p>
 
-      <div className="connection-prompt__button-container">
-        <Button
-          variant="contained"
-          onClick={() => {
-            sendConnection();
-          }}>
-          {t('buttons.save')}{' '}
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => {
-            reset();
-          }}>
-          {t('buttons.cancel')}{' '}
-        </Button>
+        <fieldset
+          className={`connection-prompt__field ${
+            error && connectionData.length < 1 && 'connection-prompt__field--error'
+          }`}>
+          <legend>Wskaż pierwszy przystanek</legend>
+
+          <span>
+            {connectionData.length > 0
+              ? generateStopName(connectionData[0].id, connectionData[0].name || null, connectionData[0].ref || null)
+              : '...'}
+          </span>
+        </fieldset>
+
+        <fieldset
+          className={`connection-prompt__field ${
+            error && connectionData.length < 2 && 'connection-prompt__field--error'
+          }`}>
+          <legend>Wskaż drugi przystanek</legend>
+
+          <span>
+            {connectionData.length > 1
+              ? generateStopName(connectionData[1].id, connectionData[1].name || null, connectionData[1].ref || null)
+              : '...'}
+          </span>
+        </fieldset>
+
+        <div className="connection-prompt__button-container">
+          <Button
+            variant="contained"
+            onClick={() => {
+              sendConnection();
+            }}>
+            {t('buttons.save')}{' '}
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              resetConnection();
+            }}>
+            {t('buttons.cancel')}{' '}
+          </Button>
+        </div>
       </div>
     </div>
   );

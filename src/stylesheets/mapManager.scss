@@ -1,7 +1,7 @@
 .map-manager {
   display: grid;
-  grid-template-areas: "sidebar map";
-  grid-template-columns: 20% auto;
+  grid-template-areas: 'sidebar map';
+  grid-template-columns: minmax(280px, 340px) auto;
 
   &__sidebar {
     grid-area: sidebar;

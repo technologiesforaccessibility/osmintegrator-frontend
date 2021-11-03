@@ -8,7 +8,7 @@ const TileStops = ({
   isActiveStopClicked,
   isConnectionMode,
   isViewMode,
-  inReportMode,
+  isReportMode,
 }) => {
   const {
     areStopsVisible,
@@ -48,6 +48,7 @@ const TileStops = ({
           <BusMarker
             busStop={busStop}
             isConnectionMode={isConnectionMode}
+            isReportMode={isReportMode}
             createConnection={createConnection}
             isViewMode={isViewMode}
             isActiveStopClicked={isActiveStopClicked}

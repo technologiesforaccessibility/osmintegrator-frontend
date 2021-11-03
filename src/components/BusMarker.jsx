@@ -60,19 +60,30 @@ const BusMarker = ({busStop, isConnectionMode, createConnection, isViewMode, isA
     setConnectedStopPair({markedStop: null, connectedStop: null, connection: null});
   };
 
+  const getIcon = () => {
+    if (isViewMode || isReportMode) {
+      return getBusStopIcon(busStop, isActiveStopClicked(busStop.id));
+    } else {
+      return getBusStopIcon(busStop, false);
+    }
+  };
+
   return (
     <Marker
       key={busStop.id}
       position={[busStop.lat, busStop.lon]}
-      icon={getBusStopIcon(busStop)}
+      icon={getIcon()}
       riseOnHover={true}
       opacity={opacity}
+      shadowPane="tooltipPane"
+      zIndexOffset={isActiveStopClicked(busStop.id) ? 1000 : 0}
       eventHandlers={{
         click: () => {
           setActiveStop(busStop);
           if (isConnectionMode) {
+            isActiveStopClicked(busStop.id) ? clickBusStop() : clickBusStop(busStop);
             createConnection([busStop.lat, busStop.lon], busStop.id, busStop.stopType, busStop.name, busStop.number);
-          } else if (isViewMode) {
+          } else if (isViewMode || isReportMode) {
             isActiveStopClicked(busStop.id) ? handleViewModeStopUnclick() : handleViewModeStopClick(busStop);
           }
         },
