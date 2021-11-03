@@ -56,6 +56,28 @@ export const pl = {
       supervisorConfirmation: 'Czy jesteś pewien, że chcesz zatwierdzić wszystkie połączenia na wybranym kafelku?',
       successMessage: 'Kafelek został wysłany',
     },
+    legend: {
+      title: 'Legenda',
+      tileUnsigned: 'Kafelek nie przypisany',
+      tileSignedEditor: 'Kafelek przypisany do edytora',
+      tileApprovedEditor: 'Kafelek zatwierdzony przez edytora',
+      tileApprovedSupervisor: 'Kafelek zatwierdzony przez nadzorującego',
+      tileExported: 'Kafelek wyeksportowany do OSM',
+      stopOSM: 'Przystanek OSM',
+      stopOSMReport: 'Przystanek OSM z zgłoszeniem',
+      stopOSMReportApprove: 'Przystanek OSM z zatwierdzonym zgłoszeniem',
+      stopZTM: 'Przystanek ZTM',
+      stopZTMReport: 'Przystanek ZTM z zgłoszeniem',
+      stopZTMReportApprove: 'Przystanek ZTM z zatwierdzonym zgłoszeniem',
+      stopZTMOutside: 'Przystanek ZTM poza edytowanym obszarem z zgłoszeniem',
+      stopZTMOutsideReport: 'Przystanek poza edytowanym obszarem ZTM z zgłoszeniem',
+      stopZTMOutsideReportApprove: 'Przystanek ZTM poza edytowanym obszarem z zatwierdzonym zgłoszeniem',
+      reportNew: 'Pinezka zgłoszenia',
+      reportActive: 'Pinezka aktywnego zgłoszenia',
+      reportInactive: 'Pinezka nieaktywnego zgłoszenia',
+      connectionNew: 'Nowe połączenie',
+      connectionApprove: 'Zaakceptowane połączenie',
+    },
     login: {
       password: 'Hasło',
       loginText: 'Zaloguj się',
@@ -148,7 +170,7 @@ export const pl = {
       placeholder: 'Twój raport...',
       introInfo:
         'Wybierz przystanek lub pinezkę z raportem, aby wyświetlić szczegóły raportu. Kliknij gdziekolwiek na mapie, aby dodać nowy raport.',
-      modal: 'Twoje zmiany nie zostaną zapisane. Jesteś pewny?'
+      modal: 'Twoje zmiany nie zostaną zapisane. Jesteś pewny?',
     },
     setPassword: {
       title: 'Ustaw nowe hasło',
@@ -204,7 +226,7 @@ export const pl = {
       assigned: 'Przypisany',
       noUser: 'Brak',
       editor: 'Edytor',
-      supervisor: 'Supervisor'
+      supervisor: 'Supervisor',
     },
     yes: 'Tak',
     no: 'Nie',

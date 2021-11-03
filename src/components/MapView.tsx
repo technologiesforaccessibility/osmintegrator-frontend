@@ -25,6 +25,7 @@ import {useCookies} from 'react-cookie';
 import {roles} from '../utilities/constants';
 import {LeafletMouseEvent} from 'leaflet';
 import {ConversationContext} from './contexts/ConversationProvider';
+import Legend from './mapComponents/Legend';
 
 export const MapView = () => {
   const {t} = useTranslation();
@@ -336,6 +337,7 @@ export const MapView = () => {
         />
         <NewReportMarker newReportCoordinates={newReportCoordinates} />
         <ImportedReports reports={importedReports} />
+        <Legend />
       </MapContainer>
       {modal && !welcomeModalCookie.welcome_modal && (
         <Modal open={modal} onClose={closeModal}>
