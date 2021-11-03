@@ -24,16 +24,26 @@ export const en = {
       chooseSecondStop: 'Choose second stop:',
       createSuccessMessage: 'New connection created',
       deleteSuccessMessage: 'Connection deleted',
-      deleteConnectionInfo: 'Click line if you want to delete connection',
+      deleteConnectionInfo:
+        'If you want to delete connection, click on connection line or click on connected stop icon',
       deleteConnectionConfirmation: 'Delete?',
       approveSuccessMessage: 'Connection approved',
-      editConnectionInfo: 'Click line if you want to edit connection',
+      editConnectionInfo: 'If you want to edit connection, click on connection line or click on connected stop icon',
       editConnectionConfirmation: 'Choose action',
       mark2Stops: 'Mark 2 stops',
       differentTypeError: 'It is not allowed to connect stops of the same type.',
       unapproveConnectionConfirmation: 'Delete connection approval?',
       unapproveConnectionInfo: 'Click line if you want to unapprove connection.',
       unapproveSuccessMessage: 'Connection approval deleted.',
+    },
+    connectionSidebarHandler: {
+      stopName: 'Stop name',
+      noStopName: 'No stop name',
+      connectedWith: 'Connected with',
+      approve: 'Approve',
+      unapprove: 'Revert approval',
+      deleteConnectionShort: 'Delete',
+      deleteConnection: 'Delete connection',
     },
     connectionVisibility: {
       nameConnected: 'Connected stops',
@@ -52,6 +62,7 @@ export const en = {
     },
     finishTile: {
       editorMainButton: 'Send tile to verification',
+      // prettier-ignore
       supervisorMainButton: 'Approve editor\'s work on the selected tile',
       editorConfirmation:
         'Are you sure you want to submit the tile for verification? It will not be possible to make any subsequent changes.',
