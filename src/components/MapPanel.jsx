@@ -6,7 +6,6 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Tooltip from '@mui/material/Tooltip';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ReportIcon from '@mui/icons-material/Report';
-import SettingsEthernetIcon from '@mui/icons-material/SettingsEthernet';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {ReactComponent as ConnectionIcon} from '../assets/connection-panel-icon.svg';
 import Box from '@mui/material/Box';
