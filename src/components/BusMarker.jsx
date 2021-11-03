@@ -5,7 +5,7 @@ import {generateStopName} from '../utilities/mapUtilities';
 import {useContext, useMemo} from 'react';
 import {MapContext} from './contexts/MapContextProvider';
 
-const BusMarker = ({busStop, isConnectionMode, createConnection, isViewMode, isActiveStopClicked, clickBusStop}) => {
+const BusMarker = ({busStop, isConnectionMode, createConnection, isViewMode, isActiveStopClicked, clickBusStop, isReportMode}) => {
   const {
     visibilityOptions,
     connectedStopIds,
