@@ -5,8 +5,7 @@ import {Marker, Tooltip} from 'react-leaflet';
 import {getReportIcon} from '../../utilities/utilities';
 import {MapContext, MapModes} from '../contexts/MapContextProvider';
 
-const ImportedReports = ({reports}) => {
-  // const authRoles = useSelector(selectLoggedInUserRoles);
+const ImportedReports = ({reports, resetActiveStop}) => {
   const {mapMode, setNewReportCoordinates, setActiveStop, displayPropertyGrid} = useContext(MapContext);
 
   const handleReportClick = data => {
@@ -29,6 +28,7 @@ const ImportedReports = ({reports}) => {
                 handleReportClick({lat, lon, id, tileId, messages});
                 setNewReportCoordinates({lat, lon});
                 setActiveStop(null);
+                resetActiveStop(null);
               },
             }}>
             <Tooltip direction="top" offset={[0, -55]}>
