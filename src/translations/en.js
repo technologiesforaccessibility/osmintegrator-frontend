@@ -60,7 +60,8 @@ export const en = {
     },
     finishTile: {
       editorMainButton: 'Send tile to verification',
-      supervisorMainButton: "Approve editor's work on the selected tile",
+      // prettier-ignore
+      supervisorMainButton: 'Approve editor\'s work on the selected tile',
       editorConfirmation:
         'Are you sure you want to submit the tile for verification? It will not be possible to make any subsequent changes.',
       supervisorConfirmation: 'Are you sure you want to approve all connections on the selected tile?',
