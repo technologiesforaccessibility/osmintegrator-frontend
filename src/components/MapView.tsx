@@ -197,10 +197,12 @@ export const MapView = () => {
   const getTileReports = useCallback(
     async id => {
       try {
-        const response = await api.notesDetail(id, {
+        const response = await api.conversationDetail(id, {
           headers: basicHeaders(),
         });
-        setImportedReports(response.data);
+        if (response.data.geoConversations) {
+          setImportedReports(response.data.geoConversations);
+        }
       } catch (error) {
         exception(error);
       }
