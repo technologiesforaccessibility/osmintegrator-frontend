@@ -242,8 +242,6 @@ export const MapView = () => {
 
   useEffect(() => {
     if (activeTile && activeTile.id) {
-      console.log('run 2');
-
       setIsLoading(true);
       getTileStops(activeTile.id);
       getTileConnections(activeTile.id);
@@ -259,7 +257,6 @@ export const MapView = () => {
 
   useEffect(() => {
     if (activeTile && activeTile.id) {
-      console.log('run 1');
       getTileStops(activeTile.id, false);
       getTileReports(activeTile.id);
     }
