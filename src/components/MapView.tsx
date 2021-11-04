@@ -351,6 +351,7 @@ export const MapView = () => {
               bgcolor: 'white',
               border: '0px solid #000',
               boxShadow: 24,
+              p: 4,
             }}>
             <WelcomeModal handleClose={closeModal} />
           </Box>
