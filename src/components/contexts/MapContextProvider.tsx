@@ -1,6 +1,6 @@
 import {createContext, FC, useCallback, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {Connection, NewNote, NoteStatus, Stop, Tile} from '../../api/apiClient';
+import {Connection, Conversation, NoteStatus, Stop, Tile} from '../../api/apiClient';
 import {selectLoggedInUserRoles} from '../../redux/selectors/authSelector';
 import i18n from '../../translations/i18n';
 import {connectionVisibility, localStorageStopTypes} from '../../utilities/constants';
@@ -41,7 +41,7 @@ interface IMapContext {
   activeTile: Tile | null;
   rerenderReports: boolean;
   importedConnections: Array<Connection>;
-  importedReports: Array<NewNote>;
+  importedReports: Array<Conversation>;
   isEditingReportMode: boolean;
   openReportContent: null | {lat: number; lon: number; text: string; id: string; tileId: string; status: NoteStatus};
   rerenderTiles: boolean;
@@ -85,7 +85,7 @@ interface IMapContext {
   setActiveTile: React.Dispatch<React.SetStateAction<Tile | null>>;
   setRerenderReports: React.Dispatch<React.SetStateAction<boolean>>;
   setImportedConnections: React.Dispatch<React.SetStateAction<Array<Connection>>>;
-  setImportedReports: React.Dispatch<React.SetStateAction<Array<NewNote>>>;
+  setImportedReports: React.Dispatch<React.SetStateAction<Array<Conversation>>>;
   hideTileElements: () => void;
   setIsEditingReportMode: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenReportContent: React.Dispatch<
@@ -252,7 +252,7 @@ const MapContextProvider: FC = ({children}) => {
   const [rerenderReports, setRerenderReports] = useState(false);
   const [activeTile, setActiveTile] = useState<Tile | null>(null);
   const [importedConnections, setImportedConnections] = useState<Array<Connection>>([]);
-  const [importedReports, setImportedReports] = useState<Array<NewNote>>([]);
+  const [importedReports, setImportedReports] = useState<Array<Conversation>>([]);
   const [openReportContent, setOpenReportContent] = useState<null | {
     lat: number;
     lon: number;
