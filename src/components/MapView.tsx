@@ -239,13 +239,13 @@ export const MapView = () => {
   }, [getAvailableTiles]);
 
   useEffect(() => {
-    if (activeTile && activeTile.id) {
+    if (activeTile && activeTile.id && !reload) {
       setIsLoading(true);
       getTileStops(activeTile.id);
       getTileConnections(activeTile.id);
       getTileReports(activeTile.id);
     }
-  }, [activeTile, getTileConnections, getTileReports, getTileStops]);
+  }, [activeTile, getTileConnections, getTileReports, getTileStops, reload]);
 
   useEffect(() => {
     if (activeTile && activeTile.id) {

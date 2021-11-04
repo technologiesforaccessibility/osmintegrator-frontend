@@ -35,6 +35,8 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
     },
 
     onSubmit: ({reportText, approveReport}) => {
+      setCurrentInputValue('');
+
       if (activeStop === null && (lat === null || lon === null)) {
         dispatch(NotificationActions.error(t('report.noPinFound')));
         return;
