@@ -17,7 +17,6 @@ import AuthContainer from '../AuthContainer';
 import Loader from '../Loader';
 import {paths} from '../../utilities/constants';
 import {RegisterSchema} from '../../utilities/validationSchema';
-import {ReactComponent as Logo} from './../../assets/accountLogo.svg';
 import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';
 import AuthBottomPanel from './AuthBottomPanel';
@@ -54,7 +53,9 @@ const Register = () => {
       <Loader isLoading={isLoading} />
       <AuthContainer>
         <div className="register__logo">
-          <Logo />
+          <h1 className="register__title" color="primary">
+            {t('register.title')}
+          </h1>
         </div>
         <div className="register__content">
           <Formik
@@ -70,94 +71,104 @@ const Register = () => {
             }}
             validationSchema={RegisterSchema}>
             {({handleChange, values, handleSubmit, errors, touched}) => (
-              <form className="content-container" onSubmit={handleSubmit}>
-                <TextField
-                  className="content-container__text-field"
-                  type="text"
-                  id="username"
-                  placeholder={t('register.usernamePlaceholder')}
-                  onChange={handleChange('username')}
-                  value={values.username}
-                  disabled={isLoading}
-                  error={errors.username && touched.username}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Tooltip title={t('register.usernamePrompt')}>
-                          <AccountCircle />
-                        </Tooltip>
-                      </InputAdornment>
-                    ),
-                  }}
-                  helperText={errors.username && touched.username && errors.username}
-                />
-
-                <TextField
-                  className="content-container__text-field"
-                  type="email"
-                  id="email"
-                  placeholder="E-mail"
-                  onChange={handleChange('email')}
-                  value={values.email}
-                  disabled={isLoading}
-                  error={errors.email && touched.email}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <AlternateEmailIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                  helperText={errors.email && touched.email && errors.email}
-                />
-
-                <TextField
-                  className="content-container__text-field"
-                  type="password"
-                  id="password1"
-                  placeholder={t('register.passwordPlaceholder')}
-                  onChange={handleChange('password1')}
-                  value={values.password1}
-                  disabled={isLoading}
-                  error={errors.password1 && touched.password1}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Tooltip title={t('register.passwordPrompt')}>
-                          <VpnKeyIcon />
-                        </Tooltip>
-                      </InputAdornment>
-                    ),
-                  }}
-                  helperText={errors.password1 && touched.password1 && errors.password1}
-                />
-
-                <TextField
-                  className="content-container__text-field"
-                  type="password"
-                  id="password2"
-                  placeholder={t('register.passwordConfirmationPlaceholder')}
-                  onChange={handleChange('password2')}
-                  value={values.password2}
-                  disabled={isLoading}
-                  error={errors.password2 && touched.password2}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Tooltip title={t('register.passwordPrompt')}>
-                          <VpnKeyIcon />
-                        </Tooltip>
-                      </InputAdornment>
-                    ),
-                  }}
-                  helperText={errors.password2 && touched.password2 && errors.password2}
-                />
+              <form className="content-container" onSubmit={handleSubmit} noValidate>
+                <div className="content-container__text-field">
+                  <TextField
+                    type="text"
+                    id="username"
+                    label={t('register.usernamePlaceholder')}
+                    onChange={handleChange('username')}
+                    value={values.username}
+                    disabled={isLoading}
+                    error={errors.username && touched.username}
+                    variant={'standard'}
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Tooltip title={t('register.usernamePrompt')}>
+                            <AccountCircle />
+                          </Tooltip>
+                        </InputAdornment>
+                      ),
+                    }}
+                    helperText={errors.username && touched.username && errors.username}
+                  />
+                </div>
+                <div className="content-container__text-field">
+                  <TextField
+                    type="email"
+                    id="email"
+                    label="E-mail"
+                    onChange={handleChange('email')}
+                    value={values.email}
+                    disabled={isLoading}
+                    error={errors.email && touched.email}
+                    variant={'standard'}
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AlternateEmailIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                    helperText={errors.email && touched.email && errors.email}
+                  />
+                </div>
+                <div className="content-container__text-field">
+                  <TextField
+                    type="password"
+                    id="password1"
+                    label={t('register.passwordPlaceholder')}
+                    onChange={handleChange('password1')}
+                    value={values.password1}
+                    disabled={isLoading}
+                    error={errors.password1 && touched.password1}
+                    variant={'standard'}
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Tooltip title={t('register.passwordPrompt')}>
+                            <VpnKeyIcon />
+                          </Tooltip>
+                        </InputAdornment>
+                      ),
+                    }}
+                    helperText={errors.password1 && touched.password1 && errors.password1}
+                  />
+                </div>
+                <div className="content-container__text-field">
+                  <TextField
+                    type="password"
+                    id="password2"
+                    label={t('register.passwordConfirmationPlaceholder')}
+                    onChange={handleChange('password2')}
+                    value={values.password2}
+                    disabled={isLoading}
+                    error={errors.password2 && touched.password2}
+                    variant={'standard'}
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Tooltip title={t('register.passwordPrompt')}>
+                            <VpnKeyIcon />
+                          </Tooltip>
+                        </InputAdornment>
+                      ),
+                    }}
+                    helperText={errors.password2 && touched.password2 && errors.password2}
+                  />
+                </div>
                 <FormControlLabel
                   control={
                     <Checkbox
                       checked={checked}
                       color="primary"
                       onChange={handleChange}
+                      id="terms-checkbox"
                       inputProps={{'aria-label': 'primary checkbox'}}
                       onClick={() => {
                         setChecked(!checked);
@@ -179,11 +190,7 @@ const Register = () => {
                   }
                 />
 
-                <Button
-                  variant="contained"
-                  disabled={!checked || isLoading}
-                  type="submit"
-                  className="register__button">
+                <Button variant="contained" disabled={!checked || isLoading} type="submit" className="register__button">
                   {t('register.button')}
                 </Button>
               </form>

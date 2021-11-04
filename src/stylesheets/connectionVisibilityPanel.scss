@@ -24,3 +24,14 @@
     color: maroon;
     font-size: 0.75rem;
 }
+
+.connection-visibility-panel__header {
+    font-weight: 700;
+    text-align: center;
+}
+
+.connection-visibility-panel__close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}

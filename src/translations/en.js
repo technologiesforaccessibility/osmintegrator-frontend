@@ -20,18 +20,30 @@ export const en = {
     },
     connection: {
       formTitle: 'Create new connection',
+      chooseFirstStop: 'Choose first stop:',
+      chooseSecondStop: 'Choose second stop:',
       createSuccessMessage: 'New connection created',
       deleteSuccessMessage: 'Connection deleted',
-      deleteConnectionInfo: 'Click line if you want to delete connection',
+      deleteConnectionInfo:
+        'If you want to delete connection, click on connection line or click on connected stop icon',
       deleteConnectionConfirmation: 'Delete?',
       approveSuccessMessage: 'Connection approved',
-      editConnectionInfo: 'Click line if you want to edit connection',
+      editConnectionInfo: 'If you want to edit connection, click on connection line or click on connected stop icon',
       editConnectionConfirmation: 'Choose action',
       mark2Stops: 'Mark 2 stops',
       differentTypeError: 'It is not allowed to connect stops of the same type.',
       unapproveConnectionConfirmation: 'Delete connection approval?',
       unapproveConnectionInfo: 'Click line if you want to unapprove connection.',
-      unapproveSuccessMessage: 'Connection approval deleted.'
+      unapproveSuccessMessage: 'Connection approval deleted.',
+    },
+    connectionSidebarHandler: {
+      stopName: 'Stop name',
+      noStopName: 'No stop name',
+      connectedWith: 'Connected with',
+      approve: 'Approve',
+      unapprove: 'Revert approval',
+      deleteConnectionShort: 'Delete',
+      deleteConnection: 'Delete connection',
     },
     connectionVisibility: {
       nameConnected: 'Connected stops',
@@ -40,6 +52,9 @@ export const en = {
       visible: 'Visible',
       semiTransparent: 'Semi transparent',
       hidden: 'Hidden',
+      resetButton: 'Reset',
+      resetInfo: 'Are you sure you want to reset objects visibility to default?',
+      header: 'Adjust visibility',
     },
     contactForm: {
       description: 'Login problem? Need to contact? Send us a ',
@@ -47,11 +62,34 @@ export const en = {
     },
     finishTile: {
       editorMainButton: 'Send tile to verification',
+      // prettier-ignore
       supervisorMainButton: 'Approve editor\'s work on the selected tile',
       editorConfirmation:
         'Are you sure you want to submit the tile for verification? It will not be possible to make any subsequent changes.',
       supervisorConfirmation: 'Are you sure you want to approve all connections on the selected tile?',
       successMessage: 'Tile has been sent',
+    },
+    legend: {
+      title: 'Legend',
+      tileUnsigned: 'Tile not assigned',
+      tileSignedEditor: 'Tile assigned to the editor',
+      tileApprovedEditor: 'Tile approved by the editor',
+      tileApprovedSupervisor: 'Tile approved by the supervisor',
+      tileExported: 'Tile exported to OSM',
+      stopOSM: 'OSM stop',
+      stopOSMReport: 'OSM stop with report',
+      stopOSMReportApprove: 'OSM stop with approved report',
+      stopZTM: 'ZTM stop',
+      stopZTMReport: 'ZTM stop with report',
+      stopZTMReportApprove: 'ZTM stop with approved report',
+      stopZTMOutside: 'ZTM stop outside the edited area',
+      stopZTMOutsideReport: 'ZTM stop outside the edited area with the report',
+      stopZTMOutsideReportApprove: 'ZTM stop outside the edited area with the approved report',
+      reportNew: 'Report pin',
+      reportActive: 'Active report pin',
+      reportInactive: 'Inactive report pin',
+      connectionNew: 'New connection',
+      connectionApprove: 'Approved connection',
     },
     login: {
       password: 'Password',
@@ -68,9 +106,13 @@ export const en = {
       loginButton: 'Log in',
     },
     map: {},
-    profileHeader: 'Profile',
-    profileMVPPlaceholder:
-      'If you want to change email or password, please send email to kontakt@rozwiazaniadlaniewidomych.org or write a message on Slack #problems channel',
+    profile: {
+      header: 'Profile',
+      userName: 'User name',
+      roles: 'Roles',
+      MVPPlaceholder:
+        'If you want to change email or password, please send email to kontakt@rozwiazaniadlaniewidomych.org or write a message on Slack #problems channel',
+    },
     recover: {
       title: 'Recover your password',
       button: 'Reset your password',
@@ -78,6 +120,7 @@ export const en = {
       emailSent: 'Recovery link has been sent to your email',
     },
     register: {
+      title: 'Register',
       password: 'Password',
       confirmPassword: 'Confirm Password',
       button: 'Register',
@@ -118,11 +161,12 @@ export const en = {
       },
     },
     report: {
-      button: 'Send report',
+      button: 'Send',
       clear: 'Clear text and map pin location',
       success: 'Report has been sent',
       pinInfo: 'Click elsewhere to move marker',
-      approve: 'Approve',
+      edit: 'Edit report',
+      approve: 'Approve report',
       approved: 'Report approved!',
       decline: 'Decline',
       closed: 'Report closed',
@@ -130,6 +174,14 @@ export const en = {
       rejectInfo: 'Report is rejected and will not be considered.',
       noTextFound: 'Fill report text',
       noPinFound: 'Click on map to create a location pin',
+      stopName: 'Stop name:',
+      coordinatesName: 'Report coordinates:',
+      status: 'Report status:',
+      active: 'Active',
+      inactive: 'Inactive',
+      placeholder: 'Yout report...',
+      introInfo: 'Click on stop or report pin to display report details or click on the map to add new report',
+      modal: 'Your changes will not be saved. Are you sure?',
     },
     setPassword: {
       title: 'Set a new password',
@@ -147,13 +199,13 @@ export const en = {
       profile: 'Profile',
       managementDashboard: 'Management Dashboard',
       history: 'History',
+      viewPlaceholder: 'Click on stop or report pin to display details.',
     },
     tileModePrompts: {
       view: 'View mode - see bus stop or report details',
       report: 'Create report on map',
       connection: 'Create new connection',
       back: 'Hide tile',
-      approveConnections: 'Approve Connections'
     },
     error: {
       unrecognizedProblem: 'Something went wrong. Please contact administrator.',
@@ -167,6 +219,14 @@ export const en = {
       exception: 'Unknown exception occurred. Please contact administrator.',
     },
     version: 'Version: ',
+    welcomeModal: {
+      title: 'Welcome to the Osm Integrator system',
+      content:
+        'Thanks to your work, blind people will be able to better use the possibilities of navigation applications. \n \n You do not currently have any editing area assigned. To access the area, write to us at  kontakt@rozwiazaniadlaniewidomych.org. \n \n To understand how the system works, see the instruction available at the link below.',
+      button: 'User manual',
+      checkbox: 'Do not show again',
+      hide: 'Hide',
+    },
     managementPanel: {
       assignRoleTitle: 'Assign role to user',
       chooseUser: 'Choose user',
@@ -176,8 +236,11 @@ export const en = {
       assignUserToTile: 'Assign user to the tile',
       assigned: 'Assigned',
       noUser: 'None',
+      editor: 'Editor',
+      supervisor: 'Supervisor',
     },
     yes: 'Yes',
     no: 'No',
+    or: 'Or',
   },
 };

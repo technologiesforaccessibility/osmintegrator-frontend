@@ -1,7 +1,7 @@
 import i18n from '../translations/i18n';
-import StarHalfIcon from '@mui/icons-material/StarHalf';
-import StarIcon from '@mui/icons-material/Star';
-import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import FullfilledDotIcon from '@mui/icons-material/FiberManualRecord';
+import HalfFullfilledDotIcon from '@mui/icons-material/FiberManualRecordTwoTone';
+import OutlinedDotIcon from '@mui/icons-material/FiberManualRecordOutlined';
 
 export const paths = {
   HOME: '/',
@@ -30,17 +30,22 @@ export const connectionVisibility = {
   hidden: {
     text: i18n.t('connectionVisibility.hidden'),
     opacityValue: 0,
-    icon: () => <StarOutlineIcon />,
+    icon: () => <OutlinedDotIcon />,
   },
   semiTransparent: {
     text: i18n.t('connectionVisibility.semiTransparent'),
     opacityValue: 0.5,
-    icon: () => <StarHalfIcon />,
+    icon: () => <HalfFullfilledDotIcon />,
   },
-
   visible: {
     text: i18n.t('connectionVisibility.visible'),
     opacityValue: 1,
-    icon: () => <StarIcon />,
+    icon: () => <FullfilledDotIcon />,
   },
+};
+
+export const localStorageStopTypes = {
+  connected: 'connectedStopVisibility',
+  unconnected: 'unconnectedStopVisibility',
+  approved: 'stopWithApprovedConnectionVisibility',
 };

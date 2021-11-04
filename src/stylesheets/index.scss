@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  overflow: hidden;
 }
 
 code {
@@ -18,7 +20,7 @@ code {
   height: 100vh;
 }
 
-body {
+html, body, #root {
   height: 100%;
   width: 100%;
 }

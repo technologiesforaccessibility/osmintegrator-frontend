@@ -1,15 +1,17 @@
 .dashboard-header {
   display: grid;
-  grid-template-areas: "logo rest";
+  grid-template-areas: 'logo rest';
   grid-template-columns: auto auto;
 
   &--button-box {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    margin-left: 0.5rem;
+    margin: 0.5rem;
     display: inline-block;
   }
-
+  &--button-profile {
+    svg {
+      border-radius: 50%;
+    }
+  }
   &__logo {
     grid-area: logo;
     justify-items: left;

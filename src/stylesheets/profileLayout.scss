@@ -1,0 +1,20 @@
+.profile-layout {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 20px 40px;
+
+  &__title {
+    border-bottom: 1px solid #efefef;
+    padding-bottom: 10px;
+  }
+  &__data {
+    padding: 20px 0;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #efefef;
+  }
+  &__data-el {
+    &:not(:last-child) {
+      margin-bottom: 30px;
+    }
+  }
+}
