@@ -1,9 +1,11 @@
 .conversation-message {
   color: #666;
+  &:not(:last-child) {
+    margin-bottom: 0.625rem;
+  }
   fieldset {
     border: 1px solid #0000001f;
     border-radius: 5px;
-    margin-bottom: 0.625rem;
     legend {
       float: none;
       font-size: 0.75rem;
