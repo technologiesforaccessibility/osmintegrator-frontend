@@ -50,7 +50,7 @@ const DashboardHeader = () => {
             {t('sidebar.map')}
           </Button>
         </div>
-        {authRoles && authRoles.some((role: string) => [roles.SUPERVISOR, roles.COORDINATOR].includes(role)) && (
+        {authRoles?.some((role: string) => [roles.SUPERVISOR, roles.COORDINATOR].includes(role)) && (
           <div className="dashboard-header--button-box">
             <Button
               color="primary"
@@ -72,7 +72,7 @@ const DashboardHeader = () => {
             {t('sidebar.contact')}
           </Button>
         </div>
-        <Tooltip title={<>{t('sidebar.profile')}</>}>
+        <Tooltip title={t<string>('sidebar.profile' as const)}>
           <Chip
             className="dashboard-header--button-profile"
             avatar={<AccountCircleIcon color="warning" />}
@@ -83,7 +83,7 @@ const DashboardHeader = () => {
             onClick={() => history.push(paths.PROFILE)}
           />
         </Tooltip>
-        <Tooltip title={<>{t('logout.button')}</>}>
+        <Tooltip title={t<string>('logout.button')}>
           <IconButton color="primary" onClick={logoutClicked}>
             <LogoutIcon fontSize="medium" />
           </IconButton>
