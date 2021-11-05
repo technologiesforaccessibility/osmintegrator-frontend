@@ -108,6 +108,8 @@ export const pl = {
       header: 'Profil',
       userName: 'Użytkownik',
       roles: 'Role',
+      noRoles:
+        'Nie posiadasz przypisanej roli. Wyślij wiadomość do kontakt@rozwiazaniadlaniewidomych.org lub napisz wiadomość na Slacku na kanale #problems',
       MVPPlaceholder:
         'Jeśli chcesz zmienić email lub hasło, wyślij wiadomość do kontakt@rozwiazaniadlaniewidomych.org lub napisz wiadomość na Slacku na kanale #problems',
     },

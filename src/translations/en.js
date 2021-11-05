@@ -110,6 +110,8 @@ export const en = {
       header: 'Profile',
       userName: 'User name',
       roles: 'Roles',
+      noRoles:
+        'You do not have an assigned role. Email kontakt@rozwiazaniadlaniewidomych.org or post a message on Slack on the #problems channel',
       MVPPlaceholder:
         'If you want to change email or password, please send email to kontakt@rozwiazaniadlaniewidomych.org or write a message on Slack #problems channel',
     },
