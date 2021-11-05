@@ -23,7 +23,9 @@ export default function ProfileLayout({children}) {
             </div>
             <div className="profile-layout__data-el">
               <h4 className="profile-layout__heading">{t('profile.roles')}</h4>
-              <p className="profile-layout__text">{[authRoles].join(', ')}</p>
+              <p className="profile-layout__text">
+                {authRoles ? [authRoles].join(', ') : <b>{t('profile.noRoles')}</b>}
+              </p>
             </div>
           </div>
 
