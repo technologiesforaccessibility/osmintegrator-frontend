@@ -187,7 +187,13 @@ export const en = {
     },
     setPassword: {
       title: 'Set a new password',
+      user: 'User:',
       button: 'Change',
+      noParams: {
+        first: 'To reset your password, please use the link sent to the e-mail address provided.',
+        second: 'E-mail must be entered',
+        third: 'here.',
+      },
       401: 'Wrong email or expired link',
       password: 'Password',
       repeatPassword: 'Repeat password',

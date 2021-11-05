@@ -1,8 +1,8 @@
 import {useState} from 'react';
 import {useFormik} from 'formik';
-import {Redirect} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
-import {Button, InputAdornment, TextField, Tooltip} from '@mui/material';
+import {Button, Chip, Divider, InputAdornment, TextField, Tooltip, Typography} from '@mui/material';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
 import {
@@ -20,6 +20,7 @@ import AuthContainer from '../AuthContainer';
 
 import '../../stylesheets/setPassword.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
+import AuthBottomPanel from './AuthBottomPanel';
 
 const SetPassword = () => {
   const {t} = useTranslation();
@@ -68,8 +69,30 @@ const SetPassword = () => {
     <AuthContainer>
       {shouldRedirect && <Redirect to={paths.LOGIN} />}
 
-      <h1 className="auth-title">{t('setPassword.title')}</h1>
-      <h3 className="subtitle">{getEmailFromPath(window.location.href)}</h3>
+      <div className="register__logo">
+        <h1 className="register__title" color="primary">
+          Zmień hasło
+        </h1>
+      </div>
+
+      {getEmailFromPath(window.location.href) ? (
+        <div>
+          <Typography gutterBottom>{t('setPassword.user')}</Typography>
+          <Typography variant="subtitle2" gutterBottom>
+            {getEmailFromPath(window.location.href)}
+          </Typography>
+        </div>
+      ) : (
+        <div>
+          <Typography variant="subtitle1" gutterBottom>
+            {t('setPassword.noParams.first')}
+          </Typography>
+          <Typography variant="subtitle1" gutterBottom>
+            {t('setPassword.noParams.second')}
+            <Link to={paths.RECOVER_PASSWORD}> {t('setPassword.noParams.third')}</Link>
+          </Typography>
+        </div>
+      )}
       <form className="content-container" onSubmit={formik.handleSubmit}>
         <div className="content-container__text-field">
           <TextField
@@ -94,7 +117,7 @@ const SetPassword = () => {
         <div className="content-container__text-field">
           <TextField
             type="password"
-            id="password2"
+            id="newPassword2"
             label={t('setPassword.repeatPassword')}
             onChange={formik.handleChange}
             value={formik.values.newPassword2}
@@ -111,10 +134,17 @@ const SetPassword = () => {
             }}
           />
         </div>
-        <Button variant="contained" type="submit" className="register__button">
+        <Button sx={{marginTop: '20px'}} variant="contained" type="submit" className="register__button">
           {t('setPassword.button')}
         </Button>
       </form>
+
+      <Divider sx={{marginTop: '20px'}}>
+        <Chip label={t('or')} />
+      </Divider>
+
+      <AuthBottomPanel linkText={t('register.login')} link={paths.LOGIN} />
+
       <div className="centered auth-info-placeholder">
         {message && <span style={{color: messageColor}}>{message}</span>}
       </div>

@@ -187,7 +187,13 @@ export const pl = {
     },
     setPassword: {
       title: 'Ustaw nowe hasło',
+      user: 'Użytkownik:',
       button: 'Zmień',
+      noParams: {
+        first: 'Aby zresetować hasło należy skorzystać z linku wysłanego na wskazany na adres E-mail.',
+        second: 'E-mail należy wpisać',
+        third: 'tutaj.',
+      },
       401: 'Niepoprawny email lub przeterminowany link',
       password: 'Hasło',
       repeatPassword: 'Powtórz hasło',
