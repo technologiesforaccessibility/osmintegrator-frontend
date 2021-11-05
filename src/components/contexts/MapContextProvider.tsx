@@ -1,6 +1,6 @@
 import {createContext, FC, useCallback, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {Connection, NewNote, NoteStatus, Stop, Tile} from '../../api/apiClient';
+import {Connection, Conversation, NoteStatus, Stop, Tile} from '../../api/apiClient';
 import {selectLoggedInUserRoles} from '../../redux/selectors/authSelector';
 import i18n from '../../translations/i18n';
 import {connectionVisibility, localStorageStopTypes} from '../../utilities/constants';
@@ -41,7 +41,7 @@ interface IMapContext {
   activeTile: Tile | null;
   rerenderReports: boolean;
   importedConnections: Array<Connection>;
-  importedReports: Array<NewNote>;
+  importedReports: Array<Conversation>;
   isEditingReportMode: boolean;
   openReportContent: null | {lat: number; lon: number; text: string; id: string; tileId: string; status: NoteStatus};
   rerenderTiles: boolean;
@@ -51,6 +51,16 @@ interface IMapContext {
   visibilityOptions: VisibilityOptions;
   approvedStopIds: Array<string>;
   activeStop: Stop | null;
+  isSidebarConnectionHandlerVisible: boolean;
+  tileStops: Array<Stop>;
+  connectedStopPair: {
+    markedStop: {id: string; name: string} | null;
+    connectedStop: {id: string; name: string} | null;
+    connection: {id: string; approved: boolean} | null;
+  };
+  setConnectedStopPair: (arg: any) => void;
+  setTileStops: (arg: Array<Stop>) => void;
+  setIsSidebarConnectionHandlerVisible: (arg: boolean) => void;
   setApprovedStopIds: (arg: Array<string>) => void;
   setAreManageReportButtonsVisible: (arg: boolean) => void;
   resetMapSettings: () => void;
@@ -75,7 +85,7 @@ interface IMapContext {
   setActiveTile: React.Dispatch<React.SetStateAction<Tile | null>>;
   setRerenderReports: React.Dispatch<React.SetStateAction<boolean>>;
   setImportedConnections: React.Dispatch<React.SetStateAction<Array<Connection>>>;
-  setImportedReports: React.Dispatch<React.SetStateAction<Array<NewNote>>>;
+  setImportedReports: React.Dispatch<React.SetStateAction<Array<Conversation>>>;
   hideTileElements: () => void;
   setIsEditingReportMode: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenReportContent: React.Dispatch<
@@ -142,6 +152,12 @@ const init: IMapContext = {
   },
   approvedStopIds: [],
   activeStop: null,
+  tileStops: [],
+  isSidebarConnectionHandlerVisible: false,
+  connectedStopPair: {markedStop: null, connectedStop: null, connection: null},
+  authRoles: [],
+  setConnectedStopPair: () => null,
+  setIsSidebarConnectionHandlerVisible: () => null,
   setApprovedStopIds: () => null,
   setAreManageReportButtonsVisible: () => null,
   resetMapSettings: () => null,
@@ -169,8 +185,8 @@ const init: IMapContext = {
   closeTile: () => null,
   setVisibilityOptions: () => null,
   resetMapVisibility: () => null,
-  authRoles: [],
   setActiveStop: () => null,
+  setTileStops: () => null,
 };
 
 export const MapContext = createContext<IMapContext>(init);
@@ -237,7 +253,7 @@ const MapContextProvider: FC = ({children}) => {
   const [rerenderReports, setRerenderReports] = useState(false);
   const [activeTile, setActiveTile] = useState<Tile | null>(null);
   const [importedConnections, setImportedConnections] = useState<Array<Connection>>([]);
-  const [importedReports, setImportedReports] = useState<Array<NewNote>>([]);
+  const [importedReports, setImportedReports] = useState<Array<Conversation>>([]);
   const [openReportContent, setOpenReportContent] = useState<null | {
     lat: number;
     lon: number;
@@ -253,6 +269,9 @@ const MapContextProvider: FC = ({children}) => {
   const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);
   const [visibilityOptions, setVisibilityOptions] = useState(initialVisibility());
   const [activeStop, setActiveStop] = useState<Stop | null>(null);
+  const [tileStops, setTileStops] = useState<Array<Stop>>([]);
+  const [isSidebarConnectionHandlerVisible, setIsSidebarConnectionHandlerVisible] = useState(false);
+  const [connectedStopPair, setConnectedStopPair] = useState({markedStop: null, connectedStop: null, connection: null});
 
   const authRoles = useSelector(selectLoggedInUserRoles);
 
@@ -312,6 +331,9 @@ const MapContextProvider: FC = ({children}) => {
     setActiveTile(null);
     setImportedConnections([]);
     setImportedReports([]);
+    setIsSidebarConnectionHandlerVisible(false);
+    setConnectedStopPair({markedStop: null, connectedStop: null, connection: null});
+    setTileStops([]);
   }, []);
 
   const closeTile = useCallback(() => {
@@ -334,6 +356,7 @@ const MapContextProvider: FC = ({children}) => {
   return (
     <MapContext.Provider
       value={{
+        authRoles,
         isTileActive,
         mapMode,
         isMapActive,
@@ -355,6 +378,12 @@ const MapContextProvider: FC = ({children}) => {
         visibilityOptions,
         approvedStopIds,
         activeStop,
+        isSidebarConnectionHandlerVisible,
+        connectedStopPair,
+        tileStops,
+        setTileStops,
+        setConnectedStopPair,
+        setIsSidebarConnectionHandlerVisible,
         setApprovedStopIds,
         setAreManageReportButtonsVisible,
         resetMapSettings,
@@ -382,7 +411,6 @@ const MapContextProvider: FC = ({children}) => {
         closeTile,
         setVisibilityOptions,
         resetMapVisibility,
-        authRoles,
         setActiveStop,
       }}>
       {children}

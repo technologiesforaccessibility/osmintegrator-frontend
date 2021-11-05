@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {ConversationContext} from './contexts/ConversationProvider';
 import api from '../api/apiInstance';
@@ -18,7 +18,7 @@ const NewReport = () => {
   const [loading, setLoading] = useState(false);
   const [isReportActive, setReportActive] = useState(false);
   const [conversation, setConversation] = useState(null);
-
+  const conversationWrapper = useRef(null);
   const {t} = useTranslation();
   const {newReportCoordinates, resetReportCoordinates, activeStop, setActiveStop} = useContext(MapContext);
   const {geoConversations, stopConversations, setUsers, users, inputContent, setInputContent, openModal, setOpenModal} =
@@ -27,6 +27,7 @@ const NewReport = () => {
 
   useEffect(() => {
     getStopConversation();
+    scrollToEnd();
     if (loading) {
       setLoading(false);
     }
@@ -35,7 +36,7 @@ const NewReport = () => {
 
   useEffect(() => {
     getGeoConversation();
-
+    scrollToEnd();
     if (loading) {
       setLoading(false);
     }
@@ -105,6 +106,14 @@ const NewReport = () => {
     resetReportCoordinates();
   };
 
+  const scrollToEnd = () => {
+    setTimeout(() => {
+      if (conversationWrapper.current) {
+        conversationWrapper.current.scrollTop = conversationWrapper.current.scrollHeight;
+      }
+    }, 100);
+  };
+
   return (
     <div className="report">
       {activeStop || (lat && lon) ? (
@@ -124,7 +133,7 @@ const NewReport = () => {
           />
 
           <div className="report__content bordered-wrapper">
-            <div className="report__conversation">
+            <div ref={conversationWrapper} className="report__conversation">
               {conversation ? (
                 conversation.messages
                   .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))

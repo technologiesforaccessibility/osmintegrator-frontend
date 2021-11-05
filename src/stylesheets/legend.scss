@@ -1,0 +1,35 @@
+.legend {
+  &__title {
+    text-align: center;
+    margin: 1rem 0 1.5rem;
+    font-weight: 400;
+    font-size: 1.25rem;
+  }
+  &__close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+  &__content {
+    columns: 2;
+  }
+  &__row {
+    list-style: none;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+  }
+  &__icon {
+    flex-shrink: 0;
+    margin-right: 0.625rem;
+    img {
+      max-height: 2.5rem;
+    }
+  }
+  &__description {
+    margin: 0;
+    padding: 0;
+    line-height: 1.25;
+    font-size: 0.875rem;
+  }
+}

@@ -6,8 +6,8 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Tooltip from '@mui/material/Tooltip';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ReportIcon from '@mui/icons-material/Report';
-import SettingsEthernetIcon from '@mui/icons-material/SettingsEthernet';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {ReactComponent as ConnectionIcon} from '../assets/connection-panel-icon.svg';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 
@@ -17,10 +17,12 @@ import MapOptions from './MapOptions';
 
 import '../stylesheets/mapPanel.scss';
 import {modalStyle} from '../stylesheets/sharedStyles';
+import {ConversationContext} from './contexts/ConversationProvider';
 
 const MapPanel = () => {
   const {isTileActive, singleTileToggle, mapMode, toogleMapMode, hideTileElements, resetMapSettings} =
     useContext(MapContext);
+  const {setReload} = useContext(ConversationContext);
   const {t} = useTranslation();
 
   const [open, setOpen] = useState(false);
@@ -41,7 +43,7 @@ const MapPanel = () => {
     {
       title: t('tileModePrompts.connection'),
       name: MapModes.connection,
-      icon: () => <SettingsEthernetIcon />,
+      icon: () => <ConnectionIcon />,
     },
     {
       title: t('tileModePrompts.tile'),
@@ -67,6 +69,7 @@ const MapPanel = () => {
                 singleTileToggle(false);
                 hideTileElements();
                 resetMapSettings();
+                setReload(null);
               }}>
               <Tooltip title={t('tileModePrompts.back')}>
                 <ArrowBackIcon />

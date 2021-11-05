@@ -25,10 +25,10 @@ import {useCookies} from 'react-cookie';
 import {roles} from '../utilities/constants';
 import {LeafletMouseEvent} from 'leaflet';
 import {ConversationContext} from './contexts/ConversationProvider';
+import Legend from './mapComponents/Legend';
 
 export const MapView = () => {
   const {t} = useTranslation();
-  const [allStops, setAllStops] = useState<Array<Stop>>([]);
   const [activeBusStopId, setActiveBusStopId] = useState<string | null>(null);
   const [modal, setModal] = useState(false);
   const [welcomeModalCookie, setWelcomeModalCookie] = useCookies(['welcome_modal']);
@@ -67,6 +67,8 @@ export const MapView = () => {
     setApprovedStopIds,
     setAreManageReportButtonsVisible,
     authRoles,
+    tileStops,
+    setTileStops,
     setActiveStop,
   } = useContext(MapContext);
 
@@ -135,7 +137,7 @@ export const MapView = () => {
           }
           return stop;
         });
-        setAllStops(stops);
+        setTileStops(stops);
         if (toggleTile) {
           singleTileToggle(true);
         }
@@ -144,7 +146,7 @@ export const MapView = () => {
       }
       setIsLoading(false);
     },
-    [singleTileToggle, stopConversations],
+    [singleTileToggle, stopConversations, setTileStops],
   );
 
   const getTileConnections = useCallback(
@@ -195,10 +197,12 @@ export const MapView = () => {
   const getTileReports = useCallback(
     async id => {
       try {
-        const response = await api.notesDetail(id, {
+        const response = await api.conversationDetail(id, {
           headers: basicHeaders(),
         });
-        setImportedReports(response.data);
+        if (response.data.geoConversations) {
+          setImportedReports(response.data.geoConversations);
+        }
       } catch (error) {
         exception(error);
       }
@@ -237,13 +241,13 @@ export const MapView = () => {
   }, [getAvailableTiles]);
 
   useEffect(() => {
-    if (activeTile && activeTile.id) {
+    if (activeTile && activeTile.id && !reload) {
       setIsLoading(true);
       getTileStops(activeTile.id);
       getTileConnections(activeTile.id);
       getTileReports(activeTile.id);
     }
-  }, [activeTile, getTileConnections, getTileReports, getTileStops]);
+  }, [activeTile, getTileConnections, getTileReports, getTileStops, reload]);
 
   useEffect(() => {
     if (activeTile && activeTile.id) {
@@ -313,7 +317,7 @@ export const MapView = () => {
         <Pane name="connections">
           <NewConnections connections={connectionData} isTileActive={isTileActive} />
           <ImportedConnections
-            stops={allStops}
+            stops={tileStops}
             inApproveMode={(authRoles || []).includes(roles.SUPERVISOR) && !!activeTile?.approvedByEditor}
           />
         </Pane>
@@ -326,16 +330,16 @@ export const MapView = () => {
           addReportMarker={addReportMarker}
         />
         <TileStops
-          stops={allStops}
           createConnection={createConnection}
           isActiveStopClicked={isActiveStopClicked}
           clickBusStop={clickBusStop}
           isConnectionMode={mapMode === MapModes.connection}
           isViewMode={mapMode === MapModes.view}
-          inReportMode={mapMode === MapModes.report}
+          isReportMode={mapMode === MapModes.report}
         />
         <NewReportMarker newReportCoordinates={newReportCoordinates} />
-        <ImportedReports reports={importedReports} />
+        <ImportedReports reports={importedReports} resetActiveStop={() => setActiveBusStopId(null)} />
+        <Legend />
       </MapContainer>
       {modal && !welcomeModalCookie.welcome_modal && (
         <Modal open={modal} onClose={closeModal}>
@@ -349,6 +353,7 @@ export const MapView = () => {
               bgcolor: 'white',
               border: '0px solid #000',
               boxShadow: 24,
+              p: 4,
             }}>
             <WelcomeModal handleClose={closeModal} />
           </Box>
