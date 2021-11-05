@@ -4,14 +4,18 @@
   color: #666;
   &__wrapper {
     height: 100%;
-    display: flex;
-    flex-direction: column;
   }
   &__content {
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    max-height: calc(100% - 140px);
+    display: grid;
+    grid-template-rows: 1fr minmax(140px, 160px);
+  }
+  &__conversation {
+    overflow-y: scroll;
+  }
+  &__form {
+    align-self: end;
   }
   &__loader {
     display: flex;
