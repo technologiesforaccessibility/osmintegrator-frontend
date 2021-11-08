@@ -120,6 +120,7 @@ export const en = {
       button: 'Reset your password',
       401: 'Are you sure you have sent correct email?',
       emailSent: 'Recovery link has been sent to your email',
+      buttonSent: 'E-mail has been sent',
     },
     register: {
       title: 'Register',
@@ -189,6 +190,7 @@ export const en = {
       title: 'Set a new password',
       user: 'User:',
       button: 'Change',
+      buttonSent: 'Password has been changed',
       noParams: {
         first: 'To reset your password, please use the link sent to the e-mail address provided.',
         second: 'E-mail must be entered',

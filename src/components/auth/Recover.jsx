@@ -9,7 +9,7 @@ import AuthContainer from '../AuthContainer';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 
 import colors from '../../stylesheets/config/colors.module.scss';
-import {Button, Chip, Divider, InputAdornment, TextField, Tooltip} from '@mui/material';
+import {Button, Chip, Divider, InputAdornment, TextField, Tooltip, CircularProgress} from '@mui/material';
 import AuthBottomPanel from './AuthBottomPanel';
 import {paths} from '../../utilities/constants';
 
@@ -18,12 +18,15 @@ const Recover = () => {
 
   const [message, setMessage] = useState(null);
   const [messageColor, setMessageColor] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [isSend, setIsSend] = useState(false);
 
   const formik = useFormik({
     initialValues: {
       recoverEmail: '',
     },
     onSubmit: ({recoverEmail}) => {
+      setLoading(true);
       runRecover(recoverEmail);
     },
   });
@@ -38,10 +41,12 @@ const Recover = () => {
       );
       setMessageColor(colors['colorMessageSuccess']);
       setMessage(t('recover.emailSent'));
+      setIsSend(true);
     } catch (error) {
       setMessageColor(colors['colorMessageFail']);
       setMessage(unsafeFormApiError(error, t, 'recover'));
     }
+    setLoading(false);
   };
 
   return (
@@ -74,8 +79,14 @@ const Recover = () => {
             }}
           />
         </div>
-        <Button sx={{marginTop: '20px'}} variant="contained" type="submit">
-          {t('recover.button')}
+        <Button sx={{marginTop: '20px'}} variant="contained" type="submit" fullWidth disabled={isSend}>
+          {loading ? (
+            <CircularProgress size={23} color="info" />
+          ) : isSend ? (
+            t('recover.buttonSent')
+          ) : (
+            t('recover.button')
+          )}
         </Button>
       </form>
       <Divider sx={{marginTop: '20px'}}>

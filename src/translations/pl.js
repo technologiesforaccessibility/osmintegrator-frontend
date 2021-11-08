@@ -118,6 +118,7 @@ export const pl = {
       button: 'Zresetuj swoje hasło',
       401: 'Sprawdź czy podany adres email jest poprawny',
       emailSent: 'Na podany adres została wysłana wiadomość z instrukcją odzyskania hasła',
+      buttonSent: 'E-mail został przesłany',
     },
     register: {
       title: 'Rejestracja',
@@ -189,6 +190,7 @@ export const pl = {
       title: 'Ustaw nowe hasło',
       user: 'Użytkownik:',
       button: 'Zmień',
+      buttonSent: 'Hasło zostało zmienione',
       noParams: {
         first: 'Aby zresetować hasło należy skorzystać z linku wysłanego na wskazany na adres E-mail.',
         second: 'E-mail należy wpisać',

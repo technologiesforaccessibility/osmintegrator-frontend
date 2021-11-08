@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {useFormik} from 'formik';
 import {Link, Redirect} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
-import {Button, Chip, Divider, InputAdornment, TextField, Tooltip, Typography} from '@mui/material';
+import {Button, Chip, CircularProgress, Divider, InputAdornment, TextField, Tooltip, Typography} from '@mui/material';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
 import {
@@ -29,12 +29,16 @@ const SetPassword = () => {
   const [messageColor, setMessageColor] = useState(null);
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+  const [isSend, setIsSend] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       newPassword1: '',
       newPassword2: '',
     },
     onSubmit: ({newPassword1, newPassword2}) => {
+      setLoading(true);
       runUpdatePassword(newPassword1, newPassword2);
     },
   });
@@ -55,10 +59,12 @@ const SetPassword = () => {
         setMessageColor(colors.colorMessageSuccess);
         setMessage(t('setPassword.changedPassword'));
         setTimeout(() => setShouldRedirect(true), 5000);
+        setIsSend(true);
       } catch (error) {
         setMessageColor(colors['colorMessageFail']);
         setMessage(unsafeFormApiError(error, t, 'setPassword'));
       }
+      setLoading(false);
     } else {
       setMessageColor(colors['colorMessageFail']);
       setMessage(t('setPassword.invalidPasswords'));
@@ -134,8 +140,20 @@ const SetPassword = () => {
             }}
           />
         </div>
-        <Button sx={{marginTop: '20px'}} variant="contained" type="submit" className="register__button">
-          {t('setPassword.button')}
+        <Button
+          sx={{marginTop: '20px'}}
+          variant="contained"
+          type="submit"
+          fullWidth
+          disabled={isSend}
+          className="register__button">
+          {loading ? (
+            <CircularProgress size={23} color="info" />
+          ) : isSend ? (
+            t('setPassword.buttonSent')
+          ) : (
+            t('setPassword.button')
+          )}
         </Button>
       </form>
 
