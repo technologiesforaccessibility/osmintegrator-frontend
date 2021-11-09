@@ -5,7 +5,15 @@ import {generateStopName} from '../utilities/mapUtilities';
 import {useContext, useMemo} from 'react';
 import {MapContext} from './contexts/MapContextProvider';
 
-const BusMarker = ({busStop, isConnectionMode, createConnection, isViewMode, isActiveStopClicked, clickBusStop, isReportMode}) => {
+const BusMarker = ({
+  busStop,
+  isConnectionMode,
+  createConnection,
+  isViewMode,
+  isActiveStopClicked,
+  clickBusStop,
+  isReportMode,
+}) => {
   const {
     visibilityOptions,
     connectedStopIds,
@@ -75,7 +83,8 @@ const BusMarker = ({busStop, isConnectionMode, createConnection, isViewMode, isA
       icon={getIcon()}
       riseOnHover={true}
       opacity={opacity}
-      shadowPane="tooltipPane"
+      pane="shadowPane"
+      shadowPane="markerPane"
       zIndexOffset={isActiveStopClicked(busStop.id) ? 1000 : 0}
       eventHandlers={{
         click: () => {
