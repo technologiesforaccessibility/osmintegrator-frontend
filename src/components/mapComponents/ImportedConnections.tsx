@@ -102,7 +102,7 @@ const ImportedConnections: FC<ImportedConnectionsProps> = ({stops, inApproveMode
                       ? visibilityOptions.approved.value.opacityValue
                       : visibilityOptions.connected.value.opacityValue,
                   }}
-                  pane="markerPane"
+                  pane="tooltipPane"
                   positions={getPosition(foundOSM, foundGTFS)}>
                   {(!approved && (
                     <>
