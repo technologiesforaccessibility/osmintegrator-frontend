@@ -12,6 +12,7 @@ import colors from '../../stylesheets/config/colors.module.scss';
 import {Button, Chip, Divider, InputAdornment, TextField, Tooltip, CircularProgress} from '@mui/material';
 import AuthBottomPanel from './AuthBottomPanel';
 import {paths} from '../../utilities/constants';
+import {Redirect} from 'react-router';
 
 const Recover = () => {
   const {t} = useTranslation();
@@ -20,6 +21,7 @@ const Recover = () => {
   const [messageColor, setMessageColor] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isSend, setIsSend] = useState(false);
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -42,6 +44,7 @@ const Recover = () => {
       setMessageColor(colors['colorMessageSuccess']);
       setMessage(t('recover.emailSent'));
       setIsSend(true);
+      setShouldRedirect(true);
     } catch (error) {
       setMessageColor(colors['colorMessageFail']);
       setMessage(unsafeFormApiError(error, t, 'recover'));
@@ -51,6 +54,8 @@ const Recover = () => {
 
   return (
     <AuthContainer>
+      {shouldRedirect && <Redirect to={paths.RECOVER_CONFIRM} />}
+
       <div className="register__logo">
         <h1 className="register__title" color="primary">
           {t('recover.title')}

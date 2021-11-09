@@ -58,7 +58,7 @@ const SetPassword = () => {
         );
         setMessageColor(colors.colorMessageSuccess);
         setMessage(t('setPassword.changedPassword'));
-        setTimeout(() => setShouldRedirect(true), 5000);
+        setShouldRedirect(true);
         setIsSend(true);
       } catch (error) {
         setMessageColor(colors['colorMessageFail']);
@@ -73,7 +73,7 @@ const SetPassword = () => {
 
   return (
     <AuthContainer>
-      {shouldRedirect && <Redirect to={paths.LOGIN} />}
+      {shouldRedirect && <Redirect to={paths.CHANGE_PASSWORD_CONFIRM} />}
 
       <div className="register__logo">
         <h1 className="register__title" color="primary">

@@ -121,6 +121,10 @@ export const en = {
       401: 'Are you sure you have sent correct email?',
       emailSent: 'Recovery link has been sent to your email',
       buttonSent: 'E-mail has been sent',
+      confirm: {
+        header: 'The link needed to recover the password has been sent!',
+        paragraph: 'Enter the provided e-mail address to complete the procedure.',
+      },
     },
     register: {
       title: 'Register',
@@ -202,6 +206,10 @@ export const en = {
       invalidPasswords: 'Provided passwords must be the same and have 8+ chars',
       expiredToken: 'It looks like your token has expired. \n Reset your password again.',
       changedPassword: 'Password has been changed! \n You will be redirected do login page soon',
+      confirm: {
+        header: 'The password has been successfully changed!',
+        paragraph: 'Return to the login page.',
+      },
     },
     sidebar: {
       contact: 'Contact us',
