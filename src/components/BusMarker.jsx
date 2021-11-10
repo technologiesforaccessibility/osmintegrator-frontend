@@ -24,6 +24,7 @@ const BusMarker = ({
     tileStops,
     setActiveStop,
     setNewReportCoordinates,
+    connectionData,
   } = useContext(MapContext);
   const opacity = useMemo(() => {
     if (connectedStopIds.includes(busStop.id)) {
@@ -69,9 +70,12 @@ const BusMarker = ({
     setConnectedStopPair({markedStop: null, connectedStop: null, connection: null});
   };
 
-  const getIcon = () => {
+  const getIcon = busStop => {
     if (isViewMode || isReportMode) {
       return getBusStopIcon(busStop, isActiveStopClicked(busStop.id));
+    } else if (isConnectionMode) {
+      const activeStopWithConnection = connectionData.filter(connection => connection.id === busStop.id);
+      return activeStopWithConnection.length > 0 ? getBusStopIcon(busStop, true) : getBusStopIcon(busStop, false);
     } else {
       return getBusStopIcon(busStop, false);
     }
@@ -81,7 +85,7 @@ const BusMarker = ({
     <Marker
       key={busStop.id}
       position={[busStop.lat, busStop.lon]}
-      icon={getIcon()}
+      icon={getIcon(busStop)}
       riseOnHover={true}
       opacity={opacity}
       pane="shadowPane"

@@ -54,6 +54,7 @@ const ConnectionSidePanel = () => {
       shouldRenderConnections(true);
       resetConnection();
       dispatch(NotificationActions.success(t('connection.createSuccessMessage')));
+      setActiveStop(null);
     } catch (error) {
       exception(error);
     }

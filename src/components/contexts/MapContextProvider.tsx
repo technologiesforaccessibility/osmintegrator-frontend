@@ -69,7 +69,7 @@ interface IMapContext {
   setRerenderTiles: (arg: boolean) => void;
   singleTileToggle: (arg: boolean) => void;
   activeMapToggle: (arg: boolean) => void;
-  displayPropertyGrid: (arg: Stop | null) => void;
+  displayPropertyGrid: (arg: Stop | Conversation | null) => void;
   updateConnectionData: (arg: {
     coordinates: {lat: number; lon: number};
     id: string;
