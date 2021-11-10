@@ -5,7 +5,6 @@ export const ConversationContext = createContext();
 const ConversationContextProvider = ({children}) => {
   const [geoConversations, setGeoConversations] = useState([]);
   const [stopConversations, setStopConversations] = useState([]);
-  const [reload, setReload] = useState(null);
   const [inputContent, setInputContent] = useState('');
   const [openModal, setOpenModal] = useState(false);
 
@@ -16,8 +15,6 @@ const ConversationContextProvider = ({children}) => {
         geoConversations,
         setGeoConversations,
         setStopConversations,
-        reload,
-        setReload,
         inputContent,
         setInputContent,
         openModal,

@@ -17,12 +17,10 @@ import MapOptions from './MapOptions';
 
 import '../stylesheets/mapPanel.scss';
 import {modalStyle} from '../stylesheets/sharedStyles';
-import {ConversationContext} from './contexts/ConversationProvider';
 
 const MapPanel = () => {
   const {isTileActive, singleTileToggle, mapMode, toogleMapMode, hideTileElements, resetMapSettings} =
     useContext(MapContext);
-  const {setReload} = useContext(ConversationContext);
   const {t} = useTranslation();
 
   const [open, setOpen] = useState(false);
@@ -64,7 +62,6 @@ const MapPanel = () => {
                 singleTileToggle(false);
                 hideTileElements();
                 resetMapSettings();
-                setReload(null);
               }}>
               <Tooltip title={t('tileModePrompts.back')}>
                 <ArrowBackIcon />
