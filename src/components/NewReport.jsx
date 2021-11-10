@@ -1,10 +1,7 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import {useContext, useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {ConversationContext} from './contexts/ConversationProvider';
-import api from '../api/apiInstance';
-import {basicHeaders} from '../config/apiConfig';
 import {MapContext} from './contexts/MapContextProvider';
-import {exception} from '../utilities/exceptionHelper';
 
 import ConversationMessage from './ConversationMessage';
 import {Button, CircularProgress, Modal} from '@mui/material';
@@ -21,7 +18,7 @@ const NewReport = () => {
   const conversationWrapper = useRef(null);
   const {t} = useTranslation();
   const {newReportCoordinates, resetReportCoordinates, activeStop, setActiveStop} = useContext(MapContext);
-  const {geoConversations, stopConversations, setUsers, users, inputContent, setInputContent, openModal, setOpenModal} =
+  const {geoConversations, stopConversations, inputContent, setInputContent, openModal, setOpenModal} =
     useContext(ConversationContext);
   const {lat, lon} = newReportCoordinates;
 
@@ -44,7 +41,6 @@ const NewReport = () => {
   }, [newReportCoordinates, geoConversations]);
 
   useEffect(() => {
-    getUsers();
     async function firstRender() {
       await getStopConversation();
     }
@@ -66,17 +62,6 @@ const NewReport = () => {
       setReportActive(checkReportStatus(currentStopConversation));
     }
   }
-
-  const getUsers = async () => {
-    try {
-      const response = await api.usersList({
-        headers: basicHeaders(),
-      });
-      setUsers(response.data);
-    } catch (error) {
-      exception(error);
-    }
-  };
 
   const checkReportStatus = conv => {
     if (conv) {
@@ -137,7 +122,7 @@ const NewReport = () => {
               {conversation ? (
                 conversation.messages
                   .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
-                  .map(message => <ConversationMessage key={message.id} data={message} users={users} />)
+                  .map(message => <ConversationMessage key={message.id} data={message} />)
               ) : (
                 <p>{t('report.noReportFound')}</p>
               )}

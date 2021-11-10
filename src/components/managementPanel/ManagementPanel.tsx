@@ -32,31 +32,26 @@ function ManagementPanel() {
   const [tileUsers, setTileUsers] = useState<TileUser[]>([]);
 
   const [tilesLoaded, setTilesLoaded] = useState(false);
-  const [userSelected, setUserSelected] = useState(false);
   const [selectedTileId, setSelectedTileId] = useState('');
   const [usersLoaded, setUsersLoaded] = useState(true);
 
   const initState = () => {
     setTilesLoaded(false);
-    setUserSelected(false);
     setUsersLoaded(true);
   };
 
   const tilesLoadedState = () => {
     setTilesLoaded(true);
-    setUserSelected(false);
     setUsersLoaded(true);
   };
 
   const loadingUsersState = () => {
     setTilesLoaded(true);
-    setUserSelected(false);
     setUsersLoaded(false);
   };
 
   const userSelectedState = () => {
     setTilesLoaded(true);
-    setUserSelected(true);
     setUsersLoaded(true);
   };
 
@@ -314,7 +309,7 @@ function ManagementPanel() {
               onClick={handleSave}
               color="primary"
               variant="contained"
-              disabled={!userSelected || selectedUser === NONE || selectedSupervisor === NONE}
+              disabled={!selectedTileId}
               fullWidth>
               {t('buttons.save')}
             </Button>
