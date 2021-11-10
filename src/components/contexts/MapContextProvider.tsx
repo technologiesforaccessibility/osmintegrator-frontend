@@ -28,7 +28,7 @@ interface IMapContext {
   mapMode: string;
   isMapActive: boolean;
   areStopsVisible: boolean;
-  propertyGrid: Stop | null;
+  propertyGrid: Stop | Conversation | null;
   connectionData: Array<{
     coordinates: {lat: number; lon: number};
     id: string;
@@ -69,7 +69,7 @@ interface IMapContext {
   setRerenderTiles: (arg: boolean) => void;
   singleTileToggle: (arg: boolean) => void;
   activeMapToggle: (arg: boolean) => void;
-  displayPropertyGrid: (arg: Stop | null) => void;
+  displayPropertyGrid: (arg: Stop | Conversation | null) => void;
   updateConnectionData: (arg: {
     coordinates: {lat: number; lon: number};
     id: string;
@@ -240,7 +240,7 @@ const MapContextProvider: FC = ({children}) => {
   const [isTileActive, setIsTileActive] = useState(false);
   const [isMapActive, setIsMapActive] = useState(false);
   const [areStopsVisible, setAreStopsVisible] = useState(false);
-  const [propertyGrid, setPropertyGrid] = useState<Stop | null>(null);
+  const [propertyGrid, setPropertyGrid] = useState<Stop | Conversation | null>(null);
   const [rerenderConnections, setRerenderConnections] = useState(false);
   const [connectionData, setConnectionData] = useState<
     Array<{coordinates: {lat: number; lon: number}; id: string; name: string; ref: string; isOsm: boolean}>

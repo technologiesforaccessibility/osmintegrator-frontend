@@ -25,6 +25,7 @@ const DashboardSidebar = () => {
     openReportContent,
     areManageReportButtonsVisible,
     isSidebarConnectionHandlerVisible,
+    activeStop,
   } = useContext(MapContext);
   const authRoles = useSelector(selectLoggedInUserRoles);
   const {t} = useTranslation();
@@ -37,7 +38,7 @@ const DashboardSidebar = () => {
       userRoles={authRoles}
       appRoles={appRoles}>
       <>
-        {isSidebarConnectionHandlerVisible && mapMode === MapModes.view && <SidebarConnectionHandler />}
+        {activeStop && isSidebarConnectionHandlerVisible && mapMode === MapModes.view && <SidebarConnectionHandler />}
         {mapMode === MapModes.view ? (
           propertyGrid ? (
             <PropertyGrid propertyGrid={propertyGrid} />

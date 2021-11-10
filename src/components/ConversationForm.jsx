@@ -20,7 +20,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
   const dispatch = useDispatch();
   const authRoles = useSelector(selectLoggedInUserRoles);
   const [currentInputValue, setCurrentInputValue] = useState('');
-  const {activeTile, setRerenderReports, activeStop} = useContext(MapContext);
+  const {activeTile, setRerenderReports, activeStop, displayPropertyGrid} = useContext(MapContext);
   const {setInputContent} = useContext(ConversationContext);
   const debouncedValue = useDebounce(currentInputValue, 500);
 
@@ -92,6 +92,8 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
       );
       dispatch(NotificationActions.success(t('report.success')));
       formik.resetForm();
+      // HACK: If user after creating new raport will switch to view mode, it will show Property grid without conversation id
+      displayPropertyGrid({lat, lon, tileId: activeTile.id});
       setRerenderReports(true);
     } catch (error) {
       exception(error);

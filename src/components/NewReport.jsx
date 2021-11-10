@@ -17,7 +17,14 @@ const NewReport = () => {
   const [conversation, setConversation] = useState(null);
   const conversationWrapper = useRef(null);
   const {t} = useTranslation();
-  const {newReportCoordinates, resetReportCoordinates, activeStop, setActiveStop} = useContext(MapContext);
+  const {
+    newReportCoordinates,
+    resetReportCoordinates,
+    activeStop,
+    setActiveStop,
+    displayPropertyGrid,
+    setNewReportCoordinates,
+  } = useContext(MapContext);
   const {geoConversations, stopConversations, inputContent, setInputContent, openModal, setOpenModal} =
     useContext(ConversationContext);
   const {lat, lon} = newReportCoordinates;
@@ -73,6 +80,8 @@ const NewReport = () => {
   const handleCloseReport = () => {
     if (!inputContent) {
       setActiveStop(null);
+      setNewReportCoordinates({lat: null, lon: null});
+      displayPropertyGrid(null);
       resetReportCoordinates();
     } else {
       handleOpenModal();
