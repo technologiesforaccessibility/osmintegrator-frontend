@@ -1,4 +1,4 @@
-import {Redirect} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -53,7 +53,7 @@ const Login = () => {
         }}
         validationSchema={LoginSchema}>
         {({handleChange, values, handleSubmit, errors, touched}) => (
-          <form onSubmit={handleSubmit} noValidate>
+          <form className="content-container" onSubmit={handleSubmit} noValidate>
             <div className="content-container__text-field">
               <TextField
                 type="email"
@@ -107,10 +107,7 @@ const Login = () => {
 
       <p className="login-link">
         {t('login.forgotPassword') + ' '}
-        <a target="_blank" rel="noopener noreferrer" href={paths.RESET_PASSWORD}>
-          {t('login.clickHere')}
-        </a>
-        !
+        <Link to={paths.RECOVER_PASSWORD}>{t('login.clickHere')}</Link>!
       </p>
 
       <Divider>

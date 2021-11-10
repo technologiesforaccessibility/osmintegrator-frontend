@@ -24,6 +24,8 @@ import ProfilePanel from './ProfilePanel';
 import RegisterConfirm from './auth/RegisterConfirm';
 import RegisterActivated from './auth/RegisterActivated';
 import CookiesBar from './CookiesBar';
+import RecoverConfirm from './auth/RecoverConfirm';
+import ResetConfirm from './auth/ResetConfirm';
 
 class App extends Component {
   render() {
@@ -42,8 +44,10 @@ class App extends Component {
                     <Route path={paths.REGISTER_CONFIRM} component={RegisterConfirm} />
                     <Route path={paths.REGISTER_ACTIVATED} component={RegisterActivated} />
                     <Route path={paths.RECOVER_PASSWORD} component={Recover} />
+                    <Route path={paths.RECOVER_CONFIRM} component={RecoverConfirm} />
                     <Route path={paths.LOGOUT} component={Logout} />
                     <Route path={paths.RESET_PASSWORD} component={SetPassword} />
+                    <Route path={paths.CHANGE_PASSWORD_CONFIRM} component={ResetConfirm} />
                     <PrivateRoute path={paths.MANAGEMENT_PANEL} exact component={ManagementPanel} />
                     <PrivateRoute path={paths.CHANGE_EMAIL} exact component={ChangeEmail} />
                     <PrivateRoute path={paths.CHANGE_PASSWORD} exact component={ChangePassword} />
