@@ -10,9 +10,7 @@ const ImportedReports = ({reports, resetActiveStop}) => {
     useContext(MapContext);
 
   const handleReportClick = data => {
-    if (mapMode === MapModes.view) {
-      displayPropertyGrid(data);
-    }
+    displayPropertyGrid(data);
   };
 
   const isActive = iconCord => {
@@ -32,10 +30,17 @@ const ImportedReports = ({reports, resetActiveStop}) => {
             zIndexOffset={isActive({lat, lon}) ? 1000 : 0}
             eventHandlers={{
               click: () => {
-                handleReportClick({lat, lon, id, tileId, messages});
-                setNewReportCoordinates({lat, lon});
-                setActiveStop(null);
-                resetActiveStop();
+                if (mapMode !== MapModes.connection) {
+                  setNewReportCoordinates({lat, lon});
+                  setActiveStop(null);
+                  resetActiveStop();
+                  if (isActive({lat, lon}) && newReportCoordinates.lat && newReportCoordinates.lon) {
+                    setNewReportCoordinates({lat: null, lon: null});
+                    handleReportClick(null);
+                  } else {
+                    handleReportClick({lat, lon, id, tileId, messages});
+                  }
+                }
               },
             }}>
             <Tooltip direction="top" offset={[0, -55]}>

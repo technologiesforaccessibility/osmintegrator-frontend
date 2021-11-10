@@ -19,8 +19,19 @@ import '../stylesheets/mapPanel.scss';
 import {modalStyle} from '../stylesheets/sharedStyles';
 
 const MapPanel = () => {
-  const {isTileActive, singleTileToggle, mapMode, toogleMapMode, hideTileElements, resetMapSettings} =
-    useContext(MapContext);
+  const {
+    isTileActive,
+    singleTileToggle,
+    mapMode,
+    toogleMapMode,
+    hideTileElements,
+    resetMapSettings,
+    setNewReportCoordinates,
+    newReportCoordinates,
+    setActiveStop,
+    displayPropertyGrid,
+    openReportContent,
+  } = useContext(MapContext);
   const {t} = useTranslation();
 
   const [open, setOpen] = useState(false);
@@ -62,6 +73,8 @@ const MapPanel = () => {
                 singleTileToggle(false);
                 hideTileElements();
                 resetMapSettings();
+                setNewReportCoordinates({lat: null, lon: null});
+                setActiveStop(null);
               }}>
               <Tooltip title={t('tileModePrompts.back')}>
                 <ArrowBackIcon />

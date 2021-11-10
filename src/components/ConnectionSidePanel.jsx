@@ -1,4 +1,4 @@
-import {useContext, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
 import Button from '@mui/material/Button';
@@ -13,10 +13,27 @@ import {exception} from '../utilities/exceptionHelper';
 import '../stylesheets/connectionPrompt.scss';
 
 const ConnectionSidePanel = () => {
-  const {connectionData, reset, shouldRenderConnections, activeTile} = useContext(MapContext);
+  const {
+    connectionData,
+    reset,
+    shouldRenderConnections,
+    activeTile,
+    setNewReportCoordinates,
+    setActiveStop,
+    newReportCoordinates,
+    displayPropertyGrid,
+  } = useContext(MapContext);
   const [error, setError] = useState(false);
   const {t} = useTranslation();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (newReportCoordinates.lat && newReportCoordinates.lon) {
+      displayPropertyGrid(null);
+    }
+    setNewReportCoordinates({lat: null, lon: null});
+    setActiveStop(null);
+  }, []);
 
   const resetConnection = () => {
     reset();

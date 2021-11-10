@@ -23,6 +23,7 @@ const BusMarker = ({
     importedConnections,
     tileStops,
     setActiveStop,
+    setNewReportCoordinates,
   } = useContext(MapContext);
   const opacity = useMemo(() => {
     if (connectedStopIds.includes(busStop.id)) {
@@ -89,6 +90,7 @@ const BusMarker = ({
       eventHandlers={{
         click: () => {
           setActiveStop(busStop);
+          setNewReportCoordinates({lat: null, lon: null});
           if (isConnectionMode) {
             isActiveStopClicked(busStop.id) ? clickBusStop() : clickBusStop(busStop);
             createConnection([busStop.lat, busStop.lon], busStop.id, busStop.stopType, busStop.name, busStop.number);
