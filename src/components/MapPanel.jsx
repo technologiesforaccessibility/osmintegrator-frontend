@@ -27,10 +27,7 @@ const MapPanel = () => {
     hideTileElements,
     resetMapSettings,
     setNewReportCoordinates,
-    newReportCoordinates,
     setActiveStop,
-    displayPropertyGrid,
-    openReportContent,
   } = useContext(MapContext);
   const {t} = useTranslation();
 

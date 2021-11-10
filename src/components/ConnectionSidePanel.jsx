@@ -33,6 +33,7 @@ const ConnectionSidePanel = () => {
     }
     setNewReportCoordinates({lat: null, lon: null});
     setActiveStop(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const resetConnection = () => {
