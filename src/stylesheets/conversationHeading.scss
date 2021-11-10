@@ -8,6 +8,7 @@
       border-radius: 5px;
       margin-bottom: 0.625rem;
       width: 100%;
+      font-size: 0.875rem;
       legend {
         float: none;
         font-size: 0.75rem;
@@ -34,5 +35,10 @@
     display: flex;
     align-items: center;
     margin-left: 0.625rem;
+    justify-content: space-between;
+    span {
+      white-space: nowrap;
+      font-size: 0.875rem;
+    }
   }
 }
