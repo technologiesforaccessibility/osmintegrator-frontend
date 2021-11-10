@@ -310,6 +310,7 @@ const MapContextProvider: FC = ({children}) => {
   }, []);
 
   const hideTileElements = useCallback(() => {
+    setNewReportCoordinates(initialReportCoords);
     setConnectionData([]);
     setPropertyGrid(null);
     setImportedConnections([]);
