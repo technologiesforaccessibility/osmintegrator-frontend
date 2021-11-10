@@ -17,6 +17,8 @@ import MapIcon from '@mui/icons-material/Map';
 import BuildIcon from '@mui/icons-material/Build';
 
 import './../stylesheets/dashboardHeader.scss';
+import {MapContext} from './contexts/MapContextProvider';
+import {useContext} from 'react';
 
 const {REACT_APP_CONTACT_FORM} = process.env;
 
@@ -26,10 +28,13 @@ const DashboardHeader = () => {
   let history = useHistory();
   const dispatch = useDispatch();
   const name = useSelector(selectUserName);
+  const {setNewReportCoordinates, setActiveStop} = useContext(MapContext);
 
   function logoutClicked(): void {
     dispatch(logout());
     history.push(paths.LOGOUT);
+    setActiveStop(null);
+    setNewReportCoordinates({lat: null, lon: null});
   }
 
   return (

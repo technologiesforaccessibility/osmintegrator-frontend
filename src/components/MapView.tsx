@@ -29,7 +29,6 @@ import Legend from './mapComponents/Legend';
 
 export const MapView = () => {
   const {t} = useTranslation();
-  const [activeBusStopId, setActiveBusStopId] = useState<string | null>(null);
   const [modal, setModal] = useState(false);
   const [welcomeModalCookie, setWelcomeModalCookie] = useCookies(['welcome_modal']);
   const dispatch = useDispatch();
@@ -69,6 +68,7 @@ export const MapView = () => {
     authRoles,
     tileStops,
     setTileStops,
+    activeStop,
     setActiveStop,
   } = useContext(MapContext);
 
@@ -197,11 +197,11 @@ export const MapView = () => {
   };
 
   const isActiveStopClicked = (clickedStopId: string) => {
-    return activeBusStopId === clickedStopId;
+    return activeStop?.id === clickedStopId;
   };
 
   const clickBusStop = (stop: Stop) => {
-    setActiveBusStopId(stop?.id || null);
+    setActiveStop(stop || null);
     displayPropertyGrid(stop || null);
     setOpenReportContent(null);
     setAreManageReportButtonsVisible(false);
@@ -331,7 +331,7 @@ export const MapView = () => {
           isReportMode={mapMode === MapModes.report}
         />
         <NewReportMarker newReportCoordinates={newReportCoordinates} />
-        <ImportedReports reports={importedReports} resetActiveStop={() => setActiveBusStopId(null)} />
+        <ImportedReports reports={importedReports} resetActiveStop={() => setActiveStop(null)} />
         <Legend />
       </MapContainer>
       {modal && !welcomeModalCookie.welcome_modal && (
