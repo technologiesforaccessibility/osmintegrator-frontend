@@ -9,11 +9,13 @@ export const paths = {
   REGISTER: '/auth/register',
   LOGOUT: '/auth/logout',
   RECOVER_PASSWORD: '/auth/recover',
+  RECOVER_CONFIRM: '/auth/recover-confirm',
   RESET_PASSWORD: '/Account/ResetPassword',
   MANAGEMENT_PANEL: '/manage',
   PROFILE: '/profile',
   CHANGE_EMAIL: '/profile/change-email',
   CHANGE_PASSWORD: '/profile/change-password',
+  CHANGE_PASSWORD_CONFIRM: '/profile/change-password-confirm',
   REGISTER_CONFIRM: '/auth/register-confirm',
   REGISTER_ACTIVATED: '/Account/ConfirmRegistration',
 };

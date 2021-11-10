@@ -22,7 +22,7 @@ const ImportedReports = ({reports, resetActiveStop}) => {
             key={index}
             position={[lat, lon]}
             icon={getReportIcon(status)}
-            pane="shadowPane"
+            pane="markerPane"
             eventHandlers={{
               click: () => {
                 handleReportClick({lat, lon, id, tileId, messages});
