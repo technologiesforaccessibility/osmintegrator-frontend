@@ -20,8 +20,8 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
   const dispatch = useDispatch();
   const authRoles = useSelector(selectLoggedInUserRoles);
   const [currentInputValue, setCurrentInputValue] = useState('');
-  const {activeTile, setRerenderReports, activeStop} = useContext(MapContext);
-  const {setReload, setInputContent} = useContext(ConversationContext);
+  const {activeTile, setRerenderReports, activeStop, displayPropertyGrid} = useContext(MapContext);
+  const {setInputContent} = useContext(ConversationContext);
   const debouncedValue = useDebounce(currentInputValue, 500);
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
   const createStopConversation = async text => {
     handleLoader(true);
     try {
-      const response = await api.conversationCreate(
+      await api.conversationCreate(
         {text, stopId: activeStop.id, tileId: activeTile.id},
         {
           headers: basicHeaders(),
@@ -75,7 +75,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
       );
       dispatch(NotificationActions.success(t('report.success')));
       formik.resetForm();
-      setReload(response.data);
+      setRerenderReports(true);
     } catch (error) {
       exception(error);
     }
@@ -84,7 +84,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
   const createGeoConversation = async text => {
     handleLoader(true);
     try {
-      const response = await api.conversationCreate(
+      await api.conversationCreate(
         {text, lat, lon, tileId: activeTile.id},
         {
           headers: basicHeaders(),
@@ -92,7 +92,8 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
       );
       dispatch(NotificationActions.success(t('report.success')));
       formik.resetForm();
-      setReload(response.data);
+      // HACK: If user after creating new raport will switch to view mode, it will show Property grid without conversation id
+      displayPropertyGrid({lat, lon, tileId: activeTile.id});
       setRerenderReports(true);
     } catch (error) {
       exception(error);
@@ -102,7 +103,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
   const updateConversation = async text => {
     handleLoader(true);
     try {
-      const response = await api.conversationCreate(
+      await api.conversationCreate(
         {conversationId: conversation.id, text, tileId: activeTile.id},
         {
           headers: basicHeaders(),
@@ -110,7 +111,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
       );
       dispatch(NotificationActions.success(t('report.success')));
       formik.resetForm();
-      setReload(response.data);
+      setRerenderReports(true);
     } catch (error) {
       exception(error);
     }
@@ -119,7 +120,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
   const approveConversation = async text => {
     handleLoader(true);
     try {
-      const response = await api.conversationApproveUpdate2(
+      await api.conversationApproveUpdate2(
         {conversationId: conversation.id, text, tileId: activeTile.id},
         {
           headers: basicHeaders(),
@@ -127,7 +128,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
       );
       dispatch(NotificationActions.success(t('report.success')));
       formik.resetForm();
-      setReload(response.data);
+      setRerenderReports(true);
     } catch (error) {
       exception(error);
     }

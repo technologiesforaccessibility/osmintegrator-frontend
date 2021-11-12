@@ -18,6 +18,7 @@ import reportApprovePinkIcon from '../assets/angledIcons/report_pink_approve.png
 import reportApproveMaroonIcon from '../assets/angledIcons/report_maroon_approve.png';
 import shadowZTM from '../assets/angledIcons/shadow_ztm.png';
 import shadowOSM from '../assets/angledIcons/shadow_osm.png';
+import shadowReport from '../assets/report_frame.png';
 
 export const reportIcons = {
   initial: reportGreyIcon,
@@ -90,12 +91,22 @@ const getBusStopIcon = (busStopPropeties, isActive) => {
   return isActive ? activeIcon : inActiveIcon;
 };
 
-const getReportIcon = status => {
-  return new Icon({
+const getReportIcon = (status, isActive) => {
+  const activeIcon = new Icon({
+    iconUrl: getReportColor(status),
+    iconSize: [30, 55],
+    iconAnchor: [15, 54],
+    shadowUrl: shadowReport,
+    shadowAnchor: [18, 57],
+    shadowSize: [36, 63],
+  });
+  const inActiveIcon = new Icon({
     iconUrl: getReportColor(status),
     iconSize: [30, 55],
     iconAnchor: [15, 54],
   });
+
+  return isActive ? activeIcon : inActiveIcon;
 };
 
 const unsafeApiError = (errorInstance, optionalUserMessage) => {
@@ -155,8 +166,8 @@ const getStopIconProps = ({outsideSelectedTile, stopType, hasReport, reportAppro
 
 const getShadowProps = ({stopType}) => {
   return stopType === 0
-    ? {shadowUrl: shadowZTM, shadowAnchor: [33, 57]}
-    : {shadowUrl: shadowOSM, shadowAnchor: [3, 57]};
+    ? {shadowUrl: shadowZTM, shadowAnchor: [34, 58]}
+    : {shadowUrl: shadowOSM, shadowAnchor: [3, 58]};
 };
 
 const getReportColor = status => {

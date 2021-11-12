@@ -29,7 +29,6 @@ import Legend from './mapComponents/Legend';
 
 export const MapView = () => {
   const {t} = useTranslation();
-  const [activeBusStopId, setActiveBusStopId] = useState<string | null>(null);
   const [modal, setModal] = useState(false);
   const [welcomeModalCookie, setWelcomeModalCookie] = useCookies(['welcome_modal']);
   const dispatch = useDispatch();
@@ -69,11 +68,11 @@ export const MapView = () => {
     authRoles,
     tileStops,
     setTileStops,
+    activeStop,
     setActiveStop,
   } = useContext(MapContext);
 
-  const {setGeoConversations, setStopConversations, reload, stopConversations, geoConversations} =
-    useContext(ConversationContext);
+  const {setGeoConversations, setStopConversations, stopConversations} = useContext(ConversationContext);
 
   const getAvailableTiles = useCallback(async () => {
     try {
@@ -173,11 +172,14 @@ export const MapView = () => {
         });
         setGeoConversations(response.data.geoConversations);
         setStopConversations(response.data.stopConversations);
+        if (response.data.geoConversations) {
+          setImportedReports(response.data.geoConversations);
+        }
       } catch (error) {
         exception(error);
       }
     },
-    [setGeoConversations, setStopConversations],
+    [setGeoConversations, setStopConversations, setImportedReports],
   );
 
   const getConnectedStopsIds = (connectionArray: Array<Connection>) => {
@@ -194,28 +196,12 @@ export const MapView = () => {
       .flat();
   };
 
-  const getTileReports = useCallback(
-    async id => {
-      try {
-        const response = await api.conversationDetail(id, {
-          headers: basicHeaders(),
-        });
-        if (response.data.geoConversations) {
-          setImportedReports(response.data.geoConversations);
-        }
-      } catch (error) {
-        exception(error);
-      }
-    },
-    [setImportedReports],
-  );
-
   const isActiveStopClicked = (clickedStopId: string) => {
-    return activeBusStopId === clickedStopId;
+    return activeStop?.id === clickedStopId;
   };
 
   const clickBusStop = (stop: Stop) => {
-    setActiveBusStopId(stop?.id || null);
+    setActiveStop(stop || null);
     displayPropertyGrid(stop || null);
     setOpenReportContent(null);
     setAreManageReportButtonsVisible(false);
@@ -241,32 +227,39 @@ export const MapView = () => {
   }, [getAvailableTiles]);
 
   useEffect(() => {
-    if (activeTile && activeTile.id && !reload) {
+    if (activeTile && activeTile.id) {
       setIsLoading(true);
-      getTileStops(activeTile.id);
-      getTileConnections(activeTile.id);
-      getTileReports(activeTile.id);
-    }
-  }, [activeTile, getTileConnections, getTileReports, getTileStops, reload]);
-
-  useEffect(() => {
-    if (activeTile && activeTile.id) {
       getTileConversations(activeTile.id);
+      getTileConnections(activeTile.id);
     }
-  }, [activeTile, getTileConversations, reload]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTile]);
 
   useEffect(() => {
-    if (activeTile && activeTile.id) {
-      getTileStops(activeTile.id, false);
-      getTileReports(activeTile.id);
+    if (activeTile && activeTile.id && stopConversations && !rerenderReports) {
+      getTileStops(activeTile.id);
     }
-  }, [activeTile, stopConversations, geoConversations, getTileStops, getTileReports]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stopConversations]);
 
   useEffect(() => {
     if (!isTileActive) {
       setActiveTile(null);
     }
-  }, [isTileActive, setActiveTile]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isTileActive]);
+
+  useEffect(() => {
+    async function getTileStopsAsync() {
+      if (activeTile) {
+        await getTileStops(activeTile.id, false);
+      }
+    }
+    if (rerenderReports) {
+      getTileStopsAsync();
+    }
+  }, [activeTile, getTileStops, rerenderReports, stopConversations]);
 
   useEffect(() => {
     async function getConnections() {
@@ -280,13 +273,13 @@ export const MapView = () => {
 
   useEffect(() => {
     async function getReports() {
-      await getTileReports(activeTile?.id);
+      await getTileConversations(activeTile?.id);
       setRerenderReports(false);
     }
     if (rerenderReports) {
       getReports();
     }
-  }, [activeTile, getTileReports, rerenderReports, setRerenderReports]);
+  }, [activeTile, rerenderReports, setRerenderReports, getTileConversations]);
 
   useEffect(() => {
     async function getTiles() {
@@ -338,7 +331,7 @@ export const MapView = () => {
           isReportMode={mapMode === MapModes.report}
         />
         <NewReportMarker newReportCoordinates={newReportCoordinates} />
-        <ImportedReports reports={importedReports} resetActiveStop={() => setActiveBusStopId(null)} />
+        <ImportedReports reports={importedReports} resetActiveStop={() => setActiveStop(null)} />
         <Legend />
       </MapContainer>
       {modal && !welcomeModalCookie.welcome_modal && (

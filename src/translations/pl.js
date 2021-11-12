@@ -118,6 +118,11 @@ export const pl = {
       button: 'Zresetuj swoje hasło',
       401: 'Sprawdź czy podany adres email jest poprawny',
       emailSent: 'Na podany adres została wysłana wiadomość z instrukcją odzyskania hasła',
+      buttonSent: 'E-mail został przesłany',
+      confirm: {
+        header: 'Link potrzebny do odzyskania hasła został przesłany!',
+        paragraph: 'Wejdź na podany adres e-mail w celu dokończenia procedury.',
+      },
     },
     register: {
       title: 'Rejestracja',
@@ -187,13 +192,24 @@ export const pl = {
     },
     setPassword: {
       title: 'Ustaw nowe hasło',
+      user: 'Użytkownik:',
       button: 'Zmień',
+      buttonSent: 'Hasło zostało zmienione',
+      noParams: {
+        first: 'Aby zresetować hasło należy skorzystać z linku wysłanego na wskazany na adres E-mail.',
+        second: 'E-mail należy wpisać',
+        third: 'tutaj.',
+      },
       401: 'Niepoprawny email lub przeterminowany link',
       password: 'Hasło',
       repeatPassword: 'Powtórz hasło',
       invalidPasswords: 'Oba hasła muszą być takie same i mieć min. 8 znaków',
       expiredToken: 'Wygląda na to, że twój token wygasł \n Zresetuj swoje hasło ponownie',
       changedPassword: 'Hasło zostało zmienione! \n Za chwilę nastąpi przekierowanie na stronę logowania',
+      confirm: {
+        header: 'Hasło zostało zmienione!',
+        paragraph: 'Powróć na stronę logowania',
+      },
     },
     sidebar: {
       contact: 'Kontakt',

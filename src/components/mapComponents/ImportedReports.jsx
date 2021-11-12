@@ -6,12 +6,15 @@ import {getReportIcon} from '../../utilities/utilities';
 import {MapContext, MapModes} from '../contexts/MapContextProvider';
 
 const ImportedReports = ({reports, resetActiveStop}) => {
-  const {mapMode, setNewReportCoordinates, setActiveStop, displayPropertyGrid} = useContext(MapContext);
+  const {mapMode, newReportCoordinates, setNewReportCoordinates, setActiveStop, displayPropertyGrid} =
+    useContext(MapContext);
 
   const handleReportClick = data => {
-    if (mapMode === MapModes.view) {
-      displayPropertyGrid(data);
-    }
+    displayPropertyGrid(data);
+  };
+
+  const isActive = iconCord => {
+    return JSON.stringify(iconCord) === JSON.stringify(newReportCoordinates);
   };
 
   return (
@@ -21,14 +24,23 @@ const ImportedReports = ({reports, resetActiveStop}) => {
           <Marker
             key={index}
             position={[lat, lon]}
-            icon={getReportIcon(status)}
+            icon={getReportIcon(status, isActive({lat, lon}))}
             pane="markerPane"
+            shadowPane="tooltipPane"
+            zIndexOffset={isActive({lat, lon}) ? 1000 : 0}
             eventHandlers={{
               click: () => {
-                handleReportClick({lat, lon, id, tileId, messages});
-                setNewReportCoordinates({lat, lon});
-                setActiveStop(null);
-                resetActiveStop();
+                if (mapMode !== MapModes.connection) {
+                  setNewReportCoordinates({lat, lon});
+                  setActiveStop(null);
+                  resetActiveStop();
+                  if (isActive({lat, lon}) && newReportCoordinates.lat && newReportCoordinates.lon) {
+                    setNewReportCoordinates({lat: null, lon: null});
+                    handleReportClick(null);
+                  } else {
+                    handleReportClick({lat, lon, id, tileId, messages});
+                  }
+                }
               },
             }}>
             <Tooltip direction="top" offset={[0, -55]}>
