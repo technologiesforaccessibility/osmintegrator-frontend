@@ -72,6 +72,7 @@ const MapPanel = () => {
               value="check"
               className="map-panel__toggle--back"
               selected={false}
+              size="small"
               onChange={() => {
                 singleTileToggle(false);
                 hideTileElements();
@@ -87,6 +88,7 @@ const MapPanel = () => {
               className="map-panel__toggle-group"
               value={mapMode}
               exclusive
+              size="small"
               color="primary"
               onChange={handleChange}>
               {radios.map(({title, name, icon}, index) => (

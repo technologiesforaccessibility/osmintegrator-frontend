@@ -225,6 +225,13 @@ export const en = {
       coordinates: 'Coordinates',
       assignedEditor: 'Assigned Editor',
       assignedSupervisor: 'Assigned Supervisor',
+      zoom: 'Zoom:',
+      minLat: 'Min lat:',
+      minLong: 'Min long:',
+      maxLat: 'Max lat:',
+      maxLong: 'Max long:',
+      userName: 'User name:',
+      tileApproved: 'Tile approved:',
     },
     tileModePrompts: {
       view: 'View mode - see bus stop or report details',

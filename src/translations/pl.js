@@ -225,6 +225,13 @@ export const pl = {
       coordinates: 'Współrzędne',
       assignedEditor: 'Przypisany edytor',
       assignedSupervisor: 'Przypisany supervisor',
+      zoom: 'Zbliżenie:',
+      minLat: 'Min szer:',
+      minLong: 'Min dł:',
+      maxLat: 'Max szer:',
+      maxLong: 'Max dł:',
+      userName: 'Użytkownik:',
+      tileApproved: 'Kafelek zatwierdzony:',
     },
     tileModePrompts: {
       view: 'Tryb widoku - pokaż szczegóły przystanku lub zgłoszenia',
