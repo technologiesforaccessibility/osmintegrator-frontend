@@ -257,6 +257,9 @@ export const en = {
       editor: 'Editor',
       supervisor: 'Supervisor',
     },
+    footer: {
+      userManual: 'User manual',
+    },
     yes: 'Yes',
     no: 'No',
     or: 'Or',

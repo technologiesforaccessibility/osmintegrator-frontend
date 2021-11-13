@@ -4,6 +4,9 @@ import '../stylesheets/profileLayout.scss';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {selectLoggedInUserRoles, selectUserName} from '../redux/selectors/authSelector';
+import Button from '@mui/material/Button';
+
+const {REACT_APP_USER_MANUAL} = process.env;
 
 export default function ProfileLayout({children}) {
   const {t} = useTranslation();
@@ -30,6 +33,8 @@ export default function ProfileLayout({children}) {
           </div>
 
           <div>{children}</div>
+
+          <Button variant="contained" href={REACT_APP_USER_MANUAL}>{t('footer.userManual')}</Button>
         </div>
       </div>
     </Dashboard>

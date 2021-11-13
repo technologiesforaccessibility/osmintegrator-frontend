@@ -1,9 +1,16 @@
+@import 'config/colors.module';
+
 .footer {
   display: grid;
   grid-template-areas: "left center right";
   grid-template-columns: 25% 50% 25%;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
+
+  &-link {
+    color: $color-blue-link;
+    text-decoration: underline;
+  }
   
   &__left {
     grid-area: left;
@@ -16,5 +23,6 @@
 
   &__right {
     grid-area: right;
+    justify-self: right;
   }
 }
