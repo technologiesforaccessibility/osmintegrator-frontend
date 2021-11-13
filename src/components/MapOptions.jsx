@@ -10,6 +10,7 @@ const MapOptions = ({handleClick}) => {
       value="check"
       className="map-panel__toggle--back"
       selected={false}
+      size="small"
       onChange={handleClick}
       color={'primary'}>
       <Tooltip title={'Ustawienia mapy'}>

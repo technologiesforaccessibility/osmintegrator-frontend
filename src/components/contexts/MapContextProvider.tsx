@@ -111,6 +111,7 @@ export const MapModes = {
   view: 'View',
   report: 'Report',
   connection: 'Connection',
+  tile: 'Tile',
 };
 
 const init: IMapContext = {
