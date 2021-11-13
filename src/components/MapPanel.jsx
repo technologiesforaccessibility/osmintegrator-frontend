@@ -7,6 +7,7 @@ import Tooltip from '@mui/material/Tooltip';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ReportIcon from '@mui/icons-material/Report';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CropSquareTwoToneIcon from '@mui/icons-material/CropSquareTwoTone';
 import {ReactComponent as ConnectionIcon} from '../assets/connection-panel-icon.svg';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -51,6 +52,11 @@ const MapPanel = () => {
       name: MapModes.connection,
       icon: () => <ConnectionIcon />,
     },
+    {
+      title: t('tileModePrompts.tile'),
+      name: MapModes.tile,
+      icon: () => <CropSquareTwoToneIcon />,
+    },
   ];
 
   const handleChange = (_, value) => {
@@ -66,6 +72,7 @@ const MapPanel = () => {
               value="check"
               className="map-panel__toggle--back"
               selected={false}
+              size="small"
               onChange={() => {
                 singleTileToggle(false);
                 hideTileElements();
@@ -81,6 +88,7 @@ const MapPanel = () => {
               className="map-panel__toggle-group"
               value={mapMode}
               exclusive
+              size="small"
               color="primary"
               onChange={handleChange}>
               {radios.map(({title, name, icon}, index) => (
