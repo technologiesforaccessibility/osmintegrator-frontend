@@ -57,6 +57,7 @@ const NewReport = () => {
   }, []);
 
   async function getGeoConversation() {
+    if(!lat && !lon) return;
     const currentGeoConversation = geoConversations.filter(conv => conv.lat === lat && conv.lon === lon)[0];
     setConversation(currentGeoConversation);
     setReportActive(checkReportStatus(currentGeoConversation));
