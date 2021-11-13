@@ -1,22 +1,22 @@
-import { useContext, useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ConversationContext } from './contexts/ConversationProvider';
-import { MapContext } from './contexts/MapContextProvider';
+import {useContext, useEffect, useRef, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {ConversationContext} from './contexts/ConversationProvider';
+import {MapContext} from './contexts/MapContextProvider';
 
 import ConversationMessage from './ConversationMessage';
-import { Button, CircularProgress, Modal } from '@mui/material';
+import {Button, CircularProgress, Modal} from '@mui/material';
 import ConversationHeading from './ConversationHeading';
 import ConversationForm from './ConversationForm';
 import '../stylesheets/newReport.scss';
-import { Box } from '@mui/system';
-import { modalStyle } from '../stylesheets/sharedStyles';
+import {Box} from '@mui/system';
+import {modalStyle} from '../stylesheets/sharedStyles';
 
 const NewReport = () => {
   const [loading, setLoading] = useState(false);
   const [isReportActive, setReportActive] = useState(false);
   const [conversation, setConversation] = useState(null);
   const conversationWrapper = useRef(null);
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const {
     newReportCoordinates,
     resetReportCoordinates,
@@ -25,9 +25,9 @@ const NewReport = () => {
     displayPropertyGrid,
     setNewReportCoordinates,
   } = useContext(MapContext);
-  const { geoConversations, stopConversations, inputContent, setInputContent, openModal, setOpenModal } =
+  const {geoConversations, stopConversations, inputContent, setInputContent, openModal, setOpenModal} =
     useContext(ConversationContext);
-  const { lat, lon } = newReportCoordinates;
+  const {lat, lon} = newReportCoordinates;
 
   useEffect(() => {
     getStopConversation();
@@ -58,7 +58,6 @@ const NewReport = () => {
 
   async function getGeoConversation() {
     if(!lat && !lon) return;
-
     const currentGeoConversation = geoConversations.filter(conv => conv.lat === lat && conv.lon === lon)[0];
     setConversation(currentGeoConversation);
     setReportActive(checkReportStatus(currentGeoConversation));
@@ -82,7 +81,7 @@ const NewReport = () => {
   const handleCloseReport = () => {
     if (!inputContent) {
       setActiveStop(null);
-      setNewReportCoordinates({ lat: null, lon: null });
+      setNewReportCoordinates({lat: null, lon: null});
       displayPropertyGrid(null);
       resetReportCoordinates();
     } else {
