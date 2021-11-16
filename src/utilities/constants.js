@@ -21,7 +21,8 @@ export const paths = {
 };
 
 export const roles = {
-  ADMIN: 'Admin', COORDINATOR: 'Coordinator',
+  ADMIN: 'Admin',
+  COORDINATOR: 'Coordinator',
   SUPERVISOR: 'Supervisor',
   EDITOR: 'Editor',
   USER: 'User',
