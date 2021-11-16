@@ -235,7 +235,7 @@ export const en = {
     },
     tileModePrompts: {
       view: 'View mode - see bus stop or report details',
-      report: 'Create report on map',
+      report: 'Report management',
       connection: 'Create new connection',
       tile: 'Tile details',
       back: 'Hide tile',
