@@ -15,8 +15,13 @@ import {roles} from '../utilities/constants';
 import '../stylesheets/sidebarConnectionHandler.scss';
 
 const SidebarConnectionHandler = () => {
-  const {connectedStopPair, shouldRenderConnections, setIsSidebarConnectionHandlerVisible, setConnectedStopPair} =
-    useContext(MapContext);
+  const {
+    connectedStopPair,
+    shouldRenderConnections,
+    setIsSidebarConnectionHandlerVisible,
+    setConnectedStopPair,
+    activeTile,
+  } = useContext(MapContext);
   const authRoles = useSelector(selectLoggedInUserRoles);
   const dispatch = useDispatch();
   const {t} = useTranslation();
@@ -82,6 +87,7 @@ const SidebarConnectionHandler = () => {
 
         <div className="buttons">
           {authRoles.includes(roles.SUPERVISOR) &&
+            !!activeTile?.approvedByEditor &&
             (connectedStopPair.connection && connectedStopPair.connection.approved ? (
               <Button
                 variant="contained"
