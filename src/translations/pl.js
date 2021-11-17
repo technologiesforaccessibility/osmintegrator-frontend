@@ -272,6 +272,9 @@ export const pl = {
       editor: 'Edytor',
       supervisor: 'Supervisor',
     },
+    footer: {
+      userManual: 'Instrukcja obsługi',
+    },
     yes: 'Tak',
     no: 'Nie',
     or: 'Lub',
