@@ -33,7 +33,6 @@ const ImportedConnections: FC<ImportedConnectionsProps> = ({stops, inApproveMode
     visibilityOptions,
     setConnectedStopPair,
     setIsSidebarConnectionHandlerVisible,
-    connectedStopPair,
   } = useContext(MapContext);
 
   const checkStopType = (stopList: Array<Stop>) => {
