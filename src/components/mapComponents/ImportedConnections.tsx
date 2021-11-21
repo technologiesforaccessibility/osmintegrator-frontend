@@ -15,6 +15,7 @@ import {exception} from '../../utilities/exceptionHelper';
 
 import UnapproveConnectionPopup from './UnapproveConnectionPopup';
 import {MapContext} from '../contexts/MapContextProvider';
+import {ConnectedPairProps} from '../../types/interfaces';
 
 interface ImportedConnectionsProps {
   stops: Array<Stop>;
@@ -26,7 +27,14 @@ const ImportedConnections: FC<ImportedConnectionsProps> = ({stops, inApproveMode
   const unapproveRef = useRef(null);
   const {t} = useTranslation();
   const dispatch = useDispatch();
-  const {importedConnections, shouldRenderConnections, visibilityOptions} = useContext(MapContext);
+  const {
+    importedConnections,
+    shouldRenderConnections,
+    visibilityOptions,
+    setConnectedStopPair,
+    setIsSidebarConnectionHandlerVisible,
+    connectedStopPair,
+  } = useContext(MapContext);
 
   const checkStopType = (stopList: Array<Stop>) => {
     return stopList.map(stop => {
@@ -40,6 +48,8 @@ const ImportedConnections: FC<ImportedConnectionsProps> = ({stops, inApproveMode
         headers: basicHeaders(),
       });
       shouldRenderConnections(true);
+      setIsSidebarConnectionHandlerVisible(false);
+      setConnectedStopPair({markedStop: null, connectedStop: null, connection: null});
       dispatch(NotificationActions.success(t('connection.deleteSuccessMessage')));
     } catch (error) {
       exception(error);
@@ -52,6 +62,10 @@ const ImportedConnections: FC<ImportedConnectionsProps> = ({stops, inApproveMode
         headers: basicHeaders(),
       });
       shouldRenderConnections(true);
+      setConnectedStopPair((oldState: ConnectedPairProps) => ({
+        ...oldState,
+        connection: {...oldState.connection, approved: true},
+      }));
       dispatch(NotificationActions.success(t('connection.approveSuccessMessage')));
     } catch (error) {
       exception(error);
@@ -64,6 +78,10 @@ const ImportedConnections: FC<ImportedConnectionsProps> = ({stops, inApproveMode
         headers: basicHeaders(),
       });
       shouldRenderConnections(true);
+      setConnectedStopPair((oldState: ConnectedPairProps) => ({
+        ...oldState,
+        connection: {...oldState.connection, approved: false},
+      }));
       dispatch(NotificationActions.success(t('connection.unapproveSuccessMessage')));
     } catch (error) {
       exception(error);
