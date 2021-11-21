@@ -17,11 +17,7 @@ const WelcomeModal = ({handleClose}) => {
     <div className="welcome-modal">
       <h3 className="welcome-modal__title">{t('welcomeModal.title')}</h3>
       <p className="welcome-modal__content">{t('welcomeModal.content')}</p>
-      <a
-        href={REACT_APP_USER_MANUAL}
-        rel="noopener noreferrer"
-        target="_blank"
-        className="welcome-modal__manual">
+      <a href={REACT_APP_USER_MANUAL} rel="noopener noreferrer" target="_blank" className="welcome-modal__manual">
         <Button color="primary" variant="outlined" clickable>
           {t('welcomeModal.button')}
         </Button>

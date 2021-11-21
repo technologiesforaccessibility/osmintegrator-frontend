@@ -15,8 +15,13 @@ import {roles} from '../utilities/constants';
 import '../stylesheets/sidebarConnectionHandler.scss';
 
 const SidebarConnectionHandler = () => {
-  const {connectedStopPair, shouldRenderConnections, setIsSidebarConnectionHandlerVisible, setConnectedStopPair} =
-    useContext(MapContext);
+  const {
+    connectedStopPair,
+    shouldRenderConnections,
+    setIsSidebarConnectionHandlerVisible,
+    setConnectedStopPair,
+    activeTile,
+  } = useContext(MapContext);
   const authRoles = useSelector(selectLoggedInUserRoles);
   const dispatch = useDispatch();
   const {t} = useTranslation();
@@ -31,7 +36,7 @@ const SidebarConnectionHandler = () => {
       );
       shouldRenderConnections(true);
       setIsSidebarConnectionHandlerVisible(false);
-      setConnectedStopPair({markedStop: null, connectedStop: null, connection:null});
+      setConnectedStopPair({markedStop: null, connectedStop: null, connection: null});
       dispatch(NotificationActions.success(t('connection.deleteSuccessMessage')));
     } catch (error) {
       exception(error);
@@ -82,6 +87,7 @@ const SidebarConnectionHandler = () => {
 
         <div className="buttons">
           {authRoles.includes(roles.SUPERVISOR) &&
+            !!activeTile?.approvedByEditor &&
             (connectedStopPair.connection && connectedStopPair.connection.approved ? (
               <Button
                 variant="contained"
@@ -102,16 +108,18 @@ const SidebarConnectionHandler = () => {
               </Button>
             ))}
 
-          <Button
-            variant={authRoles.includes(roles.SUPERVISOR) ? 'outlined' : ' contained'}
-            sx={authRoles.includes(roles.SUPERVISOR) && {flexGrow: '2'}}
-            onClick={() => {
-              deleteConnection();
-            }}>
-            {authRoles.includes(roles.SUPERVISOR)
-              ? t('connectionSidebarHandler.deleteConnectionShort')
-              : t('connectionSidebarHandler.deleteConnection')}
-          </Button>
+          {connectedStopPair.connection && !connectedStopPair.connection.approved && (
+            <Button
+              variant={authRoles.includes(roles.SUPERVISOR) ? 'outlined' : ' contained'}
+              sx={authRoles.includes(roles.SUPERVISOR) && {flexGrow: '2'}}
+              onClick={() => {
+                deleteConnection();
+              }}>
+              {authRoles.includes(roles.SUPERVISOR)
+                ? t('connectionSidebarHandler.deleteConnectionShort')
+                : t('connectionSidebarHandler.deleteConnection')}
+            </Button>
+          )}
         </div>
       </div>
     </>

@@ -14,10 +14,16 @@ const Footer = () => {
         <VersionLabel />
       </div>
       <div className="footer__center">
-        Copyright 2021 <a className="footer-link" href={REACT_APP_RDN_PAGE}>rozwiazaniadlaniewidomych.org</a> © All Rights Reserved
+        Copyright 2021{' '}
+        <a className="footer-link" href={REACT_APP_RDN_PAGE}>
+          rozwiazaniadlaniewidomych.org
+        </a>{' '}
+        © All Rights Reserved
       </div>
       <div className="footer__right">
-        <a className="footer-link" href={REACT_APP_USER_MANUAL}>{t('footer.userManual')}</a>
+        <a className="footer-link" href={REACT_APP_USER_MANUAL}>
+          {t('footer.userManual')}
+        </a>
       </div>
     </div>
   );

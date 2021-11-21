@@ -34,7 +34,9 @@ export default function ProfileLayout({children}) {
 
           <div>{children}</div>
 
-          <Button variant="contained" href={REACT_APP_USER_MANUAL}>{t('footer.userManual')}</Button>
+          <Button variant="contained" href={REACT_APP_USER_MANUAL}>
+            {t('footer.userManual')}
+          </Button>
         </div>
       </div>
     </Dashboard>
