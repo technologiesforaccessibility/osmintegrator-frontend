@@ -13,8 +13,8 @@ const VersionLabel = () => {
   return (
     <>
       {t('version')}
-      <span>F: {pack.version}</span>
-      {version && <span>, B: {version}</span>}
+      <span>{pack.version}</span>
+      {version && <span> ({version}</span>})
     </>
   );
 };

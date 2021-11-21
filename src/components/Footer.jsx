@@ -1,15 +1,30 @@
 import VersionLabel from './VersionLabel';
+import {useTranslation} from 'react-i18next';
 
 import './../stylesheets/footer.scss';
 
+const {REACT_APP_RDN_PAGE, REACT_APP_USER_MANUAL} = process.env;
+
 const Footer = () => {
+  const {t} = useTranslation();
+
   return (
     <div className="footer">
       <div className="footer__left">
         <VersionLabel />
       </div>
-      <div className="footer__center">Copyright © 2021 | rozwiazaniadlaniewidomych.org | All Rights Reserved</div>
-      <div className="footer__right"></div>
+      <div className="footer__center">
+        Copyright 2021{' '}
+        <a className="footer-link" href={REACT_APP_RDN_PAGE}>
+          rozwiazaniadlaniewidomych.org
+        </a>{' '}
+        © All Rights Reserved
+      </div>
+      <div className="footer__right">
+        <a className="footer-link" href={REACT_APP_USER_MANUAL}>
+          {t('footer.userManual')}
+        </a>
+      </div>
     </div>
   );
 };

@@ -235,7 +235,7 @@ export const pl = {
     },
     tileModePrompts: {
       view: 'Tryb widoku - pokaż szczegóły przystanku lub zgłoszenia',
-      report: 'Stwórz nowe zgłoszenie na mapie',
+      report: 'Zarządzanie raportami',
       connection: 'Stwórz nowe połączenie',
       tile: 'Szczegóły kafelka',
       back: 'Ukryj kafelek',
@@ -271,6 +271,9 @@ export const pl = {
       noUser: 'Brak',
       editor: 'Edytor',
       supervisor: 'Supervisor',
+    },
+    footer: {
+      userManual: 'Instrukcja obsługi',
     },
     yes: 'Tak',
     no: 'Nie',
