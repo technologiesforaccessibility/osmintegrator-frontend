@@ -4,6 +4,7 @@ import {Connection, Conversation, NoteStatus, Stop, Tile} from '../../api/apiCli
 import {selectLoggedInUserRoles} from '../../redux/selectors/authSelector';
 import i18n from '../../translations/i18n';
 import {connectionVisibility, localStorageStopTypes} from '../../utilities/constants';
+import {ConnectedPairProps} from '../../types/interfaces';
 
 interface VisibilityOptions {
   connected: {
@@ -53,11 +54,7 @@ interface IMapContext {
   activeStop: Stop | null;
   isSidebarConnectionHandlerVisible: boolean;
   tileStops: Array<Stop>;
-  connectedStopPair: {
-    markedStop: {id: string; name: string} | null;
-    connectedStop: {id: string; name: string} | null;
-    connection: {id: string; approved: boolean} | null;
-  };
+  connectedStopPair: ConnectedPairProps;
   setConnectedStopPair: (arg: any) => void;
   setTileStops: (arg: Array<Stop>) => void;
   setIsSidebarConnectionHandlerVisible: (arg: boolean) => void;
