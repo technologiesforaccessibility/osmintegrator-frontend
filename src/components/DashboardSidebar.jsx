@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux';
 import PropertyGrid from './PropertyGrid';
 import MapPanel from './MapPanel';
 import FinishTile from './FinishTile';
+import SyncPanel from './SyncPanel';
 import {MapContext, MapModes} from './contexts/MapContextProvider';
 import {selectLoggedInUserRoles} from '../redux/selectors/authSelector';
 import NewReport from './NewReport';
@@ -53,6 +54,7 @@ const DashboardSidebar = () => {
         )}
         {mapMode === MapModes.connection && <ConnectionSidePanel />}
         {mapMode === MapModes.tile && <TileDetails />}
+        {mapMode === MapModes.sync && <SyncPanel />}
       </>
     </SidebarContainer>
   );

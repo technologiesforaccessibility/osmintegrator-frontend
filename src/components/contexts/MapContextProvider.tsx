@@ -109,6 +109,7 @@ export const MapModes = {
   report: 'Report',
   connection: 'Connection',
   tile: 'Tile',
+  sync: 'Sync',
 };
 
 const init: IMapContext = {
