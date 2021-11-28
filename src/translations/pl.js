@@ -224,6 +224,7 @@ export const pl = {
       importNotOSM: 'Pobierz z ZTM',
       exportOSM: 'Wyślij do OSM',
       generateNotOsm: 'Wygeneruj bazę ZTM',
+      success: 'Synchronizacja przxebiegła pomyślnie!',
     },
     tileDetails: {
       title: 'Szczegóły kafelka',
