@@ -2,21 +2,23 @@ import {FC} from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import {paths} from '../utilities/constants';
-import Login from './auth/Login';
-import Logout from './auth/Logout';
-import Recover from './auth/Recover';
-import RecoverConfirm from './auth/RecoverConfirm';
-import Register from './auth/Register';
-import RegisterActivated from './auth/RegisterActivated';
-import RegisterConfirm from './auth/RegisterConfirm';
-import ResetConfirm from './auth/ResetConfirm';
-import SetPassword from './auth/SetPassword';
-import ChangeEmail from './ChangeEmail';
-import ChangePassword from './ChangePassword';
-import DashboardMain from './DashboardMain';
-import ManagementPanel from './managementPanel/ManagementPanel';
 import PrivateRoute from './PrivateRoute';
-import ProfilePanel from './ProfilePanel';
+
+import Login from '../paths/auth/Login';
+import Logout from '../paths/auth/Logout';
+import Recover from '../paths/auth/Recover';
+import RecoverConfirm from '../paths/auth/RecoverConfirm';
+import Register from '../paths/auth/Register';
+import RegisterActivated from '../paths/auth/RegisterActivated';
+import RegisterConfirm from '../paths/auth/RegisterConfirm';
+import ResetConfirm from '../paths/auth/ResetConfirm';
+import SetPassword from '../paths/auth/SetPassword';
+import Home from '../paths/Home';
+import ManagementPanel from '../paths/ManagementPanel';
+import ProfilePanel from '../paths/ProfilePanel';
+
+import ChangeEmail from '../paths/ChangeEmail';
+import ChangePassword from '../paths/ChangePassword';
 
 const Navigation: FC = () => {
   return (
@@ -36,7 +38,7 @@ const Navigation: FC = () => {
           <PrivateRoute path={paths.CHANGE_EMAIL} exact component={ChangeEmail} />
           <PrivateRoute path={paths.CHANGE_PASSWORD} exact component={ChangePassword} />
           <PrivateRoute path={paths.PROFILE} exact component={ProfilePanel} />
-          <PrivateRoute path={paths.HOME} exact component={DashboardMain} />
+          <PrivateRoute path={paths.HOME} exact component={Home} />
         </Switch>
       </BrowserRouter>
     </>

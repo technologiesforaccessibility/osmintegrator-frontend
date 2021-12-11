@@ -13,13 +13,13 @@ import InputAdornment from '@mui/material/InputAdornment';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import {FormControlLabel} from '@mui/material';
 
-import AuthContainer from '../AuthContainer';
-import Loader from '../Loader';
+import AuthContainer from '../../components/AuthContainer';
+import Loader from '../../components/Loader';
 import {paths} from '../../utilities/constants';
 import {RegisterSchema} from '../../utilities/validationSchema';
 import api from '../../api/apiInstance';
 import {basicHeaders} from '../../config/apiConfig';
-import AuthBottomPanel from './AuthBottomPanel';
+import AuthBottomPanel from '../../components/auth/AuthBottomPanel';
 import {exception} from '../../utilities/exceptionHelper';
 
 import '../../stylesheets/register.scss';

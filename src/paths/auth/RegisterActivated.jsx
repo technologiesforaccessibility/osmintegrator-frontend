@@ -2,10 +2,10 @@ import {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import Button from '@mui/material/Button';
 
-import AuthContainer from '../AuthContainer';
+import AuthContainer from '../../components/AuthContainer';
 import {ReactComponent as Logo} from './../../assets/accountLogo.svg';
 import {paths} from '../../utilities/constants';
-import Loader from '../Loader';
+import Loader from '../../components/Loader';
 import api from '../../api/apiInstance';
 import {getEmailFromPath, getTokenFromPath} from '../../utilities/utilities';
 import {noTokenHeaders} from '../../config/apiConfig';

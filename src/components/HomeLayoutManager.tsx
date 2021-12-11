@@ -1,4 +1,4 @@
-import {useContext} from 'react';
+import {useContext, FC} from 'react';
 
 import MapView from './MapView';
 import {MapContext} from './contexts/MapContextProvider';
@@ -6,7 +6,7 @@ import DashboardSidebar from './DashboardSidebar';
 
 import '../stylesheets/mapManager.scss';
 
-const MapManager = () => {
+const HomeLayoutManager: FC = () => {
   const {isTileActive} = useContext(MapContext);
 
   return (
@@ -29,4 +29,4 @@ const MapManager = () => {
   );
 };
 
-export default MapManager;
+export default HomeLayoutManager;
