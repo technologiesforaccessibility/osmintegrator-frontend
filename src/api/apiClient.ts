@@ -242,6 +242,7 @@ export interface Tag {
 }
 
 export interface Tile {
+  value: any;
   /** @format uuid */
   id: string;
 

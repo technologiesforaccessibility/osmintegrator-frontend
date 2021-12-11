@@ -17,18 +17,25 @@ import '../stylesheets/syncPanel.scss';
 const SyncPanel: FC = () => {
   const {activeTile, setRerenderReports} = useContext(MapContext);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [updateData, setUpdateData] = useState<any>(null);
+  const [updateData, setUpdateData] = useState<string[] | null>(null);
   const dispatch = useDispatch();
   const {t} = useTranslation();
 
   const handleImportOSM = async () => {
     if (activeTile && activeTile.id) {
       try {
-        await api.tileUpdateStopsUpdate(activeTile?.id, {headers: basicHeaders()});
+        const response = await api.tileUpdateStopsUpdate(activeTile?.id, {headers: basicHeaders()});
         dispatch(NotificationActions.success(t('report.success')));
         setRerenderReports(true);
-        // setUpdateData(response.data.message.toString());
-        // setIsModalOpen(true);
+        const {value}: {value: string} = response.data || {};
+        const responseArray = value
+          ? value
+              .split('[')
+              .filter(line => line !== '')
+              .map(line => `[${line}`)
+          : null;
+        setUpdateData(responseArray);
+        setIsModalOpen(true);
       } catch (error) {
         exception(error);
       }
@@ -57,25 +64,36 @@ const SyncPanel: FC = () => {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: 400,
+            width: 680,
             bgcolor: 'white',
             border: '2px solid #000',
             boxShadow: 24,
             p: 4,
           }}>
           <div>
-            <p>Zaktualizowano przystanki</p>
-            <p>Poniżej lista zmian</p>
+            <h4>{t('sync.stopsUpdated')}</h4>
+            {updateData ? (
+              <>
+                <h5>{t('sync.changes')}</h5>
+                <div style={{height: '200px', overflowY: 'scroll'}}>
+                  {updateData.map(line => (
+                    <p>{line}</p>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <p>{t('sync.noChanges')}</p>
+            )}
             <Button
               onClick={() => {
                 setIsModalOpen(false);
                 setUpdateData(null);
               }}
+              style={{position: 'absolute', top: '20px', right: '20px'}}
               variant="outlined">
               <CloseIcon color="primary" />
             </Button>
           </div>
-          <div style={{overflowY: 'scroll'}}>{updateData ? updateData : null}</div>
         </Box>
       </Modal>
     </div>

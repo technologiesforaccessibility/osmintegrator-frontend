@@ -225,6 +225,9 @@ export const en = {
       exportOSM: 'Export to OSM',
       generateNotOsm: 'Generate ZTM database',
       success: 'Sync completed!',
+      stopsUpdated: 'Stops updated',
+      changes: 'The changes are following:',
+      noChanges: 'No changes',
     },
     tileDetails: {
       title: 'Tile details',

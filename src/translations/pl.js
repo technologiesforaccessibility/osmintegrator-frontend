@@ -225,6 +225,9 @@ export const pl = {
       exportOSM: 'Wyślij do OSM',
       generateNotOsm: 'Wygeneruj bazę ZTM',
       success: 'Synchronizacja przxebiegła pomyślnie!',
+      stopsUpdated: 'Zaktualizowano przystanki',
+      changes: 'Poniżej lista zmian:',
+      noChanges: 'Brak zmian',
     },
     tileDetails: {
       title: 'Szczegóły kafelka',
