@@ -6,7 +6,7 @@ import {selectAuthIsLoggedIn} from '../redux/selectors/authSelector';
 
 import '../stylesheets/dashboard.scss';
 
-export default function Dashboard({children}) {
+const DashboardWrapper = ({children}) => {
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
 
   return (
@@ -20,4 +20,6 @@ export default function Dashboard({children}) {
       </div>
     </div>
   );
-}
+};
+
+export default DashboardWrapper;

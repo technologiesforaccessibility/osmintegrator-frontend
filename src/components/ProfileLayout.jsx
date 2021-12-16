@@ -1,5 +1,5 @@
 import React from 'react';
-import Dashboard from './Dashboard';
+import Dashboard from './DashboardWrapper';
 import '../stylesheets/profileLayout.scss';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';

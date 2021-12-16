@@ -6,19 +6,19 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import {CircularProgress, TextField} from '@mui/material';
 
-import api from '../../api/apiInstance';
-import {Tile, TileUser} from '../../api/apiClient';
-import {basicHeaders} from '../../config/apiConfig';
-import H3Title from '../customs/H3Title';
-import colors from '../../stylesheets/config/colors.module.scss';
-import ManagementPanelMap from './ManagementPanelMap';
-import Dashboard from '../Dashboard';
-import RoleAssignmentPanel from './RoleAssignmentPanel';
-import H4Title from '../customs/H4Title';
-import {NotificationActions} from '../../redux/actions/notificationActions';
-import {exception} from '../../utilities/exceptionHelper';
+import api from '../api/apiInstance';
+import {Tile, TileUser} from '../api/apiClient';
+import {basicHeaders} from '../config/apiConfig';
+import H3Title from '../components/customs/H3Title';
+import ManagementPanelMap from '../components/managementPanel/ManagementPanelMap';
+import DashboardWrapper from '../components/DashboardWrapper';
+import RoleAssignmentPanel from '../components/managementPanel/RoleAssignmentPanel';
+import H4Title from '../components/customs/H4Title';
+import {NotificationActions} from '../redux/actions/notificationActions';
+import {exception} from '../utilities/exceptionHelper';
 
-import '../../stylesheets/managementPanel.scss';
+import colors from '../stylesheets/config/colors.module.scss';
+import '../stylesheets/managementPanel.scss';
 
 const NONE = 'none';
 const CURRENT_LOCATION = {lat: 50.29, lng: 19.01};
@@ -253,7 +253,7 @@ function ManagementPanel() {
   };
 
   return (
-    <Dashboard>
+    <DashboardWrapper>
       <div className="management-panel">
         <div className="management-panel__head">
           <H3Title title="Management panel" />
@@ -320,7 +320,7 @@ function ManagementPanel() {
           <ManagementPanelMap startPoint={CURRENT_LOCATION} zoom={ZOOM} tiles={mapTiles} />
         </div>
       </div>
-    </Dashboard>
+    </DashboardWrapper>
   );
 }
 

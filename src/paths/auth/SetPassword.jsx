@@ -16,11 +16,11 @@ import {
 import {noTokenHeaders} from '../../config/apiConfig';
 import api from '../../api/apiInstance';
 import {paths} from '../../utilities/constants';
-import AuthContainer from '../AuthContainer';
+import AuthContainer from '../../components/AuthContainer';
+import AuthBottomPanel from '../../components/auth/AuthBottomPanel';
 
 import '../../stylesheets/setPassword.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
-import AuthBottomPanel from './AuthBottomPanel';
 
 const SetPassword = () => {
   const {t} = useTranslation();
