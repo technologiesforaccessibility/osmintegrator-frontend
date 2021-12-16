@@ -219,6 +219,16 @@ export const en = {
       history: 'History',
       viewPlaceholder: 'Click on stop or report pin to display details.',
     },
+    sync: {
+      importOSM: 'Import from OSM',
+      importNotOSM: 'Import from ZTM',
+      exportOSM: 'Export to OSM',
+      generateNotOsm: 'Generate ZTM database',
+      success: 'Sync completed!',
+      stopsUpdated: 'Stops updated',
+      changes: 'The changes are following:',
+      noChanges: 'No changes',
+    },
     tileDetails: {
       title: 'Tile details',
       database: 'Database',
@@ -238,6 +248,7 @@ export const en = {
       report: 'Report management',
       connection: 'Create new connection',
       tile: 'Tile details',
+      sync: 'Sync',
       back: 'Hide tile',
     },
     error: {

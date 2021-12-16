@@ -219,6 +219,16 @@ export const pl = {
       history: 'Historia',
       viewPlaceholder: 'Kliknij ikonę przystanku lub zgłoszenia, aby wyświetlić szczegóły.',
     },
+    sync: {
+      importOSM: 'Pobierz z OSM',
+      importNotOSM: 'Pobierz z ZTM',
+      exportOSM: 'Wyślij do OSM',
+      generateNotOsm: 'Wygeneruj bazę ZTM',
+      success: 'Synchronizacja przxebiegła pomyślnie!',
+      stopsUpdated: 'Zaktualizowano przystanki',
+      changes: 'Poniżej lista zmian:',
+      noChanges: 'Brak zmian',
+    },
     tileDetails: {
       title: 'Szczegóły kafelka',
       database: 'Baza danych',
@@ -238,6 +248,7 @@ export const pl = {
       report: 'Zarządzanie raportami',
       connection: 'Stwórz nowe połączenie',
       tile: 'Szczegóły kafelka',
+      sync: 'Synchronizacja',
       back: 'Ukryj kafelek',
     },
     error: {
