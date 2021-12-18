@@ -12,6 +12,7 @@ import ReportForm from './ReportForm';
 import ConnectionSidePanel from './ConnectionSidePanel';
 import SidebarContainer from './SidebarContainer';
 import SidebarConnectionHandler from './SidebarConnectionHandler';
+import MovedStopHandler from './MovedStopHandler';
 import {roles as appRoles} from '../utilities/constants';
 
 import './../stylesheets/dashboardSidebar.scss';
@@ -41,6 +42,7 @@ const DashboardSidebar = () => {
       appRoles={appRoles}>
       <>
         {activeStop && isSidebarConnectionHandlerVisible && mapMode === MapModes.view && <SidebarConnectionHandler />}
+        {activeStop && mapMode === MapModes.view && activeStop.stopType !== 0 && <MovedStopHandler />}
         {mapMode === MapModes.view ? (
           propertyGrid ? (
             <PropertyGrid propertyGrid={propertyGrid} />

@@ -1,11 +1,11 @@
-import {createContext, FC, useCallback, useState} from 'react';
+import {createContext, FC, useCallback, useState, useReducer} from 'react';
 import {useSelector} from 'react-redux';
 
 import {Connection, Conversation, NoteStatus, Stop, Tile} from '../../api/apiClient';
 import {selectLoggedInUserRoles} from '../../redux/selectors/authSelector';
 import i18n from '../../translations/i18n';
 import {connectionVisibility, localStorageStopTypes} from '../../utilities/constants';
-import {ConnectedPairProps} from '../../types/interfaces';
+import {ConnectedPairProps, MovedStop, MovedStopsReducerAction} from '../../types/interfaces';
 
 interface VisibilityOptions {
   connected: {
@@ -56,6 +56,10 @@ interface IMapContext {
   isSidebarConnectionHandlerVisible: boolean;
   tileStops: Array<Stop>;
   connectedStopPair: ConnectedPairProps;
+  draggableStopId: string | null;
+  movedStopsState: MovedStop[];
+  movedStopsDispatch: (action: MovedStopsReducerAction) => void;
+  setDraggableStopId: (stop: string | null) => void;
   setConnectedStopPair: (arg: any) => void;
   setTileStops: (arg: Array<Stop>) => void;
   setIsSidebarConnectionHandlerVisible: (arg: boolean) => void;
@@ -155,6 +159,10 @@ const init: IMapContext = {
   isSidebarConnectionHandlerVisible: false,
   connectedStopPair: {markedStop: null, connectedStop: null, connection: null},
   authRoles: [],
+  draggableStopId: null,
+  movedStopsState: [],
+  movedStopsDispatch: () => null,
+  setDraggableStopId: () => null,
   setConnectedStopPair: () => null,
   setIsSidebarConnectionHandlerVisible: () => null,
   setApprovedStopIds: () => null,
@@ -271,6 +279,41 @@ const MapContextProvider: FC = ({children}) => {
   const [tileStops, setTileStops] = useState<Array<Stop>>([]);
   const [isSidebarConnectionHandlerVisible, setIsSidebarConnectionHandlerVisible] = useState(false);
   const [connectedStopPair, setConnectedStopPair] = useState({markedStop: null, connectedStop: null, connection: null});
+  const [draggableStopId, setDraggableStopId] = useState<string | null>(null);
+
+  const temporaryMovedStopsReducer = (state: MovedStop[], action: MovedStopsReducerAction): MovedStop[] => {
+    const {payload} = action;
+    const index = state.findIndex(({id}) => id === payload.id);
+    console.log('FUNKCJA ODPALONA');
+    switch (action.type) {
+      case 'ADD':
+        if (!payload.position) {
+          return state;
+        }
+
+        if (index >= 0) {
+          state[index] = {id: state[index].id, externalId: state[index].externalId, position: payload.position};
+          console.log('znaleziono i zaktualizowano');
+          console.log({state});
+          return state;
+        } else {
+          const myObj = {id: payload.id, externalId: payload.externalId, position: payload.position};
+          console.log('nie znaleziono i dodano');
+          console.log('wynik', state.concat([myObj]));
+          return state.concat([myObj]);
+        }
+      case 'REMOVE':
+        const output = state.splice(index, 1);
+        console.log('usunieto');
+        console.log({output});
+        return output;
+      default:
+        console.log('PROBLEM Z REDUCEREM');
+        throw new Error();
+    }
+  };
+
+  const [movedStopsState, movedStopsDispatch] = useReducer(temporaryMovedStopsReducer, []);
 
   const authRoles = useSelector(selectLoggedInUserRoles);
 
@@ -381,6 +424,10 @@ const MapContextProvider: FC = ({children}) => {
         isSidebarConnectionHandlerVisible,
         connectedStopPair,
         tileStops,
+        draggableStopId,
+        movedStopsState,
+        movedStopsDispatch,
+        setDraggableStopId,
         setTileStops,
         setConnectedStopPair,
         setIsSidebarConnectionHandlerVisible,

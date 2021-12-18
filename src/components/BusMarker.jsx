@@ -1,9 +1,10 @@
+import {useContext, useMemo, useState, useRef} from 'react';
 import {Marker, Tooltip} from 'react-leaflet';
 
 import {getBusStopIcon} from '../utilities/utilities';
 import {generateStopName} from '../utilities/mapUtilities';
-import {useContext, useMemo} from 'react';
 import {MapContext} from './contexts/MapContextProvider';
+import {MovedStopsReducerActionKind} from '../types/interfaces';
 
 const BusMarker = ({
   busStop,
@@ -25,7 +26,14 @@ const BusMarker = ({
     setActiveStop,
     setNewReportCoordinates,
     connectionData,
+    draggableStopId,
+    setDraggableStopId,
+    movedStopsState,
+    movedStopsDispatch,
   } = useContext(MapContext);
+  const markerRef = useRef(null);
+  const [position, setPosition] = useState([busStop.lat, busStop.lon]);
+
   const opacity = useMemo(() => {
     if (connectedStopIds.includes(busStop.id)) {
       return visibilityOptions.connected.value.opacityValue;
@@ -84,7 +92,9 @@ const BusMarker = ({
   return (
     <Marker
       key={busStop.id}
-      position={[busStop.lat, busStop.lon]}
+      draggable={busStop.stopType === 0 ? false : !!(draggableStopId === busStop.id)}
+      ref={markerRef}
+      position={position}
       icon={getIcon(busStop)}
       riseOnHover={true}
       opacity={opacity}
@@ -101,6 +111,19 @@ const BusMarker = ({
           } else if (isViewMode || isReportMode) {
             isActiveStopClicked(busStop.id) ? handleViewModeStopUnclick() : handleViewModeStopClick(busStop);
           }
+        },
+        dblclick: () => {
+          setDraggableStopId(draggableStopId === busStop.id ? null : busStop.id);
+        },
+        dragend: () => {
+          const marker = markerRef.current;
+          if (marker != null) {
+            setPosition(marker.getLatLng());
+          }
+          movedStopsDispatch({
+            type: MovedStopsReducerActionKind.ADD,
+            payload: {id: busStop.id, externalId: busStop.stopId, position: marker.getLatLng()},
+          });
         },
       }}>
       <Tooltip direction="bottom">{generateStopName(busStop.id, busStop.name || null, busStop.number || null)}</Tooltip>
