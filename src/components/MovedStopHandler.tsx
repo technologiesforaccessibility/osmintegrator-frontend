@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import {MapContext} from './contexts/MapContextProvider';
 
 const MovedStopHandler: FC = () => {
-  const {activeStop, movedStopsState} = useContext(MapContext);
+  const {activeStop, movedStopsState, resetPositionFunction} = useContext(MapContext);
 
   const saveStopToLocalStorage = () => {
     if (!activeStop) {
@@ -17,13 +17,14 @@ const MovedStopHandler: FC = () => {
         try {
           const storageObject = JSON.parse(storage);
           const index = storageObject.findIndex(({id}: {id: string}) => id === activeStop.id);
+          console.log({index});
           if (index >= 0) {
-            //   TODO: FIX & TEST
             storageObject[index] = {
               id: storageObject[index].id,
               externalId: storageObject[index].externalId,
               position: newItem.position,
             };
+            console.log({storageObject});
 
             localStorage.setItem('moveStopsArray', JSON.stringify(storageObject));
           } else {
@@ -38,6 +39,28 @@ const MovedStopHandler: FC = () => {
       }
     } else {
       console.log('BŁĄD, NIE ZNALEZIONO PRZYSTANKU DO ZAKTUALIZOWANIA');
+    }
+  };
+
+  const resetPosition = () => {
+    if (!activeStop) {
+      return;
+    }
+    if (resetPositionFunction) {
+      resetPositionFunction();
+    }
+    const storage = localStorage.getItem('moveStopsArray');
+    if (storage) {
+      try {
+        const storageObject = JSON.parse(storage);
+        const index = storageObject.findIndex(({id}: {id: string}) => id === activeStop.id);
+        if (index >= 0) {
+          const newArray = storageObject.splice(index, 1);
+          localStorage.setItem('moveStopsArray', JSON.stringify(newArray));
+        }
+      } catch {
+        console.log('PROBLEM Z RESETOWANIEM POZYCJI PRZYSTANKU');
+      }
     }
   };
 
@@ -61,7 +84,7 @@ const MovedStopHandler: FC = () => {
       <Button
         variant="contained"
         onClick={() => {
-          console.log('CLICK');
+          resetPosition();
         }}>
         Przywróć pierwotną lokalizację
       </Button>

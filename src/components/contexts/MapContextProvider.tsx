@@ -6,6 +6,7 @@ import {selectLoggedInUserRoles} from '../../redux/selectors/authSelector';
 import i18n from '../../translations/i18n';
 import {connectionVisibility, localStorageStopTypes} from '../../utilities/constants';
 import {ConnectedPairProps, MovedStop, MovedStopsReducerAction} from '../../types/interfaces';
+import {Marker} from 'react-leaflet';
 
 interface VisibilityOptions {
   connected: {
@@ -58,6 +59,10 @@ interface IMapContext {
   connectedStopPair: ConnectedPairProps;
   draggableStopId: string | null;
   movedStopsState: MovedStop[];
+  markerReference: null | typeof Marker;
+  resetPositionFunction: null | Function;
+  setResetPositionFunction: (arg: null | Function) => void;
+  setMarkerReference: (arg: null | typeof Marker) => void;
   movedStopsDispatch: (action: MovedStopsReducerAction) => void;
   setDraggableStopId: (stop: string | null) => void;
   setConnectedStopPair: (arg: any) => void;
@@ -161,6 +166,10 @@ const init: IMapContext = {
   authRoles: [],
   draggableStopId: null,
   movedStopsState: [],
+  markerReference: null,
+  resetPositionFunction: null,
+  setResetPositionFunction: () => null,
+  setMarkerReference: () => null,
   movedStopsDispatch: () => null,
   setDraggableStopId: () => null,
   setConnectedStopPair: () => null,
@@ -280,6 +289,8 @@ const MapContextProvider: FC = ({children}) => {
   const [isSidebarConnectionHandlerVisible, setIsSidebarConnectionHandlerVisible] = useState(false);
   const [connectedStopPair, setConnectedStopPair] = useState({markedStop: null, connectedStop: null, connection: null});
   const [draggableStopId, setDraggableStopId] = useState<string | null>(null);
+  const [markerReference, setMarkerReference] = useState<null | typeof Marker>(null);
+  const [resetPositionFunction, setResetPositionFunction] = useState<null | Function>(null);
 
   const temporaryMovedStopsReducer = (state: MovedStop[], action: MovedStopsReducerAction): MovedStop[] => {
     const {payload} = action;
@@ -396,6 +407,14 @@ const MapContextProvider: FC = ({children}) => {
     Object.values(localStorageStopTypes).forEach(item => localStorage.removeItem(item));
   }, []);
 
+  if (markerReference) {
+    console.log({markerReference});
+  }
+  console.log(typeof resetPositionFunction);
+  if (resetPositionFunction) {
+    console.log(typeof resetPositionFunction);
+  }
+
   return (
     <MapContext.Provider
       value={{
@@ -426,6 +445,10 @@ const MapContextProvider: FC = ({children}) => {
         tileStops,
         draggableStopId,
         movedStopsState,
+        markerReference,
+        resetPositionFunction,
+        setResetPositionFunction,
+        setMarkerReference,
         movedStopsDispatch,
         setDraggableStopId,
         setTileStops,
