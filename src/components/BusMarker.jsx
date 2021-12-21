@@ -1,9 +1,10 @@
+import {useContext, useMemo} from 'react';
 import {Marker, Tooltip} from 'react-leaflet';
 
 import {getBusStopIcon} from '../utilities/utilities';
 import {generateStopName} from '../utilities/mapUtilities';
-import {useContext, useMemo} from 'react';
 import {MapContext} from './contexts/MapContextProvider';
+import {ConnectionRadio} from '../types/enums';
 
 const BusMarker = ({
   busStop,
@@ -25,6 +26,7 @@ const BusMarker = ({
     setActiveStop,
     setNewReportCoordinates,
     connectionData,
+    connectionRadio,
   } = useContext(MapContext);
   const opacity = useMemo(() => {
     if (connectedStopIds.includes(busStop.id)) {
@@ -96,10 +98,13 @@ const BusMarker = ({
           setActiveStop(busStop);
           setNewReportCoordinates({lat: null, lon: null});
           if (isConnectionMode) {
-            isActiveStopClicked(busStop.id) ? clickBusStop() : clickBusStop(busStop);
-            createConnection([busStop.lat, busStop.lon], busStop.id, busStop.stopType, busStop.name, busStop.number);
+            if (connectionRadio === ConnectionRadio.ADD) {
+              createConnection([busStop.lat, busStop.lon], busStop.id, busStop.stopType, busStop.name, busStop.number);
+            } else if (connectionRadio === ConnectionRadio.EDIT) {
+              isActiveStopClicked(busStop.id) ? handleViewModeStopUnclick() : handleViewModeStopClick(busStop);
+            }
           } else if (isViewMode || isReportMode) {
-            isActiveStopClicked(busStop.id) ? handleViewModeStopUnclick() : handleViewModeStopClick(busStop);
+            isActiveStopClicked(busStop.id) ? clickBusStop() : clickBusStop(busStop);
           }
         },
       }}>

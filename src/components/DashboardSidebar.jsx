@@ -17,6 +17,8 @@ import {roles as appRoles} from '../utilities/constants';
 import './../stylesheets/dashboardSidebar.scss';
 import {useTranslation} from 'react-i18next';
 import TileDetails from './TileDetails';
+import ConnectionRadioGroup from './ConnectionRadioGroup';
+import {ConnectionRadio} from '../types/enums';
 
 const DashboardSidebar = () => {
   const {
@@ -28,6 +30,7 @@ const DashboardSidebar = () => {
     areManageReportButtonsVisible,
     isSidebarConnectionHandlerVisible,
     activeStop,
+    connectionRadio,
   } = useContext(MapContext);
   const authRoles = useSelector(selectLoggedInUserRoles);
   const {t} = useTranslation();
@@ -40,7 +43,6 @@ const DashboardSidebar = () => {
       userRoles={authRoles}
       appRoles={appRoles}>
       <>
-        {activeStop && isSidebarConnectionHandlerVisible && mapMode === MapModes.view && <SidebarConnectionHandler />}
         {mapMode === MapModes.view ? (
           propertyGrid ? (
             <PropertyGrid propertyGrid={propertyGrid} />
@@ -52,7 +54,12 @@ const DashboardSidebar = () => {
         {isEditingReportMode && openReportContent && (
           <ReportForm areManageReportButtonsVisible={areManageReportButtonsVisible} />
         )}
-        {mapMode === MapModes.connection && <ConnectionSidePanel />}
+        {mapMode === MapModes.connection && <ConnectionRadioGroup />}
+        {mapMode === MapModes.connection && connectionRadio === ConnectionRadio.ADD && <ConnectionSidePanel />}
+        {activeStop &&
+          isSidebarConnectionHandlerVisible &&
+          mapMode === MapModes.connection &&
+          connectionRadio === ConnectionRadio.EDIT && <SidebarConnectionHandler />}
         {mapMode === MapModes.tile && <TileDetails />}
         {mapMode === MapModes.sync && <SyncPanel />}
       </>

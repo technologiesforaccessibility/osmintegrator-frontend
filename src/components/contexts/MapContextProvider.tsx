@@ -6,6 +6,7 @@ import {selectLoggedInUserRoles} from '../../redux/selectors/authSelector';
 import i18n from '../../translations/i18n';
 import {connectionVisibility, localStorageStopTypes} from '../../utilities/constants';
 import {ConnectedPairProps} from '../../types/interfaces';
+import {ConnectionRadio} from '../../types/enums';
 
 interface VisibilityOptions {
   connected: {
@@ -103,6 +104,8 @@ interface IMapContext {
   resetMapVisibility: () => void;
   authRoles: Array<string>;
   setActiveStop: React.Dispatch<React.SetStateAction<Stop | null>>;
+  connectionRadio: ConnectionRadio;
+  setConnectionRadio: (arg: ConnectionRadio) => void;
 }
 
 export const MapModes = {
@@ -186,6 +189,8 @@ const init: IMapContext = {
   resetMapVisibility: () => null,
   setActiveStop: () => null,
   setTileStops: () => null,
+  connectionRadio: ConnectionRadio.ADD,
+  setConnectionRadio: () => null,
 };
 
 export const MapContext = createContext<IMapContext>(init);
@@ -237,6 +242,7 @@ const initialVisibility = (reset = false) => {
 };
 
 const MapContextProvider: FC = ({children}) => {
+  const [connectionRadio, setConnectionRadio] = useState<ConnectionRadio>(ConnectionRadio.ADD);
   const [isTileActive, setIsTileActive] = useState(false);
   const [isMapActive, setIsMapActive] = useState(false);
   const [areStopsVisible, setAreStopsVisible] = useState(false);
@@ -412,6 +418,8 @@ const MapContextProvider: FC = ({children}) => {
         setVisibilityOptions,
         resetMapVisibility,
         setActiveStop,
+        connectionRadio,
+        setConnectionRadio,
       }}>
       {children}
     </MapContext.Provider>
