@@ -249,6 +249,7 @@ export const pl = {
       connection: 'Stwórz nowe połączenie',
       tile: 'Szczegóły kafelka',
       sync: 'Synchronizacja',
+      move: 'Panel przesuwania przystanków',
       back: 'Ukryj kafelek',
     },
     error: {

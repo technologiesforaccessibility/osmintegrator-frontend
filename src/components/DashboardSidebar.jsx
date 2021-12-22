@@ -42,7 +42,7 @@ const DashboardSidebar = () => {
       appRoles={appRoles}>
       <>
         {activeStop && isSidebarConnectionHandlerVisible && mapMode === MapModes.view && <SidebarConnectionHandler />}
-        {activeStop && mapMode === MapModes.view && activeStop.stopType !== 0 && <MovedStopHandler />}
+        {mapMode === MapModes.moveNotOSM && <MovedStopHandler />}
         {mapMode === MapModes.view ? (
           propertyGrid ? (
             <PropertyGrid propertyGrid={propertyGrid} />

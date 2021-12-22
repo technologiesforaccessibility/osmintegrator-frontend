@@ -9,6 +9,7 @@ import ReportIcon from '@mui/icons-material/Report';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CropSquareTwoToneIcon from '@mui/icons-material/CropSquareTwoTone';
 import SyncIcon from '@mui/icons-material/Sync';
+import PanToolIcon from '@mui/icons-material/PanTool';
 import {ReactComponent as ConnectionIcon} from '../assets/connection-panel-icon.svg';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -62,6 +63,11 @@ const MapPanel = () => {
       title: t('tileModePrompts.sync'),
       name: MapModes.sync,
       icon: () => <SyncIcon />,
+    },
+    {
+      title: t('tileModePrompts.move'),
+      name: MapModes.moveNotOSM,
+      icon: () => <PanToolIcon />,
     },
   ];
 

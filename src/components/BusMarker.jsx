@@ -3,7 +3,7 @@ import {Marker, Tooltip} from 'react-leaflet';
 
 import {getBusStopIcon} from '../utilities/utilities';
 import {generateStopName} from '../utilities/mapUtilities';
-import {MapContext} from './contexts/MapContextProvider';
+import {MapContext, MapModes} from './contexts/MapContextProvider';
 import {MovedStopsReducerActionKind} from '../types/interfaces';
 
 const BusMarker = ({
@@ -32,6 +32,7 @@ const BusMarker = ({
     markerReference,
     setMarkerReference,
     setResetPositionFunction,
+    mapMode,
   } = useContext(MapContext);
   const markerRef = useRef(null);
   const {lat, lon, id, name, number, stopId, stopType} = busStop;
@@ -98,7 +99,7 @@ const BusMarker = ({
   return (
     <Marker
       key={id}
-      draggable={stopType === 0 ? false : !!(draggableStopId === id)}
+      draggable={stopType === 0 ? false : mapMode === MapModes.moveNotOSM ? !!(draggableStopId === id) : false}
       ref={markerRef}
       position={position}
       icon={getIcon(busStop)}

@@ -120,6 +120,7 @@ export const MapModes = {
   connection: 'Connection',
   tile: 'Tile',
   sync: 'Sync',
+  moveNotOSM: 'MoveNotOsm',
 };
 
 const init: IMapContext = {

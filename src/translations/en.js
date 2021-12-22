@@ -249,6 +249,7 @@ export const en = {
       connection: 'Create new connection',
       tile: 'Tile details',
       sync: 'Sync',
+      move: 'Pan tool',
       back: 'Hide tile',
     },
     error: {

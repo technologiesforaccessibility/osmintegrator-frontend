@@ -67,27 +67,33 @@ const MovedStopHandler: FC = () => {
   return (
     <div style={{height: '150px', backgroundColor: 'palegreen'}}>
       Panel do zarządzania lokalizacją pinezki
-      <Button
-        variant="contained"
-        onClick={() => {
-          console.log('CLICK');
-        }}>
-        Dostosuj połączenie
-      </Button>
-      <Button
-        variant="contained"
-        onClick={() => {
-          saveStopToLocalStorage();
-        }}>
-        Aktualizuj lokalizację
-      </Button>
-      <Button
-        variant="contained"
-        onClick={() => {
-          resetPosition();
-        }}>
-        Przywróć pierwotną lokalizację
-      </Button>
+      {activeStop && activeStop.stopType !== 0 ? (
+        <>
+          <Button
+            variant="contained"
+            onClick={() => {
+              console.log('CLICK');
+            }}>
+            Dostosuj połączenie
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              saveStopToLocalStorage();
+            }}>
+            Aktualizuj lokalizację
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              resetPosition();
+            }}>
+            Przywróć pierwotną lokalizację
+          </Button>
+        </>
+      ) : (
+        <p>Kliknij na przystanek ZTM aby włączyć jego przesuwanie</p>
+      )}
     </div>
   );
 };
