@@ -28,8 +28,6 @@ const DashboardSidebar = () => {
     isEditingReportMode,
     openReportContent,
     areManageReportButtonsVisible,
-    isSidebarConnectionHandlerVisible,
-    activeStop,
     connectionRadio,
   } = useContext(MapContext);
   const authRoles = useSelector(selectLoggedInUserRoles);
@@ -56,10 +54,7 @@ const DashboardSidebar = () => {
         )}
         {mapMode === MapModes.connection && <ConnectionRadioGroup />}
         {mapMode === MapModes.connection && connectionRadio === ConnectionRadio.ADD && <ConnectionSidePanel />}
-        {activeStop &&
-          isSidebarConnectionHandlerVisible &&
-          mapMode === MapModes.connection &&
-          connectionRadio === ConnectionRadio.EDIT && <SidebarConnectionHandler />}
+        {mapMode === MapModes.connection && connectionRadio === ConnectionRadio.EDIT && <SidebarConnectionHandler />}
         {mapMode === MapModes.tile && <TileDetails />}
         {mapMode === MapModes.sync && <SyncPanel />}
       </>

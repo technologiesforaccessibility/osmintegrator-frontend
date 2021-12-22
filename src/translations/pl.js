@@ -43,6 +43,11 @@ export const pl = {
       unapprove: 'Cofnij zatwierdzenie',
       deleteConnectionShort: 'Usuń',
       deleteConnection: 'Usuń połączenie',
+      placeholder: 'Kliknij na przystanek posiadający połączenie',
+    },
+    connectionRadioGroup: {
+      addLabel: 'Nowe połączenie',
+      editLabel: 'Edytuj połączenie dla przystanku',
     },
     connectionVisibility: {
       nameConnected: 'Połączone przystanki',
