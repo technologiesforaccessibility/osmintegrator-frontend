@@ -1,9 +1,10 @@
-import {FC, useContext, useState} from 'react';
+import React, {FC, useContext, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/system/Box';
 import CloseIcon from '@mui/icons-material/Close';
+import TextField from '@mui/material/TextField';
 import {useDispatch} from 'react-redux';
 
 import api from '../api/apiInstance';
@@ -11,33 +12,34 @@ import {basicHeaders} from '../config/apiConfig';
 import {MapContext} from './contexts/MapContextProvider';
 import {exception} from '../utilities/exceptionHelper';
 import {NotificationActions} from '../redux/actions/notificationActions';
+import {UserContext} from './contexts/UserContextProvider';
 
 import '../stylesheets/syncPanel.scss';
 
 const SyncPanel: FC = () => {
   const {activeTile, setRerenderReports} = useContext(MapContext);
+  const {setLoader} = useContext(UserContext);
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [updateData, setUpdateData] = useState<string[] | null>(null);
+  const [updateData, setUpdateData] = useState<string | null>(null);
   const dispatch = useDispatch();
   const {t} = useTranslation();
 
   const handleImportOSM = async () => {
     if (activeTile && activeTile.id) {
       try {
+        setLoader(true);
         const response = await api.tileUpdateStopsUpdate(activeTile?.id, {headers: basicHeaders()});
         dispatch(NotificationActions.success(t('report.success')));
         setRerenderReports(true);
         const {value}: {value: string} = response.data || {};
-        const responseArray = value
-          ? value
-              .split('[')
-              .filter(line => line !== '')
-              .map(line => `[${line}`)
-          : null;
-        setUpdateData(responseArray);
+        setUpdateData(value || null);
+
         setIsModalOpen(true);
       } catch (error) {
         exception(error);
+      } finally {
+        setLoader(false);
       }
     }
   };
@@ -64,7 +66,7 @@ const SyncPanel: FC = () => {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: 680,
+            width: 800,
             bgcolor: 'white',
             border: '2px solid #000',
             boxShadow: 24,
@@ -73,17 +75,23 @@ const SyncPanel: FC = () => {
           <div>
             <h4>{t('sync.stopsUpdated')}</h4>
             {updateData ? (
-              <>
-                <h5>{t('sync.changes')}</h5>
-                <div style={{height: '200px', overflowY: 'scroll'}}>
-                  {updateData.map(line => (
-                    <p>{line}</p>
-                  ))}
-                </div>
-              </>
+              <TextField
+                id="outlined-multiline-static"
+                label={null}
+                multiline
+                rows={20}
+                defaultValue={updateData}
+                sx={{
+                  width: '100%',
+                  margin: '0px 5px',
+                  bgcolor: 'white',
+                }}
+                disabled={true}
+              />
             ) : (
               <p>{t('sync.noChanges')}</p>
             )}
+
             <Button
               onClick={() => {
                 setIsModalOpen(false);

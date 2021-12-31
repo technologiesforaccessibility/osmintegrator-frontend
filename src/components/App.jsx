@@ -8,6 +8,7 @@ import ConversationContextProvider from './contexts/ConversationProvider';
 import Notification from './Notification';
 import CookiesBar from './CookiesBar';
 import Navigation from './Navigation';
+import GlobalLoader from './GlobalLoader';
 
 import '../stylesheets/app.scss';
 import '../stylesheets/globalStyles.scss';
@@ -21,6 +22,7 @@ const App = () => {
         <UserContextProvider>
           <MapContextProvider>
             <ConversationContextProvider>
+              <GlobalLoader />
               <Navigation />
             </ConversationContextProvider>
           </MapContextProvider>

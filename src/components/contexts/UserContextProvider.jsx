@@ -8,6 +8,7 @@ export const UserContext = createContext();
 
 const UserContextProvider = ({children}) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [loader, setLoader] = useState(false);
   const token = useSelector(selectAuthToken);
   const dispatch = useDispatch();
 
@@ -31,7 +32,11 @@ const UserContextProvider = ({children}) => {
     return <></>;
   }
 
-  return <UserContext.Provider value={{isUnsafeAuthorized, setIsUnsafeAuthorized}}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{isUnsafeAuthorized, setIsUnsafeAuthorized, loader, setLoader}}>
+      {children}
+    </UserContext.Provider>
+  );
 };
 
 export default UserContextProvider;
