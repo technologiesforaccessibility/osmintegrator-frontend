@@ -717,12 +717,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags Connections
      * @name ConnectionsDelete
-     * @request DELETE:/api/Connections
+     * @request POST:/api/Connections/Remove
      */
     connectionsDelete: (data: ConnectionAction, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
-        path: `/api/Connections`,
-        method: 'DELETE',
+        path: `/api/Connections/Remove`,
+        method: 'POST',
         body: data,
         type: ContentType.Json,
         ...params,
