@@ -44,6 +44,11 @@ export const en = {
       unapprove: 'Revert approval',
       deleteConnectionShort: 'Delete',
       deleteConnection: 'Delete connection',
+      placeholder: 'Click on pin with connection',
+    },
+    connectionRadioGroup: {
+      addLabel: 'New connection',
+      editLabel: 'Edit stop connection',
     },
     connectionVisibility: {
       nameConnected: 'Connected stops',
