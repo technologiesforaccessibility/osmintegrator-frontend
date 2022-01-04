@@ -283,6 +283,9 @@ export interface Tile {
   gtfsStopsCount?: number;
 
   /** @format int32 */
+  zoomLevel: number;
+
+  /** @format int32 */
   usersCount?: number | null;
   stops?: Stop[] | null;
   approvedByEditor: boolean;
