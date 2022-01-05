@@ -10,13 +10,7 @@ const HomeLayoutManager: FC = () => {
   const {isTileActive} = useContext(MapContext);
 
   return (
-    <div
-      className="map-manager"
-      style={
-        isTileActive
-          ? {gridTemplateAreas: 'sidebar map', gridTemplateColumns: 'minmax(280px, 340px) 80%'}
-          : {gridTemplateAreas: 'sidebar map', gridTemplateColumns: '0% 100%'}
-      }>
+    <div className="map-manager">
       {isTileActive && (
         <div className="map-manager__sidebar">
           <DashboardSidebar />
