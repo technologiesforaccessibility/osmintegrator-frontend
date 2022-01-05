@@ -23,7 +23,9 @@ const TileDetails = () => {
             <div className="tile-details__body">
               <span>X: {activeTile.x}</span>
               <span>Y: {activeTile.y}</span>
-              <span>{t('tileDetails.zoom')} - </span>
+              <span>
+                {t('tileDetails.zoom')} {activeTile.zoomLevel}
+              </span>
               <span>
                 {t('tileDetails.minLat')} {activeTile.minLat}
               </span>
