@@ -71,11 +71,6 @@ export interface ConversationResponse {
   geoConversations?: Conversation[] | null;
 }
 
-export interface CreateChangeFileRequestInput {
-  /** @format uuid */
-  tileUuid: string;
-}
-
 export interface ForgotPassword {
   /** @format email */
   email: string;
@@ -154,6 +149,18 @@ export interface NewNote {
  */
 export type NoteStatus = 0 | 1 | 2;
 
+export interface OsmChangeOutput {
+  comment?: string | null;
+  osmChangeFileContent?: string | null;
+}
+
+export interface OsmExportInput {
+  /** @format email */
+  email: string;
+  password: string;
+  comment: string;
+}
+
 export interface ProblemDetails {
   type?: string | null;
   title?: string | null;
@@ -174,6 +181,10 @@ export interface RegisterData {
   email: string;
   username: string;
   password: string;
+}
+
+export interface Report {
+  value?: string | null;
 }
 
 export interface ResetEmail {
@@ -215,6 +226,12 @@ export interface Stop {
 
   /** @format double */
   lon?: number;
+
+  /** @format double */
+  initLat?: number | null;
+
+  /** @format double */
+  initLon?: number | null;
   number?: string | null;
   tags?: Tag[] | null;
   stopType?: StopType;
@@ -231,6 +248,17 @@ export interface Stop {
   isDeleted?: boolean;
 }
 
+export interface StopPositionData {
+  /** @format double */
+  lat: number;
+
+  /** @format double */
+  lon: number;
+
+  /** @format uuid */
+  stopId: string;
+}
+
 /**
  * @format int32
  */
@@ -242,7 +270,6 @@ export interface Tag {
 }
 
 export interface Tile {
-  value: any;
   /** @format uuid */
   id: string;
 
@@ -283,13 +310,13 @@ export interface Tile {
   gtfsStopsCount?: number;
 
   /** @format int32 */
-  zoomLevel: number;
-
-  /** @format int32 */
   usersCount?: number | null;
   stops?: Stop[] | null;
   approvedByEditor: boolean;
   approvedBySupervisor: boolean;
+
+  /** @format int32 */
+  zoomLevel?: number;
 }
 
 export interface TileUser {
@@ -719,22 +746,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Connections
-     * @name ConnectionsDelete
-     * @request POST:/api/Connections/Remove
-     */
-    connectionsDelete: (data: ConnectionAction, params: RequestParams = {}) =>
-      this.request<void, ProblemDetails>({
-        path: `/api/Connections/Remove`,
-        method: 'POST',
-        body: data,
-        type: ContentType.Json,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Connections
      * @name ConnectionsList
      * @request GET:/api/Connections
      */
@@ -743,6 +754,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/Connections`,
         method: 'GET',
         format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Connections
+     * @name ConnectionsRemoveCreate
+     * @request POST:/api/Connections/Remove
+     */
+    connectionsRemoveCreate: (data: ConnectionAction, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Connections/Remove`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -827,59 +854,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags Conversation
      * @name ConversationApproveUpdate
-     * @request PUT:/api/Conversation/Approve/{conversationId}
-     */
-    conversationApproveUpdate: (conversationId: string, params: RequestParams = {}) =>
-      this.request<void, ProblemDetails>({
-        path: `/api/Conversation/Approve/${conversationId}`,
-        method: 'PUT',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Conversation
-     * @name ConversationRejectUpdate
-     * @request PUT:/api/Conversation/Reject/{conversationId}
-     */
-    conversationRejectUpdate: (conversationId: string, params: RequestParams = {}) =>
-      this.request<void, ProblemDetails>({
-        path: `/api/Conversation/Reject/${conversationId}`,
-        method: 'PUT',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Conversation
-     * @name ConversationApproveUpdate2
      * @request PUT:/api/Conversation/Approve
-     * @originalName conversationApproveUpdate
-     * @duplicate
      */
-    conversationApproveUpdate2: (data: MessageInput, params: RequestParams = {}) =>
+    conversationApproveUpdate: (data: MessageInput, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Conversation/Approve`,
-        method: 'PUT',
-        body: data,
-        type: ContentType.Json,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Conversation
-     * @name ConversationRejectUpdate2
-     * @request PUT:/api/Conversation/Reject
-     * @originalName conversationRejectUpdate
-     * @duplicate
-     */
-    conversationRejectUpdate2: (data: MessageInput, params: RequestParams = {}) =>
-      this.request<void, ProblemDetails>({
-        path: `/api/Conversation/Reject`,
         method: 'PUT',
         body: data,
         type: ContentType.Json,
@@ -978,14 +957,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @tags OsmChangeFile
-     * @name OsmChangeFileGetChangeFileList
-     * @request GET:/api/OsmChangeFile/GetChangeFile
+     * @tags OsmExport
+     * @name OsmExportGetChangeFileDetail
+     * @request GET:/api/OsmExport/GetChangeFile/{tileId}
      */
-    osmChangeFileGetChangeFileList: (data: CreateChangeFileRequestInput, params: RequestParams = {}) =>
-      this.request<void, ProblemDetails>({
-        path: `/api/OsmChangeFile/GetChangeFile`,
+    osmExportGetChangeFileDetail: (tileId: string, params: RequestParams = {}) =>
+      this.request<OsmChangeOutput, ProblemDetails>({
+        path: `/api/OsmExport/GetChangeFile/${tileId}`,
         method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags OsmExport
+     * @name OsmExportExportCreate
+     * @request POST:/api/OsmExport/Export/{tileId}
+     */
+    osmExportExportCreate: (tileId: string, data: OsmExportInput, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/OsmExport/Export/${tileId}`,
+        method: 'POST',
         body: data,
         type: ContentType.Json,
         ...params,
@@ -1034,6 +1028,52 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/Stop`,
         method: 'GET',
         format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Stop
+     * @name StopChangePositionUpdate
+     * @request PUT:/api/Stop/ChangePosition
+     */
+    stopChangePositionUpdate: (data: StopPositionData, params: RequestParams = {}) =>
+      this.request<Stop, ProblemDetails>({
+        path: `/api/Stop/ChangePosition`,
+        method: 'PUT',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Stop
+     * @name StopResetPositionCreate
+     * @request POST:/api/Stop/ResetPosition/{stopId}
+     */
+    stopResetPositionCreate: (stopId: string, params: RequestParams = {}) =>
+      this.request<Stop, ProblemDetails>({
+        path: `/api/Stop/ResetPosition/${stopId}`,
+        method: 'POST',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Stop
+     * @name StopUpdateUpdate
+     * @request PUT:/api/Stop/Update
+     */
+    stopUpdateUpdate: (params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/Stop/Update`,
+        method: 'PUT',
         ...params,
       }),
 
@@ -1169,9 +1209,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/api/Tile/UpdateStops/{id}
      */
     tileUpdateStopsUpdate: (id: string, params: RequestParams = {}) =>
-      this.request<Tile, ProblemDetails>({
+      this.request<Report, ProblemDetails>({
         path: `/api/Tile/UpdateStops/${id}`,
         method: 'PUT',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tile
+     * @name TileContainsChangesDetail
+     * @request GET:/api/Tile/ContainsChanges/{id}
+     */
+    tileContainsChangesDetail: (id: string, params: RequestParams = {}) =>
+      this.request<boolean, ProblemDetails>({
+        path: `/api/Tile/ContainsChanges/${id}`,
+        method: 'GET',
         format: 'json',
         ...params,
       }),
