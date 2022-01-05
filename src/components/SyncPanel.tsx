@@ -32,7 +32,7 @@ const SyncPanel: FC = () => {
         const response = await api.tileUpdateStopsUpdate(activeTile?.id, {headers: basicHeaders()});
         dispatch(NotificationActions.success(t('report.success')));
         setRerenderReports(true);
-        const {value}: {value: string} = response.data || {};
+        const {value}: {value?: string | null} = response.data || {};
         setUpdateData(value || null);
 
         setIsModalOpen(true);

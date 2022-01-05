@@ -43,7 +43,7 @@ const ImportedConnections: FC<ImportedConnectionsProps> = ({stops, inApproveMode
 
   const deleteConnection = async (osm: Stop, gtfs: Stop) => {
     try {
-      await api.connectionsDelete(generateConnectionData(checkStopType([osm, gtfs])), {
+      await api.connectionsRemoveCreate(generateConnectionData(checkStopType([osm, gtfs])), {
         headers: basicHeaders(),
       });
       shouldRenderConnections(true);

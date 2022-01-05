@@ -120,7 +120,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
   const approveConversation = async text => {
     handleLoader(true);
     try {
-      await api.conversationApproveUpdate2(
+      await api.conversationApproveUpdate(
         {conversationId: conversation.id, text, tileId: activeTile.id},
         {
           headers: basicHeaders(),
