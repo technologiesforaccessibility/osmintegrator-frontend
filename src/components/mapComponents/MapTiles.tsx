@@ -23,25 +23,15 @@ const MapTiles: FC<MapTilesProps> = ({
   addReportMarker,
   isCreateReportMapMode,
 }) => {
-  const color = ({approvedBySupervisor, approvedByEditor, usersCount}: Tile): string => {
-    if (approvedBySupervisor) {
-      return colors.colorApprovedBySupervisor;
-    }
+  const color = ({approvedByEditor}: Tile): string => {
     if (approvedByEditor) {
-      return colors.colorApprovedByEditor;
+      return colors.colorTileAssigned;
     }
-    if (usersCount) return colors.colorTileAssigned;
     return colors.colorTileAll;
   };
 
   const opacity = (tile: Tile) => {
-    if (!tile.approvedByEditor && !tile.approvedBySupervisor) {
-      return 0.2;
-    }
-    if (tile.approvedByEditor && !tile.approvedBySupervisor) {
-      return 0.5;
-    }
-    return 0.5;
+    return 0.2;
   };
 
   return (
