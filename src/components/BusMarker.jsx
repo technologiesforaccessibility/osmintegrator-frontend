@@ -108,7 +108,7 @@ const BusMarker = ({
           }
         },
       }}>
-      <Tooltip direction="bottom">{generateStopName(busStop.id, busStop.name || null, busStop.number || null)}</Tooltip>
+      <Tooltip direction="bottom">{generateStopName(busStop)}</Tooltip>
     </Marker>
   );
 };
