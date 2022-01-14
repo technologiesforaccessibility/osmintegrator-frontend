@@ -30,7 +30,7 @@ const generateStopName = stop => {
   if (stop.stopType === 1) return result;
 
   const refTag = stop.tags.find(x => x.key === 'ref');
-  if (refTag) return (result += `,  ref: ${refTag.value || '-'}`);
+  if (refTag) return (result += `, ref: ${refTag.value || '-'}`);
   return (result += ', ref: -');
 };
 
