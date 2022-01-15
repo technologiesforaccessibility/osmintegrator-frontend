@@ -6,13 +6,13 @@ const getPosition = (osmStop, gtfsStop) => {
 };
 
 const generateConnectionData = (connection, tileId) => {
-  if (connection[0].isOsm === true && connection[1].isOsm === false) {
+  if (connection[0].isOsm && connection[1].isOsm) {
     return {
       osmStopId: connection[0].id.toString(),
       gtfsStopId: connection[1].id.toString(),
       tileId: tileId,
     };
-  } else if (connection[0].isOsm === false && connection[1].isOsm === true) {
+  } else if (connection[0].isOsm && connection[1].isOsm) {
     return {
       osmStopId: connection[1].id.toString(),
       gtfsStopId: connection[0].id.toString(),
@@ -30,8 +30,7 @@ const generateStopName = stop => {
   if (stop.stopType === 1) return result;
 
   const refTag = stop.tags.find(x => x.key === 'ref');
-  if (refTag) return (result += `, ref: ${refTag.value || '-'}`);
-  return (result += ', ref: -');
+  return (result += `, ref: ${refTag?.value || '-'}`);
 };
 
 export {getPosition, generateConnectionData, generateStopName};
