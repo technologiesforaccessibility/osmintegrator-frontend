@@ -4,6 +4,7 @@ import logo from './../assets/OsmIntegrator.png';
 import {paths} from '../utilities/constants';
 import {ReactComponent as RevolveLogo} from './../assets/logos/revolve-logo.svg';
 import {ReactComponent as RDNLogo} from './../assets/logos/rozwiazania-logo.svg';
+import ztmLogoPath from './../assets/logos/logo_ZTM.png';
 import {useLocation} from 'react-router-dom';
 import '../stylesheets/auth.scss';
 
@@ -27,14 +28,17 @@ export default function AuthContainer({children}) {
         {isLoginPage && (
           <div className="auth__logos">
             <a
-              className="auth__logos--rdn"
+              className="auth__logos--url"
               href="https://rozwiazaniadlaniewidomych.org/"
               target="_blank"
               rel="noreferrer">
               <RDNLogo />
             </a>
-            <a className="auth__logos--revolve" href="https://revolve.healthcare/" target="_blank" rel="noreferrer">
+            <a className="auth__logos--url" href="https://revolve.healthcare/" target="_blank" rel="noreferrer">
               <RevolveLogo />
+            </a>
+            <a className="auth__logos--url" href="https://www.metropoliaztm.pl/pl/" target="_blank" rel="noreferrer">
+              <img src={ztmLogoPath} alt="Logo ZTM" />
             </a>
           </div>
         )}
