@@ -23,26 +23,11 @@ const MapTiles: FC<MapTilesProps> = ({
   addReportMarker,
   isCreateReportMapMode,
 }) => {
-  const color = ({approvedBySupervisor, approvedByEditor, usersCount}: Tile): string => {
-    if (approvedBySupervisor) {
-      return colors.colorApprovedBySupervisor;
-    }
-    if (approvedByEditor) {
-      return colors.colorApprovedByEditor;
-    }
-    if (usersCount) return colors.colorTileAssigned;
-    return colors.colorTileAll;
+  const color = ({approvedByEditor}: Tile): string => {
+    return approvedByEditor ? colors.colorTileAssigned : colors.colorTileAll;
   };
 
-  const opacity = (tile: Tile) => {
-    if (!tile.approvedByEditor && !tile.approvedBySupervisor) {
-      return 0.2;
-    }
-    if (tile.approvedByEditor && !tile.approvedBySupervisor) {
-      return 0.5;
-    }
-    return 0.5;
-  };
+  const opacity = 0.2;
 
   return (
     <>
@@ -69,7 +54,7 @@ const MapTiles: FC<MapTilesProps> = ({
             ]}
             pathOptions={{
               color: color(tile),
-              fillOpacity: opacity(tile),
+              fillOpacity: opacity,
             }}
             eventHandlers={{
               click: () => {
