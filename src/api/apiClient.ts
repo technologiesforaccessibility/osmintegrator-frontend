@@ -317,6 +317,7 @@ export interface Tile {
 
   /** @format int32 */
   zoomLevel?: number;
+  assignedUserName?: string | null;
 }
 
 export interface TileUser {
@@ -353,9 +354,6 @@ export interface UpdateNote {
 }
 
 export interface UpdateTileInput {
-  /** @format uuid */
-  supervisorId?: string | null;
-
   /** @format uuid */
   editorId?: string | null;
 }
@@ -1111,6 +1109,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Tile
+     * @name TileGetUncommitedTilesList
+     * @request GET:/api/Tile/GetUncommitedTiles
+     */
+    tileGetUncommitedTilesList: (params: RequestParams = {}) =>
+      this.request<Tile[], ProblemDetails>({
+        path: `/api/Tile/GetUncommitedTiles`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tile
      * @name TileGetStopsDetail
      * @request GET:/api/Tile/GetStops/{id}
      */
@@ -1266,11 +1279,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags Users
      * @name UsersList
-     * @request GET:/api/Users
+     * @request GET:/api/users
      */
-    usersList: (params: RequestParams = {}) =>
+    usersList: (query?: {role?: string}, params: RequestParams = {}) =>
       this.request<User[], ProblemDetails>({
-        path: `/api/Users`,
+        path: `/api/users`,
+        method: 'GET',
+        query: query,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Users
+     * @name RolesUsersDetail
+     * @request GET:/api/roles/{role}/users
+     */
+    rolesUsersDetail: (role: string, params: RequestParams = {}) =>
+      this.request<User[], ProblemDetails>({
+        path: `/api/roles/${role}/users`,
         method: 'GET',
         format: 'json',
         ...params,

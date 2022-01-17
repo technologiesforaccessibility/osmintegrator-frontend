@@ -1218,6 +1218,36 @@
         }
       }
     },
+    "/api/Tile/GetUncommitedTiles": {
+      "get": {
+        "tags": ["Tile"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Tile"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Tile/GetStops/{id}": {
       "get": {
         "tags": ["Tile"],
@@ -1402,7 +1432,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -1629,9 +1660,58 @@
         }
       }
     },
-    "/api/Users": {
+    "/api/users": {
       "get": {
         "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "role",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/roles/{role}/users": {
+      "get": {
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "role",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -2337,6 +2417,10 @@
           "zoomLevel": {
             "type": "integer",
             "format": "int32"
+          },
+          "assignedUserName": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2422,11 +2506,6 @@
       "UpdateTileInput": {
         "type": "object",
         "properties": {
-          "supervisorId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
           "editorId": {
             "type": "string",
             "format": "uuid",

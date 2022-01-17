@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import {CircularProgress, TextField} from '@mui/material';
 
 import api from '../api/apiInstance';
-import {Tile, TileUser} from '../api/apiClient';
+import {Tile, User} from '../api/apiClient';
 import {basicHeaders} from '../config/apiConfig';
 import H3Title from '../components/customs/H3Title';
 import ManagementPanelMap from '../components/managementPanel/ManagementPanelMap';
@@ -19,6 +19,7 @@ import {exception} from '../utilities/exceptionHelper';
 
 import colors from '../stylesheets/config/colors.module.scss';
 import '../stylesheets/managementPanel.scss';
+import {roles} from '../utilities/constants';
 
 const NONE = 'none';
 const CURRENT_LOCATION = {lat: 50.29, lng: 19.01};
@@ -29,30 +30,19 @@ function ManagementPanel() {
   const dispatch = useDispatch();
 
   const [tiles, setTiles] = useState<Tile[]>([]);
-  const [tileUsers, setTileUsers] = useState<TileUser[]>([]);
+  const [editors, setEditors] = useState<User[]>([]);
 
-  const [tilesLoaded, setTilesLoaded] = useState(false);
-  const [selectedTileId, setSelectedTileId] = useState('');
-  const [usersLoaded, setUsersLoaded] = useState(true);
+  const [dataLoaded, setDataLoaded] = useState(false);
+
+  const [selectedEditor, setSelectedEditor] = useState<User>();
+  const [selectedTile, setSelectedTile] = useState<Tile>();
 
   const initState = () => {
-    setTilesLoaded(false);
-    setUsersLoaded(true);
+    setDataLoaded(false);
   };
 
-  const tilesLoadedState = () => {
-    setTilesLoaded(true);
-    setUsersLoaded(true);
-  };
-
-  const loadingUsersState = () => {
-    setTilesLoaded(true);
-    setUsersLoaded(false);
-  };
-
-  const userSelectedState = () => {
-    setTilesLoaded(true);
-    setUsersLoaded(true);
+  const readyState = () => {
+    setDataLoaded(true);
   };
 
   useEffect(() => {
@@ -60,27 +50,34 @@ function ManagementPanel() {
       initState();
       try {
         const t = await getTiles();
+        const u = await getEditors();
 
         setTiles(t || []);
+        setEditors(u || []);
       } catch (e) {
         exception(e);
       } finally {
-        setTilesLoaded(true);
+        readyState();
       }
     };
 
     getInitialState();
   }, []);
 
-  const getTileUserAssignmentInfo = async (id: string) => {
-    return await api.tileGetUsersDetail(id, {
-      headers: basicHeaders(),
-    });
+  const getEditors = async () => {
+    try {
+      const response = await api.rolesUsersDetail(roles.EDITOR, {
+        headers: basicHeaders(),
+      });
+      return response.data;
+    } catch (error) {
+      exception(error);
+    }
   };
 
   const getTiles = async () => {
     try {
-      const response = await api.tileGetAllTilesList({
+      const response = await api.tileGetUncommitedTilesList({
         headers: basicHeaders(),
       });
       return response.data;
@@ -90,12 +87,9 @@ function ManagementPanel() {
   };
 
   const getColor = useCallback(
-    (id: string, usersCount: number, approvedByEditor: boolean, approvedBySupervisor: boolean) => {
-      if (selectedTileId !== null && selectedTileId === id) {
+    (id: string, usersCount: number, approvedByEditor: Boolean) => {
+      if (selectedTile !== null && selectedTile?.id === id) {
         return colors.colorTileActiveExplicit;
-      }
-      if (approvedBySupervisor) {
-        return colors.colorApprovedBySupervisor;
       }
       if (approvedByEditor) {
         return colors.colorApprovedByEditor;
@@ -103,33 +97,23 @@ function ManagementPanel() {
       if (!!usersCount) return colors.colorTileAssigned;
       return colors.colorTileAll;
     },
-    [selectedTileId],
+    [selectedTile],
   );
 
   const handleTileSelected = useCallback(
-    async (tileId: string) => {
-      loadingUsersState();
+    (tileId: string) => {
+      const tile = tiles.find(t => t.id === tileId);
+      const assignedEditor = editors.find(e => e.userName === tile?.assignedUserName);
 
-      setSelectedTileId(tileId);
-
-      const response = await getTileUserAssignmentInfo(tileId);
-      if (response.status !== 200) {
-        setTileUsers([]);
-        dispatch(NotificationActions.error(t('unrecognizedProblem')));
-        tilesLoadedState();
-        return;
-      }
-
-      setTileUsers(fulfillTileUsers(response.data.users));
-
-      userSelectedState();
+      setSelectedTile(tile);
+      setSelectedEditor(assignedEditor);
     },
-    [dispatch, t],
+    [editors, tiles],
   );
 
   const mapTiles = useMemo(
     () =>
-      tiles.map(({id, maxLat, maxLon, minLat, minLon, x, y, usersCount, approvedByEditor, approvedBySupervisor}) => (
+      tiles.map(({id, maxLat, maxLon, minLat, minLon, x, y, usersCount, approvedByEditor, assignedUserName}) => (
         <Rectangle
           key={`map-${id}`}
           bounds={[
@@ -137,37 +121,21 @@ function ManagementPanel() {
             [minLat + 0.001, minLon + 0.0015],
           ]}
           pathOptions={{
-            color: getColor(id, usersCount || 0, approvedByEditor, approvedBySupervisor),
+            color: getColor(id, usersCount || 0, approvedByEditor),
           }}
           eventHandlers={{
-            click: async () => {
+            click: () => {
               handleTileSelected(id);
             },
           }}>
           <Tooltip direction="top">
             Y: {x}, Y: {y} <br />
-            {t('managementPanel.assigned')}: {usersCount === 1 ? t('yes') : t('no')} <br />
+            {t('managementPanel.assigned')}: {assignedUserName ? assignedUserName : '-'} <br />
           </Tooltip>
         </Rectangle>
       )),
     [tiles, getColor, handleTileSelected, t],
   );
-
-  const fulfillTileUsers = (users: TileUser[]) => {
-    const result = [...users];
-
-    const noneUser: TileUser = {
-      id: NONE,
-      userName: NONE,
-      isAssigned: !result.some(x => x.isAssigned),
-      isAssignedAsSupervisor: !result.some(x => x.isAssignedAsSupervisor),
-      isSupervisor: true,
-      isEditor: true,
-    };
-
-    result.unshift(noneUser);
-    return result;
-  };
 
   const tilesDropDown = useMemo(
     () =>
@@ -179,31 +147,14 @@ function ManagementPanel() {
     [tiles],
   );
 
-  const selectedUser = (tileUsers.find(x => x.isAssigned) || {id: NONE}).id;
-  const selectedSupervisor = (tileUsers.find(x => x.isAssignedAsSupervisor) || {id: NONE}).id;
-
-  const dropdownUsers = useMemo(
+  const dropdownEditors = useMemo(
     () =>
-      tileUsers
-        .filter(u => u.isEditor && (u.id !== selectedSupervisor || u.id === NONE))
-        .map(({id, userName}) => (
-          <MenuItem key={id} value={id}>
-            {userName === NONE ? t('managementPanel.noUser') : userName}
-          </MenuItem>
-        )),
-    [tileUsers, t, selectedSupervisor],
-  );
-
-  const dropdownSupervisors = useMemo(
-    () =>
-      tileUsers
-        .filter(u => u.isSupervisor && (u.id !== selectedUser || u.id === NONE))
-        .map(({id, userName}) => (
-          <MenuItem key={id} value={id}>
-            {userName === NONE ? t('managementPanel.noUser') : userName}
-          </MenuItem>
-        )),
-    [tileUsers, t, selectedUser],
+      editors.map(({id, userName}) => (
+        <MenuItem key={id} value={id}>
+          {userName === NONE ? t('managementPanel.noUser') : userName}
+        </MenuItem>
+      )),
+    [editors, t],
   );
 
   const handleSave = async () => {
@@ -211,10 +162,9 @@ function ManagementPanel() {
       initState();
 
       const response = await api.tileUpdateUsersUpdate(
-        selectedTileId,
+        selectedTile!.id,
         {
-          ...(selectedUser !== NONE ? {editorId: selectedUser} : {}),
-          ...(selectedSupervisor !== NONE ? {supervisorId: selectedSupervisor} : {}),
+          editorId: selectedEditor?.id,
         },
         {headers: basicHeaders()},
       );
@@ -222,34 +172,22 @@ function ManagementPanel() {
       if (response.status === 200) {
         dispatch(NotificationActions.success((response.data as unknown as Record<string, string>).value));
 
-        const resp = await getTileUserAssignmentInfo(selectedTileId);
-        const userList = fulfillTileUsers(resp.data.users);
+        const tiles = await getTiles();
 
-        setTiles(
-          tiles.map(t => ({
-            ...t,
-            usersCount:
-              t.id === selectedTileId ? (selectedUser === NONE && selectedSupervisor === NONE ? 0 : 1) : t.usersCount,
-          })),
-        );
-
-        setTileUsers(userList);
+        setTiles(tiles || []);
       } else {
         dispatch(NotificationActions.error(t('unrecognizedProblem')));
       }
-      userSelectedState();
     } catch (error) {
       exception(error);
-      userSelectedState();
+    } finally {
+      readyState();
     }
   };
 
-  const handleUserChanged = (id: string) => {
-    setTileUsers(tileUsers.map(u => ({...u, isAssigned: u.id === id})));
-  };
-
-  const handleSupervisorChanged = (id: string) => {
-    setTileUsers(tileUsers.map(u => ({...u, isAssignedAsSupervisor: u.id === id})));
+  const handleEditorChanged = (id: string) => {
+    const editor = editors.find(e => e.id === id);
+    setSelectedEditor(editor);
   };
 
   return (
@@ -259,49 +197,32 @@ function ManagementPanel() {
           <H3Title title="Management panel" />
           <div className="tile-assignment">
             <H4Title title={t('managementPanel.assignUserToTile')} />
-            {((!tilesLoaded || !tilesDropDown) && <CircularProgress className="tile-assignment__tile-dropdown" />) || (
+            {((!dataLoaded || !tilesDropDown) && <CircularProgress className="tile-assignment__tile-dropdown" />) || (
               <TextField
                 id={'select-tile-id'}
                 variant={'filled'}
                 select
                 label={t('managementPanel.selectTile')}
-                value={selectedTileId}
+                value={selectedTile?.id ?? ''}
                 onChange={e => handleTileSelected(e.target.value)}
                 margin="normal"
                 fullWidth>
                 {tilesDropDown}
               </TextField>
             )}
-            {(!usersLoaded && <CircularProgress />) || (
+            {dataLoaded && selectedTile && dropdownEditors.length && (
               <>
-                {!!dropdownUsers.length && (
-                  <TextField
-                    id={'select-user-id'}
-                    variant={'filled'}
-                    select
-                    label={t('managementPanel.editor')}
-                    value={selectedUser}
-                    onChange={e => handleUserChanged(e.target.value)}
-                    margin="normal"
-                    fullWidth
-                    disabled={!!tiles.find(t => t.id === selectedTileId)?.approvedByEditor}>
-                    {dropdownUsers}
-                  </TextField>
-                )}
-                {!!dropdownSupervisors.length && (
-                  <TextField
-                    id={'select-user-id'}
-                    variant={'filled'}
-                    select
-                    label={t('managementPanel.supervisor')}
-                    value={selectedSupervisor}
-                    onChange={e => handleSupervisorChanged(e.target.value)}
-                    margin="normal"
-                    fullWidth
-                    disabled={!!tiles.find(t => t.id === selectedTileId)?.approvedBySupervisor}>
-                    {dropdownSupervisors}
-                  </TextField>
-                )}
+                <TextField
+                  id={'select-user-id'}
+                  variant={'filled'}
+                  select
+                  label={t('managementPanel.editor')}
+                  value={selectedEditor?.id ?? ''}
+                  onChange={e => handleEditorChanged(e.target.value)}
+                  margin="normal"
+                  fullWidth>
+                  {dropdownEditors}
+                </TextField>
               </>
             )}
             <Button
@@ -309,7 +230,7 @@ function ManagementPanel() {
               onClick={handleSave}
               color="primary"
               variant="contained"
-              disabled={!selectedTileId}
+              disabled={!selectedTile && !selectedEditor}
               fullWidth>
               {t('buttons.save')}
             </Button>
