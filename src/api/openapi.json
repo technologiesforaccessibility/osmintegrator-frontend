@@ -1020,6 +1020,46 @@
         }
       }
     },
+    "/api/Roles/{role}/users": {
+      "get": {
+        "tags": ["Roles"],
+        "parameters": [
+          {
+            "name": "role",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Stop": {
       "get": {
         "tags": ["Stop"],
@@ -1189,6 +1229,36 @@
       }
     },
     "/api/Tile/GetTiles": {
+      "get": {
+        "tags": ["Tile"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Tile"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Tile/GetUncommitedTiles": {
       "get": {
         "tags": ["Tile"],
         "responses": {
@@ -1402,7 +1472,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -1632,6 +1703,15 @@
     "/api/Users": {
       "get": {
         "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "role",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -2337,6 +2417,14 @@
           "zoomLevel": {
             "type": "integer",
             "format": "int32"
+          },
+          "assignedUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "unconnectedGtfsStops": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -2420,17 +2508,12 @@
         "additionalProperties": false
       },
       "UpdateTileInput": {
+        "required": ["editorId"],
         "type": "object",
         "properties": {
-          "supervisorId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
           "editorId": {
             "type": "string",
-            "format": "uuid",
-            "nullable": true
+            "format": "uuid"
           }
         },
         "additionalProperties": false

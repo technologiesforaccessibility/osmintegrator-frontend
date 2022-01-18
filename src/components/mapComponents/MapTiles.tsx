@@ -1,4 +1,5 @@
 import {LeafletMouseEvent} from 'leaflet';
+import TextPath from 'react-leaflet-textpath';
 import {FC} from 'react';
 import {Rectangle, Tooltip} from 'react-leaflet';
 
@@ -46,25 +47,38 @@ const MapTiles: FC<MapTilesProps> = ({
         />
       ) : (
         tiles.map((tile, index) => (
-          <Rectangle
-            key={index}
-            bounds={[
-              [tile.maxLat, tile.maxLon],
-              [tile.minLat, tile.minLon],
-            ]}
-            pathOptions={{
-              color: color(tile),
-              fillOpacity: opacity,
-            }}
-            eventHandlers={{
-              click: () => {
-                setActiveTile(tile);
-              },
-            }}>
-            <Tooltip direction="top">
-              x ={tile.x}, y={tile.y}
-            </Tooltip>
-          </Rectangle>
+          <>
+            <TextPath
+              positions={[
+                [tile.maxLat, tile.minLon],
+                [tile.minLat, tile.maxLon],
+              ]}
+              text={`${tile.unconnectedGtfsStops}/${tile.gtfsStopsCount}`}
+              color=""
+              center
+              orientation={-45}
+              attributes={{}}
+            />
+            <Rectangle
+              key={index}
+              bounds={[
+                [tile.maxLat, tile.maxLon],
+                [tile.minLat, tile.minLon],
+              ]}
+              pathOptions={{
+                color: color(tile),
+                fillOpacity: opacity,
+              }}
+              eventHandlers={{
+                click: () => {
+                  setActiveTile(tile);
+                },
+              }}>
+              <Tooltip direction="top">
+                x ={tile.x}, y={tile.y}
+              </Tooltip>
+            </Rectangle>
+          </>
         ))
       )}
     </>
