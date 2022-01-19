@@ -1700,53 +1700,13 @@
         }
       }
     },
-    "/api/users": {
+    "/api/Users": {
       "get": {
         "tags": ["Users"],
         "parameters": [
           {
             "name": "role",
             "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/roles/{role}/users": {
-      "get": {
-        "tags": ["Users"],
-        "parameters": [
-          {
-            "name": "role",
-            "in": "path",
-            "required": true,
             "schema": {
               "type": "string"
             }

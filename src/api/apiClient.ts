@@ -1297,27 +1297,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags Users
      * @name UsersList
-     * @request GET:/api/users
+     * @request GET:/api/Users
      */
     usersList: (query?: {role?: string}, params: RequestParams = {}) =>
       this.request<User[], ProblemDetails>({
-        path: `/api/users`,
-        method: 'GET',
-        query: query,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Users
-     * @name RolesUsersDetail
-     * @request GET:/api/roles/{role}/users
-     */
-    rolesUsersDetail: (role: string, params: RequestParams = {}) =>
-      this.request<User[], ProblemDetails>({
-        path: `/api/roles/${role}/users`,
+        path: `/api/Users`,
         method: 'GET',
         query: query,
         format: 'json',

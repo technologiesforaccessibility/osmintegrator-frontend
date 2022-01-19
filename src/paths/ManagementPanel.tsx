@@ -125,7 +125,7 @@ function ManagementPanel() {
           y,
           usersCount,
           approvedByEditor,
-          approvedBySupervisor,
+          assignedUserName,
           gtfsStopsCount,
           unconnectedGtfsStops,
         }) => (
@@ -192,7 +192,7 @@ function ManagementPanel() {
       const response = await api.tileUpdateUsersUpdate(
         selectedTile!.id,
         {
-          editorId: selectedEditor?.id,
+          editorId: selectedEditor!.id,
         },
         {headers: basicHeaders()},
       );
