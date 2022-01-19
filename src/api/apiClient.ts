@@ -317,6 +317,10 @@ export interface Tile {
 
   /** @format int32 */
   zoomLevel?: number;
+  assignedUserName?: string | null;
+
+  /** @format int32 */
+  unconnectedGtfsStops?: number;
 }
 
 export interface TileUser {
@@ -354,10 +358,7 @@ export interface UpdateNote {
 
 export interface UpdateTileInput {
   /** @format uuid */
-  supervisorId?: string | null;
-
-  /** @format uuid */
-  editorId?: string | null;
+  editorId: string;
 }
 
 export interface User {
@@ -1019,6 +1020,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
+     * @tags Roles
+     * @name RolesUsersDetail
+     * @request GET:/api/Roles/{role}/users
+     */
+    rolesUsersDetail: (role: string, params: RequestParams = {}) =>
+      this.request<User[], ProblemDetails>({
+        path: `/api/Roles/${role}/users`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags Stop
      * @name StopList
      * @request GET:/api/Stop
@@ -1102,6 +1118,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     tileGetTilesList: (params: RequestParams = {}) =>
       this.request<Tile[], ProblemDetails>({
         path: `/api/Tile/GetTiles`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tile
+     * @name TileGetUncommitedTilesList
+     * @request GET:/api/Tile/GetUncommitedTiles
+     */
+    tileGetUncommitedTilesList: (params: RequestParams = {}) =>
+      this.request<Tile[], ProblemDetails>({
+        path: `/api/Tile/GetUncommitedTiles`,
         method: 'GET',
         format: 'json',
         ...params,
@@ -1268,10 +1299,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name UsersList
      * @request GET:/api/Users
      */
-    usersList: (params: RequestParams = {}) =>
+    usersList: (query?: {role?: string}, params: RequestParams = {}) =>
       this.request<User[], ProblemDetails>({
         path: `/api/Users`,
         method: 'GET',
+        query: query,
         format: 'json',
         ...params,
       }),
