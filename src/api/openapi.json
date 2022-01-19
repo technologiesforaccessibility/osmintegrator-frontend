@@ -1020,6 +1020,46 @@
         }
       }
     },
+    "/api/Roles/{role}/users": {
+      "get": {
+        "tags": ["Roles"],
+        "parameters": [
+          {
+            "name": "role",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Stop": {
       "get": {
         "tags": ["Stop"],
@@ -2421,6 +2461,10 @@
           "assignedUserName": {
             "type": "string",
             "nullable": true
+          },
+          "unconnectedGtfsStops": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -2504,12 +2548,12 @@
         "additionalProperties": false
       },
       "UpdateTileInput": {
+        "required": ["editorId"],
         "type": "object",
         "properties": {
           "editorId": {
             "type": "string",
-            "format": "uuid",
-            "nullable": true
+            "format": "uuid"
           }
         },
         "additionalProperties": false

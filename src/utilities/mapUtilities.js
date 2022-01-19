@@ -28,7 +28,6 @@ const generateStopName = stop => {
     result += ' ' + stop.number;
   }
   if (stop.stopType === 1) return result;
-
   if (stop.tags) result += stop.tags.find(x => x.key === 'ref')?.value || '-';
 
   return result;

@@ -1,5 +1,6 @@
 import {useCallback, useEffect, useMemo, useState} from 'react';
 import {Rectangle, Tooltip} from 'react-leaflet';
+import TextPath from 'react-leaflet-textpath';
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
@@ -113,27 +114,54 @@ function ManagementPanel() {
 
   const mapTiles = useMemo(
     () =>
-      tiles.map(({id, maxLat, maxLon, minLat, minLon, x, y, usersCount, approvedByEditor, assignedUserName}) => (
-        <Rectangle
-          key={`map-${id}`}
-          bounds={[
-            [maxLat - 0.001, maxLon - 0.0015],
-            [minLat + 0.001, minLon + 0.0015],
-          ]}
-          pathOptions={{
-            color: getColor(id, usersCount || 0, approvedByEditor),
-          }}
-          eventHandlers={{
-            click: () => {
-              handleTileSelected(id);
-            },
-          }}>
-          <Tooltip direction="top">
-            Y: {x}, Y: {y} <br />
-            {t('managementPanel.assigned')}: {assignedUserName ? assignedUserName : '-'} <br />
-          </Tooltip>
-        </Rectangle>
-      )),
+      tiles.map(
+        ({
+          id,
+          maxLat,
+          maxLon,
+          minLat,
+          minLon,
+          x,
+          y,
+          usersCount,
+          approvedByEditor,
+          approvedBySupervisor,
+          gtfsStopsCount,
+          unconnectedGtfsStops,
+        }) => (
+          <>
+            <TextPath
+              positions={[
+                [maxLat, minLon],
+                [minLat, maxLon],
+              ]}
+              text={`${unconnectedGtfsStops}/${gtfsStopsCount}`}
+              color=""
+              orientation={-45}
+              center
+            />
+            <Rectangle
+              key={`map-${id}`}
+              bounds={[
+                [maxLat - 0.001, maxLon - 0.0015],
+                [minLat + 0.001, minLon + 0.0015],
+              ]}
+              pathOptions={{
+                color: getColor(id, usersCount || 0, approvedByEditor),
+              }}
+              eventHandlers={{
+                click: () => {
+                  handleTileSelected(id);
+                },
+              }}>
+              <Tooltip direction="top">
+                X: {x}, Y: {y} <br />
+                {t('managementPanel.assigned')}: {assignedUserName ? assignedUserName : '-'} <br />
+              </Tooltip>
+            </Rectangle>
+          </>
+        ),
+      ),
     [tiles, getColor, handleTileSelected, t],
   );
 

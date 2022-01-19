@@ -318,6 +318,9 @@ export interface Tile {
   /** @format int32 */
   zoomLevel?: number;
   assignedUserName?: string | null;
+
+  /** @format int32 */
+  unconnectedGtfsStops?: number;
 }
 
 export interface TileUser {
@@ -355,7 +358,7 @@ export interface UpdateNote {
 
 export interface UpdateTileInput {
   /** @format uuid */
-  editorId?: string | null;
+  editorId: string;
 }
 
 export interface User {
@@ -1017,6 +1020,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
+     * @tags Roles
+     * @name RolesUsersDetail
+     * @request GET:/api/Roles/{role}/users
+     */
+    rolesUsersDetail: (role: string, params: RequestParams = {}) =>
+      this.request<User[], ProblemDetails>({
+        path: `/api/Roles/${role}/users`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags Stop
      * @name StopList
      * @request GET:/api/Stop
@@ -1301,6 +1319,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<User[], ProblemDetails>({
         path: `/api/roles/${role}/users`,
         method: 'GET',
+        query: query,
         format: 'json',
         ...params,
       }),
