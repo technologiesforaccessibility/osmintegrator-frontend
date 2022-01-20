@@ -234,6 +234,56 @@ export const en = {
       changes: 'The changes are following:',
       noChanges: 'No changes',
     },
+    osmExport: {
+      exportTab: {
+        title: 'Export',
+        importRequired:
+          'You have outdated osm data. Please use "Import from OSM" button, in order to fetch current data!',
+        dataExported: 'Data has been exported',
+        delayRequired: 'Please wait at least 5 minutes between exports',
+        comment: {
+          header: 'Comment',
+          required: 'Comment is required',
+          min: 'Comment has to be at least 3 characters long',
+          max: 'Comment cannot be longer than 255 characters',
+        },
+        credentials: {
+          header: 'Provide your OpenStreetMap credentials',
+          email: {
+            label: 'Email address or username:',
+            required: 'Username is required',
+            min: 'Username has to be at least 3 characters long',
+            max: 'Username cannot be longer than 255 characters',
+          },
+          password: {
+            label: 'Password:',
+            required: 'Password is required',
+            min: 'Password has to be at least 3 characters long',
+            max: 'Password cannot be longer than 255 characters',
+          },
+        },
+        info: 'The changes will be sent to OSM on your behalf. Read more about uploading data to the OSM on the Info tab.',
+        submit: 'Export',
+      },
+      changesTab: {
+        title: 'Changes',
+        download: 'Download osmchange.osc file',
+      },
+      infoTab: {
+        title: 'Info',
+        credentials: {
+          header: 'Credentials',
+          description:
+            'Your username and password to <a href="https://www.openstreetmap.org">openstreetmap.org</a> service will not be saved in <a href="https://www.osmintegrator.eu">osmintegrator.eu</a> portal',
+        },
+        tags: {
+          header: 'Automatically added tags',
+        },
+        wiki: {
+          header: 'Wiki Import',
+        },
+      },
+    },
     tileDetails: {
       title: 'Tile details',
       database: 'Database',

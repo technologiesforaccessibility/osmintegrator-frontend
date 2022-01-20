@@ -869,7 +869,7 @@
         }
       }
     },
-    "/api/OsmExport/GetChangeFile/{tileId}": {
+    "/api/tiles/{tileId}/export/changes": {
       "get": {
         "tags": ["OsmExport"],
         "parameters": [
@@ -906,7 +906,7 @@
         }
       }
     },
-    "/api/OsmExport/Export/{tileId}": {
+    "/api/tiles/{tileId}/export": {
       "post": {
         "tags": ["OsmExport"],
         "parameters": [
@@ -943,6 +943,37 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tiles/{tileId}/export/osc": {
+      "get": {
+        "tags": ["OsmExport"],
+        "parameters": [
+          {
+            "name": "tileId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -1374,7 +1405,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -1411,7 +1443,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -1534,7 +1567,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -1571,7 +1605,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -1608,7 +1643,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -2061,12 +2097,15 @@
       "OsmChangeOutput": {
         "type": "object",
         "properties": {
-          "comment": {
+          "changes": {
             "type": "string",
             "nullable": true
           },
-          "osmChangeFileContent": {
-            "type": "string",
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
             "nullable": true
           }
         },

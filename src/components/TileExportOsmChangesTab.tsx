@@ -1,14 +1,28 @@
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import React from 'react';
+import {Button, Grid, TextField} from '@mui/material';
+import {useTranslation} from 'react-i18next';
 
-interface TileExportOsmChangesTabProps {}
+interface TileExportOsmChangesTabProps {
+  tileId: string;
+  changes: string | undefined;
+}
 
 const TileExportOsmChangesTab = (props: TileExportOsmChangesTabProps) => {
+  const {changes} = props;
+  const {t} = useTranslation();
+
+  const downloadFile = () => {
+    // TO DO: implement
+  };
+
   return (
-    <Grid container direction="column">
+    <Grid container direction="column" sx={{pt: 3}}>
       <Grid item>
-        <TextField multiline rows={15} sx={{width: '100%'}} disabled={true} />
+        <TextField multiline value={changes} disabled rows={15} style={{width: '100%'}} />
+      </Grid>
+      <Grid item alignSelf="end">
+        <Button variant="text" onClick={() => downloadFile()}>
+          {t('osmExport.changesTab.download')}
+        </Button>
       </Grid>
     </Grid>
   );

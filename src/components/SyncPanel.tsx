@@ -24,6 +24,9 @@ const SyncPanel: FC = () => {
   const [isOsmImportModalOpen, setIsOsmImportModalOpen] = useState<boolean>(false);
   const [isOsmExportModalOpen, setIsOsmExportModalOpen] = useState<boolean>(false);
   const [updateData, setUpdateData] = useState<string | null>(null);
+  const [changes, setChanges] = useState<string>();
+  const [tags, setTags] = useState<string[]>([]);
+  const [comment, setComment] = useState<string>();
   const dispatch = useDispatch();
   const {t} = useTranslation();
 
@@ -46,11 +49,19 @@ const SyncPanel: FC = () => {
     }
   };
 
-  const handleExportOSM = async () => {
+  const openExportModal = async () => {
     if (activeTile && activeTile.id) {
       try {
         setLoader(true);
-        const response = await api.tileContainsChangesDetail(activeTile?.id, {headers: basicHeaders()});
+        const tileExportInfo = await api.tilesExportChangesDetail(activeTile?.id, {headers: basicHeaders()});
+
+        var tags = Object.keys(tileExportInfo.data.tags!)
+          .filter(k => k !== 'comment')
+          .map(key => `${key}=${tileExportInfo.data.tags![key]}`);
+
+        setChanges(tileExportInfo.data.changes ?? '');
+        setTags(tags);
+        setComment(tileExportInfo.data.tags!['comment'] ?? '');
 
         setIsOsmExportModalOpen(true);
       } catch (error) {
@@ -61,10 +72,6 @@ const SyncPanel: FC = () => {
     }
   };
 
-  const onExportModalCancel = () => {
-    setIsOsmExportModalOpen(false);
-  };
-
   return (
     <div className="sync__button-container">
       <Button className="sync_button" variant="contained" onClick={handleImportOSM} sx={{marginTop: '5px'}}>
@@ -73,14 +80,23 @@ const SyncPanel: FC = () => {
       <Button variant="contained" onClick={() => {}} disabled sx={{marginTop: '5px'}}>
         {t('sync.importNotOSM')}
       </Button>
-      <Button variant="contained" onClick={handleExportOSM} sx={{marginTop: '5px'}}>
+      <Button variant="contained" onClick={openExportModal} sx={{marginTop: '5px'}}>
         {t('sync.exportOSM')}
       </Button>
       <Button variant="contained" onClick={() => {}} disabled sx={{marginTop: '5px'}}>
         {t('sync.generateNotOsm')}
       </Button>
 
-      <TileExportModal open={isOsmExportModalOpen} onCancel={onExportModalCancel} />
+      {isOsmExportModalOpen && (
+        <TileExportModal
+          tileId={activeTile!.id}
+          open={isOsmExportModalOpen}
+          changes={changes}
+          initialComment={comment}
+          tags={tags}
+          onClose={() => setIsOsmExportModalOpen(false)}
+        />
+      )}
 
       <Modal open={isOsmImportModalOpen}>
         <Box
