@@ -323,22 +323,6 @@ export interface Tile {
   unconnectedGtfsStops?: number;
 }
 
-export interface TileUser {
-  /** @format uuid */
-  id: string;
-  userName: string;
-  isAssigned: boolean;
-  isAssignedAsSupervisor: boolean;
-  isSupervisor: boolean;
-  isEditor: boolean;
-}
-
-export interface TileWithUsers {
-  /** @format uuid */
-  id: string;
-  users: TileUser[];
-}
-
 export interface TokenData {
   token: string;
   refreshToken: string;
@@ -1097,21 +1081,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Tile
-     * @name TileGetAllTilesList
-     * @request GET:/api/Tile/GetAllTiles
-     */
-    tileGetAllTilesList: (params: RequestParams = {}) =>
-      this.request<Tile[], ProblemDetails>({
-        path: `/api/Tile/GetAllTiles`,
-        method: 'GET',
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Tile
      * @name TileGetTilesList
      * @request GET:/api/Tile/GetTiles
      */
@@ -1157,53 +1126,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Tile
-     * @name TileGetUsersDetail
-     * @request GET:/api/Tile/GetUsers/{id}
-     */
-    tileGetUsersDetail: (id: string, params: RequestParams = {}) =>
-      this.request<TileWithUsers, ProblemDetails>({
-        path: `/api/Tile/GetUsers/${id}`,
-        method: 'GET',
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Tile
-     * @name TileRemoveUserDelete
-     * @request DELETE:/api/Tile/RemoveUser/{id}
-     */
-    tileRemoveUserDelete: (id: string, params: RequestParams = {}) =>
-      this.request<string, ProblemDetails>({
-        path: `/api/Tile/RemoveUser/${id}`,
-        method: 'DELETE',
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Tile
-     * @name TileUpdateUserUpdate
-     * @request PUT:/api/Tile/UpdateUser/{id}
-     */
-    tileUpdateUserUpdate: (id: string, data: User, params: RequestParams = {}) =>
-      this.request<string, ProblemDetails>({
-        path: `/api/Tile/UpdateUser/${id}`,
-        method: 'PUT',
-        body: data,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Tile
      * @name TileUpdateUsersUpdate
      * @request PUT:/api/Tile/UpdateUsers/{id}
      */
@@ -1213,21 +1135,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: 'PUT',
         body: data,
         type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Tile
-     * @name TileApproveUpdate
-     * @request PUT:/api/Tile/Approve/{id}
-     */
-    tileApproveUpdate: (id: string, params: RequestParams = {}) =>
-      this.request<string, ProblemDetails>({
-        path: `/api/Tile/Approve/${id}`,
-        method: 'PUT',
         format: 'json',
         ...params,
       }),
