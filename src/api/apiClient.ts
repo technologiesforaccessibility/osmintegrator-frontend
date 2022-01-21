@@ -328,18 +328,6 @@ export interface TokenData {
   refreshToken: string;
 }
 
-export interface UpdateNote {
-  /** @format uuid */
-  id: string;
-
-  /** @format double */
-  lat: number;
-
-  /** @format double */
-  lon: number;
-  text: string;
-}
-
 export interface UpdateTileInput {
   /** @format uuid */
   editorId: string;
@@ -870,22 +858,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Notes
-     * @name NotesUpdate
-     * @request PUT:/api/Notes
-     */
-    notesUpdate: (data: UpdateNote, params: RequestParams = {}) =>
-      this.request<void, ProblemDetails>({
-        path: `/api/Notes`,
-        method: 'PUT',
-        body: data,
-        type: ContentType.Json,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Notes
      * @name NotesDetail
      * @request GET:/api/Notes/{id}
      */
@@ -894,20 +866,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/Notes/${id}`,
         method: 'GET',
         format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Notes
-     * @name NotesDelete
-     * @request DELETE:/api/Notes/{id}
-     */
-    notesDelete: (id: string, params: RequestParams = {}) =>
-      this.request<void, ProblemDetails>({
-        path: `/api/Notes/${id}`,
-        method: 'DELETE',
         ...params,
       }),
 
