@@ -18,7 +18,6 @@ const BusMarker = ({
   const {
     visibilityOptions,
     connectedStopIds,
-    approvedStopIds,
     setIsSidebarConnectionHandlerVisible,
     setConnectedStopPair,
     importedConnections,
@@ -32,15 +31,12 @@ const BusMarker = ({
     if (connectedStopIds.includes(busStop.id)) {
       return visibilityOptions.connected.value.opacityValue;
     }
-    if (approvedStopIds.includes(busStop.id)) {
-      return visibilityOptions.approved.value.opacityValue;
-    }
     return visibilityOptions.unconnected.value.opacityValue;
-  }, [visibilityOptions, busStop.id, connectedStopIds, approvedStopIds]);
+  }, [visibilityOptions, busStop.id, connectedStopIds]);
 
   const handleViewModeStopClick = busStop => {
     clickBusStop(busStop);
-    if (connectedStopIds.includes(busStop.id) || approvedStopIds.includes(busStop.id)) {
+    if (connectedStopIds.includes(busStop.id)) {
       const connection =
         busStop.stopType === 0
           ? importedConnections.find(stop => stop.osmStopId === busStop.id)

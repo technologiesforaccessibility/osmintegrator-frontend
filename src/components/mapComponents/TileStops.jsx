@@ -10,13 +10,7 @@ const TileStops = ({
   isViewMode,
   isReportMode,
 }) => {
-  const {
-    areStopsVisible,
-    connectedStopIds,
-    approvedStopIds,
-    visibilityOptions,
-    tileStops: stops,
-  } = useContext(MapContext);
+  const {areStopsVisible, connectedStopIds, visibilityOptions, tileStops: stops} = useContext(MapContext);
 
   const stopsToRender = useMemo(
     () =>
@@ -26,19 +20,14 @@ const TileStops = ({
             return false;
           }
         }
-        if (!visibilityOptions.approved.value.opacityValue) {
-          if (approvedStopIds.includes(stop.id)) {
-            return false;
-          }
-        }
         if (!visibilityOptions.unconnected.value.opacityValue) {
-          if (!connectedStopIds.includes(stop.id) && !approvedStopIds.includes(stop.id)) {
+          if (!connectedStopIds.includes(stop.id)) {
             return false;
           }
         }
         return true;
       }),
-    [stops, visibilityOptions, connectedStopIds, approvedStopIds],
+    [stops, visibilityOptions, connectedStopIds],
   );
 
   return (

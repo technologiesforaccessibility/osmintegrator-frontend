@@ -456,80 +456,6 @@
         }
       }
     },
-    "/api/Connections/Approve/{id}": {
-      "put": {
-        "tags": ["Connections"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Connections/Unapprove/{id}": {
-      "put": {
-        "tags": ["Connections"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/Conversation": {
       "post": {
         "tags": ["Conversation"],
@@ -1549,12 +1475,6 @@
           },
           "gtfsStop": {
             "$ref": "#/components/schemas/Stop"
-          },
-          "imported": {
-            "type": "boolean"
-          },
-          "approved": {
-            "type": "boolean"
           }
         },
         "additionalProperties": false

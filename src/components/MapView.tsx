@@ -63,7 +63,6 @@ export const MapView = () => {
     setImportedReports,
     setOpenReportContent,
     setConnectedStopIds,
-    setApprovedStopIds,
     setAreManageReportButtonsVisible,
     authRoles,
     tileStops,
@@ -156,12 +155,11 @@ export const MapView = () => {
         });
         setImportedConnections(response.data);
         setConnectedStopIds(getConnectedStopsIds(response.data));
-        setApprovedStopIds(getApprovedStopsIds(response.data));
       } catch (error) {
         exception(error);
       }
     },
-    [setApprovedStopIds, setConnectedStopIds, setImportedConnections],
+    [setConnectedStopIds, setImportedConnections],
   );
 
   const getTileConversations = useCallback(
@@ -184,14 +182,7 @@ export const MapView = () => {
 
   const getConnectedStopsIds = (connectionArray: Array<Connection>) => {
     return connectionArray
-      .filter(con => !con.approved && con.gtfsStopId && con.osmStopId)
-      .map(({gtfsStopId, osmStopId}) => [gtfsStopId || '', osmStopId || ''])
-      .flat();
-  };
-
-  const getApprovedStopsIds = (connectionArray: Array<Connection>) => {
-    return connectionArray
-      .filter(con => con.approved && con.gtfsStopId && con.osmStopId)
+      .filter(con => con.gtfsStopId && con.osmStopId)
       .map(({gtfsStopId, osmStopId}) => [gtfsStopId || '', osmStopId || ''])
       .flat();
   };
