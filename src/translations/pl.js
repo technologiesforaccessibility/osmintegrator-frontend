@@ -37,7 +37,6 @@ export const pl = {
       connectedWith: 'Połączony z',
       approve: 'Zatwierdź',
       unapprove: 'Cofnij zatwierdzenie',
-      deleteConnectionShort: 'Usuń',
       deleteConnection: 'Usuń połączenie',
       placeholder: 'Kliknij na przystanek posiadający połączenie',
     },

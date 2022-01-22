@@ -44,15 +44,15 @@ const BusMarker = ({
       if (busStop.stopType === 0) {
         const gtfsStop = tileStops.find(stop => stop.id === connection.gtfsStopId);
         setConnectedStopPair({
-          markedStop: {name: busStop.name || null, id: busStop.id, isOsm: true},
-          connectedStop: {name: gtfsStop.name || null, id: gtfsStop.id, isOsm: false},
-          connection: {id: connection.id, approved: connection.approved},
+          markedStop: busStop,
+          connectedStop: gtfsStop,
+          connection: {id: connection.id},
         });
       } else {
         setConnectedStopPair({
-          markedStop: {name: busStop.name || null, id: busStop.id, isOsm: false},
-          connectedStop: {name: connection.osmStop.name || null, id: connection.osmStop.id, isOsm: true},
-          connection: {id: connection.id, approved: connection.approved},
+          markedStop: busStop,
+          connectedStop: connection.osmStop,
+          connection: {id: connection.id},
         });
       }
       setIsSidebarConnectionHandlerVisible(true);

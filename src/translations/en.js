@@ -38,7 +38,6 @@ export const en = {
       connectedWith: 'Connected with',
       approve: 'Approve',
       unapprove: 'Revert approval',
-      deleteConnectionShort: 'Delete',
       deleteConnection: 'Delete connection',
       placeholder: 'Click on pin with connection',
     },

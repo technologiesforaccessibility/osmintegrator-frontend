@@ -6,13 +6,13 @@ const getPosition = (osmStop, gtfsStop) => {
 };
 
 const generateConnectionData = (connection, tileId) => {
-  if (connection[0].isOsm && !connection[1].isOsm) {
+  if (connection[0].stopType === 0 && connection[1].stopType !== 0) {
     return {
       osmStopId: connection[0].id.toString(),
       gtfsStopId: connection[1].id.toString(),
       tileId: tileId,
     };
-  } else if (!connection[0].isOsm && connection[1].isOsm) {
+  } else if (connection[0].stopType !== 0 && connection[1].stopType === 0) {
     return {
       osmStopId: connection[1].id.toString(),
       gtfsStopId: connection[0].id.toString(),
