@@ -6,9 +6,6 @@ import {useTranslation} from 'react-i18next';
 import CloseIcon from '@mui/icons-material/Close';
 import tileUnsigned from '../../assets/unsigned.png';
 import tileSignedEditor from '../../assets/signed.png';
-import tileApprovedEditor from '../../assets/approved_editor.png';
-import tileApprovedSupervisor from '../../assets/approved_supervisor.png';
-import tileExported from '../../assets/exported.png';
 import stopOSM from '../../assets/angledIcons/angled_black.png';
 import stopOSMReport from '../../assets/angledIcons/report_black.png';
 import stopOSMReportApprove from '../../assets/angledIcons/report_black_approve.png';
@@ -21,7 +18,6 @@ import stopZTMOutsideReportApprove from '../../assets/angledIcons/report_maroon_
 import reportBlueIcon from '../../assets/report_blue.png';
 import reportGreenIcon from '../../assets/report_green.png';
 import reportGreyIcon from '../../assets/report_grey.png';
-import connectionApproved from '../../assets/connection_approved.png';
 import connectionNotApproved from '../../assets/connection_not_approved.png';
 import '../../stylesheets/legend.scss';
 
@@ -34,9 +30,6 @@ const Legend = () => {
   const icons = [
     {src: tileUnsigned, text: t('legend.tileUnsigned')},
     {src: tileSignedEditor, text: t('legend.tileSignedEditor')},
-    {src: tileApprovedEditor, text: t('legend.tileApprovedEditor')},
-    {src: tileApprovedSupervisor, text: t('legend.tileApprovedSupervisor')},
-    {src: tileExported, text: t('legend.tileExported')},
     {src: stopOSM, text: t('legend.stopOSM')},
     {src: stopOSMReport, text: t('legend.stopOSMReport')},
     {src: stopOSMReportApprove, text: t('legend.stopOSMReportApprove')},
@@ -50,7 +43,6 @@ const Legend = () => {
     {src: reportBlueIcon, text: t('legend.reportActive')},
     {src: reportGreenIcon, text: t('legend.reportInactive')},
     {src: connectionNotApproved, text: t('legend.connectionNew')},
-    {src: connectionApproved, text: t('legend.connectionApprove')},
   ];
 
   const getIcons = icons.map(({src, text}, id) => (

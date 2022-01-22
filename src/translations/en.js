@@ -78,9 +78,6 @@ export const en = {
       title: 'Legend',
       tileUnsigned: 'Tile not assigned',
       tileSignedEditor: 'Tile assigned to the editor',
-      tileApprovedEditor: 'Tile approved by the editor',
-      tileApprovedSupervisor: 'Tile approved by the supervisor',
-      tileExported: 'Tile exported to OSM',
       stopOSM: 'OSM stop',
       stopOSMReport: 'OSM stop with report',
       stopOSMReportApprove: 'OSM stop with approved report',
@@ -94,7 +91,6 @@ export const en = {
       reportActive: 'Active report pin',
       reportInactive: 'Inactive report pin',
       connectionNew: 'New connection',
-      connectionApprove: 'Approved connection',
     },
     login: {
       password: 'Password',
