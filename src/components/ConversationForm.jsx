@@ -1,16 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import api from '../api/apiInstance';
-import {useSelector} from 'react-redux';
 import {useFormik} from 'formik';
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
-import {selectLoggedInUserRoles} from '../redux/selectors/authSelector';
 import {NotificationActions} from '../redux/actions/notificationActions';
 import {MapContext} from './contexts/MapContextProvider';
 import {ConversationContext} from './contexts/ConversationProvider';
 import {basicHeaders} from '../config/apiConfig';
 import {exception} from '../utilities/exceptionHelper';
-import {roles} from '../utilities/constants';
 import {Button, Checkbox, FormControlLabel, TextareaAutosize} from '@mui/material';
 import '../stylesheets/conversationForm.scss';
 import useDebounce from '../hooks/useDebounce';
@@ -18,7 +15,6 @@ import useDebounce from '../hooks/useDebounce';
 const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}) => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
-  const authRoles = useSelector(selectLoggedInUserRoles);
   const [currentInputValue, setCurrentInputValue] = useState('');
   const {activeTile, setRerenderReports, activeStop, displayPropertyGrid} = useContext(MapContext);
   const {setInputContent} = useContext(ConversationContext);
@@ -134,14 +130,6 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
     }
   };
 
-  const isSupervisorOrAbove = () => {
-    return (
-      (authRoles || []).includes(roles.SUPERVISOR) ||
-      (authRoles || []).includes(roles.COORDINATOR) ||
-      (authRoles || []).includes(roles.ADMIN)
-    );
-  };
-
   return (
     <div className="conversation-form">
       <form onSubmit={formik.handleSubmit} onChange={formik.handleChange} noValidate className="report__add-message">
@@ -158,14 +146,12 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
         />
 
         <div className="conversation-form__bottom">
-          {isSupervisorOrAbove() && (
-            <FormControlLabel
-              control={<Checkbox checked={formik.values.approveReport} disabled={!isReportActive} id="approveReport" />}
-              size="small"
-              label={t('report.approve')}
-              onChange={formik.handleChange}
-            />
-          )}
+          <FormControlLabel
+            control={<Checkbox checked={formik.values.approveReport} disabled={!isReportActive} id="approveReport" />}
+            size="small"
+            label={t('report.approve')}
+            onChange={formik.handleChange}
+          />
 
           <Button variant="outlined" type="submit" sx={{marginLeft: 'auto'}}>
             {t('report.button')}

@@ -70,26 +70,18 @@ const ConnectionSidePanel = () => {
           className={`connection-prompt__field ${
             error && connectionData.length < 1 && 'connection-prompt__field--error'
           }`}>
-          <legend>Wskaż pierwszy przystanek</legend>
+          <legend>{t('connection.chooseFirstStop')}</legend>
 
-          <span>
-            {connectionData.length > 0
-              ? generateStopName(connectionData[0].id, connectionData[0].name || null, connectionData[0].ref || null)
-              : '...'}
-          </span>
+          <span>{connectionData.length > 0 ? generateStopName(connectionData[0]) : '...'}</span>
         </fieldset>
 
         <fieldset
           className={`connection-prompt__field ${
             error && connectionData.length < 2 && 'connection-prompt__field--error'
           }`}>
-          <legend>Wskaż drugi przystanek</legend>
+          <legend>{t('connection.chooseSecondStop')}</legend>
 
-          <span>
-            {connectionData.length > 1
-              ? generateStopName(connectionData[1].id, connectionData[1].name || null, connectionData[1].ref || null)
-              : '...'}
-          </span>
+          <span>{connectionData.length > 1 ? generateStopName(connectionData[1]) : '...'}</span>
         </fieldset>
 
         <div className="connection-prompt__button-container">

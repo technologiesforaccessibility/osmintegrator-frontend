@@ -19,6 +19,7 @@ import reportApproveMaroonIcon from '../assets/angledIcons/report_maroon_approve
 import shadowZTM from '../assets/angledIcons/shadow_ztm.png';
 import shadowOSM from '../assets/angledIcons/shadow_osm.png';
 import shadowReport from '../assets/report_frame.png';
+import {StopType} from '../types/enums';
 
 export const reportIcons = {
   initial: reportGreyIcon,
@@ -144,14 +145,14 @@ export {
 
 const getStopIconProps = ({outsideSelectedTile, stopType, hasReport, reportApproved}) => {
   return outsideSelectedTile
-    ? stopType === 0
+    ? stopType === StopType.OSM
       ? {iconUrl: stopIcons.osmOutside, iconAnchor: [30, 55]}
       : hasReport
       ? reportApproved
         ? {iconUrl: stopIcons.notOsmReportOutsideApprove, iconAnchor: [0, 55]}
         : {iconUrl: stopIcons.notOsmReportOutside, iconAnchor: [0, 55]}
       : {iconUrl: stopIcons.notOsmOutside, iconAnchor: [0, 55]}
-    : stopType === 0
+    : stopType === StopType.OSM
     ? hasReport
       ? reportApproved
         ? {iconUrl: stopIcons.osmReportApprove, iconAnchor: [30, 55]}
@@ -165,7 +166,7 @@ const getStopIconProps = ({outsideSelectedTile, stopType, hasReport, reportAppro
 };
 
 const getShadowProps = ({stopType}) => {
-  return stopType === 0
+  return stopType === StopType.OSM
     ? {shadowUrl: shadowZTM, shadowAnchor: [34, 58]}
     : {shadowUrl: shadowOSM, shadowAnchor: [3, 58]};
 };

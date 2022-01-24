@@ -3,7 +3,6 @@ import {useSelector} from 'react-redux';
 
 import PropertyGrid from './PropertyGrid';
 import MapPanel from './MapPanel';
-import FinishTile from './FinishTile';
 import SyncPanel from './SyncPanel';
 import {MapContext, MapModes} from './contexts/MapContextProvider';
 import {selectLoggedInUserRoles} from '../redux/selectors/authSelector';
@@ -34,12 +33,7 @@ const DashboardSidebar = () => {
   const {t} = useTranslation();
 
   return (
-    <SidebarContainer
-      navigation={<MapPanel />}
-      finishTileButton={<FinishTile />}
-      isTileActive={isTileActive}
-      userRoles={authRoles}
-      appRoles={appRoles}>
+    <SidebarContainer navigation={<MapPanel />} isTileActive={isTileActive} userRoles={authRoles} appRoles={appRoles}>
       <>
         {mapMode === MapModes.view ? (
           propertyGrid ? (

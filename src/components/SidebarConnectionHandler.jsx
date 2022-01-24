@@ -20,7 +20,6 @@ const SidebarConnectionHandler = () => {
     shouldRenderConnections,
     setIsSidebarConnectionHandlerVisible,
     setConnectedStopPair,
-    activeTile,
     isSidebarConnectionHandlerVisible,
     activeStop,
   } = useContext(MapContext);
@@ -30,42 +29,15 @@ const SidebarConnectionHandler = () => {
 
   const deleteConnection = async () => {
     try {
-      await api.connectionsDelete(
-        generateConnectionData([connectedStopPair.markedStop, connectedStopPair.connectedStop]),
-        {
-          headers: basicHeaders(),
-        },
-      );
+      const connectionData = generateConnectionData([connectedStopPair.markedStop, connectedStopPair.connectedStop]);
+
+      await api.connectionsRemoveCreate(connectionData, {
+        headers: basicHeaders(),
+      });
       shouldRenderConnections(true);
       setIsSidebarConnectionHandlerVisible(false);
       setConnectedStopPair({markedStop: null, connectedStop: null, connection: null});
       dispatch(NotificationActions.success(t('connection.deleteSuccessMessage')));
-    } catch (error) {
-      exception(error);
-    }
-  };
-
-  const approveConnection = async id => {
-    try {
-      await api.connectionsApproveUpdate(id, {
-        headers: basicHeaders(),
-      });
-      shouldRenderConnections(true);
-      setConnectedStopPair({...connectedStopPair, connection: {...connectedStopPair.connection, approved: true}});
-      dispatch(NotificationActions.success(t('connection.approveSuccessMessage')));
-    } catch (error) {
-      exception(error);
-    }
-  };
-
-  const unapproveConnection = async id => {
-    try {
-      await api.connectionsUnapproveUpdate(id, {
-        headers: basicHeaders(),
-      });
-      shouldRenderConnections(true);
-      setConnectedStopPair({...connectedStopPair, connection: {...connectedStopPair.connection, approved: false}});
-      dispatch(NotificationActions.success(t('connection.unapproveSuccessMessage')));
     } catch (error) {
       exception(error);
     }
@@ -90,38 +62,14 @@ const SidebarConnectionHandler = () => {
             </div>
 
             <div className="buttons">
-              {authRoles.includes(roles.SUPERVISOR) &&
-                !!activeTile?.approvedByEditor &&
-                (connectedStopPair.connection && connectedStopPair.connection.approved ? (
-                  <Button
-                    variant="contained"
-                    sx={{flexGrow: '1'}}
-                    onClick={() => {
-                      unapproveConnection(connectedStopPair.connection.id);
-                    }}>
-                    {t('connectionSidebarHandler.unapprove')}
-                  </Button>
-                ) : (
-                  <Button
-                    variant="contained"
-                    sx={{flexGrow: '1'}}
-                    onClick={() => {
-                      approveConnection(connectedStopPair.connection.id);
-                    }}>
-                    {t('connectionSidebarHandler.approve')}
-                  </Button>
-                ))}
-
-              {connectedStopPair.connection && !connectedStopPair.connection.approved && (
+              {connectedStopPair.connection && (
                 <Button
-                  variant={authRoles.includes(roles.SUPERVISOR) ? 'outlined' : ' contained'}
+                  variant="contained"
                   sx={authRoles.includes(roles.SUPERVISOR) && {flexGrow: '2'}}
                   onClick={() => {
                     deleteConnection();
                   }}>
-                  {authRoles.includes(roles.SUPERVISOR)
-                    ? t('connectionSidebarHandler.deleteConnectionShort')
-                    : t('connectionSidebarHandler.deleteConnection')}
+                  {t('connectionSidebarHandler.deleteConnection')}
                 </Button>
               )}
             </div>

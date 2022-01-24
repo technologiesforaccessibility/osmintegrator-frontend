@@ -70,7 +70,7 @@
     "startHTTPS": "HTTPS=true react-scripts start",
     "clean": "rm -rf ./src/api/*.ts",
     "build:api": "npm run clean && npx swagger-typescript-api -p ./src/api/openapi.json -o ./src/api -n apiClient.ts",
-    "prettier:components": "npx prettier --write \"src/components/\" ",
+    "prettier": "npx prettier --write \"src/components/\" \"src/api/\"",
     "lint-staged": "lint-staged"
   },
   "engines": {
