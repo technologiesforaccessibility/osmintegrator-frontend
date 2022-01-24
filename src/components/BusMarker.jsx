@@ -4,7 +4,7 @@ import {Marker, Tooltip} from 'react-leaflet';
 import {getBusStopIcon} from '../utilities/utilities';
 import {generateStopName} from '../utilities/mapUtilities';
 import {MapContext} from './contexts/MapContextProvider';
-import {ConnectionRadio} from '../types/enums';
+import {ConnectionRadio, StopType} from '../types/enums';
 
 const BusMarker = ({
   busStop,
@@ -38,10 +38,10 @@ const BusMarker = ({
     clickBusStop(busStop);
     if (connectedStopIds.includes(busStop.id)) {
       const connection =
-        busStop.stopType === 0
+        busStop.stopType === StopType.OSM
           ? importedConnections.find(stop => stop.osmStopId === busStop.id)
           : importedConnections.find(stop => stop.gtfsStopId === busStop.id);
-      if (busStop.stopType === 0) {
+      if (busStop.stopType === StopType.OSM) {
         const gtfsStop = tileStops.find(stop => stop.id === connection.gtfsStopId);
         setConnectedStopPair({
           markedStop: busStop,

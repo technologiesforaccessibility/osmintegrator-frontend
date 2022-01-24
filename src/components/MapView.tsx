@@ -26,6 +26,7 @@ import {roles} from '../utilities/constants';
 import {LeafletMouseEvent} from 'leaflet';
 import {ConversationContext} from './contexts/ConversationProvider';
 import Legend from './mapComponents/Legend';
+import {StopType} from '../types/enums';
 
 export const MapView = () => {
   const {t} = useTranslation();
@@ -105,7 +106,7 @@ export const MapView = () => {
     ref: string,
   ) => {
     if (connectionData.length < 2) {
-      const isOsm = stopType === 0;
+      const isOsm = stopType === StopType.OSM;
       const entryPoint = {coordinates, id, isOsm, name, ref};
 
       if (connectionData.length === 1 && connectionData[0].isOsm === isOsm) {

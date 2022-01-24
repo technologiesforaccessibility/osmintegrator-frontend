@@ -14,6 +14,7 @@ import colors from '../../stylesheets/config/colors.module.scss';
 import {exception} from '../../utilities/exceptionHelper';
 
 import {MapContext} from '../contexts/MapContextProvider';
+import {StopType} from '../../types/enums';
 
 interface ImportedConnectionsProps {
   stops: Array<Stop>;
@@ -34,7 +35,7 @@ const ImportedConnections: FC<ImportedConnectionsProps> = ({stops, inApproveMode
 
   const checkStopType = (stopList: Array<Stop>) => {
     return stopList.map(stop => {
-      return {...stop, isOsm: stop.stopType === 0};
+      return {...stop, isOsm: stop.stopType === StopType.OSM};
     });
   };
 
