@@ -27,13 +27,7 @@ interface IMapContext {
   isMapActive: boolean;
   areStopsVisible: boolean;
   propertyGrid: Stop | Conversation | null;
-  connectionData: Array<{
-    coordinates: {lat: number; lon: number};
-    id: string;
-    name: string;
-    ref: string;
-    isOsm: boolean;
-  }>;
+  connectionData: Stop[];
   rerenderConnections: boolean;
   newReportCoordinates: {lat: number | null; lon: number | null};
   activeTile: Tile | null;
@@ -49,10 +43,10 @@ interface IMapContext {
   visibilityOptions: VisibilityOptions;
   activeStop: Stop | null;
   isSidebarConnectionHandlerVisible: boolean;
-  tileStops: Array<Stop>;
+  tileStops: Stop[];
   connectedStopPair: ConnectedPairProps;
   setConnectedStopPair: (arg: any) => void;
-  setTileStops: (arg: Array<Stop>) => void;
+  setTileStops: (arg: Stop[]) => void;
   setIsSidebarConnectionHandlerVisible: (arg: boolean) => void;
   setAreManageReportButtonsVisible: (arg: boolean) => void;
   resetMapSettings: () => void;
@@ -62,13 +56,7 @@ interface IMapContext {
   singleTileToggle: (arg: boolean) => void;
   activeMapToggle: (arg: boolean) => void;
   displayPropertyGrid: (arg: Stop | Conversation | null) => void;
-  updateConnectionData: (arg: {
-    coordinates: {lat: number; lon: number};
-    id: string;
-    name: string;
-    ref: string;
-    isOsm: boolean;
-  }) => void;
+  updateConnectionData: (arg: Stop) => void;
   reset: () => void;
   shouldRenderConnections: (arg: boolean) => void;
   toogleMapMode: (arg: string) => void;
@@ -229,9 +217,7 @@ const MapContextProvider: FC = ({children}) => {
   const [areStopsVisible, setAreStopsVisible] = useState(false);
   const [propertyGrid, setPropertyGrid] = useState<Stop | Conversation | null>(null);
   const [rerenderConnections, setRerenderConnections] = useState(false);
-  const [connectionData, setConnectionData] = useState<
-    Array<{coordinates: {lat: number; lon: number}; id: string; name: string; ref: string; isOsm: boolean}>
-  >([]);
+  const [connectionData, setConnectionData] = useState<Stop[]>([]);
   const [mapMode, setMapMode] = useState(MapModes.view);
   const [isEditingReportMode, setIsEditingReportMode] = useState(false);
   const [newReportCoordinates, setNewReportCoordinates] =
@@ -254,7 +240,7 @@ const MapContextProvider: FC = ({children}) => {
   const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);
   const [visibilityOptions, setVisibilityOptions] = useState(initialVisibility());
   const [activeStop, setActiveStop] = useState<Stop | null>(null);
-  const [tileStops, setTileStops] = useState<Array<Stop>>([]);
+  const [tileStops, setTileStops] = useState<Stop[]>([]);
   const [isSidebarConnectionHandlerVisible, setIsSidebarConnectionHandlerVisible] = useState(false);
   const [connectedStopPair, setConnectedStopPair] = useState({markedStop: null, connectedStop: null, connection: null});
 
@@ -281,14 +267,11 @@ const MapContextProvider: FC = ({children}) => {
     [toogleMapMode],
   );
 
-  const updateConnectionData = useCallback(
-    (data: {coordinates: {lat: number; lon: number}; id: string; name: string; ref: string; isOsm: boolean}) => {
-      if (data) {
-        setConnectionData(oldState => [...oldState, data]);
-      }
-    },
-    [],
-  );
+  const updateConnectionData = useCallback((data: Stop) => {
+    if (data) {
+      setConnectionData(oldState => [...oldState, data]);
+    }
+  }, []);
 
   const reset = useCallback(() => {
     setConnectionData([]);

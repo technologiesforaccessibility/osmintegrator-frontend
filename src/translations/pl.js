@@ -71,9 +71,6 @@ export const pl = {
       title: 'Legenda',
       tileUnsigned: 'Kafelek nie przypisany',
       tileSignedEditor: 'Kafelek przypisany do edytora',
-      tileApprovedEditor: 'Kafelek zatwierdzony przez edytora',
-      tileApprovedSupervisor: 'Kafelek zatwierdzony przez nadzorującego',
-      tileExported: 'Kafelek wyeksportowany do OSM',
       stopOSM: 'Przystanek OSM',
       stopOSMReport: 'Przystanek OSM z zgłoszeniem',
       stopOSMReportApprove: 'Przystanek OSM z zatwierdzonym zgłoszeniem',
@@ -87,7 +84,6 @@ export const pl = {
       reportActive: 'Pinezka aktywnego zgłoszenia',
       reportInactive: 'Pinezka nieaktywnego zgłoszenia',
       connectionNew: 'Nowe połączenie',
-      connectionApprove: 'Zaakceptowane połączenie',
     },
     login: {
       password: 'Hasło',

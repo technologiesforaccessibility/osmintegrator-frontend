@@ -17,7 +17,7 @@ import {MapContext} from '../contexts/MapContextProvider';
 import {StopType} from '../../types/enums';
 
 interface ImportedConnectionsProps {
-  stops: Array<Stop>;
+  stops: Stop[];
   inApproveMode: boolean;
 }
 
@@ -33,7 +33,7 @@ const ImportedConnections: FC<ImportedConnectionsProps> = ({stops, inApproveMode
     setIsSidebarConnectionHandlerVisible,
   } = useContext(MapContext);
 
-  const checkStopType = (stopList: Array<Stop>) => {
+  const checkStopType = (stopList: Stop[]) => {
     return stopList.map(stop => {
       return {...stop, isOsm: stop.stopType === StopType.OSM};
     });
