@@ -32,7 +32,7 @@ interface IMapContext {
   isMapActive: boolean;
   areStopsVisible: boolean;
   propertyGrid: Stop | Conversation | null;
-  connectionData: Array<Stop>;
+  connectionData: Stop[];
   rerenderConnections: boolean;
   newReportCoordinates: {lat: number | null; lon: number | null};
   activeTile: Tile | null;
@@ -49,10 +49,10 @@ interface IMapContext {
   approvedStopIds: Array<string>;
   activeStop: Stop | null;
   isSidebarConnectionHandlerVisible: boolean;
-  tileStops: Array<Stop>;
+  tileStops: Stop[];
   connectedStopPair: ConnectedPairProps;
   setConnectedStopPair: (arg: any) => void;
-  setTileStops: (arg: Array<Stop>) => void;
+  setTileStops: (arg: Stop[]) => void;
   setIsSidebarConnectionHandlerVisible: (arg: boolean) => void;
   setApprovedStopIds: (arg: Array<string>) => void;
   setAreManageReportButtonsVisible: (arg: boolean) => void;
@@ -236,7 +236,7 @@ const MapContextProvider: FC = ({children}) => {
   const [areStopsVisible, setAreStopsVisible] = useState(false);
   const [propertyGrid, setPropertyGrid] = useState<Stop | Conversation | null>(null);
   const [rerenderConnections, setRerenderConnections] = useState(false);
-  const [connectionData, setConnectionData] = useState<Array<Stop>>([]);
+  const [connectionData, setConnectionData] = useState<Stop[]>([]);
   const [mapMode, setMapMode] = useState(MapModes.view);
   const [isEditingReportMode, setIsEditingReportMode] = useState(false);
   const [newReportCoordinates, setNewReportCoordinates] =
@@ -260,7 +260,7 @@ const MapContextProvider: FC = ({children}) => {
   const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);
   const [visibilityOptions, setVisibilityOptions] = useState(initialVisibility());
   const [activeStop, setActiveStop] = useState<Stop | null>(null);
-  const [tileStops, setTileStops] = useState<Array<Stop>>([]);
+  const [tileStops, setTileStops] = useState<Stop[]>([]);
   const [isSidebarConnectionHandlerVisible, setIsSidebarConnectionHandlerVisible] = useState(false);
   const [connectedStopPair, setConnectedStopPair] = useState({markedStop: null, connectedStop: null, connection: null});
 
