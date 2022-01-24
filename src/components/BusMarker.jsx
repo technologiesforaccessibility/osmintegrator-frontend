@@ -99,7 +99,7 @@ const BusMarker = ({
           setNewReportCoordinates({lat: null, lon: null});
           if (isConnectionMode) {
             if (connectionRadio === ConnectionRadio.ADD) {
-              createConnection([busStop.lat, busStop.lon], busStop.id, busStop.stopType, busStop.name, busStop.number);
+              createConnection(busStop);
             } else if (connectionRadio === ConnectionRadio.EDIT) {
               isActiveStopClicked(busStop.id) ? handleViewModeStopUnclick() : handleViewModeStopClick(busStop);
             }

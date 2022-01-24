@@ -9,7 +9,10 @@ const NewConnections = ({connections, isTileActive}) => {
       {isTileActive && connections.length === 2 && (
         <Polyline
           pathOptions={{color: colors.colorConnectionNew}}
-          positions={[connections[0].coordinates, connections[1].coordinates]}
+          positions={[
+            [connections[0].lat, connections[0].lon],
+            [connections[1].lat, connections[1].lon],
+          ]}
         />
       )}
     </Fragment>
