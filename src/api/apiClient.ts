@@ -35,8 +35,6 @@ export interface Connection {
   osmStopId?: string;
   osmStop?: Stop;
   gtfsStop?: Stop;
-  imported?: boolean;
-  approved?: boolean;
 }
 
 export interface ConnectionAction {
@@ -757,36 +755,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<Connection[], ProblemDetails>({
         path: `/api/Connections/${id}`,
         method: 'GET',
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Connections
-     * @name ConnectionsApproveUpdate
-     * @request PUT:/api/Connections/Approve/{id}
-     */
-    connectionsApproveUpdate: (id: string, params: RequestParams = {}) =>
-      this.request<string, ProblemDetails>({
-        path: `/api/Connections/Approve/${id}`,
-        method: 'PUT',
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Connections
-     * @name ConnectionsUnapproveUpdate
-     * @request PUT:/api/Connections/Unapprove/{id}
-     */
-    connectionsUnapproveUpdate: (id: string, params: RequestParams = {}) =>
-      this.request<string, ProblemDetails>({
-        path: `/api/Connections/Unapprove/${id}`,
-        method: 'PUT',
         format: 'json',
         ...params,
       }),

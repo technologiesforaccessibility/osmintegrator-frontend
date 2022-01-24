@@ -19,11 +19,6 @@ interface VisibilityOptions {
     name: string;
     value: {text: string; opacityValue: number; icon: () => JSX.Element};
   };
-  approved: {
-    localStorageName: string;
-    name: string;
-    value: {text: string; opacityValue: number; icon: () => JSX.Element};
-  };
 }
 
 interface IMapContext {
@@ -46,7 +41,6 @@ interface IMapContext {
   connectedStopIds: Array<string>;
   areManageReportButtonsVisible: boolean;
   visibilityOptions: VisibilityOptions;
-  approvedStopIds: Array<string>;
   activeStop: Stop | null;
   isSidebarConnectionHandlerVisible: boolean;
   tileStops: Stop[];
@@ -54,7 +48,6 @@ interface IMapContext {
   setConnectedStopPair: (arg: any) => void;
   setTileStops: (arg: Stop[]) => void;
   setIsSidebarConnectionHandlerVisible: (arg: boolean) => void;
-  setApprovedStopIds: (arg: Array<string>) => void;
   setAreManageReportButtonsVisible: (arg: boolean) => void;
   resetMapSettings: () => void;
   setConnectedStopIds: (arg: Array<string>) => void;
@@ -134,13 +127,7 @@ const init: IMapContext = {
       name: 'string',
       value: {text: 'string', opacityValue: 0, icon: () => <span />},
     },
-    approved: {
-      localStorageName: 'string',
-      name: 'string',
-      value: {text: 'string', opacityValue: 0, icon: () => <span />},
-    },
   },
-  approvedStopIds: [],
   activeStop: null,
   tileStops: [],
   isSidebarConnectionHandlerVisible: false,
@@ -148,7 +135,6 @@ const init: IMapContext = {
   authRoles: [],
   setConnectedStopPair: () => null,
   setIsSidebarConnectionHandlerVisible: () => null,
-  setApprovedStopIds: () => null,
   setAreManageReportButtonsVisible: () => null,
   resetMapSettings: () => null,
   setConnectedStopIds: () => null,
@@ -221,11 +207,6 @@ const initialVisibility = (reset = false) => {
       name: i18n.t('connectionVisibility.nameUnconnected'),
       value: getValueFromStateOrReturn(localStorageStopTypes.unconnected, reset),
     },
-    approved: {
-      localStorageName: localStorageStopTypes.approved,
-      name: i18n.t('connectionVisibility.nameApproved'),
-      value: getValueFromStateOrReturn(localStorageStopTypes.approved, reset),
-    },
   };
 };
 
@@ -256,7 +237,6 @@ const MapContextProvider: FC = ({children}) => {
   const [tiles, setTiles] = useState<Array<Tile>>([]);
   const [rerenderTiles, setRerenderTiles] = useState(false);
   const [connectedStopIds, setConnectedStopIds] = useState<Array<string>>([]);
-  const [approvedStopIds, setApprovedStopIds] = useState<Array<string>>([]);
   const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);
   const [visibilityOptions, setVisibilityOptions] = useState(initialVisibility());
   const [activeStop, setActiveStop] = useState<Stop | null>(null);
@@ -333,7 +313,6 @@ const MapContextProvider: FC = ({children}) => {
 
   const resetMapSettings = useCallback(() => {
     setConnectedStopIds([]);
-    setApprovedStopIds([]);
     setVisibilityOptions(initialVisibility());
   }, []);
 
@@ -365,7 +344,6 @@ const MapContextProvider: FC = ({children}) => {
         connectedStopIds,
         areManageReportButtonsVisible,
         visibilityOptions,
-        approvedStopIds,
         activeStop,
         isSidebarConnectionHandlerVisible,
         connectedStopPair,
@@ -373,7 +351,6 @@ const MapContextProvider: FC = ({children}) => {
         setTileStops,
         setConnectedStopPair,
         setIsSidebarConnectionHandlerVisible,
-        setApprovedStopIds,
         setAreManageReportButtonsVisible,
         resetMapSettings,
         setConnectedStopIds,
