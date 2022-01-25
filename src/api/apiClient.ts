@@ -148,8 +148,8 @@ export interface NewNote {
 export type NoteStatus = 0 | 1 | 2;
 
 export interface OsmChangeOutput {
-  comment?: string | null;
-  osmChangeFileContent?: string | null;
+  changes?: string | null;
+  tags?: Record<string, string>;
 }
 
 export interface OsmExportInput {
@@ -869,12 +869,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags OsmExport
-     * @name OsmExportGetChangeFileDetail
-     * @request GET:/api/OsmExport/GetChangeFile/{tileId}
+     * @name TilesExportChangesDetail
+     * @request GET:/api/tiles/{tileId}/export/changes
      */
-    osmExportGetChangeFileDetail: (tileId: string, params: RequestParams = {}) =>
+    tilesExportChangesDetail: (tileId: string, params: RequestParams = {}) =>
       this.request<OsmChangeOutput, ProblemDetails>({
-        path: `/api/OsmExport/GetChangeFile/${tileId}`,
+        path: `/api/tiles/${tileId}/export/changes`,
         method: 'GET',
         format: 'json',
         ...params,
@@ -884,15 +884,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags OsmExport
-     * @name OsmExportExportCreate
-     * @request POST:/api/OsmExport/Export/{tileId}
+     * @name TilesExportCreate
+     * @request POST:/api/tiles/{tileId}/export
      */
-    osmExportExportCreate: (tileId: string, data: OsmExportInput, params: RequestParams = {}) =>
+    tilesExportCreate: (tileId: string, data: OsmExportInput, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
-        path: `/api/OsmExport/Export/${tileId}`,
+        path: `/api/tiles/${tileId}/export`,
         method: 'POST',
         body: data,
         type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags OsmExport
+     * @name TilesExportOscDetail
+     * @request GET:/api/tiles/{tileId}/export/osc
+     */
+    tilesExportOscDetail: (tileId: string, params: RequestParams = {}) =>
+      this.request<void, ProblemDetails>({
+        path: `/api/tiles/${tileId}/export/osc`,
+        method: 'GET',
         ...params,
       }),
 

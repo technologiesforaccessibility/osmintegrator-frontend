@@ -15,3 +15,18 @@ export const LoginSchema = object().shape({
   email: string().email(i18n.t('register.emailInvalidError')).required('Wpisz adres email'),
   password: string().min(8, i18n.t('register.passwordPrompt')).required(i18n.t('register.passwordPlaceholder')),
 });
+
+export const ExportSchema = object().shape({
+  comment: string()
+    .min(3, i18n.t('osmExport.exportTab.comment.min'))
+    .max(255, i18n.t('osmExport.exportTab.comment.max'))
+    .required(i18n.t('osmExport.exportTab.comment.required')),
+  email: string()
+    .min(3, i18n.t('osmExport.exportTab.credentials.email.min'))
+    .max(255, i18n.t('osmExport.exportTab.credentials.email.max'))
+    .required(i18n.t('osmExport.exportTab.credentials.email.required')),
+  password: string()
+    .min(3, i18n.t('osmExport.exportTab.credentials.password.min'))
+    .max(255, i18n.t('osmExport.exportTab.credentials.password.max'))
+    .required(i18n.t('osmExport.exportTab.credentials.password.required')),
+});
