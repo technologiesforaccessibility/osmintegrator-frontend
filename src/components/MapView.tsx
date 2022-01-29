@@ -26,7 +26,6 @@ import {roles} from '../utilities/constants';
 import {LeafletMouseEvent} from 'leaflet';
 import {ConversationContext} from './contexts/ConversationProvider';
 import Legend from './mapComponents/Legend';
-import {StopType} from '../types/enums';
 
 export const MapView = () => {
   const {t} = useTranslation();
@@ -294,10 +293,7 @@ export const MapView = () => {
         />
         <Pane name="connections">
           <NewConnections connections={connectionData} isTileActive={isTileActive} />
-          <ImportedConnections
-            stops={tileStops}
-            inApproveMode={(authRoles || []).includes(roles.SUPERVISOR) && !!activeTile?.approvedByEditor}
-          />
+          <ImportedConnections stops={tileStops} />
         </Pane>
         <MapTiles
           isTileActive={isTileActive}

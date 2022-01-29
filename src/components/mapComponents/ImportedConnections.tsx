@@ -18,10 +18,9 @@ import {StopType} from '../../types/enums';
 
 interface ImportedConnectionsProps {
   stops: Stop[];
-  inApproveMode: boolean;
 }
 
-const ImportedConnections: FC<ImportedConnectionsProps> = ({stops, inApproveMode}) => {
+const ImportedConnections: FC<ImportedConnectionsProps> = ({stops}) => {
   const popupRef = useRef(null);
   const {t} = useTranslation();
   const dispatch = useDispatch();
@@ -77,9 +76,7 @@ const ImportedConnections: FC<ImportedConnectionsProps> = ({stops, inApproveMode
                   positions={getPosition(foundOSM, foundGTFS)}>
                   {
                     <>
-                      <Tooltip direction="bottom">
-                        {(inApproveMode && t('connection.editConnectionInfo')) || t('connection.deleteConnectionInfo')}
-                      </Tooltip>
+                      <Tooltip direction="bottom">{t('connection.deleteConnectionInfo')}</Tooltip>
                       <Popup ref={popupRef} key={`popup_${index}`} closeButton={false}>
                         <EditConnectionPopup
                           closePopup={closePopup}
