@@ -26,7 +26,6 @@ import {roles} from '../utilities/constants';
 import {LeafletMouseEvent} from 'leaflet';
 import {ConversationContext} from './contexts/ConversationProvider';
 import Legend from './mapComponents/Legend';
-import {StopType} from '../types/enums';
 
 export const MapView = () => {
   const {t} = useTranslation();
