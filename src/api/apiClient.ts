@@ -237,7 +237,6 @@ export interface Stop {
 
   /** @format uuid */
   tileId?: string;
-  tile?: Tile;
   outsideSelectedTile?: boolean;
 
   /** @format int32 */

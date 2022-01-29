@@ -1954,9 +1954,6 @@
             "type": "string",
             "format": "uuid"
           },
-          "tile": {
-            "$ref": "#/components/schemas/Tile"
-          },
           "outsideSelectedTile": {
             "type": "boolean"
           },
