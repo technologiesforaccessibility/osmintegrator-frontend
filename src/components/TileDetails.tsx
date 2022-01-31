@@ -40,24 +40,6 @@ const TileDetails = () => {
               </span>
             </div>
           </fieldset>
-          <fieldset className="tile-details__detail">
-            <legend className="tile-details__heading">{t('tileDetails.assignedEditor')}</legend>
-            <div className="tile-details__body">
-              <span>{t('tileDetails.userName')} - </span>
-              <span>
-                {t('tileDetails.tileApproved')} {activeTile.approvedByEditor ? t('yes') : t('no')}
-              </span>
-            </div>
-          </fieldset>
-          <fieldset className="tile-details__detail">
-            <legend className="tile-details__heading">{t('tileDetails.assignedSupervisor')}</legend>
-            <div className="tile-details__body">
-              <span>{t('tileDetails.userName')} - </span>
-              <span>
-                {t('tileDetails.tileApproved')} {activeTile.approvedBySupervisor ? t('yes') : t('no')}
-              </span>
-            </div>
-          </fieldset>
         </div>
       )}
     </div>

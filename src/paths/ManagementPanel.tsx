@@ -88,14 +88,11 @@ function ManagementPanel() {
   };
 
   const getColor = useCallback(
-    (id: string, usersCount: number, approvedByEditor: Boolean) => {
-      if (selectedTile !== null && selectedTile?.id === id) {
+    (tile: Tile) => {
+      if (selectedTile?.id === tile.id) {
         return colors.colorTileActiveExplicit;
       }
-      if (approvedByEditor) {
-        return colors.colorApprovedByEditor;
-      }
-      if (!!usersCount) return colors.colorTileAssigned;
+      if (tile.assignedUserName) return colors.colorTileAssigned;
       return colors.colorTileAll;
     },
     [selectedTile],
@@ -114,53 +111,39 @@ function ManagementPanel() {
 
   const mapTiles = useMemo(
     () =>
-      tiles.map(
-        ({
-          id,
-          maxLat,
-          maxLon,
-          minLat,
-          minLon,
-          x,
-          y,
-          usersCount,
-          approvedByEditor,
-          assignedUserName,
-          gtfsStopsCount,
-          unconnectedGtfsStops,
-        }) => (
-          <>
-            <TextPath
-              positions={[
-                [minLat + (maxLat - minLat) / 2, minLon],
-                [minLat + (maxLat - minLat) / 2, maxLon],
-              ]}
-              text={`${unconnectedGtfsStops}/${gtfsStopsCount}`}
-              color=""
-              center
-            />
-            <Rectangle
-              key={`map-${id}`}
-              bounds={[
-                [maxLat - 0.001, maxLon - 0.0015],
-                [minLat + 0.001, minLon + 0.0015],
-              ]}
-              pathOptions={{
-                color: getColor(id, usersCount || 0, approvedByEditor),
-              }}
-              eventHandlers={{
-                click: () => {
-                  handleTileSelected(id);
-                },
-              }}>
-              <Tooltip direction="top">
-                X: {x}, Y: {y} <br />
-                {t('managementPanel.assigned')}: {assignedUserName ? assignedUserName : '-'} <br />
-              </Tooltip>
-            </Rectangle>
-          </>
-        ),
-      ),
+      tiles.map(x => (
+        <>
+          <TextPath
+            positions={[
+                [x.minLat + (x.maxLat - x.minLat) / 2, x.minLon],
+                [x.minLat + (x.maxLat - x.minLat) / 2, x.maxLon],
+            ]}
+            text={`${x.unconnectedGtfsStops}/${x.gtfsStopsCount}`}
+            color=""
+            orientation={-45}
+            center
+          />
+          <Rectangle
+            key={`map-${x.id}`}
+            bounds={[
+              [x.maxLat - 0.001, x.maxLon - 0.0015],
+              [x.minLat + 0.001, x.minLon + 0.0015],
+            ]}
+            pathOptions={{
+              color: getColor(x),
+            }}
+            eventHandlers={{
+              click: () => {
+                handleTileSelected(x.id);
+              },
+            }}>
+            <Tooltip direction="top">
+              X: {x.x}, Y: {x.y} <br />
+              {t('managementPanel.assigned')}: {x.assignedUserName ? x.assignedUserName : '-'} <br />
+            </Tooltip>
+          </Rectangle>
+        </>
+      )),
     [tiles, getColor, handleTileSelected, t],
   );
 

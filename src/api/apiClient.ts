@@ -237,7 +237,6 @@ export interface Stop {
 
   /** @format uuid */
   tileId?: string;
-  tile?: Tile;
   outsideSelectedTile?: boolean;
 
   /** @format int32 */
@@ -302,16 +301,7 @@ export interface Tile {
   overlapMaxLon: number;
 
   /** @format int32 */
-  osmStopsCount?: number;
-
-  /** @format int32 */
   gtfsStopsCount?: number;
-
-  /** @format int32 */
-  usersCount?: number | null;
-  stops?: Stop[] | null;
-  approvedByEditor: boolean;
-  approvedBySupervisor: boolean;
 
   /** @format int32 */
   zoomLevel?: number;

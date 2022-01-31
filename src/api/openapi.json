@@ -734,7 +734,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -771,7 +772,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -1952,9 +1954,6 @@
             "type": "string",
             "format": "uuid"
           },
-          "tile": {
-            "$ref": "#/components/schemas/Tile"
-          },
           "outsideSelectedTile": {
             "type": "boolean"
           },
@@ -2012,8 +2011,6 @@
       },
       "Tile": {
         "required": [
-          "approvedByEditor",
-          "approvedBySupervisor",
           "id",
           "maxLat",
           "maxLon",
@@ -2072,31 +2069,9 @@
             "type": "number",
             "format": "double"
           },
-          "osmStopsCount": {
-            "type": "integer",
-            "format": "int32"
-          },
           "gtfsStopsCount": {
             "type": "integer",
             "format": "int32"
-          },
-          "usersCount": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "stops": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Stop"
-            },
-            "nullable": true
-          },
-          "approvedByEditor": {
-            "type": "boolean"
-          },
-          "approvedBySupervisor": {
-            "type": "boolean"
           },
           "zoomLevel": {
             "type": "integer",
