@@ -50,14 +50,12 @@ const MapTiles: FC<MapTilesProps> = ({
           <>
             <TextPath
               positions={[
-                [tile.maxLat, tile.minLon],
-                [tile.minLat, tile.maxLon],
+                [tile.minLat + (tile.maxLat - tile.minLat) / 2, tile.minLon],
+                [tile.minLat + (tile.maxLat - tile.minLat) / 2, tile.maxLon],
               ]}
               text={`${tile.unconnectedGtfsStops}/${tile.gtfsStopsCount}`}
               color=""
               center
-              orientation={-45}
-              attributes={{}}
             />
             <Rectangle
               key={index}

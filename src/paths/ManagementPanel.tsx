@@ -115,8 +115,8 @@ function ManagementPanel() {
         <>
           <TextPath
             positions={[
-              [x.maxLat, x.minLon],
-              [x.minLat, x.maxLon],
+                [x.minLat + (x.maxLat - x.minLat) / 2, x.minLon],
+                [x.minLat + (x.maxLat - x.minLat) / 2, x.maxLon],
             ]}
             text={`${x.unconnectedGtfsStops}/${x.gtfsStopsCount}`}
             color=""
