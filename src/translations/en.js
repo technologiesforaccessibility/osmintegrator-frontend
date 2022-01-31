@@ -26,15 +26,11 @@ export const en = {
       deleteSuccessMessage: 'Connection deleted',
       deleteConnectionInfo:
         'If you want to delete connection, click on connection line or click on connected stop icon',
-      deleteConnectionConfirmation: 'Delete?',
-      approveSuccessMessage: 'Connection approved',
+      deleteConnectionConfirmation: 'Delete connection?',
       editConnectionInfo: 'If you want to edit connection, click on connection line or click on connected stop icon',
       editConnectionConfirmation: 'Choose action',
       mark2Stops: 'Mark 2 stops',
       differentTypeError: 'It is not allowed to connect stops of the same type.',
-      unapproveConnectionConfirmation: 'Delete connection approval?',
-      unapproveConnectionInfo: 'Click line if you want to unapprove connection.',
-      unapproveSuccessMessage: 'Connection approval deleted.',
     },
     connectionSidebarHandler: {
       stopName: 'Stop name',
@@ -42,7 +38,6 @@ export const en = {
       connectedWith: 'Connected with',
       approve: 'Approve',
       unapprove: 'Revert approval',
-      deleteConnectionShort: 'Delete',
       deleteConnection: 'Delete connection',
       placeholder: 'Click on pin with connection',
     },
@@ -78,9 +73,6 @@ export const en = {
       title: 'Legend',
       tileUnsigned: 'Tile not assigned',
       tileSignedEditor: 'Tile assigned to the editor',
-      tileApprovedEditor: 'Tile approved by the editor',
-      tileApprovedSupervisor: 'Tile approved by the supervisor',
-      tileExported: 'Tile exported to OSM',
       stopOSM: 'OSM stop',
       stopOSMReport: 'OSM stop with report',
       stopOSMReportApprove: 'OSM stop with approved report',
@@ -94,7 +86,6 @@ export const en = {
       reportActive: 'Active report pin',
       reportInactive: 'Inactive report pin',
       connectionNew: 'New connection',
-      connectionApprove: 'Approved connection',
     },
     login: {
       password: 'Password',
@@ -233,6 +224,56 @@ export const en = {
       stopsUpdated: 'Stops updated',
       changes: 'The changes are following:',
       noChanges: 'No changes',
+    },
+    osmExport: {
+      exportTab: {
+        title: 'Export',
+        importRequired:
+          'You have outdated osm data. Please use "Import from OSM" button, in order to fetch current data!',
+        dataExported: 'Data has been exported',
+        delayRequired: 'Please wait at least 5 minutes between exports',
+        comment: {
+          header: 'Comment',
+          required: 'Comment is required',
+          min: 'Comment has to be at least 3 characters long',
+          max: 'Comment cannot be longer than 255 characters',
+        },
+        credentials: {
+          header: 'Provide your OpenStreetMap credentials',
+          email: {
+            label: 'Email address or username:',
+            required: 'Username is required',
+            min: 'Username has to be at least 3 characters long',
+            max: 'Username cannot be longer than 255 characters',
+          },
+          password: {
+            label: 'Password:',
+            required: 'Password is required',
+            min: 'Password has to be at least 3 characters long',
+            max: 'Password cannot be longer than 255 characters',
+          },
+        },
+        info: 'The changes will be sent to OSM on your behalf. Read more about uploading data to the OSM on the Info tab.',
+        submit: 'Export',
+      },
+      changesTab: {
+        title: 'Changes',
+        download: 'Download osmchange.osc file',
+      },
+      infoTab: {
+        title: 'Info',
+        credentials: {
+          header: 'Credentials',
+          description:
+            'Your username and password to <a href="https://www.openstreetmap.org">openstreetmap.org</a> service will not be saved in <a href="https://www.osmintegrator.eu">osmintegrator.eu</a> portal',
+        },
+        tags: {
+          header: 'Automatically added tags',
+        },
+        wiki: {
+          header: 'Wiki Import',
+        },
+      },
     },
     tileDetails: {
       title: 'Tile details',

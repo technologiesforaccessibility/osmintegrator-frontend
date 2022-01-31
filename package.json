@@ -27,6 +27,7 @@
     "react-i18next": "^11.10.0",
     "react-leaflet": "^3.0.2",
     "react-leaflet-dialog": "^2.0.1",
+    "react-leaflet-textpath": "^2.1.1",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "swagger-typescript-api": "^6.4.0",
@@ -69,7 +70,7 @@
     "startHTTPS": "HTTPS=true react-scripts start",
     "clean": "rm -rf ./src/api/*.ts",
     "build:api": "npm run clean && npx swagger-typescript-api -p ./src/api/openapi.json -o ./src/api -n apiClient.ts",
-    "prettier:components": "npx prettier --write \"src/components/\" ",
+    "prettier": "npx prettier --write \"src/components/\" \"src/api/\"",
     "lint-staged": "lint-staged"
   },
   "engines": {

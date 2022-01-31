@@ -63,7 +63,6 @@ export const MapView = () => {
     setImportedReports,
     setOpenReportContent,
     setConnectedStopIds,
-    setApprovedStopIds,
     setAreManageReportButtonsVisible,
     authRoles,
     tileStops,
@@ -98,24 +97,17 @@ export const MapView = () => {
     setActiveStop(null);
   };
 
-  const createConnection = (
-    coordinates: {lat: number; lon: number},
-    id: string,
-    stopType: number,
-    name: string,
-    ref: string,
-  ) => {
+  const createConnection = (busStop: Stop) => {
     if (connectionData.length < 2) {
-      const isOsm = stopType === 0;
-      const entryPoint = {coordinates, id, isOsm, name, ref};
-
-      if (connectionData.length === 1 && connectionData[0].isOsm === isOsm) {
-        if (connectionData[0].id !== id) {
+      // Check if stop is the same type as selected one
+      if (connectionData.length === 1 && connectionData[0].stopType === busStop.stopType) {
+        // Check if clicked on the same stop
+        if (connectionData[0].id !== busStop.id) {
           dispatch(NotificationActions.error(t('connection.differentTypeError')));
         }
         return;
       }
-      updateConnectionData(entryPoint);
+      updateConnectionData(busStop);
     }
   };
 
@@ -156,12 +148,11 @@ export const MapView = () => {
         });
         setImportedConnections(response.data);
         setConnectedStopIds(getConnectedStopsIds(response.data));
-        setApprovedStopIds(getApprovedStopsIds(response.data));
       } catch (error) {
         exception(error);
       }
     },
-    [setApprovedStopIds, setConnectedStopIds, setImportedConnections],
+    [setConnectedStopIds, setImportedConnections],
   );
 
   const getTileConversations = useCallback(
@@ -184,14 +175,7 @@ export const MapView = () => {
 
   const getConnectedStopsIds = (connectionArray: Array<Connection>) => {
     return connectionArray
-      .filter(con => !con.approved && con.gtfsStopId && con.osmStopId)
-      .map(({gtfsStopId, osmStopId}) => [gtfsStopId || '', osmStopId || ''])
-      .flat();
-  };
-
-  const getApprovedStopsIds = (connectionArray: Array<Connection>) => {
-    return connectionArray
-      .filter(con => con.approved && con.gtfsStopId && con.osmStopId)
+      .filter(con => con.gtfsStopId && con.osmStopId)
       .map(({gtfsStopId, osmStopId}) => [gtfsStopId || '', osmStopId || ''])
       .flat();
   };
@@ -309,10 +293,7 @@ export const MapView = () => {
         />
         <Pane name="connections">
           <NewConnections connections={connectionData} isTileActive={isTileActive} />
-          <ImportedConnections
-            stops={tileStops}
-            inApproveMode={(authRoles || []).includes(roles.SUPERVISOR) && !!activeTile?.approvedByEditor}
-          />
+          <ImportedConnections stops={tileStops} />
         </Pane>
         <MapTiles
           isTileActive={isTileActive}

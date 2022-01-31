@@ -25,15 +25,11 @@ export const pl = {
       createSuccessMessage: 'Stworzono nowe połączenie',
       deleteSuccessMessage: 'Usunięto połączenie',
       deleteConnectionInfo: 'Jeśli chcesz usunąć połączenie, kliknij na linię lub na ikonę połączonego przystanku',
-      deleteConnectionConfirmation: 'Usunąć?',
-      approveSuccessMessage: 'Zatwierdzono połączenie',
+      deleteConnectionConfirmation: 'Usunąć połączenie?',
       editConnectionInfo: 'Jeśli chcesz edytować połączenie, kliknij na linię lub na ikonę połączonego przystanku',
       editConnectionConfirmation: 'Wybierz akcję',
       mark2Stops: 'Zaznacz 2 przystanki',
       differentTypeError: 'Nie można łączyć przystanków tego samego typu.',
-      unapproveConnectionConfirmation: 'Usunąć zatwierdzenie połączenia?',
-      unapproveConnectionInfo: 'Kliknij na linię, jeśli chcesz usunąć zatwierdzenie połączenia',
-      unapproveSuccessMessage: 'Usunięto zatwierdzenie połączenia',
     },
     connectionSidebarHandler: {
       stopName: 'Nazwa przystanku',
@@ -41,7 +37,6 @@ export const pl = {
       connectedWith: 'Połączony z',
       approve: 'Zatwierdź',
       unapprove: 'Cofnij zatwierdzenie',
-      deleteConnectionShort: 'Usuń',
       deleteConnection: 'Usuń połączenie',
       placeholder: 'Kliknij na przystanek posiadający połączenie',
     },
@@ -76,9 +71,6 @@ export const pl = {
       title: 'Legenda',
       tileUnsigned: 'Kafelek nie przypisany',
       tileSignedEditor: 'Kafelek przypisany do edytora',
-      tileApprovedEditor: 'Kafelek zatwierdzony przez edytora',
-      tileApprovedSupervisor: 'Kafelek zatwierdzony przez nadzorującego',
-      tileExported: 'Kafelek wyeksportowany do OSM',
       stopOSM: 'Przystanek OSM',
       stopOSMReport: 'Przystanek OSM z zgłoszeniem',
       stopOSMReportApprove: 'Przystanek OSM z zatwierdzonym zgłoszeniem',
@@ -92,7 +84,6 @@ export const pl = {
       reportActive: 'Pinezka aktywnego zgłoszenia',
       reportInactive: 'Pinezka nieaktywnego zgłoszenia',
       connectionNew: 'Nowe połączenie',
-      connectionApprove: 'Zaakceptowane połączenie',
     },
     login: {
       password: 'Hasło',
@@ -233,6 +224,56 @@ export const pl = {
       stopsUpdated: 'Zaktualizowano przystanki',
       changes: 'Poniżej lista zmian:',
       noChanges: 'Brak zmian',
+    },
+    osmExport: {
+      exportTab: {
+        title: 'Export',
+        importRequired:
+          'Masz nieaktualne dane z mapy osm. Użyj przycisku "Pobierz z OSM", aby pobrać najnowszą wersję!',
+        dataExported: 'Dane zostały wysłane do OSM',
+        delayRequired: 'Musisz odczekać 5 min pomiędzy exportami',
+        comment: {
+          header: 'Komentarz',
+          required: 'Komentarz jest wymagany',
+          min: 'Komentarz musi mieć minimum 3 znaki',
+          max: 'Komentarz musi mieć mniej niż 255 znaki',
+        },
+        credentials: {
+          header: 'Wprowadź dane logowania do OpenStreetMap',
+          email: {
+            label: 'Email lub użytkownik:',
+            required: 'Nazwa użytkownika jest wymagana',
+            min: 'Nazwa użytkownika musi mieć minimum 3 znaki',
+            max: 'Nazwa użytkownika musi mieć mniej niż 255 znaki',
+          },
+          password: {
+            label: 'Hasło:',
+            required: 'Hasło jest wymagane',
+            min: 'Hasło musi mieć minimum 3 znaki',
+            max: 'Hasło musi mieć mniej niż 255 znaki',
+          },
+        },
+        info: 'Zmiany zostaną wysłane do OSM w twoim imieniu. Przeczytaj więcej na temat wysyłania danych do OSM.',
+        submit: 'Wyślij',
+      },
+      changesTab: {
+        title: 'Zmiany',
+        download: 'Pobierz plik osmchange.osc',
+      },
+      infoTab: {
+        title: 'Info',
+        credentials: {
+          header: 'Dane logowania',
+          description:
+            'Twoja nazwa użytkownika i hasło do usługi <a href="https://www.openstreetmap.org">openstreetmap.org</a> nie zostaną zapisane w portalu <a href="https://www.osmintegrator.eu">osmintegrator.eu</a>',
+        },
+        tags: {
+          header: 'Tagi dodane automatycznie',
+        },
+        wiki: {
+          header: 'Wiki Import',
+        },
+      },
     },
     tileDetails: {
       title: 'Szczegóły kafelka',

@@ -14,7 +14,7 @@ const Footer = () => {
         <VersionLabel />
       </div>
       <div className="footer__center">
-        Copyright 2021{' '}
+        {`Copyright ${new Date().getFullYear()} `}
         <a className="footer-link" href={REACT_APP_RDN_PAGE}>
           rozwiazaniadlaniewidomych.org
         </a>{' '}
