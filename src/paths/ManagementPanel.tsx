@@ -115,12 +115,11 @@ function ManagementPanel() {
         <>
           <TextPath
             positions={[
-                [x.minLat + (x.maxLat - x.minLat) / 2, x.minLon],
-                [x.minLat + (x.maxLat - x.minLat) / 2, x.maxLon],
+              [x.minLat + (x.maxLat - x.minLat) / 2, x.minLon],
+              [x.minLat + (x.maxLat - x.minLat) / 2, x.maxLon],
             ]}
             text={`${x.unconnectedGtfsStops}/${x.gtfsStopsCount}`}
             color=""
-            orientation={-45}
             center
           />
           <Rectangle
