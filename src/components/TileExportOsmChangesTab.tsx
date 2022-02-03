@@ -1,5 +1,9 @@
 import {Button, Grid, TextField} from '@mui/material';
+import axios from 'axios';
 import {useTranslation} from 'react-i18next';
+import FileDownload from 'js-file-download';
+import {basicHeaders} from '../config/apiConfig';
+import {exception} from '../utilities/exceptionHelper';
 
 interface TileExportOsmChangesTabProps {
   tileId: string;
@@ -7,11 +11,19 @@ interface TileExportOsmChangesTabProps {
 }
 
 const TileExportOsmChangesTab = (props: TileExportOsmChangesTabProps) => {
-  const {changes} = props;
+  const {changes, tileId} = props;
   const {t} = useTranslation();
 
-  const downloadFile = () => {
-    // TO DO: implement
+  const downloadFile = async () => {
+    try {
+      const response = await axios.get(`/api/tiles/${tileId}/export/osc`, {
+        responseType: 'blob',
+        headers: basicHeaders(),
+      });
+      FileDownload(response.data, 'osmchange.osc', 'text/xml');
+    } catch (ex) {
+      exception(ex);
+    }
   };
 
   return (

@@ -228,10 +228,7 @@ export const pl = {
     osmExport: {
       exportTab: {
         title: 'Export',
-        importRequired:
-          'Masz nieaktualne dane z mapy osm. Użyj przycisku "Pobierz z OSM", aby pobrać najnowszą wersję!',
         dataExported: 'Dane zostały wysłane do OSM',
-        delayRequired: 'Musisz odczekać 5 min pomiędzy exportami',
         comment: {
           header: 'Komentarz',
           required: 'Komentarz jest wymagany',
