@@ -25,6 +25,8 @@ export interface ConfirmRegistration {
 }
 
 export interface Connection {
+  exported?: boolean;
+
   /** @format uuid */
   id?: string;
 
@@ -33,8 +35,6 @@ export interface Connection {
 
   /** @format uuid */
   osmStopId?: string;
-  osmStop?: Stop;
-  gtfsStop?: Stop;
 }
 
 export interface ConnectionAction {
@@ -1073,13 +1073,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Tile
-     * @name TileUpdateStopsUpdate
-     * @request PUT:/api/Tile/UpdateStops/{id}
+     * @name TileContainsChangesDetail
+     * @request GET:/api/Tile/ContainsChanges/{tileId}
      */
-    tileUpdateStopsUpdate: (id: string, params: RequestParams = {}) =>
-      this.request<Report, ProblemDetails>({
-        path: `/api/Tile/UpdateStops/${id}`,
-        method: 'PUT',
+    tileContainsChangesDetail: (tileId: string, params: RequestParams = {}) =>
+      this.request<boolean, ProblemDetails>({
+        path: `/api/Tile/ContainsChanges/${tileId}`,
+        method: 'GET',
         format: 'json',
         ...params,
       }),
@@ -1088,13 +1088,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Tile
-     * @name TileContainsChangesDetail
-     * @request GET:/api/Tile/ContainsChanges/{id}
+     * @name TileUpdateStopsUpdate
+     * @request PUT:/api/Tile/UpdateStops/{id}
      */
-    tileContainsChangesDetail: (id: string, params: RequestParams = {}) =>
-      this.request<boolean, ProblemDetails>({
-        path: `/api/Tile/ContainsChanges/${id}`,
-        method: 'GET',
+    tileUpdateStopsUpdate: (id: string, params: RequestParams = {}) =>
+      this.request<Report, ProblemDetails>({
+        path: `/api/Tile/UpdateStops/${id}`,
+        method: 'PUT',
         format: 'json',
         ...params,
       }),

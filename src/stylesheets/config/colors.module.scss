@@ -5,12 +5,14 @@ $color-internal-border: #e6e6e6;
 $color-loader-background: black;
 
 $color-message-success: #134a1e;
-$color-message-fail: rgb(255, 0, 0);
+$color-message-fail: red;
 $color-tile-all: black;
 $color-tile-active: olivedrab;
 $color-tile-active-explicit: purple;
-$color-connection-new: red;
-$color-connection-imported: yellow;
+$color-connection-draft: blue;
+$color-connection-created: yellow;
+$color-connection-exported: green;
+$color-connection-mismatch: red;
 $color-tile-assigned: aqua;
 $color-blue-link: blue;
 
@@ -20,7 +22,9 @@ $color-blue-link: blue;
     colorTileAll: $color-tile-all;
     colorTileActive: $color-tile-active;
     colorTileActiveExplicit: $color-tile-active-explicit;
-    colorConnectionNew: $color-connection-new;
-    colorConnectionImported: $color-connection-imported;
+    colorConnectionDraft: $color-connection-draft;
+    colorConnectionCreated: $color-connection-created;
+    colorConnectionExported: $color-connection-exported;
+    colorConnectionMismatch: $color-connection-mismatch;
     colorTileAssigned: $color-tile-assigned;
 }

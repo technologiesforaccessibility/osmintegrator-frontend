@@ -1249,6 +1249,44 @@
         }
       }
     },
+    "/api/Tile/ContainsChanges/{tileId}": {
+      "get": {
+        "tags": ["Tile"],
+        "parameters": [
+          {
+            "name": "tileId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Tile/UpdateStops/{id}": {
       "put": {
         "tags": ["Tile"],
@@ -1270,44 +1308,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Report"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Tile/ContainsChanges/{id}": {
-      "get": {
-        "tags": ["Tile"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "boolean"
                 }
               }
             }
@@ -1493,6 +1493,9 @@
       "Connection": {
         "type": "object",
         "properties": {
+          "exported": {
+            "type": "boolean"
+          },
           "id": {
             "type": "string",
             "format": "uuid"
@@ -1504,12 +1507,6 @@
           "osmStopId": {
             "type": "string",
             "format": "uuid"
-          },
-          "osmStop": {
-            "$ref": "#/components/schemas/Stop"
-          },
-          "gtfsStop": {
-            "$ref": "#/components/schemas/Stop"
           }
         },
         "additionalProperties": false

@@ -10,10 +10,10 @@ import {Connection, Conversation, Stop} from '../api/apiClient';
 import {basicHeaders} from '../config/apiConfig';
 import {NotificationActions} from '../redux/actions/notificationActions';
 import {MapContext, MapModes} from './contexts/MapContextProvider';
-import ImportedConnections from './mapComponents/ImportedConnections';
+import SavedConnections from './mapComponents/SavedConnections';
 import ImportedReports from './mapComponents/ImportedReports';
 import MapTiles from './mapComponents/MapTiles';
-import NewConnections from './mapComponents/NewConnections';
+import DraftConnections from './mapComponents/DraftConnections';
 import NewReportMarker from './mapComponents/NewReportMarker';
 import TileStops from './mapComponents/TileStops';
 import {exception} from '../utilities/exceptionHelper';
@@ -292,8 +292,8 @@ export const MapView = () => {
           maxZoom={maxZoom}
         />
         <Pane name="connections">
-          <NewConnections connections={connectionData} isTileActive={isTileActive} />
-          <ImportedConnections stops={tileStops} />
+          <DraftConnections connections={connectionData} isTileActive={isTileActive} />
+          <SavedConnections stops={tileStops} />
         </Pane>
         <MapTiles
           isTileActive={isTileActive}
