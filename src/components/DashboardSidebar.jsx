@@ -7,7 +7,6 @@ import SyncPanel from './SyncPanel';
 import {MapContext, MapModes} from './contexts/MapContextProvider';
 import {selectLoggedInUserRoles} from '../redux/selectors/authSelector';
 import NewReport from './NewReport';
-import ReportForm from './ReportForm';
 import ConnectionSidePanel from './ConnectionSidePanel';
 import SidebarContainer from './SidebarContainer';
 import SidebarConnectionHandler from './SidebarConnectionHandler';
@@ -20,15 +19,7 @@ import ConnectionRadioGroup from './ConnectionRadioGroup';
 import {ConnectionRadio} from '../types/enums';
 
 const DashboardSidebar = () => {
-  const {
-    propertyGrid,
-    isTileActive,
-    mapMode,
-    isEditingReportMode,
-    openReportContent,
-    areManageReportButtonsVisible,
-    connectionRadio,
-  } = useContext(MapContext);
+  const {propertyGrid, isTileActive, mapMode, connectionRadio} = useContext(MapContext);
   const authRoles = useSelector(selectLoggedInUserRoles);
   const {t} = useTranslation();
 
@@ -43,9 +34,6 @@ const DashboardSidebar = () => {
           )
         ) : null}
         {mapMode === MapModes.report && <NewReport />}
-        {isEditingReportMode && openReportContent && (
-          <ReportForm areManageReportButtonsVisible={areManageReportButtonsVisible} />
-        )}
         {mapMode === MapModes.connection && <ConnectionRadioGroup />}
         {mapMode === MapModes.connection && connectionRadio === ConnectionRadio.ADD && <ConnectionSidePanel />}
         {mapMode === MapModes.connection && connectionRadio === ConnectionRadio.EDIT && <SidebarConnectionHandler />}
