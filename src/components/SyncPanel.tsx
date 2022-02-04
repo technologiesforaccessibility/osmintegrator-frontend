@@ -13,9 +13,8 @@ import {MapContext} from './contexts/MapContextProvider';
 import {exception} from '../utilities/exceptionHelper';
 import {NotificationActions} from '../redux/actions/notificationActions';
 import {UserContext} from './contexts/UserContextProvider';
-
-import '../stylesheets/syncPanel.scss';
 import TileExportModal from './TileExportModal';
+import '../stylesheets/syncPanel.scss';
 
 const SyncPanel: FC = () => {
   const {activeTile, setRerenderReports} = useContext(MapContext);
@@ -53,6 +52,7 @@ const SyncPanel: FC = () => {
     if (activeTile && activeTile.id) {
       try {
         setLoader(true);
+
         const tileExportInfo = await api.tilesExportChangesDetail(activeTile?.id, {headers: basicHeaders()});
 
         var tags = Object.keys(tileExportInfo.data.tags!)

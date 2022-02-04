@@ -228,10 +228,7 @@ export const en = {
     osmExport: {
       exportTab: {
         title: 'Export',
-        importRequired:
-          'You have outdated osm data. Please use "Import from OSM" button, in order to fetch current data!',
         dataExported: 'Data has been exported',
-        delayRequired: 'Please wait at least 5 minutes between exports',
         comment: {
           header: 'Comment',
           required: 'Comment is required',

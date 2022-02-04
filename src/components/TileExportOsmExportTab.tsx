@@ -9,6 +9,7 @@ import {NotificationActions} from '../redux/actions/notificationActions';
 import {ExportSchema} from '../utilities/validationSchema';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import {useTranslation} from 'react-i18next';
+import {exception} from '../utilities/exceptionHelper';
 
 interface TileExportOsmExportTabProps {
   tileId: string;
@@ -27,21 +28,13 @@ const TileExportOsmExportTab = (props: TileExportOsmExportTabProps) => {
     setExporting(true);
 
     try {
-      const containsChangesResponse = await api.tileContainsChangesDetail(tileId, {headers: basicHeaders()});
-
-      const containsChanges = containsChangesResponse.data;
-      if (containsChanges) {
-        dispatch(NotificationActions.warning(t('osmExport.exportTab.importRequired')));
-        return;
-      }
-
       await api.tilesExportCreate(tileId, {comment, email, password}, {headers: basicHeaders()});
 
       dispatch(NotificationActions.success(t('osmExport.exportTab.dataExported')));
 
       onSubmit();
-    } catch (ex) {
-      dispatch(NotificationActions.warning(t('osmExport.exportTab.delayRequired')));
+    } catch (error) {
+      exception(error);
     } finally {
       setExporting(false);
     }
