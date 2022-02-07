@@ -5,7 +5,7 @@ import {useTranslation} from 'react-i18next';
 
 import {generateConnectionData, getPosition} from '../../utilities/mapUtilities';
 import api from '../../api/apiInstance';
-import {Stop} from '../../api/apiClient';
+import {Connection, Stop} from '../../api/apiClient';
 import {basicHeaders} from '../../config/apiConfig';
 import EditConnectionPopup from './EditConnectionPopup';
 import {NotificationActions} from '../../redux/actions/notificationActions';
@@ -16,11 +16,11 @@ import {exception} from '../../utilities/exceptionHelper';
 import {MapContext} from '../contexts/MapContextProvider';
 import {StopType} from '../../types/enums';
 
-interface ImportedConnectionsProps {
+interface SavedConnectionsProps {
   stops: Stop[];
 }
 
-const ImportedConnections: FC<ImportedConnectionsProps> = ({stops}) => {
+const SavedConnections: FC<SavedConnectionsProps> = ({stops}) => {
   const popupRef = useRef(null);
   const {t} = useTranslation();
   const dispatch = useDispatch();
@@ -56,20 +56,33 @@ const ImportedConnections: FC<ImportedConnectionsProps> = ({stops}) => {
     popupRef.current && (popupRef.current as unknown as Record<string, () => void>)._close();
   };
 
+  const getPathLineColor = (connection: Connection, gtfsStop: Stop, osmStop: Stop) => {
+    if (connection.exported) {
+      const osmRefTags = osmStop.tags?.filter(t => t.key === 'ref') ?? [];
+      const osmRefTagValue = osmRefTags.length > 0 ? osmRefTags[0].value : null;
+
+      return osmRefTagValue === gtfsStop.stopId?.toString()
+        ? colors.colorConnectionExported
+        : colors.colorConnectionMismatch;
+    } else {
+      return colors.colorConnectionCreated;
+    }
+  };
+
   return (
     <>
       {stops.length > 0 &&
         importedConnections
           .filter(({id}) => !!id)
-          .map(({osmStopId, gtfsStopId}, index) => {
-            const foundOSM = stops.find(stop => stop.id === osmStopId);
-            const foundGTFS = stops.find(stop => stop.id === gtfsStopId);
-            if (foundOSM !== undefined && foundGTFS !== undefined) {
+          .map((connection, index) => {
+            const foundOSM = stops.find(stop => stop.id === connection.osmStopId);
+            const foundGTFS = stops.find(stop => stop.id === connection.gtfsStopId);
+            if (foundOSM && foundGTFS) {
               return (
                 <Polyline
                   key={index}
                   pathOptions={{
-                    color: colors.colorConnectionImported,
+                    color: getPathLineColor(connection, foundGTFS, foundOSM),
                     opacity: visibilityOptions.connected.value.opacityValue,
                   }}
                   pane="tooltipPane"
@@ -96,4 +109,4 @@ const ImportedConnections: FC<ImportedConnectionsProps> = ({stops}) => {
   );
 };
 
-export default ImportedConnections;
+export default SavedConnections;
