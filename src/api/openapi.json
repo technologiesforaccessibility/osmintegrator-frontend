@@ -1349,6 +1349,9 @@
       "Connection": {
         "type": "object",
         "properties": {
+          "exported": {
+            "type": "boolean"
+          },
           "id": {
             "type": "string",
             "format": "uuid"
@@ -1360,12 +1363,6 @@
           "osmStopId": {
             "type": "string",
             "format": "uuid"
-          },
-          "osmStop": {
-            "$ref": "#/components/schemas/Stop"
-          },
-          "gtfsStop": {
-            "$ref": "#/components/schemas/Stop"
           }
         },
         "additionalProperties": false

@@ -25,6 +25,8 @@ export interface ConfirmRegistration {
 }
 
 export interface Connection {
+  exported?: boolean;
+
   /** @format uuid */
   id?: string;
 
@@ -33,8 +35,6 @@ export interface Connection {
 
   /** @format uuid */
   osmStopId?: string;
-  osmStop?: Stop;
-  gtfsStop?: Stop;
 }
 
 export interface ConnectionAction {
