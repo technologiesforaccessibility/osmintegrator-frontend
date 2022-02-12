@@ -127,21 +127,6 @@ export interface NewConnectionAction {
   gtfsStopId: string;
 }
 
-export interface NewNote {
-  /** @format uuid */
-  userId?: string;
-
-  /** @format double */
-  lat: number;
-
-  /** @format double */
-  lon: number;
-
-  /** @format uuid */
-  tileId: string;
-  text?: string | null;
-}
-
 /**
  * @format int32
  */
@@ -793,65 +778,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: 'PUT',
         body: data,
         type: ContentType.Json,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Notes
-     * @name NotesCreate
-     * @request POST:/api/Notes
-     */
-    notesCreate: (data: NewNote, params: RequestParams = {}) =>
-      this.request<void, ProblemDetails>({
-        path: `/api/Notes`,
-        method: 'POST',
-        body: data,
-        type: ContentType.Json,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Notes
-     * @name NotesDetail
-     * @request GET:/api/Notes/{id}
-     */
-    notesDetail: (id: string, params: RequestParams = {}) =>
-      this.request<NewNote[], ProblemDetails>({
-        path: `/api/Notes/${id}`,
-        method: 'GET',
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Notes
-     * @name NotesApproveUpdate
-     * @request PUT:/api/Notes/Approve/{id}
-     */
-    notesApproveUpdate: (id: string, params: RequestParams = {}) =>
-      this.request<void, ProblemDetails>({
-        path: `/api/Notes/Approve/${id}`,
-        method: 'PUT',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Notes
-     * @name NotesRejectUpdate
-     * @request PUT:/api/Notes/Reject/{id}
-     */
-    notesRejectUpdate: (id: string, params: RequestParams = {}) =>
-      this.request<void, ProblemDetails>({
-        path: `/api/Notes/Reject/${id}`,
-        method: 'PUT',
         ...params,
       }),
 
