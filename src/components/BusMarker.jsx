@@ -49,9 +49,10 @@ const BusMarker = ({
           connection: {id: connection.id},
         });
       } else {
+        const osmStop = tileStops.find(stop => stop.id === connection.osmStopId);
         setConnectedStopPair({
           markedStop: busStop,
-          connectedStop: connection.osmStop,
+          connectedStop: osmStop,
           connection: {id: connection.id},
         });
       }
