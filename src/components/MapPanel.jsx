@@ -30,6 +30,7 @@ const MapPanel = () => {
     resetMapSettings,
     setNewReportCoordinates,
     setActiveStop,
+    setRerenderTiles,
   } = useContext(MapContext);
   const {t} = useTranslation();
 
@@ -85,6 +86,7 @@ const MapPanel = () => {
                 resetMapSettings();
                 setNewReportCoordinates({lat: null, lon: null});
                 setActiveStop(null);
+                setRerenderTiles(true);
               }}>
               <Tooltip title={t('tileModePrompts.back')}>
                 <ArrowBackIcon />

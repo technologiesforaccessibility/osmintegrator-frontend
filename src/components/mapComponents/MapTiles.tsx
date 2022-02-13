@@ -53,7 +53,7 @@ const MapTiles: FC<MapTilesProps> = ({
                 [tile.minLat + (tile.maxLat - tile.minLat) / 2, tile.minLon],
                 [tile.minLat + (tile.maxLat - tile.minLat) / 2, tile.maxLon],
               ]}
-              text={`${tile.unconnectedGtfsStops}/${tile.gtfsStopsCount}`}
+              text={`${tile.unconnectedGtfsStopsCount}/${tile.gtfsStopsCount}`}
               color=""
               center
             />

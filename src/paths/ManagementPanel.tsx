@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import {CircularProgress, TextField} from '@mui/material';
 
 import api from '../api/apiInstance';
-import {Tile, User} from '../api/apiClient';
+import {Tile, User, UncommittedTile} from '../api/apiClient';
 import {basicHeaders} from '../config/apiConfig';
 import H3Title from '../components/customs/H3Title';
 import ManagementPanelMap from '../components/managementPanel/ManagementPanelMap';
@@ -30,13 +30,13 @@ function ManagementPanel() {
   const {t} = useTranslation();
   const dispatch = useDispatch();
 
-  const [tiles, setTiles] = useState<Tile[]>([]);
+  const [tiles, setTiles] = useState<UncommittedTile[]>([]);
   const [editors, setEditors] = useState<User[]>([]);
 
   const [dataLoaded, setDataLoaded] = useState(false);
 
   const [selectedEditor, setSelectedEditor] = useState<User>();
-  const [selectedTile, setSelectedTile] = useState<Tile>();
+  const [selectedTile, setSelectedTile] = useState<UncommittedTile>();
 
   const initState = () => {
     setDataLoaded(false);
@@ -78,7 +78,7 @@ function ManagementPanel() {
 
   const getTiles = async () => {
     try {
-      const response = await api.tileGetUncommitedTilesList({
+      const response = await api.tileGetUncommittedTilesList({
         headers: basicHeaders(),
       });
       return response.data;
@@ -88,7 +88,7 @@ function ManagementPanel() {
   };
 
   const getColor = useCallback(
-    (tile: Tile) => {
+    (tile: Tile | UncommittedTile) => {
       if (selectedTile?.id === tile.id) {
         return colors.colorTileActiveExplicit;
       }
@@ -118,7 +118,7 @@ function ManagementPanel() {
               [x.minLat + (x.maxLat - x.minLat) / 2, x.minLon],
               [x.minLat + (x.maxLat - x.minLat) / 2, x.maxLon],
             ]}
-            text={`${x.unconnectedGtfsStops}/${x.gtfsStopsCount}`}
+            text={`${x.unconnectedGtfsStopsCount}/${x.gtfsStopsCount}`}
             color=""
             center
           />

@@ -25,8 +25,6 @@ export interface ConfirmRegistration {
 }
 
 export interface Connection {
-  exported?: boolean;
-
   /** @format uuid */
   id?: string;
 
@@ -35,6 +33,7 @@ export interface Connection {
 
   /** @format uuid */
   osmStopId?: string;
+  exported?: boolean;
 }
 
 export interface ConnectionAction {
@@ -293,12 +292,42 @@ export interface Tile {
   assignedUserName?: string | null;
 
   /** @format int32 */
-  unconnectedGtfsStops?: number;
+  unconnectedGtfsStopsCount?: number;
 }
 
 export interface TokenData {
   token: string;
   refreshToken: string;
+}
+
+export interface UncommittedTile {
+  /** @format uuid */
+  id: string;
+
+  /** @format int64 */
+  x: number;
+
+  /** @format int64 */
+  y: number;
+
+  /** @format double */
+  maxLat: number;
+
+  /** @format double */
+  minLon: number;
+
+  /** @format double */
+  minLat: number;
+
+  /** @format double */
+  maxLon: number;
+
+  /** @format int32 */
+  gtfsStopsCount: number;
+  assignedUserName?: string | null;
+
+  /** @format int32 */
+  unconnectedGtfsStopsCount?: number;
 }
 
 export interface UpdateTileInput {
@@ -952,12 +981,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Tile
-     * @name TileGetUncommitedTilesList
-     * @request GET:/api/Tile/GetUncommitedTiles
+     * @name TileGetUncommittedTilesList
+     * @request GET:/api/Tile/GetUncommittedTiles
      */
-    tileGetUncommitedTilesList: (params: RequestParams = {}) =>
-      this.request<Tile[], ProblemDetails>({
-        path: `/api/Tile/GetUncommitedTiles`,
+    tileGetUncommittedTilesList: (params: RequestParams = {}) =>
+      this.request<UncommittedTile[], ProblemDetails>({
+        path: `/api/Tile/GetUncommittedTiles`,
         method: 'GET',
         format: 'json',
         ...params,

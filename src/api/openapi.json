@@ -973,7 +973,7 @@
         }
       }
     },
-    "/api/Tile/GetUncommitedTiles": {
+    "/api/Tile/GetUncommittedTiles": {
       "get": {
         "tags": ["Tile"],
         "responses": {
@@ -984,7 +984,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Tile"
+                    "$ref": "#/components/schemas/UncommittedTile"
                   }
                 }
               }
@@ -1349,9 +1349,6 @@
       "Connection": {
         "type": "object",
         "properties": {
-          "exported": {
-            "type": "boolean"
-          },
           "id": {
             "type": "string",
             "format": "uuid"
@@ -1363,6 +1360,9 @@
           "osmStopId": {
             "type": "string",
             "format": "uuid"
+          },
+          "exported": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -1907,7 +1907,7 @@
             "type": "string",
             "nullable": true
           },
-          "unconnectedGtfsStops": {
+          "unconnectedGtfsStopsCount": {
             "type": "integer",
             "format": "int32"
           }
@@ -1923,6 +1923,53 @@
           },
           "refreshToken": {
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UncommittedTile": {
+        "required": ["gtfsStopsCount", "id", "maxLat", "maxLon", "minLat", "minLon", "x", "y"],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "x": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "y": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "maxLat": {
+            "type": "number",
+            "format": "double"
+          },
+          "minLon": {
+            "type": "number",
+            "format": "double"
+          },
+          "minLat": {
+            "type": "number",
+            "format": "double"
+          },
+          "maxLon": {
+            "type": "number",
+            "format": "double"
+          },
+          "gtfsStopsCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "assignedUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "unconnectedGtfsStopsCount": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
