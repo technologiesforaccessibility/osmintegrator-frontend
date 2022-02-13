@@ -30,7 +30,6 @@ const generateStopName = stop => {
     result += ' ' + stop.number;
   }
   if (stop.stopType === StopType.GTFS) return result;
-  if (stop.tags) result += stop.tags.find(x => x.key === 'ref')?.value || '-';
 
   const refTag = stop.tags.find(x => x.key === 'ref');
   return (result += `, ref: ${refTag?.value || '-'}`);
