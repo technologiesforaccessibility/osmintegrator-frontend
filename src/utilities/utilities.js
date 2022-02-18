@@ -4,15 +4,18 @@ import reportBlueIcon from '../assets/report_blue.png';
 import reportGreenIcon from '../assets/report_green.png';
 import reportGrayIcon from '../assets/report_gray.png';
 
-import osmStopIcon from '../assets/angledIcons/osm_stop.png';
 import gtfsStopIcon from '../assets/angledIcons/gtfs_stop.png';
+import gtfsStopReportIcon from '../assets/angledIcons/gtfs_stop_report.png';
+import gtfsStopReportApprovedIcon from '../assets/angledIcons/gtfs_stop_report_approved.png';
+
+import osmStopIcon from '../assets/angledIcons/osm_stop.png';
+import osmStopReportIcon from '../assets/angledIcons/osm_stop_report.png';
+import osmStopReportApprovedIcon from '../assets/angledIcons/osm_stop_report_approved.png';
+
 import osmStopOutsideIcon from '../assets/angledIcons/osm_stop-out.png';
 import osmStopReportOutsideIcon from '../assets/angledIcons/osm_stop_report-out.png';
 import osmStopReportApprovedOutsideIcon from '../assets/angledIcons/osm_stop_report_approved-out.png';
-import osmStopReportIcon from '../assets/angledIcons/osm_stop_report.png';
-import gtfsStopReportIcon from '../assets/angledIcons/gtfs_stop_report.png';
-import osmStopReportApprovedIcon from '../assets/angledIcons/osm_stop_report_approved.png';
-import gtfsStopReportApprovedIcon from '../assets/angledIcons/gtfs_stop_report_approved.png';
+
 import shadowZTM from '../assets/angledIcons/shadow_ztm.png';
 import shadowOSM from '../assets/angledIcons/shadow_osm.png';
 import shadowReport from '../assets/report_frame.png';
@@ -25,14 +28,16 @@ export const reportIcons = {
 };
 
 const stopIcons = {
-  osmInside: osmStopIcon,
-  osmReport: osmStopReportIcon,
-  osmReportApprove: osmStopReportApprovedIcon,
   gtfsStop: gtfsStopIcon,
-  osmStopOutside: osmStopOutsideIcon,
   gtfsStopReport: gtfsStopReportIcon,
-  osmStopReportOutside: osmStopReportOutsideIcon,
   gtfsStopReportApproved: gtfsStopReportApprovedIcon,
+
+  osmStop: osmStopIcon,
+  osmStopReport: osmStopReportIcon,
+  osmStopReportApproved: osmStopReportApprovedIcon,
+
+  osmStopOutside: osmStopOutsideIcon,
+  osmStopReportOutside: osmStopReportOutsideIcon,
   osmStopReportApprovedOutside: osmStopReportApprovedOutsideIcon,
 };
 
@@ -153,12 +158,12 @@ const getStopIconProps = ({outsideSelectedTile, stopType, hasReport, reportAppro
   // OSM inside a tile
   if (stopType === StopType.OSM) {
     if (reportApproved) {
-      return {iconUrl: stopIcons.osmReportApprove, iconAnchor: [30, 55]};
+      return {iconUrl: stopIcons.osmStopReportApproved, iconAnchor: [30, 55]};
     }
     if (hasReport) {
-      return {iconUrl: stopIcons.osmReport, iconAnchor: [30, 55]};
+      return {iconUrl: stopIcons.osmStopReport, iconAnchor: [30, 55]};
     }
-    return {iconUrl: stopIcons.osmInside, iconAnchor: [30, 55]};
+    return {iconUrl: stopIcons.osmStop, iconAnchor: [30, 55]};
   }
   // GTFS inside a tile
   if (reportApproved) {
@@ -182,11 +187,8 @@ const getReportColor = status => {
       return reportIcons.created;
     case 1:
       return reportIcons.approved;
-    case 2:
-      return reportIcons.rejected;
-    case 99:
-      return reportIcons.initial;
     default:
-      return reportIcons.unexpected;
+      // 99
+      return reportIcons.initial;
   }
 };
