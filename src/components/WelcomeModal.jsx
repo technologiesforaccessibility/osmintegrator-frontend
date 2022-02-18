@@ -4,7 +4,7 @@ import {useTranslation} from 'react-i18next';
 import {Button, Checkbox, FormControlLabel, FormGroup} from '@mui/material';
 import '../stylesheets/welcomeModal.scss';
 
-const {REACT_APP_USER_MANUAL} = process.env;
+const {REACT_APP_USER_MANUAL, REACT_APP_VIDEO_TUTORIAL} = process.env;
 
 const WelcomeModal = ({handleClose}) => {
   const [isChecked, setChecked] = useState(false);
@@ -20,6 +20,11 @@ const WelcomeModal = ({handleClose}) => {
       <a href={REACT_APP_USER_MANUAL} rel="noopener noreferrer" target="_blank" className="welcome-modal__manual">
         <Button color="primary" variant="outlined" clickable>
           {t('welcomeModal.button')}
+        </Button>
+      </a>
+      <a href={REACT_APP_VIDEO_TUTORIAL} rel="noopener noreferrer" target="_blank" className="welcome-modal__manual">
+        <Button color="primary" variant="outlined" clickable>
+          {t('welcomeModal.movie')}
         </Button>
       </a>
       <FormGroup className="welcome-modal__form">

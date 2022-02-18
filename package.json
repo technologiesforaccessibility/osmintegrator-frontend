@@ -1,6 +1,6 @@
 {
   "name": "osmintegrator-frontend",
-  "version": "0.10.0-rc6",
+  "version": "0.10.0-rc7",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.4.1",

@@ -307,10 +307,11 @@ export const pl = {
     },
     version: 'Wersja: ',
     welcomeModal: {
-      title: 'Witam w systemie Osm Integrator',
+      title: 'Witam w systemie OsmIntegrator',
       content:
-        'Dzięki Twojej pracy osoby niewidome będą mogły lepiej wykorzystać możliwości aplikacji służących do nowigacji. \n \n Obecnie nie masz przypisanego żadnego obszaru do edycji. Aby uzyskać dostęp do obszaru napisz do nas wiadomość na email kontakt@rozwiazaniadlaniewidomych.org. \n \n Aby zrozumieć zasadę działania systemu zapoznaj się z instrukcją dostępną pod linkiem poniżej.',
+        'Dzięki Twojej pracy osoby niewidome będą mogły lepiej wykorzystać możliwości aplikacji służących do nawigacji \n\nAby zrozumieć zasadę działania systemu zapoznaj się z instrukcją lub filmem instruktażowym dostępnymi poniej.\n\nW przypadku problemów z działaniem aplikacji napisz do nas na adres kontakt@rozwiazaniadlaniewidomych.org.',
       button: 'Instrukcja obsługi',
+      movie: 'Film instruktażowy',
       checkbox: 'Nie pokazuj więcej',
       hide: 'Ukryj',
     },

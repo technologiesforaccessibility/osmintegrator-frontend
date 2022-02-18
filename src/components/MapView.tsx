@@ -22,7 +22,6 @@ import {Modal} from '@mui/material';
 import {Box} from '@mui/system';
 import WelcomeModal from './WelcomeModal';
 import {useCookies} from 'react-cookie';
-import {roles} from '../utilities/constants';
 import {LeafletMouseEvent} from 'leaflet';
 import {ConversationContext} from './contexts/ConversationProvider';
 import Legend from './mapComponents/Legend';
@@ -64,7 +63,6 @@ export const MapView = () => {
     setOpenReportContent,
     setConnectedStopIds,
     setAreManageReportButtonsVisible,
-    authRoles,
     tileStops,
     setTileStops,
     activeStop,
@@ -80,16 +78,12 @@ export const MapView = () => {
       });
       setTiles(response.data);
 
-      const noTilesAndIsEditor =
-        response.data.length === 0 && authRoles.length === 1 && (authRoles || []).includes(roles.EDITOR);
-      if (noTilesAndIsEditor) {
-        setModal(true);
-      }
+      setModal(!welcomeModalCookie.welcome_modal);
     } catch (error) {
       exception(error);
     }
     setIsLoading(false);
-  }, [authRoles, setTiles]);
+  }, [setTiles, welcomeModalCookie.welcome_modal]);
 
   const addReportMarker = (e: LeafletMouseEvent) => {
     const coords = {lat: e.latlng.lat, lon: e.latlng.lng};
