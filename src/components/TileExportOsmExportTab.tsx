@@ -1,7 +1,7 @@
 import {AccountCircle} from '@mui/icons-material';
 import {Backdrop, Button, CircularProgress, Grid, InputAdornment, TextField} from '@mui/material';
 import {Formik} from 'formik';
-import React from 'react';
+import React, {useContext} from 'react';
 import {useDispatch} from 'react-redux';
 import api from '../api/apiInstance';
 import {basicHeaders} from '../config/apiConfig';
@@ -10,6 +10,7 @@ import {ExportSchema} from '../utilities/validationSchema';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import {useTranslation} from 'react-i18next';
 import {exception} from '../utilities/exceptionHelper';
+import {MapContext} from './contexts/MapContextProvider';
 
 interface TileExportOsmExportTabProps {
   tileId: string;
@@ -23,6 +24,7 @@ const TileExportOsmExportTab = (props: TileExportOsmExportTabProps) => {
   const [isExporting, setExporting] = React.useState<boolean>(false);
   const {t} = useTranslation();
   const dispatch = useDispatch();
+  const {setRerenderConnections} = useContext(MapContext);
 
   const onExport = async (comment: string, email: string, password: string) => {
     setExporting(true);
@@ -32,6 +34,7 @@ const TileExportOsmExportTab = (props: TileExportOsmExportTabProps) => {
 
       dispatch(NotificationActions.success(t('osmExport.exportTab.dataExported')));
 
+      setRerenderConnections(true);
       onSubmit();
     } catch (error) {
       exception(error);
