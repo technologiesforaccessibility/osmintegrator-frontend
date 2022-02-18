@@ -45,6 +45,7 @@ interface IMapContext {
   isSidebarConnectionHandlerVisible: boolean;
   tileStops: Stop[];
   connectedStopPair: ConnectedPairProps;
+  setRerenderConnections: (arg: boolean) => void;
   setConnectedStopPair: (arg: any) => void;
   setTileStops: (arg: Stop[]) => void;
   setIsSidebarConnectionHandlerVisible: (arg: boolean) => void;
@@ -133,6 +134,7 @@ const init: IMapContext = {
   isSidebarConnectionHandlerVisible: false,
   connectedStopPair: {markedStop: null, connectedStop: null, connection: null},
   authRoles: [],
+  setRerenderConnections: () => null,
   setConnectedStopPair: () => null,
   setIsSidebarConnectionHandlerVisible: () => null,
   setAreManageReportButtonsVisible: () => null,
@@ -348,6 +350,7 @@ const MapContextProvider: FC = ({children}) => {
         isSidebarConnectionHandlerVisible,
         connectedStopPair,
         tileStops,
+        setRerenderConnections,
         setTileStops,
         setConnectedStopPair,
         setIsSidebarConnectionHandlerVisible,
