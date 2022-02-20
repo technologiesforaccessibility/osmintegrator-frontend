@@ -17,9 +17,8 @@ import TileExportModal from './TileExportModal';
 import '../stylesheets/syncPanel.scss';
 
 const SyncPanel: FC = () => {
-  const {activeTile, setRerenderReports} = useContext(MapContext);
+  const {activeTile, setRerenderReports, setRerenderConnections} = useContext(MapContext);
   const {setLoader} = useContext(UserContext);
-  const {setRerenderConnections} = useContext(MapContext);
 
   const [isOsmImportModalOpen, setIsOsmImportModalOpen] = useState<boolean>(false);
   const [isOsmExportModalOpen, setIsOsmExportModalOpen] = useState<boolean>(false);
@@ -39,9 +38,7 @@ const SyncPanel: FC = () => {
         setRerenderReports(true);
         const {value}: {value?: string | null} = response.data || {};
         setUpdateData(value || null);
-
         setIsOsmImportModalOpen(true);
-        setRerenderConnections(true);
       } catch (error) {
         exception(error);
       } finally {
@@ -66,7 +63,6 @@ const SyncPanel: FC = () => {
         setComment(tileExportInfo.data.tags!['comment'] ?? '');
 
         setIsOsmExportModalOpen(true);
-        setRerenderConnections(true);
       } catch (error) {
         exception(error);
       } finally {
@@ -136,6 +132,7 @@ const SyncPanel: FC = () => {
 
             <Button
               onClick={() => {
+                setRerenderConnections(true);
                 setIsOsmImportModalOpen(false);
                 setUpdateData(null);
               }}
