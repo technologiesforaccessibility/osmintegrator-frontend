@@ -1,4 +1,5 @@
 import {LeafletMouseEvent} from 'leaflet';
+import TextPath from 'react-leaflet-textpath';
 import {FC} from 'react';
 import {Rectangle, Tooltip} from 'react-leaflet';
 
@@ -23,26 +24,11 @@ const MapTiles: FC<MapTilesProps> = ({
   addReportMarker,
   isCreateReportMapMode,
 }) => {
-  const color = ({approvedBySupervisor, approvedByEditor, usersCount}: Tile): string => {
-    if (approvedBySupervisor) {
-      return colors.colorApprovedBySupervisor;
-    }
-    if (approvedByEditor) {
-      return colors.colorApprovedByEditor;
-    }
-    if (usersCount) return colors.colorTileAssigned;
-    return colors.colorTileAll;
+  const color = ({assignedUserName}: Tile): string => {
+    return assignedUserName ? colors.colorTileAssigned : colors.colorTileAll;
   };
 
-  const opacity = (tile: Tile) => {
-    if (!tile.approvedByEditor && !tile.approvedBySupervisor) {
-      return 0.2;
-    }
-    if (tile.approvedByEditor && !tile.approvedBySupervisor) {
-      return 0.5;
-    }
-    return 0.5;
-  };
+  const opacity = 0.2;
 
   return (
     <>
@@ -61,25 +47,36 @@ const MapTiles: FC<MapTilesProps> = ({
         />
       ) : (
         tiles.map((tile, index) => (
-          <Rectangle
-            key={index}
-            bounds={[
-              [tile.maxLat, tile.maxLon],
-              [tile.minLat, tile.minLon],
-            ]}
-            pathOptions={{
-              color: color(tile),
-              fillOpacity: opacity(tile),
-            }}
-            eventHandlers={{
-              click: () => {
-                setActiveTile(tile);
-              },
-            }}>
-            <Tooltip direction="top">
-              x ={tile.x}, y={tile.y}
-            </Tooltip>
-          </Rectangle>
+          <>
+            <TextPath
+              positions={[
+                [tile.minLat + (tile.maxLat - tile.minLat) / 2, tile.minLon],
+                [tile.minLat + (tile.maxLat - tile.minLat) / 2, tile.maxLon],
+              ]}
+              text={`${tile.unconnectedGtfsStopsCount}/${tile.gtfsStopsCount}`}
+              color=""
+              center
+            />
+            <Rectangle
+              key={index}
+              bounds={[
+                [tile.maxLat, tile.maxLon],
+                [tile.minLat, tile.minLon],
+              ]}
+              pathOptions={{
+                color: color(tile),
+                fillOpacity: opacity,
+              }}
+              eventHandlers={{
+                click: () => {
+                  setActiveTile(tile);
+                },
+              }}>
+              <Tooltip direction="top">
+                x ={tile.x}, y={tile.y}
+              </Tooltip>
+            </Rectangle>
+          </>
         ))
       )}
     </>

@@ -8,6 +8,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import ReportIcon from '@mui/icons-material/Report';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CropSquareTwoToneIcon from '@mui/icons-material/CropSquareTwoTone';
+import SyncIcon from '@mui/icons-material/Sync';
 import {ReactComponent as ConnectionIcon} from '../assets/connection-panel-icon.svg';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -29,6 +30,7 @@ const MapPanel = () => {
     resetMapSettings,
     setNewReportCoordinates,
     setActiveStop,
+    setRerenderTiles,
   } = useContext(MapContext);
   const {t} = useTranslation();
 
@@ -57,6 +59,11 @@ const MapPanel = () => {
       name: MapModes.tile,
       icon: () => <CropSquareTwoToneIcon />,
     },
+    {
+      title: t('tileModePrompts.sync'),
+      name: MapModes.sync,
+      icon: () => <SyncIcon />,
+    },
   ];
 
   const handleChange = (_, value) => {
@@ -79,6 +86,7 @@ const MapPanel = () => {
                 resetMapSettings();
                 setNewReportCoordinates({lat: null, lon: null});
                 setActiveStop(null);
+                setRerenderTiles(true);
               }}>
               <Tooltip title={t('tileModePrompts.back')}>
                 <ArrowBackIcon />

@@ -1,5 +1,5 @@
 import React from 'react';
-import Dashboard from './Dashboard';
+import Dashboard from './DashboardWrapper';
 import '../stylesheets/profileLayout.scss';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -34,7 +34,9 @@ export default function ProfileLayout({children}) {
 
           <div>{children}</div>
 
-          <Button variant="contained" href={REACT_APP_USER_MANUAL}>{t('footer.userManual')}</Button>
+          <Button variant="contained" href={REACT_APP_USER_MANUAL}>
+            {t('footer.userManual')}
+          </Button>
         </div>
       </div>
     </Dashboard>

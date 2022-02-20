@@ -23,7 +23,9 @@ const TileDetails = () => {
             <div className="tile-details__body">
               <span>X: {activeTile.x}</span>
               <span>Y: {activeTile.y}</span>
-              <span>{t('tileDetails.zoom')} - </span>
+              <span>
+                {t('tileDetails.zoom')} {activeTile.zoomLevel}
+              </span>
               <span>
                 {t('tileDetails.minLat')} {activeTile.minLat}
               </span>
@@ -35,24 +37,6 @@ const TileDetails = () => {
               </span>
               <span>
                 {t('tileDetails.maxLong')} {activeTile.maxLon}
-              </span>
-            </div>
-          </fieldset>
-          <fieldset className="tile-details__detail">
-            <legend className="tile-details__heading">{t('tileDetails.assignedEditor')}</legend>
-            <div className="tile-details__body">
-              <span>{t('tileDetails.userName')} - </span>
-              <span>
-                {t('tileDetails.tileApproved')} {activeTile.approvedByEditor ? t('yes') : t('no')}
-              </span>
-            </div>
-          </fieldset>
-          <fieldset className="tile-details__detail">
-            <legend className="tile-details__heading">{t('tileDetails.assignedSupervisor')}</legend>
-            <div className="tile-details__body">
-              <span>{t('tileDetails.userName')} - </span>
-              <span>
-                {t('tileDetails.tileApproved')} {activeTile.approvedBySupervisor ? t('yes') : t('no')}
               </span>
             </div>
           </fieldset>

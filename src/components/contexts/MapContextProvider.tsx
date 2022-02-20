@@ -1,9 +1,12 @@
 import {createContext, FC, useCallback, useState} from 'react';
 import {useSelector} from 'react-redux';
+
 import {Connection, Conversation, NoteStatus, Stop, Tile} from '../../api/apiClient';
 import {selectLoggedInUserRoles} from '../../redux/selectors/authSelector';
 import i18n from '../../translations/i18n';
 import {connectionVisibility, localStorageStopTypes} from '../../utilities/constants';
+import {ConnectedPairProps} from '../../types/interfaces';
+import {ConnectionRadio} from '../../types/enums';
 
 interface VisibilityOptions {
   connected: {
@@ -16,11 +19,6 @@ interface VisibilityOptions {
     name: string;
     value: {text: string; opacityValue: number; icon: () => JSX.Element};
   };
-  approved: {
-    localStorageName: string;
-    name: string;
-    value: {text: string; opacityValue: number; icon: () => JSX.Element};
-  };
 }
 
 interface IMapContext {
@@ -29,13 +27,7 @@ interface IMapContext {
   isMapActive: boolean;
   areStopsVisible: boolean;
   propertyGrid: Stop | Conversation | null;
-  connectionData: Array<{
-    coordinates: {lat: number; lon: number};
-    id: string;
-    name: string;
-    ref: string;
-    isOsm: boolean;
-  }>;
+  connectionData: Stop[];
   rerenderConnections: boolean;
   newReportCoordinates: {lat: number | null; lon: number | null};
   activeTile: Tile | null;
@@ -49,19 +41,14 @@ interface IMapContext {
   connectedStopIds: Array<string>;
   areManageReportButtonsVisible: boolean;
   visibilityOptions: VisibilityOptions;
-  approvedStopIds: Array<string>;
   activeStop: Stop | null;
   isSidebarConnectionHandlerVisible: boolean;
-  tileStops: Array<Stop>;
-  connectedStopPair: {
-    markedStop: {id: string; name: string} | null;
-    connectedStop: {id: string; name: string} | null;
-    connection: {id: string; approved: boolean} | null;
-  };
+  tileStops: Stop[];
+  connectedStopPair: ConnectedPairProps;
+  setRerenderConnections: (arg: boolean) => void;
   setConnectedStopPair: (arg: any) => void;
-  setTileStops: (arg: Array<Stop>) => void;
+  setTileStops: (arg: Stop[]) => void;
   setIsSidebarConnectionHandlerVisible: (arg: boolean) => void;
-  setApprovedStopIds: (arg: Array<string>) => void;
   setAreManageReportButtonsVisible: (arg: boolean) => void;
   resetMapSettings: () => void;
   setConnectedStopIds: (arg: Array<string>) => void;
@@ -70,13 +57,7 @@ interface IMapContext {
   singleTileToggle: (arg: boolean) => void;
   activeMapToggle: (arg: boolean) => void;
   displayPropertyGrid: (arg: Stop | Conversation | null) => void;
-  updateConnectionData: (arg: {
-    coordinates: {lat: number; lon: number};
-    id: string;
-    name: string;
-    ref: string;
-    isOsm: boolean;
-  }) => void;
+  updateConnectionData: (arg: Stop) => void;
   reset: () => void;
   shouldRenderConnections: (arg: boolean) => void;
   toogleMapMode: (arg: string) => void;
@@ -105,6 +86,8 @@ interface IMapContext {
   resetMapVisibility: () => void;
   authRoles: Array<string>;
   setActiveStop: React.Dispatch<React.SetStateAction<Stop | null>>;
+  connectionRadio: ConnectionRadio;
+  setConnectionRadio: (arg: ConnectionRadio) => void;
 }
 
 export const MapModes = {
@@ -112,6 +95,7 @@ export const MapModes = {
   report: 'Report',
   connection: 'Connection',
   tile: 'Tile',
+  sync: 'Sync',
 };
 
 const init: IMapContext = {
@@ -144,21 +128,15 @@ const init: IMapContext = {
       name: 'string',
       value: {text: 'string', opacityValue: 0, icon: () => <span />},
     },
-    approved: {
-      localStorageName: 'string',
-      name: 'string',
-      value: {text: 'string', opacityValue: 0, icon: () => <span />},
-    },
   },
-  approvedStopIds: [],
   activeStop: null,
   tileStops: [],
   isSidebarConnectionHandlerVisible: false,
   connectedStopPair: {markedStop: null, connectedStop: null, connection: null},
   authRoles: [],
+  setRerenderConnections: () => null,
   setConnectedStopPair: () => null,
   setIsSidebarConnectionHandlerVisible: () => null,
-  setApprovedStopIds: () => null,
   setAreManageReportButtonsVisible: () => null,
   resetMapSettings: () => null,
   setConnectedStopIds: () => null,
@@ -187,6 +165,8 @@ const init: IMapContext = {
   resetMapVisibility: () => null,
   setActiveStop: () => null,
   setTileStops: () => null,
+  connectionRadio: ConnectionRadio.ADD,
+  setConnectionRadio: () => null,
 };
 
 export const MapContext = createContext<IMapContext>(init);
@@ -229,23 +209,17 @@ const initialVisibility = (reset = false) => {
       name: i18n.t('connectionVisibility.nameUnconnected'),
       value: getValueFromStateOrReturn(localStorageStopTypes.unconnected, reset),
     },
-    approved: {
-      localStorageName: localStorageStopTypes.approved,
-      name: i18n.t('connectionVisibility.nameApproved'),
-      value: getValueFromStateOrReturn(localStorageStopTypes.approved, reset),
-    },
   };
 };
 
 const MapContextProvider: FC = ({children}) => {
+  const [connectionRadio, setConnectionRadio] = useState<ConnectionRadio>(ConnectionRadio.ADD);
   const [isTileActive, setIsTileActive] = useState(false);
   const [isMapActive, setIsMapActive] = useState(false);
   const [areStopsVisible, setAreStopsVisible] = useState(false);
   const [propertyGrid, setPropertyGrid] = useState<Stop | Conversation | null>(null);
   const [rerenderConnections, setRerenderConnections] = useState(false);
-  const [connectionData, setConnectionData] = useState<
-    Array<{coordinates: {lat: number; lon: number}; id: string; name: string; ref: string; isOsm: boolean}>
-  >([]);
+  const [connectionData, setConnectionData] = useState<Stop[]>([]);
   const [mapMode, setMapMode] = useState(MapModes.view);
   const [isEditingReportMode, setIsEditingReportMode] = useState(false);
   const [newReportCoordinates, setNewReportCoordinates] =
@@ -265,11 +239,10 @@ const MapContextProvider: FC = ({children}) => {
   const [tiles, setTiles] = useState<Array<Tile>>([]);
   const [rerenderTiles, setRerenderTiles] = useState(false);
   const [connectedStopIds, setConnectedStopIds] = useState<Array<string>>([]);
-  const [approvedStopIds, setApprovedStopIds] = useState<Array<string>>([]);
   const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);
   const [visibilityOptions, setVisibilityOptions] = useState(initialVisibility());
   const [activeStop, setActiveStop] = useState<Stop | null>(null);
-  const [tileStops, setTileStops] = useState<Array<Stop>>([]);
+  const [tileStops, setTileStops] = useState<Stop[]>([]);
   const [isSidebarConnectionHandlerVisible, setIsSidebarConnectionHandlerVisible] = useState(false);
   const [connectedStopPair, setConnectedStopPair] = useState({markedStop: null, connectedStop: null, connection: null});
 
@@ -296,14 +269,11 @@ const MapContextProvider: FC = ({children}) => {
     [toogleMapMode],
   );
 
-  const updateConnectionData = useCallback(
-    (data: {coordinates: {lat: number; lon: number}; id: string; name: string; ref: string; isOsm: boolean}) => {
-      if (data) {
-        setConnectionData(oldState => [...oldState, data]);
-      }
-    },
-    [],
-  );
+  const updateConnectionData = useCallback((data: Stop) => {
+    if (data) {
+      setConnectionData(oldState => [...oldState, data]);
+    }
+  }, []);
 
   const reset = useCallback(() => {
     setConnectionData([]);
@@ -345,7 +315,6 @@ const MapContextProvider: FC = ({children}) => {
 
   const resetMapSettings = useCallback(() => {
     setConnectedStopIds([]);
-    setApprovedStopIds([]);
     setVisibilityOptions(initialVisibility());
   }, []);
 
@@ -377,15 +346,14 @@ const MapContextProvider: FC = ({children}) => {
         connectedStopIds,
         areManageReportButtonsVisible,
         visibilityOptions,
-        approvedStopIds,
         activeStop,
         isSidebarConnectionHandlerVisible,
         connectedStopPair,
         tileStops,
+        setRerenderConnections,
         setTileStops,
         setConnectedStopPair,
         setIsSidebarConnectionHandlerVisible,
-        setApprovedStopIds,
         setAreManageReportButtonsVisible,
         resetMapSettings,
         setConnectedStopIds,
@@ -413,6 +381,8 @@ const MapContextProvider: FC = ({children}) => {
         setVisibilityOptions,
         resetMapVisibility,
         setActiveStop,
+        connectionRadio,
+        setConnectionRadio,
       }}>
       {children}
     </MapContext.Provider>

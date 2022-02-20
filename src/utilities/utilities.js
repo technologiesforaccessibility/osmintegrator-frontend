@@ -1,44 +1,44 @@
 import {Icon} from 'leaflet';
 
-import reporBlackIcon from '../assets/report_black.png';
 import reportBlueIcon from '../assets/report_blue.png';
 import reportGreenIcon from '../assets/report_green.png';
-import reportRedIcon from '../assets/report_red.png';
-import reportGreyIcon from '../assets/report_grey.png';
+import reportGrayIcon from '../assets/report_gray.png';
 
-import angledBlackIcon from '../assets/angledIcons/angled_black.png';
-import angledGreykIcon from '../assets/angledIcons/angled_grey.png';
-import angledPinkIcon from '../assets/angledIcons/angled_pink.png';
-import angledMaroonIcon from '../assets/angledIcons/angled_maroon.png';
-import reportBlackIcon from '../assets/angledIcons/report_black.png';
-import reportPinkIcon from '../assets/angledIcons/report_pink.png';
-import reportMaroonIcon from '../assets/angledIcons/report_maroon.png';
-import reportApproveBlackIcon from '../assets/angledIcons/report_black_approve.png';
-import reportApprovePinkIcon from '../assets/angledIcons/report_pink_approve.png';
-import reportApproveMaroonIcon from '../assets/angledIcons/report_maroon_approve.png';
+import gtfsStopIcon from '../assets/angledIcons/gtfs_stop.png';
+import gtfsStopReportIcon from '../assets/angledIcons/gtfs_stop_report.png';
+import gtfsStopReportApprovedIcon from '../assets/angledIcons/gtfs_stop_report_approved.png';
+
+import osmStopIcon from '../assets/angledIcons/osm_stop.png';
+import osmStopReportIcon from '../assets/angledIcons/osm_stop_report.png';
+import osmStopReportApprovedIcon from '../assets/angledIcons/osm_stop_report_approved.png';
+
+import osmStopOutsideIcon from '../assets/angledIcons/osm_stop-out.png';
+import osmStopReportOutsideIcon from '../assets/angledIcons/osm_stop_report-out.png';
+import osmStopReportApprovedOutsideIcon from '../assets/angledIcons/osm_stop_report_approved-out.png';
+
 import shadowZTM from '../assets/angledIcons/shadow_ztm.png';
 import shadowOSM from '../assets/angledIcons/shadow_osm.png';
 import shadowReport from '../assets/report_frame.png';
+import {StopType} from '../types/enums';
 
 export const reportIcons = {
-  initial: reportGreyIcon,
+  initial: reportGrayIcon,
   created: reportBlueIcon,
   approved: reportGreenIcon,
-  rejected: reportRedIcon,
-  unexpected: reporBlackIcon,
 };
 
 const stopIcons = {
-  osmInside: angledBlackIcon,
-  osmOutside: angledGreykIcon,
-  osmReport: reportBlackIcon,
-  osmReportApprove: reportApproveBlackIcon,
-  notOsmInside: angledPinkIcon,
-  notOsmOutside: angledMaroonIcon,
-  notOsmReportInside: reportPinkIcon,
-  notOsmReportOutside: reportMaroonIcon,
-  notOsmReportInsideApprove: reportApprovePinkIcon,
-  notOsmReportOutsideApprove: reportApproveMaroonIcon,
+  gtfsStop: gtfsStopIcon,
+  gtfsStopReport: gtfsStopReportIcon,
+  gtfsStopReportApproved: gtfsStopReportApprovedIcon,
+
+  osmStop: osmStopIcon,
+  osmStopReport: osmStopReportIcon,
+  osmStopReportApproved: osmStopReportApprovedIcon,
+
+  osmStopOutside: osmStopOutsideIcon,
+  osmStopReportOutside: osmStopReportOutsideIcon,
+  osmStopReportApprovedOutside: osmStopReportApprovedOutsideIcon,
 };
 
 const comparePasswords = (pass1, pass2) => {
@@ -69,10 +69,10 @@ const getEmailFromPath = urlString => {
   }
 };
 
-const getBusStopIcon = (busStopPropeties, isActive) => {
-  const iconProps = getStopIconProps(busStopPropeties);
+const getBusStopIcon = (busStopProperties, isActive) => {
+  const iconProps = getStopIconProps(busStopProperties);
   const {iconUrl, iconAnchor} = iconProps;
-  const shadowProps = getShadowProps(busStopPropeties);
+  const shadowProps = getShadowProps(busStopProperties);
   const {shadowUrl, shadowAnchor} = shadowProps;
 
   const activeIcon = new Icon({
@@ -143,29 +143,40 @@ export {
 };
 
 const getStopIconProps = ({outsideSelectedTile, stopType, hasReport, reportApproved}) => {
-  return outsideSelectedTile
-    ? stopType === 0
-      ? {iconUrl: stopIcons.osmOutside, iconAnchor: [30, 55]}
-      : hasReport
-      ? reportApproved
-        ? {iconUrl: stopIcons.notOsmReportOutsideApprove, iconAnchor: [0, 55]}
-        : {iconUrl: stopIcons.notOsmReportOutside, iconAnchor: [0, 55]}
-      : {iconUrl: stopIcons.notOsmOutside, iconAnchor: [0, 55]}
-    : stopType === 0
-    ? hasReport
-      ? reportApproved
-        ? {iconUrl: stopIcons.osmReportApprove, iconAnchor: [30, 55]}
-        : {iconUrl: stopIcons.osmReport, iconAnchor: [30, 55]}
-      : {iconUrl: stopIcons.osmInside, iconAnchor: [30, 55]}
-    : hasReport
-    ? reportApproved
-      ? {iconUrl: stopIcons.notOsmReportInsideApprove, iconAnchor: [0, 55]}
-      : {iconUrl: stopIcons.notOsmReportInside, iconAnchor: [0, 55]}
-    : {iconUrl: stopIcons.notOsmInside, iconAnchor: [0, 55]};
+  if (outsideSelectedTile) {
+    // OSM outside a tile
+    if (stopType === StopType.OSM) {
+      if (reportApproved) {
+        return {iconUrl: stopIcons.osmStopReportApprovedOutside, iconAnchor: [30, 55]};
+      }
+      if (hasReport) {
+        return {iconUrl: stopIcons.osmStopReportOutside, iconAnchor: [30, 55]};
+      }
+      return {iconUrl: stopIcons.osmStopOutside, iconAnchor: [30, 55]};
+    }
+  }
+  // OSM inside a tile
+  if (stopType === StopType.OSM) {
+    if (reportApproved) {
+      return {iconUrl: stopIcons.osmStopReportApproved, iconAnchor: [30, 55]};
+    }
+    if (hasReport) {
+      return {iconUrl: stopIcons.osmStopReport, iconAnchor: [30, 55]};
+    }
+    return {iconUrl: stopIcons.osmStop, iconAnchor: [30, 55]};
+  }
+  // GTFS inside a tile
+  if (reportApproved) {
+    return {iconUrl: stopIcons.gtfsStopReportApproved, iconAnchor: [0, 55]};
+  }
+  if (hasReport) {
+    return {iconUrl: stopIcons.gtfsStopReport, iconAnchor: [0, 55]};
+  }
+  return {iconUrl: stopIcons.gtfsStop, iconAnchor: [0, 55]};
 };
 
 const getShadowProps = ({stopType}) => {
-  return stopType === 0
+  return stopType === StopType.OSM
     ? {shadowUrl: shadowZTM, shadowAnchor: [34, 58]}
     : {shadowUrl: shadowOSM, shadowAnchor: [3, 58]};
 };
@@ -176,11 +187,8 @@ const getReportColor = status => {
       return reportIcons.created;
     case 1:
       return reportIcons.approved;
-    case 2:
-      return reportIcons.rejected;
-    case 99:
-      return reportIcons.initial;
     default:
-      return reportIcons.unexpected;
+      // 99
+      return reportIcons.initial;
   }
 };

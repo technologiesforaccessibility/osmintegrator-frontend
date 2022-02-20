@@ -10,10 +10,10 @@ import {Connection, Conversation, Stop} from '../api/apiClient';
 import {basicHeaders} from '../config/apiConfig';
 import {NotificationActions} from '../redux/actions/notificationActions';
 import {MapContext, MapModes} from './contexts/MapContextProvider';
-import ImportedConnections from './mapComponents/ImportedConnections';
+import SavedConnections from './mapComponents/SavedConnections';
 import ImportedReports from './mapComponents/ImportedReports';
 import MapTiles from './mapComponents/MapTiles';
-import NewConnections from './mapComponents/NewConnections';
+import DraftConnections from './mapComponents/DraftConnections';
 import NewReportMarker from './mapComponents/NewReportMarker';
 import TileStops from './mapComponents/TileStops';
 import {exception} from '../utilities/exceptionHelper';
@@ -22,7 +22,6 @@ import {Modal} from '@mui/material';
 import {Box} from '@mui/system';
 import WelcomeModal from './WelcomeModal';
 import {useCookies} from 'react-cookie';
-import {roles} from '../utilities/constants';
 import {LeafletMouseEvent} from 'leaflet';
 import {ConversationContext} from './contexts/ConversationProvider';
 import Legend from './mapComponents/Legend';
@@ -63,9 +62,7 @@ export const MapView = () => {
     setImportedReports,
     setOpenReportContent,
     setConnectedStopIds,
-    setApprovedStopIds,
     setAreManageReportButtonsVisible,
-    authRoles,
     tileStops,
     setTileStops,
     activeStop,
@@ -81,16 +78,12 @@ export const MapView = () => {
       });
       setTiles(response.data);
 
-      const noTilesAndIsEditor =
-        response.data.length === 0 && authRoles.length === 1 && (authRoles || []).includes(roles.EDITOR);
-      if (noTilesAndIsEditor) {
-        setModal(true);
-      }
+      setModal(!welcomeModalCookie.welcome_modal);
     } catch (error) {
       exception(error);
     }
     setIsLoading(false);
-  }, [authRoles, setTiles]);
+  }, [setTiles, welcomeModalCookie.welcome_modal]);
 
   const addReportMarker = (e: LeafletMouseEvent) => {
     const coords = {lat: e.latlng.lat, lon: e.latlng.lng};
@@ -98,24 +91,17 @@ export const MapView = () => {
     setActiveStop(null);
   };
 
-  const createConnection = (
-    coordinates: {lat: number; lon: number},
-    id: string,
-    stopType: number,
-    name: string,
-    ref: string,
-  ) => {
+  const createConnection = (busStop: Stop) => {
     if (connectionData.length < 2) {
-      const isOsm = stopType === 0;
-      const entryPoint = {coordinates, id, isOsm, name, ref};
-
-      if (connectionData.length === 1 && connectionData[0].isOsm === isOsm) {
-        if (connectionData[0].id !== id) {
+      // Check if stop is the same type as selected one
+      if (connectionData.length === 1 && connectionData[0].stopType === busStop.stopType) {
+        // Check if clicked on the same stop
+        if (connectionData[0].id !== busStop.id) {
           dispatch(NotificationActions.error(t('connection.differentTypeError')));
         }
         return;
       }
-      updateConnectionData(entryPoint);
+      updateConnectionData(busStop);
     }
   };
 
@@ -156,12 +142,11 @@ export const MapView = () => {
         });
         setImportedConnections(response.data);
         setConnectedStopIds(getConnectedStopsIds(response.data));
-        setApprovedStopIds(getApprovedStopsIds(response.data));
       } catch (error) {
         exception(error);
       }
     },
-    [setApprovedStopIds, setConnectedStopIds, setImportedConnections],
+    [setConnectedStopIds, setImportedConnections],
   );
 
   const getTileConversations = useCallback(
@@ -184,14 +169,7 @@ export const MapView = () => {
 
   const getConnectedStopsIds = (connectionArray: Array<Connection>) => {
     return connectionArray
-      .filter(con => !con.approved && con.gtfsStopId && con.osmStopId)
-      .map(({gtfsStopId, osmStopId}) => [gtfsStopId || '', osmStopId || ''])
-      .flat();
-  };
-
-  const getApprovedStopsIds = (connectionArray: Array<Connection>) => {
-    return connectionArray
-      .filter(con => con.approved && con.gtfsStopId && con.osmStopId)
+      .filter(con => con.gtfsStopId && con.osmStopId)
       .map(({gtfsStopId, osmStopId}) => [gtfsStopId || '', osmStopId || ''])
       .flat();
   };
@@ -308,11 +286,8 @@ export const MapView = () => {
           maxZoom={maxZoom}
         />
         <Pane name="connections">
-          <NewConnections connections={connectionData} isTileActive={isTileActive} />
-          <ImportedConnections
-            stops={tileStops}
-            inApproveMode={(authRoles || []).includes(roles.SUPERVISOR) && !!activeTile?.approvedByEditor}
-          />
+          <DraftConnections connections={connectionData} isTileActive={isTileActive} />
+          <SavedConnections stops={tileStops} />
         </Pane>
         <MapTiles
           isTileActive={isTileActive}

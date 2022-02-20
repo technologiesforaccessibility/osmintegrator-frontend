@@ -1,3 +1,5 @@
+import {StopType} from '../types/enums';
+
 const getPosition = (osmStop, gtfsStop) => {
   return [
     [osmStop.lat, osmStop.lon],
@@ -6,28 +8,31 @@ const getPosition = (osmStop, gtfsStop) => {
 };
 
 const generateConnectionData = (connection, tileId) => {
-  if (connection[0].isOsm === true && connection[1].isOsm === false) {
+  if (connection[0].stopType === StopType.OSM && connection[1].stopType !== StopType.OSM) {
     return {
       osmStopId: connection[0].id.toString(),
       gtfsStopId: connection[1].id.toString(),
-      tileId: tileId
+      tileId: tileId,
     };
-  } else if (connection[0].isOsm === false && connection[1].isOsm === true) {
+  } else if (connection[0].stopType !== StopType.OSM && connection[1].stopType === StopType.OSM) {
     return {
       osmStopId: connection[1].id.toString(),
       gtfsStopId: connection[0].id.toString(),
-      tileId: tileId
+      tileId: tileId,
     };
   }
-  throw(new Error());
+  throw new Error();
 };
 
-const generateStopName = (id, name, number) => {
-  if (name) {
-    return `${name} ${number || ''}`;
-  } else {
-    return `${id}`;
+const generateStopName = stop => {
+  let result = stop.name || stop.id;
+  if (stop.number) {
+    result += ' ' + stop.number;
   }
+  if (stop.stopType === StopType.GTFS) return result;
+
+  const refTag = stop.tags.find(x => x.key === 'ref');
+  return (result += `, ref: ${refTag?.value || '-'}`);
 };
 
 export {getPosition, generateConnectionData, generateStopName};

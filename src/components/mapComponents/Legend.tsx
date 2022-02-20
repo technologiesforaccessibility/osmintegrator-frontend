@@ -6,22 +6,18 @@ import {useTranslation} from 'react-i18next';
 import CloseIcon from '@mui/icons-material/Close';
 import tileUnsigned from '../../assets/unsigned.png';
 import tileSignedEditor from '../../assets/signed.png';
-import tileApprovedEditor from '../../assets/approved_editor.png';
-import tileApprovedSupervisor from '../../assets/approved_supervisor.png';
-import tileExported from '../../assets/exported.png';
-import stopOSM from '../../assets/angledIcons/angled_black.png';
-import stopOSMReport from '../../assets/angledIcons/report_black.png';
-import stopOSMReportApprove from '../../assets/angledIcons/report_black_approve.png';
-import stopZTM from '../../assets/angledIcons/angled_pink.png';
-import stopZTMReport from '../../assets/angledIcons/report_pink.png';
-import stopZTMReportApprove from '../../assets/angledIcons/report_pink_approve.png';
-import stopZTMOutside from '../../assets/angledIcons/angled_maroon.png';
-import stopZTMOutsideReport from '../../assets/angledIcons/report_maroon.png';
-import stopZTMOutsideReportApprove from '../../assets/angledIcons/report_maroon_approve.png';
+import osmStop from '../../assets/angledIcons/osm_stop.png';
+import osmStopReport from '../../assets/angledIcons/osm_stop_report.png';
+import osmStopReportApproved from '../../assets/angledIcons/osm_stop_report_approved.png';
+import gtfsStop from '../../assets/angledIcons/gtfs_stop.png';
+import gtfsStopReport from '../../assets/angledIcons/gtfs_stop_report.png';
+import gtfsStopReportApproved from '../../assets/angledIcons/gtfs_stop_report_approved.png';
+import osmStopOutside from '../../assets/angledIcons/osm_stop-out.png';
+import osmStopReportOutside from '../../assets/angledIcons/osm_stop_report-out.png';
+import osmStopReportApprovedOutside from '../../assets/angledIcons/osm_stop_report_approved-out.png';
 import reportBlueIcon from '../../assets/report_blue.png';
 import reportGreenIcon from '../../assets/report_green.png';
-import reportGreyIcon from '../../assets/report_grey.png';
-import connectionApproved from '../../assets/connection_approved.png';
+import reportGrayIcon from '../../assets/report_gray.png';
 import connectionNotApproved from '../../assets/connection_not_approved.png';
 import '../../stylesheets/legend.scss';
 
@@ -34,23 +30,19 @@ const Legend = () => {
   const icons = [
     {src: tileUnsigned, text: t('legend.tileUnsigned')},
     {src: tileSignedEditor, text: t('legend.tileSignedEditor')},
-    {src: tileApprovedEditor, text: t('legend.tileApprovedEditor')},
-    {src: tileApprovedSupervisor, text: t('legend.tileApprovedSupervisor')},
-    {src: tileExported, text: t('legend.tileExported')},
-    {src: stopOSM, text: t('legend.stopOSM')},
-    {src: stopOSMReport, text: t('legend.stopOSMReport')},
-    {src: stopOSMReportApprove, text: t('legend.stopOSMReportApprove')},
-    {src: stopZTM, text: t('legend.stopZTM')},
-    {src: stopZTMReport, text: t('legend.stopZTMReport')},
-    {src: stopZTMReportApprove, text: t('legend.stopZTMReportApprove')},
-    {src: stopZTMOutside, text: t('legend.stopZTMOutside')},
-    {src: stopZTMOutsideReport, text: t('legend.stopZTMOutsideReport')},
-    {src: stopZTMOutsideReportApprove, text: t('legend.stopZTMOutsideReportApprove')},
-    {src: reportGreyIcon, text: t('legend.reportNew')},
+    {src: osmStop, text: t('legend.stopOSM')},
+    {src: osmStopReport, text: t('legend.stopOSMReport')},
+    {src: osmStopReportApproved, text: t('legend.stopOSMReportApprove')},
+    {src: gtfsStop, text: t('legend.stopZTM')},
+    {src: gtfsStopReport, text: t('legend.stopZTMReport')},
+    {src: gtfsStopReportApproved, text: t('legend.stopZTMReportApprove')},
+    {src: osmStopOutside, text: t('legend.stopOsmOutside')},
+    {src: osmStopReportOutside, text: t('legend.stopOsmOutsideReport')},
+    {src: osmStopReportApprovedOutside, text: t('legend.stopOsmOutsideReportApprove')},
+    {src: reportGrayIcon, text: t('legend.reportNew')},
     {src: reportBlueIcon, text: t('legend.reportActive')},
     {src: reportGreenIcon, text: t('legend.reportInactive')},
     {src: connectionNotApproved, text: t('legend.connectionNew')},
-    {src: connectionApproved, text: t('legend.connectionApprove')},
   ];
 
   const getIcons = icons.map(({src, text}, id) => (
