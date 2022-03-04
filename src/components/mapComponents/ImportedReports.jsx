@@ -6,8 +6,14 @@ import {getReportIcon} from '../../utilities/utilities';
 import {MapContext, MapModes} from '../contexts/MapContextProvider';
 
 const ImportedReports = ({reports, resetActiveStop}) => {
-  const {mapMode, newReportCoordinates, setNewReportCoordinates, setActiveStop, displayPropertyGrid} =
-    useContext(MapContext);
+  const {
+    mapMode,
+    newReportCoordinates,
+    visibilityOptions,
+    setNewReportCoordinates,
+    setActiveStop,
+    displayPropertyGrid,
+  } = useContext(MapContext);
 
   const handleReportClick = data => {
     displayPropertyGrid(data);
@@ -27,6 +33,7 @@ const ImportedReports = ({reports, resetActiveStop}) => {
             icon={getReportIcon(status, isActive({lat, lon}))}
             pane="markerPane"
             shadowPane="tooltipPane"
+            opacity={visibilityOptions.mapReport.value.opacityValue}
             zIndexOffset={isActive({lat, lon}) ? 1000 : 0}
             eventHandlers={{
               click: () => {

@@ -48,6 +48,7 @@ export const en = {
     connectionVisibility: {
       nameConnected: 'Connected stops',
       nameUnconnected: 'Unconnected stops',
+      mapReport: 'Map reports',
       nameApproved: 'Approved stops',
       visible: 'Visible',
       semiTransparent: 'Semi transparent',

@@ -47,6 +47,7 @@ export const pl = {
     connectionVisibility: {
       nameConnected: 'Połączone przystanki',
       nameUnconnected: 'Niepołączone przystanki',
+      mapReport: 'Pinezki z raportami',
       nameApproved: 'Zatwierdzone przystanki',
       visible: 'Pełna widoczność',
       semiTransparent: 'Częściowo przeźroczyste',
