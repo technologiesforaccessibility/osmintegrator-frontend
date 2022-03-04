@@ -27,6 +27,7 @@ const BusMarker = ({
     connectionData,
     connectionRadio,
   } = useContext(MapContext);
+
   const opacity = useMemo(() => {
     if (connectedStopIds.includes(busStop.id)) {
       return visibilityOptions.connected.value.opacityValue;

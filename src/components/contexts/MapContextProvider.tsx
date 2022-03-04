@@ -19,6 +19,11 @@ interface VisibilityOptions {
     name: string;
     value: {text: string; opacityValue: number; icon: () => JSX.Element};
   };
+  mapReport: {
+    localStorageName: string;
+    name: string;
+    value: {text: string; opacityValue: number; icon: () => JSX.Element};
+  };
 }
 
 interface IMapContext {
@@ -128,6 +133,11 @@ const init: IMapContext = {
       name: 'string',
       value: {text: 'string', opacityValue: 0, icon: () => <span />},
     },
+    mapReport: {
+      localStorageName: 'string',
+      name: 'string',
+      value: {text: 'string', opacityValue: 0, icon: () => <span />},
+    },
   },
   activeStop: null,
   tileStops: [],
@@ -207,6 +217,11 @@ const initialVisibility = (reset = false) => {
     unconnected: {
       localStorageName: localStorageStopTypes.unconnected,
       name: i18n.t('connectionVisibility.nameUnconnected'),
+      value: getValueFromStateOrReturn(localStorageStopTypes.unconnected, reset),
+    },
+    mapReport: {
+      localStorageName: localStorageStopTypes.unconnected,
+      name: i18n.t('connectionVisibility.mapReport'),
       value: getValueFromStateOrReturn(localStorageStopTypes.unconnected, reset),
     },
   };
