@@ -1,4 +1,4 @@
-import React, {FC, useContext, useState} from 'react';
+import React, {ChangeEvent, FC, useContext, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
@@ -47,17 +47,35 @@ const SyncPanel: FC = () => {
     }
   };
 
-  const handleImportZTM = async () => {
+  const handleImportGtfs = async (event: ChangeEvent<HTMLInputElement>) => {
     if (activeTile && activeTile.id) {
       try {
         setLoader(true);
-        // TODO add ztm import api call here
+        if (!event?.target?.files?.length) {
+          return;
+        }
+
+        const headers: Record<string, unknown> = basicHeaders();
+        const newHeaders: Record<string, unknown> = {};
+        Object.keys(headers).forEach(key => {
+          if (key !== 'Content-Type') {
+            newHeaders[key] = headers[key];
+          }
+        });
+
+        const response = await api.tileUpdateGtfs({file: event.target.files[0]}, {headers: newHeaders as HeadersInit});
+        console.log('response: ', response);
       } catch (error) {
         exception(error);
       } finally {
         setLoader(false);
       }
     }
+  };
+
+  const handleInputClick = () => {
+    const input = document.querySelector('input[name="gtfs_import"]');
+    if (input) (input as HTMLElement).click();
   };
 
   const openExportModal = async () => {
@@ -86,10 +104,16 @@ const SyncPanel: FC = () => {
 
   return (
     <div className="sync__button-container">
+      <input
+        type="file"
+        name="gtfs_import"
+        onChange={handleImportGtfs}
+        style={{width: 0, height: 0, visibility: 'hidden'}}
+      />
       <Button className="sync_button" variant="contained" onClick={handleImportOSM} sx={{marginTop: '5px'}}>
         {t('sync.importOSM')}
       </Button>
-      <Button variant="contained" onClick={handleImportZTM} sx={{marginTop: '5px'}}>
+      <Button variant="contained" onClick={handleInputClick} sx={{marginTop: '5px'}}>
         {t('sync.importNotOSM')}
       </Button>
       <Button variant="contained" onClick={openExportModal} sx={{marginTop: '5px'}}>
