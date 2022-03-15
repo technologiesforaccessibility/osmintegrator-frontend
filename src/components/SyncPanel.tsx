@@ -47,6 +47,19 @@ const SyncPanel: FC = () => {
     }
   };
 
+  const handleImportZTM = async () => {
+    if (activeTile && activeTile.id) {
+      try {
+        setLoader(true);
+        // TODO add ztm import api call here
+      } catch (error) {
+        exception(error);
+      } finally {
+        setLoader(false);
+      }
+    }
+  };
+
   const openExportModal = async () => {
     if (activeTile && activeTile.id) {
       try {
@@ -76,7 +89,7 @@ const SyncPanel: FC = () => {
       <Button className="sync_button" variant="contained" onClick={handleImportOSM} sx={{marginTop: '5px'}}>
         {t('sync.importOSM')}
       </Button>
-      <Button variant="contained" onClick={() => {}} disabled sx={{marginTop: '5px'}}>
+      <Button variant="contained" onClick={handleImportZTM} sx={{marginTop: '5px'}}>
         {t('sync.importNotOSM')}
       </Button>
       <Button variant="contained" onClick={openExportModal} sx={{marginTop: '5px'}}>
