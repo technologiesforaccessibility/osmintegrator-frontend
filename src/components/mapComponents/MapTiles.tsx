@@ -24,7 +24,11 @@ const MapTiles: FC<MapTilesProps> = ({
   addReportMarker,
   isCreateReportMapMode,
 }) => {
-  const color = ({assignedUserName}: Tile): string => {
+  const color = ({assignedUserName, unconnectedGtfsStopsCount}: Tile): string => {
+    if (unconnectedGtfsStopsCount === 0) {
+      return colors.colorTileCompleted;
+    }
+
     return assignedUserName ? colors.colorTileAssigned : colors.colorTileAll;
   };
 
