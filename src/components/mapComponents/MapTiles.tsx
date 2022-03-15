@@ -1,6 +1,6 @@
 import {LeafletMouseEvent} from 'leaflet';
 import TextPath from 'react-leaflet-textpath';
-import {FC} from 'react';
+import React, {FC} from 'react';
 import {Rectangle, Tooltip} from 'react-leaflet';
 
 import {Tile} from '../../api/apiClient';
@@ -24,7 +24,11 @@ const MapTiles: FC<MapTilesProps> = ({
   addReportMarker,
   isCreateReportMapMode,
 }) => {
-  const color = ({assignedUserName}: Tile): string => {
+  const color = ({assignedUserName, unconnectedGtfsStopsCount}: Tile): string => {
+    if (unconnectedGtfsStopsCount === 0) {
+      return colors.colorTileCompleted;
+    }
+
     return assignedUserName ? colors.colorTileAssigned : colors.colorTileAll;
   };
 
@@ -47,7 +51,7 @@ const MapTiles: FC<MapTilesProps> = ({
         />
       ) : (
         tiles.map((tile, index) => (
-          <>
+          <React.Fragment key={tile.id}>
             <TextPath
               positions={[
                 [tile.minLat + (tile.maxLat - tile.minLat) / 2, tile.minLon],
@@ -76,7 +80,7 @@ const MapTiles: FC<MapTilesProps> = ({
                 x ={tile.x}, y={tile.y}
               </Tooltip>
             </Rectangle>
-          </>
+          </React.Fragment>
         ))
       )}
     </>
