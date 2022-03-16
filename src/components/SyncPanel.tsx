@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import {useDispatch} from 'react-redux';
 
 import api from '../api/apiInstance';
-import {basicHeaders} from '../config/apiConfig';
+import {basicHeaders, noContentTypeHeaders} from '../config/apiConfig';
 import {MapContext} from './contexts/MapContextProvider';
 import {exception} from '../utilities/exceptionHelper';
 import {NotificationActions} from '../redux/actions/notificationActions';
@@ -55,16 +55,10 @@ const SyncPanel: FC = () => {
           return;
         }
 
-        const headers: Record<string, unknown> = basicHeaders();
-        const newHeaders: Record<string, unknown> = {};
-        Object.keys(headers).forEach(key => {
-          if (key !== 'Content-Type') {
-            newHeaders[key] = headers[key];
-          }
-        });
-
-        const response = await api.tileUpdateGtfs({file: event.target.files[0]}, {headers: newHeaders as HeadersInit});
-        console.log('response: ', response);
+        const response = await api.tileUpdateGtfs({file: event.target.files[0]}, {headers: noContentTypeHeaders()});
+        const {value}: {value?: string | null} = response.data || {};
+        setUpdateData(value || null);
+        setIsOsmImportModalOpen(true);
       } catch (error) {
         exception(error);
       } finally {
