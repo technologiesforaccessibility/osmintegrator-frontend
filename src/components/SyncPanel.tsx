@@ -63,6 +63,8 @@ const SyncPanel: FC = () => {
         exception(error);
       } finally {
         setLoader(false);
+        const input = document.querySelector('input[name="gtfs_import"]');
+        if (input) (input as HTMLInputElement).value = '';
       }
     }
   };
