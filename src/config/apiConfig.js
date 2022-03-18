@@ -3,18 +3,18 @@ const noTokenHeaders = () => {
     'Cache-Control': 'no-cache',
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
-    'Accept-Language': 'pl-pl'
+    'Accept-Language': 'pl-pl',
   };
 };
 
 const basicHeaders = () => {
   return {
-    Authorization: 'Bearer ' + localStorage.token,
+    'Authorization': 'Bearer ' + localStorage.token,
     'Cache-Control': 'no-cache',
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
-    'Accept-Language': 'pl-pl'
+    'Accept-Language': 'pl-pl',
   };
 };
 
-export {noTokenHeaders, basicHeaders};
+export { noTokenHeaders, basicHeaders };

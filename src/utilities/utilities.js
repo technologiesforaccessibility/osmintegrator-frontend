@@ -1,4 +1,4 @@
-import {Icon} from 'leaflet';
+import { Icon } from 'leaflet';
 
 import reportBlueIcon from '../assets/report_blue.png';
 import reportGreenIcon from '../assets/report_green.png';
@@ -19,7 +19,7 @@ import osmStopReportApprovedOutsideIcon from '../assets/angledIcons/osm_stop_rep
 import shadowZTM from '../assets/angledIcons/shadow_ztm.png';
 import shadowOSM from '../assets/angledIcons/shadow_osm.png';
 import shadowReport from '../assets/report_frame.png';
-import {StopType} from '../types/enums';
+import { StopType } from '../types/enums';
 
 export const reportIcons = {
   initial: reportGrayIcon,
@@ -71,9 +71,9 @@ const getEmailFromPath = urlString => {
 
 const getBusStopIcon = (busStopProperties, isActive) => {
   const iconProps = getStopIconProps(busStopProperties);
-  const {iconUrl, iconAnchor} = iconProps;
+  const { iconUrl, iconAnchor } = iconProps;
   const shadowProps = getShadowProps(busStopProperties);
-  const {shadowUrl, shadowAnchor} = shadowProps;
+  const { shadowUrl, shadowAnchor } = shadowProps;
 
   const activeIcon = new Icon({
     iconUrl,
@@ -142,43 +142,43 @@ export {
   getReportIcon,
 };
 
-const getStopIconProps = ({outsideSelectedTile, stopType, hasReport, reportApproved}) => {
+const getStopIconProps = ({ outsideSelectedTile, stopType, hasReport, reportApproved }) => {
   if (outsideSelectedTile) {
     // OSM outside a tile
     if (stopType === StopType.OSM) {
       if (reportApproved) {
-        return {iconUrl: stopIcons.osmStopReportApprovedOutside, iconAnchor: [30, 55]};
+        return { iconUrl: stopIcons.osmStopReportApprovedOutside, iconAnchor: [30, 55] };
       }
       if (hasReport) {
-        return {iconUrl: stopIcons.osmStopReportOutside, iconAnchor: [30, 55]};
+        return { iconUrl: stopIcons.osmStopReportOutside, iconAnchor: [30, 55] };
       }
-      return {iconUrl: stopIcons.osmStopOutside, iconAnchor: [30, 55]};
+      return { iconUrl: stopIcons.osmStopOutside, iconAnchor: [30, 55] };
     }
   }
   // OSM inside a tile
   if (stopType === StopType.OSM) {
     if (reportApproved) {
-      return {iconUrl: stopIcons.osmStopReportApproved, iconAnchor: [30, 55]};
+      return { iconUrl: stopIcons.osmStopReportApproved, iconAnchor: [30, 55] };
     }
     if (hasReport) {
-      return {iconUrl: stopIcons.osmStopReport, iconAnchor: [30, 55]};
+      return { iconUrl: stopIcons.osmStopReport, iconAnchor: [30, 55] };
     }
-    return {iconUrl: stopIcons.osmStop, iconAnchor: [30, 55]};
+    return { iconUrl: stopIcons.osmStop, iconAnchor: [30, 55] };
   }
   // GTFS inside a tile
   if (reportApproved) {
-    return {iconUrl: stopIcons.gtfsStopReportApproved, iconAnchor: [0, 55]};
+    return { iconUrl: stopIcons.gtfsStopReportApproved, iconAnchor: [0, 55] };
   }
   if (hasReport) {
-    return {iconUrl: stopIcons.gtfsStopReport, iconAnchor: [0, 55]};
+    return { iconUrl: stopIcons.gtfsStopReport, iconAnchor: [0, 55] };
   }
-  return {iconUrl: stopIcons.gtfsStop, iconAnchor: [0, 55]};
+  return { iconUrl: stopIcons.gtfsStop, iconAnchor: [0, 55] };
 };
 
-const getShadowProps = ({stopType}) => {
+const getShadowProps = ({ stopType }) => {
   return stopType === StopType.OSM
-    ? {shadowUrl: shadowZTM, shadowAnchor: [34, 58]}
-    : {shadowUrl: shadowOSM, shadowAnchor: [3, 58]};
+    ? { shadowUrl: shadowZTM, shadowAnchor: [34, 58] }
+    : { shadowUrl: shadowOSM, shadowAnchor: [3, 58] };
 };
 
 const getReportColor = status => {

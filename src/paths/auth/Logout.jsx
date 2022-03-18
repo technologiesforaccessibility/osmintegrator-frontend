@@ -1,19 +1,19 @@
-import {useEffect, useContext} from 'react';
+import { useEffect, useContext } from 'react';
 
-import {useTranslation} from 'react-i18next';
-import {useHistory} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 
 import AuthContainer from '../../components/AuthContainer';
-import {paths} from '../../utilities/constants';
-import {MapContext} from '../../components/contexts/MapContextProvider';
+import { paths } from '../../utilities/constants';
+import { MapContext } from '../../components/contexts/MapContextProvider';
 
-import {CircularProgress} from '@mui/material';
+import { CircularProgress } from '@mui/material';
 
 const Logout = () => {
   const history = useHistory();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
-  const {resetMapContext} = useContext(MapContext);
+  const { resetMapContext } = useContext(MapContext);
 
   useEffect(() => {
     setTimeout(() => proceedLogOut(), 2000);

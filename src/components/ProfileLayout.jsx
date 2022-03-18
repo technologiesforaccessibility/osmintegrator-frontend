@@ -1,15 +1,15 @@
 import React from 'react';
 import Dashboard from './DashboardWrapper';
 import '../stylesheets/profileLayout.scss';
-import {useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {selectLoggedInUserRoles, selectUserName} from '../redux/selectors/authSelector';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { selectLoggedInUserRoles, selectUserName } from '../redux/selectors/authSelector';
 import Button from '@mui/material/Button';
 
-const {REACT_APP_USER_MANUAL} = process.env;
+const { REACT_APP_USER_MANUAL } = process.env;
 
-export default function ProfileLayout({children}) {
-  const {t} = useTranslation();
+export default function ProfileLayout({ children }) {
+  const { t } = useTranslation();
   const authRoles = useSelector(selectLoggedInUserRoles);
   const name = useSelector(selectUserName);
 

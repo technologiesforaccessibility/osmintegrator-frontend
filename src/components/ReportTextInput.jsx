@@ -1,6 +1,6 @@
-import PropTypes, {string} from 'prop-types';
+import PropTypes, { string } from 'prop-types';
 
-const ReportTextInput = ({text, classToPass}) => {
+const ReportTextInput = ({ text, classToPass }) => {
   return <p className={classToPass}>{text}</p>;
 };
 

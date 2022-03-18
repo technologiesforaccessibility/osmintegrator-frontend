@@ -7,7 +7,7 @@ interface TabContentProps {
 }
 
 const TabContent = (props: TabContentProps) => {
-  const {children, value, index} = props;
+  const { children, value, index } = props;
 
   return <>{value === index && <>{children}</>}</>;
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PropertyGridRow = ({title, value}) => {
+const PropertyGridRow = ({ title, value }) => {
   return (
     <div className="propertyGrid-row">
       <div className="propertyGrid-key">{title}</div>

@@ -1,11 +1,11 @@
-import {MapContainer, TileLayer} from 'react-leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
 
 const mapStyle = {
   position: 'relative',
   height: 'calc(100vh - 5rem)',
 };
 
-const ManagementPanelMap = ({startPoint, tiles, zoom}) => {
+const ManagementPanelMap = ({ startPoint, tiles, zoom }) => {
   return (
     <div>
       <MapContainer style={mapStyle} center={startPoint} zoom={zoom} maxZoom={19}>

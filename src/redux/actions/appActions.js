@@ -1,11 +1,11 @@
-import {createAsyncThunk} from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import api from '../../api/apiInstance';
-import {noTokenHeaders} from '../../config/apiConfig';
+import { noTokenHeaders } from '../../config/apiConfig';
 
 export const getVersion = createAsyncThunk('version/getVersion', async (data, thunkAPI) => {
   return api
-    .versionList({headers: noTokenHeaders()})
+    .versionList({ headers: noTokenHeaders() })
     .then(response => {
       return response.data;
     })

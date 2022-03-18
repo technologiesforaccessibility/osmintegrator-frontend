@@ -1,28 +1,28 @@
-import {FC, useContext, useRef} from 'react';
-import {Polyline, Tooltip, Popup} from 'react-leaflet';
-import {useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
+import { FC, useContext, useRef } from 'react';
+import { Polyline, Tooltip, Popup } from 'react-leaflet';
+import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
-import {generateConnectionData, getPosition} from '../../utilities/mapUtilities';
+import { generateConnectionData, getPosition } from '../../utilities/mapUtilities';
 import api from '../../api/apiInstance';
-import {Connection, Stop} from '../../api/apiClient';
-import {basicHeaders} from '../../config/apiConfig';
+import { Connection, Stop } from '../../api/apiClient';
+import { basicHeaders } from '../../config/apiConfig';
 import EditConnectionPopup from './EditConnectionPopup';
-import {NotificationActions} from '../../redux/actions/notificationActions';
+import { NotificationActions } from '../../redux/actions/notificationActions';
 
 import colors from '../../stylesheets/config/colors.module.scss';
-import {exception} from '../../utilities/exceptionHelper';
+import { exception } from '../../utilities/exceptionHelper';
 
-import {MapContext} from '../contexts/MapContextProvider';
-import {StopType} from '../../types/enums';
+import { MapContext } from '../contexts/MapContextProvider';
+import { StopType } from '../../types/enums';
 
 interface SavedConnectionsProps {
   stops: Stop[];
 }
 
-const SavedConnections: FC<SavedConnectionsProps> = ({stops}) => {
+const SavedConnections: FC<SavedConnectionsProps> = ({ stops }) => {
   const popupRef = useRef(null);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const {
     importedConnections,
@@ -34,7 +34,7 @@ const SavedConnections: FC<SavedConnectionsProps> = ({stops}) => {
 
   const checkStopType = (stopList: Stop[]) => {
     return stopList.map(stop => {
-      return {...stop, isOsm: stop.stopType === StopType.OSM};
+      return { ...stop, isOsm: stop.stopType === StopType.OSM };
     });
   };
 
@@ -45,7 +45,7 @@ const SavedConnections: FC<SavedConnectionsProps> = ({stops}) => {
       });
       shouldRenderConnections(true);
       setIsSidebarConnectionHandlerVisible(false);
-      setConnectedStopPair({markedStop: null, connectedStop: null, connection: null});
+      setConnectedStopPair({ markedStop: null, connectedStop: null, connection: null });
       dispatch(NotificationActions.success(t('connection.deleteSuccessMessage')));
     } catch (error) {
       exception(error);
@@ -73,7 +73,7 @@ const SavedConnections: FC<SavedConnectionsProps> = ({stops}) => {
     <>
       {stops.length > 0 &&
         importedConnections
-          .filter(({id}) => !!id)
+          .filter(({ id }) => !!id)
           .map((connection, index) => {
             const foundOSM = stops.find(stop => stop.id === connection.osmStopId);
             const foundGTFS = stops.find(stop => stop.id === connection.gtfsStopId);

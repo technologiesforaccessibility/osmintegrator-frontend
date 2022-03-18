@@ -1,6 +1,6 @@
-import PropTypes, {string} from 'prop-types';
+import PropTypes, { string } from 'prop-types';
 
-const ReportInfo = ({text}) => {
+const ReportInfo = ({ text }) => {
   return <p>{text}</p>;
 };
 PropTypes.ReportInfo = {

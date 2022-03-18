@@ -1,21 +1,21 @@
-import {useContext, useState} from 'react';
-import {useTranslation} from 'react-i18next';
+import { useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Tooltip from '@mui/material/Tooltip';
-import {Button, Grid, Modal} from '@mui/material';
-import {Box} from '@mui/system';
+import { Button, Grid, Modal } from '@mui/material';
+import { Box } from '@mui/system';
 import CloseIcon from '@mui/icons-material/Close';
 
-import {MapContext} from './contexts/MapContextProvider';
-import {connectionVisibility} from '../utilities/constants';
+import { MapContext } from './contexts/MapContextProvider';
+import { connectionVisibility } from '../utilities/constants';
 
 import '../stylesheets/connectionVisibilityPanel.scss';
-import {modalStyle} from '../stylesheets/sharedStyles';
+import { modalStyle } from '../stylesheets/sharedStyles';
 
-const ConnectionVisibilityPanel = ({handleClose}) => {
-  const {visibilityOptions, setVisibilityOptions, resetMapVisibility} = useContext(MapContext);
-  const {t} = useTranslation();
+const ConnectionVisibilityPanel = ({ handleClose }) => {
+  const { visibilityOptions, setVisibilityOptions, resetMapVisibility } = useContext(MapContext);
+  const { t } = useTranslation();
   const [childModal, setChildModal] = useState(false);
 
   const handleChange = (key, newValue, storageItem) => {
@@ -24,7 +24,7 @@ const ConnectionVisibilityPanel = ({handleClose}) => {
     }
     localStorage.setItem(storageItem, JSON.stringify(newValue));
 
-    setVisibilityOptions({...visibilityOptions, [key]: {...visibilityOptions[key], value: newValue}});
+    setVisibilityOptions({ ...visibilityOptions, [key]: { ...visibilityOptions[key], value: newValue } });
   };
 
   const handleModal = value => {

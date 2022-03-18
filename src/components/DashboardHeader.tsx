@@ -1,14 +1,14 @@
-import {useTranslation} from 'react-i18next';
-import {useHistory} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import {paths} from '../utilities/constants';
-import {selectLoggedInUserRoles, selectUserName} from '../redux/selectors/authSelector';
-import {roles} from '../utilities/constants';
-import {logout} from '../redux/actions/authActions';
+import { paths } from '../utilities/constants';
+import { selectLoggedInUserRoles, selectUserName } from '../redux/selectors/authSelector';
+import { roles } from '../utilities/constants';
+import { logout } from '../redux/actions/authActions';
 import logo from './../assets/OsmIntegrator.png';
 
-import {Button, IconButton, Chip} from '@mui/material/';
+import { Button, IconButton, Chip } from '@mui/material/';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -17,24 +17,24 @@ import MapIcon from '@mui/icons-material/Map';
 import BuildIcon from '@mui/icons-material/Build';
 
 import './../stylesheets/dashboardHeader.scss';
-import {MapContext} from './contexts/MapContextProvider';
-import {useContext} from 'react';
+import { MapContext } from './contexts/MapContextProvider';
+import { useContext } from 'react';
 
-const {REACT_APP_CONTACT_FORM} = process.env;
+const { REACT_APP_CONTACT_FORM } = process.env;
 
 const DashboardHeader = () => {
   const authRoles = useSelector(selectLoggedInUserRoles);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   let history = useHistory();
   const dispatch = useDispatch();
   const name = useSelector(selectUserName);
-  const {setNewReportCoordinates, setActiveStop} = useContext(MapContext);
+  const { setNewReportCoordinates, setActiveStop } = useContext(MapContext);
 
   function logoutClicked(): void {
     dispatch(logout());
     history.push(paths.LOGOUT);
     setActiveStop(null);
-    setNewReportCoordinates({lat: null, lon: null});
+    setNewReportCoordinates({ lat: null, lon: null });
   }
 
   return (

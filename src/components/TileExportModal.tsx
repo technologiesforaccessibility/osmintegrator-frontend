@@ -1,11 +1,11 @@
 import React from 'react';
-import {Box, Button, Modal, Tab, Tabs} from '@mui/material';
+import { Box, Button, Modal, Tab, Tabs } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import TabPanel from './TabContent';
 import TileExportOsmExportTab from './TileExportOsmExportTab';
 import TileExportOsmChangesTab from './TileExportOsmChangesTab';
 import TileExportOsmInfoTab from './TileExportOsmInfoTab';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 export interface TileExportModalProps {
   tileId: string;
@@ -17,10 +17,10 @@ export interface TileExportModalProps {
 }
 
 const TileExportModal = (props: TileExportModalProps) => {
-  const {tileId, open, onClose, changes, tags, initialComment} = props;
+  const { tileId, open, onClose, changes, tags, initialComment } = props;
   const [activeTabIndex, setActiveTabIndex] = React.useState(0);
   const [comment, setComment] = React.useState<string | undefined>(initialComment);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const onTabChange = (event: React.SyntheticEvent, selectedTabIndex: number) => {
     setActiveTabIndex(selectedTabIndex);
@@ -53,7 +53,7 @@ const TileExportModal = (props: TileExportModalProps) => {
             onClick={() => {
               onClose();
             }}
-            style={{position: 'absolute', top: '20px', right: '20px'}}
+            style={{ position: 'absolute', top: '20px', right: '20px' }}
             variant="outlined">
             <CloseIcon color="primary" />
           </Button>

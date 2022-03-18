@@ -1,28 +1,28 @@
-import {Link, Redirect} from 'react-router-dom';
-import {useTranslation} from 'react-i18next';
-import {useDispatch, useSelector} from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import TextField from '@mui/material/TextField';
-import {Formik} from 'formik';
+import { Formik } from 'formik';
 import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import Tooltip from '@mui/material/Tooltip';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
-import {Chip, Divider} from '@mui/material';
+import { Chip, Divider } from '@mui/material';
 
-import {unsafeFormApiError} from '../../utilities/utilities';
+import { unsafeFormApiError } from '../../utilities/utilities';
 import AuthContainer from '../../components/AuthContainer';
-import {LoginSchema} from '../../utilities/validationSchema';
-import {login} from '../../redux/actions/authActions';
-import {selectAuthIsLoggedIn, selectAuthLoading, selectAuthError} from '../../redux/selectors/authSelector';
-import {paths} from '../../utilities/constants';
+import { LoginSchema } from '../../utilities/validationSchema';
+import { login } from '../../redux/actions/authActions';
+import { selectAuthIsLoggedIn, selectAuthLoading, selectAuthError } from '../../redux/selectors/authSelector';
+import { paths } from '../../utilities/constants';
 import AuthBottomPanel from '../../components/auth/AuthBottomPanel';
 
 import '../../stylesheets/login.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
 
 const Login = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
@@ -30,7 +30,7 @@ const Login = () => {
   const error = useSelector(selectAuthError);
 
   const runLogin = async (email, password) => {
-    dispatch(login({email, password}));
+    dispatch(login({ email, password }));
   };
 
   return !isLoading && isLoggedIn ? (
@@ -43,7 +43,7 @@ const Login = () => {
         </h1>
       </div>
       <Formik
-        onSubmit={({email, password}) => {
+        onSubmit={({ email, password }) => {
           runLogin(email, password);
         }}
         initialValues={{
@@ -51,7 +51,7 @@ const Login = () => {
           password: '',
         }}
         validationSchema={LoginSchema}>
-        {({handleChange, values, handleSubmit, errors, touched}) => (
+        {({ handleChange, values, handleSubmit, errors, touched }) => (
           <form className="content-container" onSubmit={handleSubmit} noValidate>
             <div className="content-container__text-field">
               <TextField
@@ -117,7 +117,7 @@ const Login = () => {
 
       {error && (
         <div className="auth-info-placeholder centered">
-          <span style={{color: colors['colorMessageFail']}}>{unsafeFormApiError(error, t, 'login')}</span>
+          <span style={{ color: colors['colorMessageFail'] }}>{unsafeFormApiError(error, t, 'login')}</span>
         </div>
       )}
     </AuthContainer>

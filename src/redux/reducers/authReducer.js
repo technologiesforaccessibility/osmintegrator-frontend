@@ -1,6 +1,6 @@
-import {createReducer} from '@reduxjs/toolkit';
+import { createReducer } from '@reduxjs/toolkit';
 
-import {login, logout, validateLogin} from '../actions/authActions';
+import { login, logout, validateLogin } from '../actions/authActions';
 
 const initialState = {
   isLoggedIn: !!localStorage.getItem('token'),
@@ -25,15 +25,14 @@ function setTokens(token, refreshToken) {
   }
 }
 
-
 function parseToken(token) {
   const [, base64Url] = token.split('.');
   const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
   const jsonPayload = decodeURIComponent(
     atob(base64)
       .split('')
-      .map((c) => {
-        return `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`;
+      .map(c => {
+        return `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`;
       })
       .join(''),
   );
@@ -61,7 +60,7 @@ function parseToken(token) {
   return parsedToken;
 }
 
-const authReducer = createReducer(initialState, (builder) => {
+const authReducer = createReducer(initialState, builder => {
   function handleRejected(state, action) {
     state.isLoggedIn = false;
     state.loading = false;
@@ -91,8 +90,8 @@ const authReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(login.pending, handlePending)
     .addCase(login.fulfilled, (state, action) => {
-      const {token, refreshToken} = action.payload;
-      const {roles, name} = parseToken(token);
+      const { token, refreshToken } = action.payload;
+      const { roles, name } = parseToken(token);
 
       state.isLoggedIn = true;
       state.loading = false;
@@ -113,7 +112,7 @@ const authReducer = createReducer(initialState, (builder) => {
     .addCase(validateLogin.pending, handlePending)
     .addCase(validateLogin.fulfilled, state => {
       const token = localStorage.getItem('token');
-      const {roles, name} = parseToken(token);
+      const { roles, name } = parseToken(token);
 
       state.isLoggedIn = true;
       state.loading = false;

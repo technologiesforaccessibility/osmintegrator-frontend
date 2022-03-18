@@ -3,7 +3,6 @@ import i18n from '../translations/i18n';
 import { NotificationActions } from '../redux/actions/notificationActions';
 
 export function webError(response) {
-
   function error400(error) {
     // Validation problem
     if (error.title === 'One or more validation errors occurred.') {
@@ -13,8 +12,7 @@ export function webError(response) {
     }
 
     // Other problems
-    error.errors.message[0] &&
-      store.dispatch(NotificationActions.error(error.errors.message[0]));
+    error.errors.message[0] && store.dispatch(NotificationActions.error(error.errors.message[0]));
   }
 
   function error403() {
@@ -53,8 +51,7 @@ export function webError(response) {
         console.log(response);
         store.dispatch(NotificationActions.error(i18n.t('error.unrecognizedProblem')));
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error);
     store.dispatch(NotificationActions.error(i18n.t('error.unableToShowErrorMessage')));
   }

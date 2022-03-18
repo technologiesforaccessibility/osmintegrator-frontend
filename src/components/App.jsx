@@ -1,6 +1,6 @@
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import store from '../redux/store';
-import {CookiesProvider} from 'react-cookie';
+import { CookiesProvider } from 'react-cookie';
 
 import MapContextProvider from './contexts/MapContextProvider';
 import UserContextProvider from './contexts/UserContextProvider';

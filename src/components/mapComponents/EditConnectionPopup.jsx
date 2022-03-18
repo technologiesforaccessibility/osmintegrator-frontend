@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 import '../../stylesheets/editConnectionPopup.scss';
 
-const EditConnectionPopup = ({closePopup, deleteConnection, osm, gtfs}) => {
-  const {t} = useTranslation();
+const EditConnectionPopup = ({ closePopup, deleteConnection, osm, gtfs }) => {
+  const { t } = useTranslation();
 
   return (
     <div>

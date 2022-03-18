@@ -1,13 +1,13 @@
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
-import {useHistory} from 'react-router';
+import { useHistory } from 'react-router';
 import '../../stylesheets/authBottomPanel.scss';
-import {Button, ButtonGroup} from '@mui/material';
+import { Button, ButtonGroup } from '@mui/material';
 
-const {REACT_APP_CONTACT_FORM} = process.env;
+const { REACT_APP_CONTACT_FORM } = process.env;
 
-const AuthBottomPanel = ({linkText, link}) => {
-  const {t} = useTranslation();
+const AuthBottomPanel = ({ linkText, link }) => {
+  const { t } = useTranslation();
   const history = useHistory();
   return (
     <div className="panel-link panel-utils">

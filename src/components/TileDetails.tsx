@@ -1,11 +1,11 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 
-import {MapContext} from './contexts/MapContextProvider';
+import { MapContext } from './contexts/MapContextProvider';
 import '../stylesheets/tileDetails.scss';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 const TileDetails = () => {
-  const {activeTile} = useContext(MapContext);
-  const {t} = useTranslation();
+  const { activeTile } = useContext(MapContext);
+  const { t } = useTranslation();
 
   return (
     <div className="tile-details bordered-wrapper">

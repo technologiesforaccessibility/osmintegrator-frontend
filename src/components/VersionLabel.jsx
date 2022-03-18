@@ -1,12 +1,12 @@
 import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {useSelector} from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import * as pack from '../../package.json';
 
-import {selectVersion} from '../redux/selectors/authSelector';
+import { selectVersion } from '../redux/selectors/authSelector';
 
 const VersionLabel = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const version = useSelector(selectVersion);
 

@@ -1,21 +1,21 @@
-import {useState, useEffect} from 'react';
-import {useTranslation} from 'react-i18next';
+import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 
 import AuthContainer from '../../components/AuthContainer';
-import {ReactComponent as Logo} from './../../assets/accountLogo.svg';
-import {paths} from '../../utilities/constants';
+import { ReactComponent as Logo } from './../../assets/accountLogo.svg';
+import { paths } from '../../utilities/constants';
 import Loader from '../../components/Loader';
 import api from '../../api/apiInstance';
-import {getEmailFromPath, getTokenFromPath} from '../../utilities/utilities';
-import {noTokenHeaders} from '../../config/apiConfig';
+import { getEmailFromPath, getTokenFromPath } from '../../utilities/utilities';
+import { noTokenHeaders } from '../../config/apiConfig';
 
 import '../../stylesheets/registerActivated.scss';
 
-const {REACT_APP_CONTACT_FORM} = process.env;
+const { REACT_APP_CONTACT_FORM } = process.env;
 
 const RegisterConfirm = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
   const [activatedSuccessfully, setActivatedSuccessfully] = useState(false);
 
@@ -29,7 +29,7 @@ const RegisterConfirm = () => {
     try {
       const email = getEmailFromPath(window.location.href);
       const token = getTokenFromPath(window.location.href);
-      await api.accountConfirmRegistrationCreate({email, token}, {headers: noTokenHeaders()});
+      await api.accountConfirmRegistrationCreate({ email, token }, { headers: noTokenHeaders() });
       setActivatedSuccessfully(true);
       setIsLoading(false);
     } catch (error) {

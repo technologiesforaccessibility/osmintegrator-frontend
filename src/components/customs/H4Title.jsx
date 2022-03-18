@@ -1,6 +1,6 @@
 import React from 'react';
 
-function H4Title({title, borderBottom = false}) {
+function H4Title({ title, borderBottom = false }) {
   return (
     <React.Fragment>
       {borderBottom === true ? (

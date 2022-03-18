@@ -1,8 +1,8 @@
-import {useState} from 'react';
-import {useFormik} from 'formik';
-import {Link, Redirect} from 'react-router-dom';
-import {useTranslation} from 'react-i18next';
-import {Button, Chip, CircularProgress, Divider, InputAdornment, TextField, Tooltip, Typography} from '@mui/material';
+import { useState } from 'react';
+import { useFormik } from 'formik';
+import { Link, Redirect } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { Button, Chip, CircularProgress, Divider, InputAdornment, TextField, Tooltip, Typography } from '@mui/material';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
 import {
@@ -13,9 +13,9 @@ import {
   unsafeFormApiError,
 } from '../../utilities/utilities';
 
-import {noTokenHeaders} from '../../config/apiConfig';
+import { noTokenHeaders } from '../../config/apiConfig';
 import api from '../../api/apiInstance';
-import {paths} from '../../utilities/constants';
+import { paths } from '../../utilities/constants';
 import AuthContainer from '../../components/AuthContainer';
 import AuthBottomPanel from '../../components/auth/AuthBottomPanel';
 
@@ -23,7 +23,7 @@ import '../../stylesheets/setPassword.scss';
 import colors from '../../stylesheets/config/colors.module.scss';
 
 const SetPassword = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const [message, setMessage] = useState(null);
   const [messageColor, setMessageColor] = useState(null);
@@ -37,7 +37,7 @@ const SetPassword = () => {
       newPassword1: '',
       newPassword2: '',
     },
-    onSubmit: ({newPassword1, newPassword2}) => {
+    onSubmit: ({ newPassword1, newPassword2 }) => {
       setLoading(true);
       runUpdatePassword(newPassword1, newPassword2);
     },
@@ -141,7 +141,7 @@ const SetPassword = () => {
           />
         </div>
         <Button
-          sx={{marginTop: '20px'}}
+          sx={{ marginTop: '20px' }}
           variant="contained"
           type="submit"
           fullWidth
@@ -157,14 +157,14 @@ const SetPassword = () => {
         </Button>
       </form>
 
-      <Divider sx={{marginTop: '20px'}}>
+      <Divider sx={{ marginTop: '20px' }}>
         <Chip label={t('or')} />
       </Divider>
 
       <AuthBottomPanel linkText={t('register.login')} link={paths.LOGIN} />
 
       <div className="centered auth-info-placeholder">
-        {message && <span style={{color: messageColor}}>{message}</span>}
+        {message && <span style={{ color: messageColor }}>{message}</span>}
       </div>
     </AuthContainer>
   );

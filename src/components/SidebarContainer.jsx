@@ -1,9 +1,9 @@
-import PropTypes, {string, elementType, node, bool, arrayOf} from 'prop-types';
+import PropTypes, { string, elementType, node, bool, arrayOf } from 'prop-types';
 import dots from './../assets/authDots.png';
 
 import './../stylesheets/dashboardSidebar.scss';
 
-const SidebarContainer = ({navigation, children, isTileActive, userRoles, appRoles}) => {
+const SidebarContainer = ({ navigation, children, isTileActive, userRoles, appRoles }) => {
   return (
     <div className="sidebar">
       <img src={dots} className="sidebar__image" alt="BackgroundDots"></img>

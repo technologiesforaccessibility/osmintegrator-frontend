@@ -1,16 +1,16 @@
-import {useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {Redirect, Link} from 'react-router-dom';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Redirect, Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 
 import AuthContainer from '../../components/AuthContainer';
-import {ReactComponent as Logo} from './../../assets/accountLogo.svg';
-import {paths} from '../../utilities/constants';
+import { ReactComponent as Logo } from './../../assets/accountLogo.svg';
+import { paths } from '../../utilities/constants';
 
 import '../../stylesheets/confirm.scss';
 
 const ResetConfirm = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   setTimeout(() => setShouldRedirect(true), 5000);

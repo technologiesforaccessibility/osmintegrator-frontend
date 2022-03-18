@@ -1,7 +1,7 @@
-import {FC} from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import { FC } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import {paths} from '../utilities/constants';
+import { paths } from '../utilities/constants';
 import PrivateRoute from './PrivateRoute';
 
 import Login from '../paths/auth/Login';

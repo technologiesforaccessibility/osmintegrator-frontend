@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const CustomBlockButton = ({onClickHandler, buttonTitle, className, ...props}) => {
+const CustomBlockButton = ({ onClickHandler, buttonTitle, className, ...props }) => {
   return (
     <button
       type="button"

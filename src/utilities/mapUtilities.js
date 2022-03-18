@@ -1,4 +1,4 @@
-import {StopType} from '../types/enums';
+import { StopType } from '../types/enums';
 
 const getPosition = (osmStop, gtfsStop) => {
   return [
@@ -35,4 +35,4 @@ const generateStopName = stop => {
   return (result += `, ref: ${refTag?.value || '-'}`);
 };
 
-export {getPosition, generateConnectionData, generateStopName};
+export { getPosition, generateConnectionData, generateStopName };

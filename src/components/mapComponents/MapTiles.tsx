@@ -1,9 +1,9 @@
-import {LeafletMouseEvent} from 'leaflet';
+import { LeafletMouseEvent } from 'leaflet';
 import TextPath from 'react-leaflet-textpath';
-import React, {FC} from 'react';
-import {Rectangle, Tooltip} from 'react-leaflet';
+import React, { FC } from 'react';
+import { Rectangle, Tooltip } from 'react-leaflet';
 
-import {Tile} from '../../api/apiClient';
+import { Tile } from '../../api/apiClient';
 
 import colors from '../../stylesheets/config/colors.module.scss';
 
@@ -24,7 +24,7 @@ const MapTiles: FC<MapTilesProps> = ({
   addReportMarker,
   isCreateReportMapMode,
 }) => {
-  const color = ({assignedUserName, unconnectedGtfsStopsCount}: Tile): string => {
+  const color = ({ assignedUserName, unconnectedGtfsStopsCount }: Tile): string => {
     if (unconnectedGtfsStopsCount === 0) {
       return colors.colorTileCompleted;
     }
@@ -42,7 +42,7 @@ const MapTiles: FC<MapTilesProps> = ({
             [activeTile.maxLat, activeTile.maxLon],
             [activeTile.minLat, activeTile.minLon],
           ]}
-          pathOptions={{color: colors.colorTileActive}}
+          pathOptions={{ color: colors.colorTileActive }}
           eventHandlers={{
             click: e => {
               isCreateReportMapMode && addReportMarker(e);

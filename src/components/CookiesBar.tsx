@@ -1,14 +1,14 @@
-import {FC} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useCookies} from 'react-cookie';
-import {Button} from '@mui/material';
+import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useCookies } from 'react-cookie';
+import { Button } from '@mui/material';
 
 const CookiesBar: FC = () => {
   const [cookies, setCookie] = useCookies(['cookies_info']);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const acceptCookies = () => {
-    setCookie('cookies_info', 'true', {path: '/'});
+    setCookie('cookies_info', 'true', { path: '/' });
   };
   return (
     <>

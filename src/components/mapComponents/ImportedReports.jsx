@@ -1,11 +1,11 @@
-import {useContext} from 'react';
-import PropTypes, {shape, string, number} from 'prop-types';
-import {Marker, Tooltip} from 'react-leaflet';
+import { useContext } from 'react';
+import PropTypes, { shape, string, number } from 'prop-types';
+import { Marker, Tooltip } from 'react-leaflet';
 
-import {getReportIcon} from '../../utilities/utilities';
-import {MapContext, MapModes} from '../contexts/MapContextProvider';
+import { getReportIcon } from '../../utilities/utilities';
+import { MapContext, MapModes } from '../contexts/MapContextProvider';
 
-const ImportedReports = ({reports, resetActiveStop}) => {
+const ImportedReports = ({ reports, resetActiveStop }) => {
   const {
     mapMode,
     newReportCoordinates,
@@ -25,27 +25,27 @@ const ImportedReports = ({reports, resetActiveStop}) => {
 
   return (
     <>
-      {reports.map(({lat, lon, id, tileId, messages, status}, index) => {
+      {reports.map(({ lat, lon, id, tileId, messages, status }, index) => {
         return (
           <Marker
             key={index}
             position={[lat, lon]}
-            icon={getReportIcon(status, isActive({lat, lon}))}
+            icon={getReportIcon(status, isActive({ lat, lon }))}
             pane="markerPane"
             shadowPane="tooltipPane"
             opacity={visibilityOptions.mapReport.value.opacityValue}
-            zIndexOffset={isActive({lat, lon}) ? 1000 : 0}
+            zIndexOffset={isActive({ lat, lon }) ? 1000 : 0}
             eventHandlers={{
               click: () => {
                 if (mapMode !== MapModes.connection) {
-                  setNewReportCoordinates({lat, lon});
+                  setNewReportCoordinates({ lat, lon });
                   setActiveStop(null);
                   resetActiveStop();
-                  if (isActive({lat, lon}) && newReportCoordinates.lat && newReportCoordinates.lon) {
-                    setNewReportCoordinates({lat: null, lon: null});
+                  if (isActive({ lat, lon }) && newReportCoordinates.lat && newReportCoordinates.lon) {
+                    setNewReportCoordinates({ lat: null, lon: null });
                     handleReportClick(null);
                   } else {
-                    handleReportClick({lat, lon, id, tileId, messages});
+                    handleReportClick({ lat, lon, id, tileId, messages });
                   }
                 }
               },

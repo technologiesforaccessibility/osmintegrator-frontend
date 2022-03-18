@@ -1,4 +1,4 @@
-import {shape, number, string, bool, any} from 'prop-types';
+import { shape, number, string, bool, any } from 'prop-types';
 
 export const tileType = shape({
   id: string,

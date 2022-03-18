@@ -1,15 +1,15 @@
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 
 import AuthContainer from '../../components/AuthContainer';
-import {paths} from '../../utilities/constants';
+import { paths } from '../../utilities/constants';
 
-import {ReactComponent as Logo} from './../../assets/accountLogo.svg';
+import { ReactComponent as Logo } from './../../assets/accountLogo.svg';
 
 import '../../stylesheets/confirm.scss';
 
 const RegisterConfirm = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <AuthContainer>

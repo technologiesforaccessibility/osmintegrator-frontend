@@ -1,6 +1,6 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-import {getVersion} from '../actions/appActions';
+import { getVersion } from '../actions/appActions';
 
 const initialState = {
   version: '',
@@ -14,7 +14,7 @@ const appSlice = createSlice({
     [getVersion.pending]: state => {
       state.version = 'Loading...';
     },
-    [getVersion.fulfilled]: (state, {payload}) => {
+    [getVersion.fulfilled]: (state, { payload }) => {
       state.version = payload;
     },
     [getVersion.rejected]: state => {

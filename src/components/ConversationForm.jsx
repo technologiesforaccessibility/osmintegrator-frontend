@@ -1,23 +1,23 @@
-import {useContext, useEffect, useState} from 'react';
+import { useContext, useEffect, useState } from 'react';
 import api from '../api/apiInstance';
-import {useFormik} from 'formik';
-import {useTranslation} from 'react-i18next';
-import {useDispatch} from 'react-redux';
-import {NotificationActions} from '../redux/actions/notificationActions';
-import {MapContext} from './contexts/MapContextProvider';
-import {ConversationContext} from './contexts/ConversationProvider';
-import {basicHeaders} from '../config/apiConfig';
-import {exception} from '../utilities/exceptionHelper';
-import {Button, Checkbox, FormControlLabel, TextareaAutosize} from '@mui/material';
+import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { NotificationActions } from '../redux/actions/notificationActions';
+import { MapContext } from './contexts/MapContextProvider';
+import { ConversationContext } from './contexts/ConversationProvider';
+import { basicHeaders } from '../config/apiConfig';
+import { exception } from '../utilities/exceptionHelper';
+import { Button, Checkbox, FormControlLabel, TextareaAutosize } from '@mui/material';
 import '../stylesheets/conversationForm.scss';
 import useDebounce from '../hooks/useDebounce';
 
-const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}) => {
-  const {t} = useTranslation();
+const ConversationForm = ({ lat, lon, isReportActive, conversation, handleLoader }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [currentInputValue, setCurrentInputValue] = useState('');
-  const {activeTile, setRerenderReports, activeStop, displayPropertyGrid} = useContext(MapContext);
-  const {setInputContent} = useContext(ConversationContext);
+  const { activeTile, setRerenderReports, activeStop, displayPropertyGrid } = useContext(MapContext);
+  const { setInputContent } = useContext(ConversationContext);
   const debouncedValue = useDebounce(currentInputValue, 500);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
       approveReport: false,
     },
 
-    onSubmit: ({reportText, approveReport}) => {
+    onSubmit: ({ reportText, approveReport }) => {
       setCurrentInputValue('');
 
       if (activeStop === null && (lat === null || lon === null)) {
@@ -64,7 +64,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
     handleLoader(true);
     try {
       await api.conversationCreate(
-        {text, stopId: activeStop.id, tileId: activeTile.id},
+        { text, stopId: activeStop.id, tileId: activeTile.id },
         {
           headers: basicHeaders(),
         },
@@ -81,7 +81,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
     handleLoader(true);
     try {
       await api.conversationCreate(
-        {text, lat, lon, tileId: activeTile.id},
+        { text, lat, lon, tileId: activeTile.id },
         {
           headers: basicHeaders(),
         },
@@ -89,7 +89,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
       dispatch(NotificationActions.success(t('report.success')));
       formik.resetForm();
       // HACK: If user after creating new raport will switch to view mode, it will show Property grid without conversation id
-      displayPropertyGrid({lat, lon, tileId: activeTile.id});
+      displayPropertyGrid({ lat, lon, tileId: activeTile.id });
       setRerenderReports(true);
     } catch (error) {
       exception(error);
@@ -100,7 +100,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
     handleLoader(true);
     try {
       await api.conversationCreate(
-        {conversationId: conversation.id, text, tileId: activeTile.id},
+        { conversationId: conversation.id, text, tileId: activeTile.id },
         {
           headers: basicHeaders(),
         },
@@ -117,7 +117,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
     handleLoader(true);
     try {
       await api.conversationApproveUpdate(
-        {conversationId: conversation.id, text, tileId: activeTile.id},
+        { conversationId: conversation.id, text, tileId: activeTile.id },
         {
           headers: basicHeaders(),
         },
@@ -153,7 +153,7 @@ const ConversationForm = ({lat, lon, isReportActive, conversation, handleLoader}
             onChange={formik.handleChange}
           />
 
-          <Button variant="outlined" type="submit" sx={{marginLeft: 'auto'}}>
+          <Button variant="outlined" type="submit" sx={{ marginLeft: 'auto' }}>
             {t('report.button')}
           </Button>
         </div>

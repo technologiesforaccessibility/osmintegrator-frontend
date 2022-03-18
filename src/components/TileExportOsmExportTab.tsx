@@ -1,16 +1,16 @@
-import {AccountCircle} from '@mui/icons-material';
-import {Backdrop, Button, CircularProgress, Grid, InputAdornment, TextField} from '@mui/material';
-import {Formik} from 'formik';
-import React, {useContext} from 'react';
-import {useDispatch} from 'react-redux';
+import { AccountCircle } from '@mui/icons-material';
+import { Backdrop, Button, CircularProgress, Grid, InputAdornment, TextField } from '@mui/material';
+import { Formik } from 'formik';
+import React, { useContext } from 'react';
+import { useDispatch } from 'react-redux';
 import api from '../api/apiInstance';
-import {basicHeaders} from '../config/apiConfig';
-import {NotificationActions} from '../redux/actions/notificationActions';
-import {ExportSchema} from '../utilities/validationSchema';
+import { basicHeaders } from '../config/apiConfig';
+import { NotificationActions } from '../redux/actions/notificationActions';
+import { ExportSchema } from '../utilities/validationSchema';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
-import {useTranslation} from 'react-i18next';
-import {exception} from '../utilities/exceptionHelper';
-import {MapContext} from './contexts/MapContextProvider';
+import { useTranslation } from 'react-i18next';
+import { exception } from '../utilities/exceptionHelper';
+import { MapContext } from './contexts/MapContextProvider';
 
 interface TileExportOsmExportTabProps {
   tileId: string;
@@ -20,17 +20,17 @@ interface TileExportOsmExportTabProps {
 }
 
 const TileExportOsmExportTab = (props: TileExportOsmExportTabProps) => {
-  const {tileId, initialComment, onCommentChange, onSubmit} = props;
+  const { tileId, initialComment, onCommentChange, onSubmit } = props;
   const [isExporting, setExporting] = React.useState<boolean>(false);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
-  const {setRerenderConnections} = useContext(MapContext);
+  const { setRerenderConnections } = useContext(MapContext);
 
   const onExport = async (comment: string, email: string, password: string) => {
     setExporting(true);
 
     try {
-      await api.tilesExportCreate(tileId, {comment, email, password}, {headers: basicHeaders()});
+      await api.tilesExportCreate(tileId, { comment, email, password }, { headers: basicHeaders() });
 
       dispatch(NotificationActions.success(t('osmExport.exportTab.dataExported')));
 
@@ -49,7 +49,7 @@ const TileExportOsmExportTab = (props: TileExportOsmExportTabProps) => {
         <CircularProgress size={100} />
       </Backdrop>
       <Formik
-        onSubmit={({comment, email, password}) => {
+        onSubmit={({ comment, email, password }) => {
           onExport(comment, email, password);
         }}
         initialValues={{
@@ -58,9 +58,9 @@ const TileExportOsmExportTab = (props: TileExportOsmExportTabProps) => {
           password: '',
         }}
         validationSchema={ExportSchema}>
-        {({handleChange, values, handleSubmit, errors, touched}) => (
+        {({ handleChange, values, handleSubmit, errors, touched }) => (
           <form className="content-container" onSubmit={handleSubmit} noValidate>
-            <Grid container direction="column" spacing={3} sx={{pt: 2}}>
+            <Grid container direction="column" spacing={3} sx={{ pt: 2 }}>
               <Grid item container direction="column" spacing={1}>
                 <Grid item>
                   <h5>{t('osmExport.exportTab.comment.header')}</h5>
@@ -136,7 +136,7 @@ const TileExportOsmExportTab = (props: TileExportOsmExportTabProps) => {
                 </Grid>
               </Grid>
               <Grid item container direction="row" justifyContent="space-between">
-                <Grid item xs={8} sx={{fontSize: 14}}>
+                <Grid item xs={8} sx={{ fontSize: 14 }}>
                   {t('osmExport.exportTab.info')}
                 </Grid>
                 <Grid item>

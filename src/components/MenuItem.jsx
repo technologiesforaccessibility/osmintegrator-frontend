@@ -1,13 +1,13 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import {hasAccessToPath} from '../utilities/auth';
+import { hasAccessToPath } from '../utilities/auth';
 import './../stylesheets/menuItem.scss';
 
-const {REACT_APP_CONTACT_FORM} = process.env;
+const { REACT_APP_CONTACT_FORM } = process.env;
 
-const MenuItem = ({link, name, externalLink}) => {
+const MenuItem = ({ link, name, externalLink }) => {
   if (!hasAccessToPath(link)) {
     return <></>;
   }

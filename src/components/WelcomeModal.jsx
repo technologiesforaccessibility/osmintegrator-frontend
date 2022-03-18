@@ -1,14 +1,14 @@
-import {useState} from 'react';
-import {useTranslation} from 'react-i18next';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import {Button, Checkbox, FormControlLabel, FormGroup} from '@mui/material';
+import { Button, Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import '../stylesheets/welcomeModal.scss';
 
-const {REACT_APP_USER_MANUAL, REACT_APP_VIDEO_TUTORIAL} = process.env;
+const { REACT_APP_USER_MANUAL, REACT_APP_VIDEO_TUTORIAL } = process.env;
 
-const WelcomeModal = ({handleClose}) => {
+const WelcomeModal = ({ handleClose }) => {
   const [isChecked, setChecked] = useState(false);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const handleChange = event => {
     setChecked(event.target.checked);

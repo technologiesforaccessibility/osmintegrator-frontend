@@ -1,11 +1,11 @@
 import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {Chip} from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { Chip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import '../stylesheets/conversationHeading.scss';
 
-const ConversationHeading = ({lat, lon, activeStop, isReportActive, handleCloseReport}) => {
-  const {t} = useTranslation();
+const ConversationHeading = ({ lat, lon, activeStop, isReportActive, handleCloseReport }) => {
+  const { t } = useTranslation();
   return (
     <div className="conversation-heading bordered-wrapper">
       <div className="conversation-heading__top">
@@ -27,7 +27,7 @@ const ConversationHeading = ({lat, lon, activeStop, isReportActive, handleCloseR
       <div className="conversation-heading__status">
         <span>{t('report.status')}</span>
         <Chip
-          sx={{borderRadius: '5px', textTransform: 'uppercase', fontWeight: 700, marginLeft: '0.625rem'}}
+          sx={{ borderRadius: '5px', textTransform: 'uppercase', fontWeight: 700, marginLeft: '0.625rem' }}
           label={isReportActive ? t('report.active') : t('report.inactive')}
           size="medium"
           variant="outlined"

@@ -1,15 +1,15 @@
 import React from 'react';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
 const lngs = {
-  en: {nativeName: 'English'},
-  pl: {nativeName: 'Polski'},
+  en: { nativeName: 'English' },
+  pl: { nativeName: 'Polski' },
 };
 
 const LanguageSwitch = () => {
-  const {i18n} = useTranslation();
+  const { i18n } = useTranslation();
 
   return (
     <>

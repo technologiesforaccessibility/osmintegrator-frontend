@@ -1,28 +1,28 @@
-import {createContext, FC, useCallback, useState} from 'react';
-import {useSelector} from 'react-redux';
+import { createContext, FC, useCallback, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-import {Connection, Conversation, NoteStatus, Stop, Tile} from '../../api/apiClient';
-import {selectLoggedInUserRoles} from '../../redux/selectors/authSelector';
+import { Connection, Conversation, NoteStatus, Stop, Tile } from '../../api/apiClient';
+import { selectLoggedInUserRoles } from '../../redux/selectors/authSelector';
 import i18n from '../../translations/i18n';
-import {connectionVisibility, localStorageStopTypes} from '../../utilities/constants';
-import {ConnectedPairProps} from '../../types/interfaces';
-import {ConnectionRadio} from '../../types/enums';
+import { connectionVisibility, localStorageStopTypes } from '../../utilities/constants';
+import { ConnectedPairProps } from '../../types/interfaces';
+import { ConnectionRadio } from '../../types/enums';
 
 interface VisibilityOptions {
   connected: {
     localStorageName: string;
     name: string;
-    value: {text: string; opacityValue: number; icon: () => JSX.Element};
+    value: { text: string; opacityValue: number; icon: () => JSX.Element };
   };
   unconnected: {
     localStorageName: string;
     name: string;
-    value: {text: string; opacityValue: number; icon: () => JSX.Element};
+    value: { text: string; opacityValue: number; icon: () => JSX.Element };
   };
   mapReport: {
     localStorageName: string;
     name: string;
-    value: {text: string; opacityValue: number; icon: () => JSX.Element};
+    value: { text: string; opacityValue: number; icon: () => JSX.Element };
   };
 }
 
@@ -34,13 +34,13 @@ interface IMapContext {
   propertyGrid: Stop | Conversation | null;
   connectionData: Stop[];
   rerenderConnections: boolean;
-  newReportCoordinates: {lat: number | null; lon: number | null};
+  newReportCoordinates: { lat: number | null; lon: number | null };
   activeTile: Tile | null;
   rerenderReports: boolean;
   importedConnections: Array<Connection>;
   importedReports: Array<Conversation>;
   isEditingReportMode: boolean;
-  openReportContent: null | {lat: number; lon: number; text: string; id: string; tileId: string; status: NoteStatus};
+  openReportContent: null | { lat: number; lon: number; text: string; id: string; tileId: string; status: NoteStatus };
   rerenderTiles: boolean;
   tiles: Array<Tile>;
   connectedStopIds: Array<string>;
@@ -66,7 +66,7 @@ interface IMapContext {
   reset: () => void;
   shouldRenderConnections: (arg: boolean) => void;
   toogleMapMode: (arg: string) => void;
-  setNewReportCoordinates: React.Dispatch<React.SetStateAction<{lat: number | null; lon: number | null}>>;
+  setNewReportCoordinates: React.Dispatch<React.SetStateAction<{ lat: number | null; lon: number | null }>>;
   resetReportCoordinates: () => void;
   setActiveTile: React.Dispatch<React.SetStateAction<Tile | null>>;
   setRerenderReports: React.Dispatch<React.SetStateAction<boolean>>;
@@ -111,7 +111,7 @@ const init: IMapContext = {
   propertyGrid: null,
   connectionData: [],
   rerenderConnections: false,
-  newReportCoordinates: {lat: null, lon: null},
+  newReportCoordinates: { lat: null, lon: null },
   activeTile: null,
   rerenderReports: false,
   importedConnections: [],
@@ -126,23 +126,23 @@ const init: IMapContext = {
     connected: {
       localStorageName: 'string',
       name: 'string',
-      value: {text: 'string', opacityValue: 0, icon: () => <span />},
+      value: { text: 'string', opacityValue: 0, icon: () => <span /> },
     },
     unconnected: {
       localStorageName: 'string',
       name: 'string',
-      value: {text: 'string', opacityValue: 0, icon: () => <span />},
+      value: { text: 'string', opacityValue: 0, icon: () => <span /> },
     },
     mapReport: {
       localStorageName: 'string',
       name: 'string',
-      value: {text: 'string', opacityValue: 0, icon: () => <span />},
+      value: { text: 'string', opacityValue: 0, icon: () => <span /> },
     },
   },
   activeStop: null,
   tileStops: [],
   isSidebarConnectionHandlerVisible: false,
-  connectedStopPair: {markedStop: null, connectedStop: null, connection: null},
+  connectedStopPair: { markedStop: null, connectedStop: null, connection: null },
   authRoles: [],
   setRerenderConnections: () => null,
   setConnectedStopPair: () => null,
@@ -181,7 +181,7 @@ const init: IMapContext = {
 
 export const MapContext = createContext<IMapContext>(init);
 
-const initialReportCoords = {lat: null, lon: null};
+const initialReportCoords = { lat: null, lon: null };
 
 const getValueFromStateOrReturn = (itemKey: string, reset: boolean) => {
   const storageItem = localStorage.getItem(itemKey);
@@ -227,7 +227,7 @@ const initialVisibility = (reset = false) => {
   };
 };
 
-const MapContextProvider: FC = ({children}) => {
+const MapContextProvider: FC = ({ children }) => {
   const [connectionRadio, setConnectionRadio] = useState<ConnectionRadio>(ConnectionRadio.ADD);
   const [isTileActive, setIsTileActive] = useState(false);
   const [isMapActive, setIsMapActive] = useState(false);
@@ -238,7 +238,7 @@ const MapContextProvider: FC = ({children}) => {
   const [mapMode, setMapMode] = useState(MapModes.view);
   const [isEditingReportMode, setIsEditingReportMode] = useState(false);
   const [newReportCoordinates, setNewReportCoordinates] =
-    useState<{lat: number | null; lon: number | null}>(initialReportCoords);
+    useState<{ lat: number | null; lon: number | null }>(initialReportCoords);
   const [rerenderReports, setRerenderReports] = useState(false);
   const [activeTile, setActiveTile] = useState<Tile | null>(null);
   const [importedConnections, setImportedConnections] = useState<Array<Connection>>([]);
@@ -259,7 +259,11 @@ const MapContextProvider: FC = ({children}) => {
   const [activeStop, setActiveStop] = useState<Stop | null>(null);
   const [tileStops, setTileStops] = useState<Stop[]>([]);
   const [isSidebarConnectionHandlerVisible, setIsSidebarConnectionHandlerVisible] = useState(false);
-  const [connectedStopPair, setConnectedStopPair] = useState({markedStop: null, connectedStop: null, connection: null});
+  const [connectedStopPair, setConnectedStopPair] = useState({
+    markedStop: null,
+    connectedStop: null,
+    connection: null,
+  });
 
   const authRoles = useSelector(selectLoggedInUserRoles);
 
@@ -318,7 +322,7 @@ const MapContextProvider: FC = ({children}) => {
     setImportedConnections([]);
     setImportedReports([]);
     setIsSidebarConnectionHandlerVisible(false);
-    setConnectedStopPair({markedStop: null, connectedStop: null, connection: null});
+    setConnectedStopPair({ markedStop: null, connectedStop: null, connection: null });
     setTileStops([]);
   }, []);
 

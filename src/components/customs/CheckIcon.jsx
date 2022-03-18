@@ -1,6 +1,6 @@
 import React from 'react';
 
-function CheckIcon({displayedText}) {
+function CheckIcon({ displayedText }) {
   return (
     <React.Fragment>
       <svg

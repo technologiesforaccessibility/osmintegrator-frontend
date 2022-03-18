@@ -1,33 +1,33 @@
-import {useCallback, useEffect, useMemo, useState} from 'react';
-import {Rectangle, Tooltip} from 'react-leaflet';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Rectangle, Tooltip } from 'react-leaflet';
 import TextPath from 'react-leaflet-textpath';
-import {useTranslation} from 'react-i18next';
-import {useDispatch} from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
-import {CircularProgress, TextField} from '@mui/material';
+import { CircularProgress, TextField } from '@mui/material';
 
 import api from '../api/apiInstance';
-import {Tile, User, UncommittedTile} from '../api/apiClient';
-import {basicHeaders} from '../config/apiConfig';
+import { Tile, User, UncommittedTile } from '../api/apiClient';
+import { basicHeaders } from '../config/apiConfig';
 import H3Title from '../components/customs/H3Title';
 import ManagementPanelMap from '../components/managementPanel/ManagementPanelMap';
 import DashboardWrapper from '../components/DashboardWrapper';
 import RoleAssignmentPanel from '../components/managementPanel/RoleAssignmentPanel';
 import H4Title from '../components/customs/H4Title';
-import {NotificationActions} from '../redux/actions/notificationActions';
-import {exception} from '../utilities/exceptionHelper';
+import { NotificationActions } from '../redux/actions/notificationActions';
+import { exception } from '../utilities/exceptionHelper';
 
 import colors from '../stylesheets/config/colors.module.scss';
 import '../stylesheets/managementPanel.scss';
-import {roles} from '../utilities/constants';
+import { roles } from '../utilities/constants';
 
 const NONE = 'none';
-const CURRENT_LOCATION = {lat: 50.29, lng: 19.01};
+const CURRENT_LOCATION = { lat: 50.29, lng: 19.01 };
 const ZOOM = 9;
 
 function ManagementPanel() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const [tiles, setTiles] = useState<UncommittedTile[]>([]);
@@ -148,7 +148,7 @@ function ManagementPanel() {
 
   const tilesDropDown = useMemo(
     () =>
-      tiles.map(({id, x, y}) => (
+      tiles.map(({ id, x, y }) => (
         <MenuItem key={`tile-dropdown-${id}`} value={id}>
           X: {x}, Y: {y}
         </MenuItem>
@@ -158,7 +158,7 @@ function ManagementPanel() {
 
   const dropdownEditors = useMemo(
     () =>
-      editors.map(({id, userName}) => (
+      editors.map(({ id, userName }) => (
         <MenuItem key={id} value={id}>
           {userName === NONE ? t('managementPanel.noUser') : userName}
         </MenuItem>
@@ -175,7 +175,7 @@ function ManagementPanel() {
         {
           editorId: selectedEditor!.id,
         },
-        {headers: basicHeaders()},
+        { headers: basicHeaders() },
       );
 
       if (response.status === 200) {

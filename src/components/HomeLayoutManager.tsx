@@ -1,13 +1,13 @@
-import {useContext, FC} from 'react';
+import { useContext, FC } from 'react';
 
 import MapView from './MapView';
-import {MapContext} from './contexts/MapContextProvider';
+import { MapContext } from './contexts/MapContextProvider';
 import DashboardSidebar from './DashboardSidebar';
 
 import '../stylesheets/mapManager.scss';
 
 const HomeLayoutManager: FC = () => {
-  const {isTileActive} = useContext(MapContext);
+  const { isTileActive } = useContext(MapContext);
 
   return (
     <div className="map-manager">

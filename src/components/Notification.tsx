@@ -1,8 +1,8 @@
-import {FC, useMemo} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {Snackbar, SnackbarContent} from '@mui/material';
+import { FC, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Snackbar, SnackbarContent } from '@mui/material';
 
-import {NotificationActions} from '../redux/actions/notificationActions';
+import { NotificationActions } from '../redux/actions/notificationActions';
 
 interface NotificationObject {
   class: 'success-modal' | 'warning-modal' | 'error-modal' | undefined;
@@ -37,7 +37,7 @@ const notificationShadowStyle = (n: NotificationObject) => {
 };
 
 const Notification: FC = () => {
-  const notification = useSelector((state: {notification: NotificationObject}) => state.notification);
+  const notification = useSelector((state: { notification: NotificationObject }) => state.notification);
 
   const dispatch = useDispatch();
 
@@ -65,7 +65,7 @@ const Notification: FC = () => {
 
   return (
     <Snackbar
-      anchorOrigin={{horizontal: 'center', vertical: 'bottom'}}
+      anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
       open={!!notification.message}
       autoHideDuration={6000}
       onClose={handleClose}

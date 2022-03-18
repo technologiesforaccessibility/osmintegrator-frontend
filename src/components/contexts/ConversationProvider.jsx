@@ -1,8 +1,8 @@
-import React, {createContext, useState} from 'react';
+import React, { createContext, useState } from 'react';
 
 export const ConversationContext = createContext();
 
-const ConversationContextProvider = ({children}) => {
+const ConversationContextProvider = ({ children }) => {
   const [geoConversations, setGeoConversations] = useState([]);
   const [stopConversations, setStopConversations] = useState([]);
   const [inputContent, setInputContent] = useState('');

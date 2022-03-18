@@ -1,39 +1,39 @@
 import 'leaflet/dist/leaflet.css';
 import '../stylesheets/mapView.scss';
-import {useCallback, useContext, useEffect, useState} from 'react';
-import {MapContainer, TileLayer, Pane} from 'react-leaflet';
-import {useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { MapContainer, TileLayer, Pane } from 'react-leaflet';
+import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import api from '../api/apiInstance';
-import {Connection, Conversation, Stop} from '../api/apiClient';
-import {basicHeaders} from '../config/apiConfig';
-import {NotificationActions} from '../redux/actions/notificationActions';
-import {MapContext, MapModes} from './contexts/MapContextProvider';
+import { Connection, Conversation, Stop } from '../api/apiClient';
+import { basicHeaders } from '../config/apiConfig';
+import { NotificationActions } from '../redux/actions/notificationActions';
+import { MapContext, MapModes } from './contexts/MapContextProvider';
 import SavedConnections from './mapComponents/SavedConnections';
 import ImportedReports from './mapComponents/ImportedReports';
 import MapTiles from './mapComponents/MapTiles';
 import DraftConnections from './mapComponents/DraftConnections';
 import NewReportMarker from './mapComponents/NewReportMarker';
 import TileStops from './mapComponents/TileStops';
-import {exception} from '../utilities/exceptionHelper';
+import { exception } from '../utilities/exceptionHelper';
 import Loader from './Loader';
-import {Modal} from '@mui/material';
-import {Box} from '@mui/system';
+import { Modal } from '@mui/material';
+import { Box } from '@mui/system';
 import WelcomeModal from './WelcomeModal';
-import {useCookies} from 'react-cookie';
-import {LeafletMouseEvent} from 'leaflet';
-import {ConversationContext} from './contexts/ConversationProvider';
+import { useCookies } from 'react-cookie';
+import { LeafletMouseEvent } from 'leaflet';
+import { ConversationContext } from './contexts/ConversationProvider';
 import Legend from './mapComponents/Legend';
 
 export const MapView = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [modal, setModal] = useState(false);
   const [welcomeModalCookie, setWelcomeModalCookie] = useCookies(['welcome_modal']);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
 
-  const currentLocation = {lat: 50.29, lng: 19.01};
+  const currentLocation = { lat: 50.29, lng: 19.01 };
   const zoom = 10;
   const maxZoom = 19;
 
@@ -69,7 +69,7 @@ export const MapView = () => {
     setActiveStop,
   } = useContext(MapContext);
 
-  const {setGeoConversations, setStopConversations, stopConversations} = useContext(ConversationContext);
+  const { setGeoConversations, setStopConversations, stopConversations } = useContext(ConversationContext);
 
   const getAvailableTiles = useCallback(async () => {
     try {
@@ -86,7 +86,7 @@ export const MapView = () => {
   }, [setTiles, welcomeModalCookie.welcome_modal]);
 
   const addReportMarker = (e: LeafletMouseEvent) => {
-    const coords = {lat: e.latlng.lat, lon: e.latlng.lng};
+    const coords = { lat: e.latlng.lat, lon: e.latlng.lng };
     setNewReportCoordinates(coords);
     setActiveStop(null);
   };
@@ -115,10 +115,10 @@ export const MapView = () => {
           const stopWithReport = stopConversations.filter((report: Conversation) => report.stopId === stop.id);
 
           if (stopWithReport.length > 0 && stopWithReport[0].status === 1) {
-            return {...stop, hasReport: 1, reportApproved: 1};
+            return { ...stop, hasReport: 1, reportApproved: 1 };
           }
           if (stopWithReport.length > 0) {
-            return {...stop, hasReport: 1, reportApproved: 0};
+            return { ...stop, hasReport: 1, reportApproved: 0 };
           }
           return stop;
         });
@@ -170,7 +170,7 @@ export const MapView = () => {
   const getConnectedStopsIds = (connectionArray: Array<Connection>) => {
     return connectionArray
       .filter(con => con.gtfsStopId && con.osmStopId)
-      .map(({gtfsStopId, osmStopId}) => [gtfsStopId || '', osmStopId || ''])
+      .map(({ gtfsStopId, osmStopId }) => [gtfsStopId || '', osmStopId || ''])
       .flat();
   };
 
@@ -188,7 +188,7 @@ export const MapView = () => {
   const closeModal = (checkbox: boolean) => {
     if (checkbox === true) {
       setModal(false);
-      setWelcomeModalCookie('welcome_modal', 'true', {path: '/'});
+      setWelcomeModalCookie('welcome_modal', 'true', { path: '/' });
     }
     setModal(false);
   };

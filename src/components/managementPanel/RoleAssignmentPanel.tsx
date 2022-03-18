@@ -1,23 +1,23 @@
-import {useEffect, useState, useMemo, useCallback} from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 
-import {useTranslation} from 'react-i18next';
-import {useDispatch} from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import {Checkbox, CircularProgress, TextField} from '@mui/material';
+import { Checkbox, CircularProgress, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 
 import H4Title from '../customs/H4Title';
 import api from '../../api/apiInstance';
-import {RoleUser, RolePair} from '../../api/apiClient';
-import {basicHeaders} from '../../config/apiConfig';
-import {NotificationActions} from '../../redux/actions/notificationActions';
-import {exception} from '../../utilities/exceptionHelper';
+import { RoleUser, RolePair } from '../../api/apiClient';
+import { basicHeaders } from '../../config/apiConfig';
+import { NotificationActions } from '../../redux/actions/notificationActions';
+import { exception } from '../../utilities/exceptionHelper';
 
 import '../../stylesheets/roleAssignmentPanel.scss';
 
 function RoleAssignmentPanel() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const [roleUserName, setRoleUserName] = useState('');
@@ -46,7 +46,7 @@ function RoleAssignmentPanel() {
 
   const users = useMemo(
     () =>
-      userRoleList.map(({id, userName, roles}) => {
+      userRoleList.map(({ id, userName, roles }) => {
         return (
           <MenuItem key={userName} value={userName}>
             {userName}
@@ -68,7 +68,7 @@ function RoleAssignmentPanel() {
   const selectedRoles = useMemo(
     () =>
       (selectedUserRoles.length &&
-        selectedUserRoles.map(({name, value}, index) => (
+        selectedUserRoles.map(({ name, value }, index) => (
           <FormControlLabel
             id={`role_${index}`}
             key={`role_${index}`}

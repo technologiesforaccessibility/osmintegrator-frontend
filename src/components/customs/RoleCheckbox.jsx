@@ -8,7 +8,7 @@ function RoleCheckbox(props) {
         checked={checkValue}
         value="option1"
         onClick={() => {}}
-        style={{margin: '0 auto'}}
+        style={{ margin: '0 auto' }}
       />
     </div>
   );

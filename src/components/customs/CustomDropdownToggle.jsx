@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CustomDropdownToggle = ({children}) => {
+const CustomDropdownToggle = ({ children }) => {
   return (
     <button
       className="btn btn-secondary dropdown-toggle custom-elements__button--use-all-width"

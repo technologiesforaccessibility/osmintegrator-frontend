@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CustomInlineButton = ({handleOnClick = () => {}, buttonTitle = 'Name Me', buttonWidth = 15}) => {
+const CustomInlineButton = ({ handleOnClick = () => {}, buttonTitle = 'Name Me', buttonWidth = 15 }) => {
   return (
     <div className={`d-inline-block custom-elements__button-wrapper management-panel__button--${buttonWidth}p`}>
       <button

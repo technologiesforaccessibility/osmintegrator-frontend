@@ -1,12 +1,12 @@
-import React, {createContext, useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {selectAuthToken} from '../../redux/selectors/authSelector';
-import {validateLogin} from '../../redux/actions/authActions';
-import {getVersion} from '../../redux/actions/appActions';
+import React, { createContext, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAuthToken } from '../../redux/selectors/authSelector';
+import { validateLogin } from '../../redux/actions/authActions';
+import { getVersion } from '../../redux/actions/appActions';
 
 export const UserContext = createContext();
 
-const UserContextProvider = ({children}) => {
+const UserContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [loader, setLoader] = useState(false);
   const token = useSelector(selectAuthToken);
@@ -33,7 +33,7 @@ const UserContextProvider = ({children}) => {
   }
 
   return (
-    <UserContext.Provider value={{isUnsafeAuthorized, setIsUnsafeAuthorized, loader, setLoader}}>
+    <UserContext.Provider value={{ isUnsafeAuthorized, setIsUnsafeAuthorized, loader, setLoader }}>
       {children}
     </UserContext.Provider>
   );

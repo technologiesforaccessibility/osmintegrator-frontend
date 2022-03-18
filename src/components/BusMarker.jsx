@@ -1,10 +1,10 @@
-import {useContext, useMemo} from 'react';
-import {Marker, Tooltip} from 'react-leaflet';
+import { useContext, useMemo } from 'react';
+import { Marker, Tooltip } from 'react-leaflet';
 
-import {getBusStopIcon} from '../utilities/utilities';
-import {generateStopName} from '../utilities/mapUtilities';
-import {MapContext} from './contexts/MapContextProvider';
-import {ConnectionRadio, StopType} from '../types/enums';
+import { getBusStopIcon } from '../utilities/utilities';
+import { generateStopName } from '../utilities/mapUtilities';
+import { MapContext } from './contexts/MapContextProvider';
+import { ConnectionRadio, StopType } from '../types/enums';
 
 const BusMarker = ({
   busStop,
@@ -47,27 +47,27 @@ const BusMarker = ({
         setConnectedStopPair({
           markedStop: busStop,
           connectedStop: gtfsStop,
-          connection: {id: connection.id},
+          connection: { id: connection.id },
         });
       } else {
         const osmStop = tileStops.find(stop => stop.id === connection.osmStopId);
         setConnectedStopPair({
           markedStop: busStop,
           connectedStop: osmStop,
-          connection: {id: connection.id},
+          connection: { id: connection.id },
         });
       }
       setIsSidebarConnectionHandlerVisible(true);
     } else {
       setIsSidebarConnectionHandlerVisible(false);
-      setConnectedStopPair({markedStop: null, connectedStop: null, connection: null});
+      setConnectedStopPair({ markedStop: null, connectedStop: null, connection: null });
     }
   };
 
   const handleViewModeStopUnclick = () => {
     clickBusStop();
     setIsSidebarConnectionHandlerVisible(false);
-    setConnectedStopPair({markedStop: null, connectedStop: null, connection: null});
+    setConnectedStopPair({ markedStop: null, connectedStop: null, connection: null });
   };
 
   const getIcon = busStop => {
@@ -94,7 +94,7 @@ const BusMarker = ({
       eventHandlers={{
         click: () => {
           setActiveStop(busStop);
-          setNewReportCoordinates({lat: null, lon: null});
+          setNewReportCoordinates({ lat: null, lon: null });
           if (isConnectionMode) {
             if (connectionRadio === ConnectionRadio.ADD) {
               createConnection(busStop);

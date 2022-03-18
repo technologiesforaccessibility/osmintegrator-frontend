@@ -1,14 +1,14 @@
-import {useContext, useEffect, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useDispatch} from 'react-redux';
+import { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import Button from '@mui/material/Button';
 
 import api from '../api/apiInstance';
-import {basicHeaders} from '../config/apiConfig';
-import {generateConnectionData, generateStopName} from '../utilities/mapUtilities';
-import {MapContext} from './contexts/MapContextProvider';
-import {NotificationActions} from '../redux/actions/notificationActions';
-import {exception} from '../utilities/exceptionHelper';
+import { basicHeaders } from '../config/apiConfig';
+import { generateConnectionData, generateStopName } from '../utilities/mapUtilities';
+import { MapContext } from './contexts/MapContextProvider';
+import { NotificationActions } from '../redux/actions/notificationActions';
+import { exception } from '../utilities/exceptionHelper';
 
 import '../stylesheets/connectionPrompt.scss';
 
@@ -24,14 +24,14 @@ const ConnectionSidePanel = () => {
     displayPropertyGrid,
   } = useContext(MapContext);
   const [error, setError] = useState(false);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (newReportCoordinates.lat && newReportCoordinates.lon) {
       displayPropertyGrid(null);
     }
-    setNewReportCoordinates({lat: null, lon: null});
+    setNewReportCoordinates({ lat: null, lon: null });
     setActiveStop(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

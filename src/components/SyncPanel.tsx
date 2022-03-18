@@ -1,24 +1,24 @@
-import React, {FC, useContext, useState} from 'react';
-import {useTranslation} from 'react-i18next';
+import React, { FC, useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/system/Box';
 import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import api from '../api/apiInstance';
-import {basicHeaders} from '../config/apiConfig';
-import {MapContext} from './contexts/MapContextProvider';
-import {exception} from '../utilities/exceptionHelper';
-import {NotificationActions} from '../redux/actions/notificationActions';
-import {UserContext} from './contexts/UserContextProvider';
+import { basicHeaders } from '../config/apiConfig';
+import { MapContext } from './contexts/MapContextProvider';
+import { exception } from '../utilities/exceptionHelper';
+import { NotificationActions } from '../redux/actions/notificationActions';
+import { UserContext } from './contexts/UserContextProvider';
 import TileExportModal from './TileExportModal';
 import '../stylesheets/syncPanel.scss';
 
 const SyncPanel: FC = () => {
-  const {activeTile, setRerenderReports, setRerenderConnections} = useContext(MapContext);
-  const {setLoader} = useContext(UserContext);
+  const { activeTile, setRerenderReports, setRerenderConnections } = useContext(MapContext);
+  const { setLoader } = useContext(UserContext);
 
   const [isOsmImportModalOpen, setIsOsmImportModalOpen] = useState<boolean>(false);
   const [isOsmExportModalOpen, setIsOsmExportModalOpen] = useState<boolean>(false);
@@ -27,16 +27,16 @@ const SyncPanel: FC = () => {
   const [tags, setTags] = useState<string[]>([]);
   const [comment, setComment] = useState<string>();
   const dispatch = useDispatch();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const handleImportOSM = async () => {
     if (activeTile && activeTile.id) {
       try {
         setLoader(true);
-        const response = await api.tileUpdateStopsUpdate(activeTile?.id, {headers: basicHeaders()});
+        const response = await api.tileUpdateStopsUpdate(activeTile?.id, { headers: basicHeaders() });
         dispatch(NotificationActions.success(t('report.success')));
         setRerenderReports(true);
-        const {value}: {value?: string | null} = response.data || {};
+        const { value }: { value?: string | null } = response.data || {};
         setUpdateData(value || null);
         setIsOsmImportModalOpen(true);
       } catch (error) {
@@ -52,7 +52,7 @@ const SyncPanel: FC = () => {
       try {
         setLoader(true);
 
-        const tileExportInfo = await api.tilesExportChangesDetail(activeTile?.id, {headers: basicHeaders()});
+        const tileExportInfo = await api.tilesExportChangesDetail(activeTile?.id, { headers: basicHeaders() });
 
         var tags = Object.keys(tileExportInfo.data.tags!)
           .filter(k => k !== 'comment')
@@ -73,16 +73,16 @@ const SyncPanel: FC = () => {
 
   return (
     <div className="sync__button-container">
-      <Button className="sync_button" variant="contained" onClick={handleImportOSM} sx={{marginTop: '5px'}}>
+      <Button className="sync_button" variant="contained" onClick={handleImportOSM} sx={{ marginTop: '5px' }}>
         {t('sync.importOSM')}
       </Button>
-      <Button variant="contained" onClick={() => {}} disabled sx={{marginTop: '5px'}}>
+      <Button variant="contained" onClick={() => {}} disabled sx={{ marginTop: '5px' }}>
         {t('sync.importNotOSM')}
       </Button>
-      <Button variant="contained" onClick={openExportModal} sx={{marginTop: '5px'}}>
+      <Button variant="contained" onClick={openExportModal} sx={{ marginTop: '5px' }}>
         {t('sync.exportOSM')}
       </Button>
-      <Button variant="contained" onClick={() => {}} disabled sx={{marginTop: '5px'}}>
+      <Button variant="contained" onClick={() => {}} disabled sx={{ marginTop: '5px' }}>
         {t('sync.generateNotOsm')}
       </Button>
 
@@ -136,7 +136,7 @@ const SyncPanel: FC = () => {
                 setIsOsmImportModalOpen(false);
                 setUpdateData(null);
               }}
-              style={{position: 'absolute', top: '20px', right: '20px'}}
+              style={{ position: 'absolute', top: '20px', right: '20px' }}
               variant="outlined">
               <CloseIcon color="primary" />
             </Button>

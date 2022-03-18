@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import {Button, IconButton} from '@mui/material';
+import React, { useState } from 'react';
+import { Button, IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import CloseIcon from '@mui/icons-material/Close';
 import tileUnsigned from '../../assets/unsigned.png';
 import tileSignedEditor from '../../assets/signed.png';
@@ -25,27 +25,27 @@ const Legend = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const icons = [
-    {src: tileUnsigned, text: t('legend.tileUnsigned')},
-    {src: tileSignedEditor, text: t('legend.tileSignedEditor')},
-    {src: osmStop, text: t('legend.stopOSM')},
-    {src: osmStopReport, text: t('legend.stopOSMReport')},
-    {src: osmStopReportApproved, text: t('legend.stopOSMReportApprove')},
-    {src: gtfsStop, text: t('legend.stopZTM')},
-    {src: gtfsStopReport, text: t('legend.stopZTMReport')},
-    {src: gtfsStopReportApproved, text: t('legend.stopZTMReportApprove')},
-    {src: osmStopOutside, text: t('legend.stopOsmOutside')},
-    {src: osmStopReportOutside, text: t('legend.stopOsmOutsideReport')},
-    {src: osmStopReportApprovedOutside, text: t('legend.stopOsmOutsideReportApprove')},
-    {src: reportGrayIcon, text: t('legend.reportNew')},
-    {src: reportBlueIcon, text: t('legend.reportActive')},
-    {src: reportGreenIcon, text: t('legend.reportInactive')},
-    {src: connectionNotApproved, text: t('legend.connectionNew')},
+    { src: tileUnsigned, text: t('legend.tileUnsigned') },
+    { src: tileSignedEditor, text: t('legend.tileSignedEditor') },
+    { src: osmStop, text: t('legend.stopOSM') },
+    { src: osmStopReport, text: t('legend.stopOSMReport') },
+    { src: osmStopReportApproved, text: t('legend.stopOSMReportApprove') },
+    { src: gtfsStop, text: t('legend.stopZTM') },
+    { src: gtfsStopReport, text: t('legend.stopZTMReport') },
+    { src: gtfsStopReportApproved, text: t('legend.stopZTMReportApprove') },
+    { src: osmStopOutside, text: t('legend.stopOsmOutside') },
+    { src: osmStopReportOutside, text: t('legend.stopOsmOutsideReport') },
+    { src: osmStopReportApprovedOutside, text: t('legend.stopOsmOutsideReportApprove') },
+    { src: reportGrayIcon, text: t('legend.reportNew') },
+    { src: reportBlueIcon, text: t('legend.reportActive') },
+    { src: reportGreenIcon, text: t('legend.reportInactive') },
+    { src: connectionNotApproved, text: t('legend.connectionNew') },
   ];
 
-  const getIcons = icons.map(({src, text}, id) => (
+  const getIcons = icons.map(({ src, text }, id) => (
     <li className="legend__row" key={text + id}>
       <span className="legend__icon">
         <img src={src} alt={text} />
@@ -59,7 +59,7 @@ const Legend = () => {
         size="small"
         variant="contained"
         onClick={handleOpen}
-        sx={{zIndex: '400', position: 'absolute', bottom: '25px', right: '10px', opacity: '0.8'}}>
+        sx={{ zIndex: '400', position: 'absolute', bottom: '25px', right: '10px', opacity: '0.8' }}>
         {t('legend.title')}
       </Button>
 

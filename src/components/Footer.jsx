@@ -1,12 +1,12 @@
 import VersionLabel from './VersionLabel';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 import './../stylesheets/footer.scss';
 
-const {REACT_APP_RDN_PAGE, REACT_APP_USER_MANUAL} = process.env;
+const { REACT_APP_RDN_PAGE, REACT_APP_USER_MANUAL } = process.env;
 
 const Footer = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <div className="footer">

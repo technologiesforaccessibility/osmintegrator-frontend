@@ -1,5 +1,5 @@
-import {useContext, useState} from 'react';
-import {useTranslation} from 'react-i18next';
+import { useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
@@ -9,16 +9,16 @@ import ReportIcon from '@mui/icons-material/Report';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CropSquareTwoToneIcon from '@mui/icons-material/CropSquareTwoTone';
 import SyncIcon from '@mui/icons-material/Sync';
-import {ReactComponent as ConnectionIcon} from '../assets/connection-panel-icon.svg';
+import { ReactComponent as ConnectionIcon } from '../assets/connection-panel-icon.svg';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 
-import {MapContext, MapModes} from './contexts/MapContextProvider';
+import { MapContext, MapModes } from './contexts/MapContextProvider';
 import ConnectionVisibilityPanel from './ConnectionVisibilityPanel';
 import MapOptions from './MapOptions';
 
 import '../stylesheets/mapPanel.scss';
-import {modalStyle} from '../stylesheets/sharedStyles';
+import { modalStyle } from '../stylesheets/sharedStyles';
 
 const MapPanel = () => {
   const {
@@ -32,7 +32,7 @@ const MapPanel = () => {
     setActiveStop,
     setRerenderTiles,
   } = useContext(MapContext);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -84,7 +84,7 @@ const MapPanel = () => {
                 singleTileToggle(false);
                 hideTileElements();
                 resetMapSettings();
-                setNewReportCoordinates({lat: null, lon: null});
+                setNewReportCoordinates({ lat: null, lon: null });
                 setActiveStop(null);
                 setRerenderTiles(true);
               }}>
@@ -99,7 +99,7 @@ const MapPanel = () => {
               size="small"
               color="primary"
               onChange={handleChange}>
-              {radios.map(({title, name, icon}, index) => (
+              {radios.map(({ title, name, icon }, index) => (
                 <ToggleButton className="map-panel__toggle--modes" key={index} value={name} color="primary">
                   <Tooltip title={title}>{icon()}</Tooltip>
                 </ToggleButton>

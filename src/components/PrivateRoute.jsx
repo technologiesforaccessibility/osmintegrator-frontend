@@ -1,12 +1,12 @@
 import React from 'react';
-import {Route, Redirect} from 'react-router-dom';
-import {useSelector} from 'react-redux';
-import {paths} from '../utilities/constants';
+import { Route, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { paths } from '../utilities/constants';
 
-import {selectAuthIsLoggedIn} from '../redux/selectors/authSelector';
-import {hasAccessToPath} from '../utilities/auth';
+import { selectAuthIsLoggedIn } from '../redux/selectors/authSelector';
+import { hasAccessToPath } from '../utilities/auth';
 
-export default function PrivateRoute({component: Component, path, ...rest}) {
+export default function PrivateRoute({ component: Component, path, ...rest }) {
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
 
   function getComponent() {

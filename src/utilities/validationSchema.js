@@ -1,6 +1,6 @@
 import i18n from '../translations/i18n';
 
-import {object, string, ref} from 'yup';
+import { object, string, ref } from 'yup';
 
 export const RegisterSchema = object().shape({
   username: string().min(3, i18n.t('register.usernamePrompt')).required(i18n.t('register.usernameRequiredError')),
