@@ -63,7 +63,11 @@
     "style-loader": "^2.0.0"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json, scss}": [
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "src/**/*.{css,scss,json}": [
       "prettier --write"
     ]
   },
