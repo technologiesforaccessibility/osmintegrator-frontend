@@ -1,7 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { NotificationActions } from '../actions/notificationActions';
 
-const initialState = {
+export type TNotificationState = {
+  title?: string;
+  class?: string;
+  message?: string;
+};
+
+const initialState: TNotificationState = {
   title: undefined,
   class: undefined,
   message: undefined,

@@ -2,16 +2,28 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { login, logout, validateLogin } from '../actions/authActions';
 
-const initialState = {
+export type TAuthState = {
+  isLoggedIn: boolean;
+  token?: string;
+  error: boolean;
+  errorMessage?: string;
+  errorStatus?: string;
+  loading: boolean;
+  loggedInUserRoles?: string[];
+  name?: string;
+};
+
+const initialState: TAuthState = {
   isLoggedIn: !!localStorage.getItem('token'),
-  token: localStorage.getItem('token'),
+  token: localStorage.getItem('token') ?? '',
   error: false,
   errorMessage: undefined,
   errorStatus: undefined,
   loading: false,
+  loggedInUserRoles: [],
 };
 
-function setTokens(token, refreshToken) {
+function setTokens(token?: string, refreshToken?: string) {
   if (token) {
     localStorage.setItem('token', token);
   } else {
@@ -25,7 +37,7 @@ function setTokens(token, refreshToken) {
   }
 }
 
-function parseToken(token) {
+function parseToken(token: string) {
   const [, base64Url] = token.split('.');
   const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
   const jsonPayload = decodeURIComponent(
@@ -40,7 +52,7 @@ function parseToken(token) {
   const parsedToken = JSON.parse(jsonPayload);
 
   const roleKey = Object.keys(parsedToken).find(key => key.search('role') > -1);
-  const nameKey = Object.keys(parsedToken).filter(key => key.includes('name') && !key.includes('identifier'));
+  const nameKey = Object.keys(parsedToken).find(key => key.includes('name') && !key.includes('identifier'));
 
   if (roleKey) {
     const role = parsedToken[roleKey];
@@ -61,7 +73,7 @@ function parseToken(token) {
 }
 
 const authReducer = createReducer(initialState, builder => {
-  function handleRejected(state, action) {
+  function handleRejected(state: any, action: any) {
     state.isLoggedIn = false;
     state.loading = false;
     state.error = true;
@@ -80,7 +92,7 @@ const authReducer = createReducer(initialState, builder => {
     setTokens();
   }
 
-  function handlePending(state) {
+  function handlePending(state: any) {
     state.loading = true;
     state.error = false;
     state.errorMessage = undefined;
@@ -111,7 +123,7 @@ const authReducer = createReducer(initialState, builder => {
     })
     .addCase(validateLogin.pending, handlePending)
     .addCase(validateLogin.fulfilled, state => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('token') ?? '';
       const { roles, name } = parseToken(token);
 
       state.isLoggedIn = true;

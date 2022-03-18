@@ -3,8 +3,12 @@ import appSlice from './appReducer';
 import authReducer from './authReducer';
 import { NotificationReducer } from './notificationReducer';
 
-export default combineReducers({
+const reducersObject = {
   auth: authReducer,
   notification: NotificationReducer,
   app: appSlice.reducer,
-});
+};
+
+export type TReducer = typeof reducersObject;
+
+export default combineReducers(reducersObject);
