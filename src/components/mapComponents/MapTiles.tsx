@@ -45,7 +45,7 @@ const MapTiles: FC<MapTilesProps> = ({
           pathOptions={{ color: colors.colorTileActive }}
           eventHandlers={{
             click: e => {
-              isCreateReportMapMode && addReportMarker(e);
+              if (isCreateReportMapMode) addReportMarker(e);
             },
           }}
         />

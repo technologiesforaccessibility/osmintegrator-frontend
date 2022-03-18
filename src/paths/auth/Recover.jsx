@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Redirect } from 'react-router';
+import { Redirect } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
@@ -23,6 +23,25 @@ const Recover = () => {
   const [isSend, setIsSend] = useState(false);
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
+  const runRecover = async email => {
+    try {
+      await api.accountForgotPasswordCreate(
+        {
+          email,
+        },
+        { headers: noTokenHeaders() },
+      );
+      setMessageColor(colors.colorMessageSuccess);
+      setMessage(t('recover.emailSent'));
+      setIsSend(true);
+      setShouldRedirect(true);
+    } catch (error) {
+      setMessageColor(colors.colorMessageFail);
+      setMessage(unsafeFormApiError(error, t, 'recover'));
+    }
+    setLoading(false);
+  };
+
   const formik = useFormik({
     initialValues: {
       recoverEmail: '',
@@ -32,25 +51,6 @@ const Recover = () => {
       runRecover(recoverEmail);
     },
   });
-
-  const runRecover = async email => {
-    try {
-      await api.accountForgotPasswordCreate(
-        {
-          email,
-        },
-        { headers: noTokenHeaders() },
-      );
-      setMessageColor(colors['colorMessageSuccess']);
-      setMessage(t('recover.emailSent'));
-      setIsSend(true);
-      setShouldRedirect(true);
-    } catch (error) {
-      setMessageColor(colors['colorMessageFail']);
-      setMessage(unsafeFormApiError(error, t, 'recover'));
-    }
-    setLoading(false);
-  };
 
   return (
     <AuthContainer>

@@ -18,8 +18,7 @@ import NewReportMarker from './mapComponents/NewReportMarker';
 import TileStops from './mapComponents/TileStops';
 import { exception } from '../utilities/exceptionHelper';
 import Loader from './Loader';
-import { Modal } from '@mui/material';
-import { Box } from '@mui/system';
+import { Modal, Box } from '@mui/material';
 import WelcomeModal from './WelcomeModal';
 import { useCookies } from 'react-cookie';
 import { LeafletMouseEvent } from 'leaflet';
@@ -134,6 +133,13 @@ export const MapView = () => {
     [singleTileToggle, stopConversations, setTileStops],
   );
 
+  const getConnectedStopsIds = (connectionArray: Array<Connection>) => {
+    return connectionArray
+      .filter(con => con.gtfsStopId && con.osmStopId)
+      .map(({ gtfsStopId, osmStopId }) => [gtfsStopId || '', osmStopId || ''])
+      .flat();
+  };
+
   const getTileConnections = useCallback(
     async id => {
       try {
@@ -166,13 +172,6 @@ export const MapView = () => {
     },
     [setGeoConversations, setStopConversations, setImportedReports],
   );
-
-  const getConnectedStopsIds = (connectionArray: Array<Connection>) => {
-    return connectionArray
-      .filter(con => con.gtfsStopId && con.osmStopId)
-      .map(({ gtfsStopId, osmStopId }) => [gtfsStopId || '', osmStopId || ''])
-      .flat();
-  };
 
   const isActiveStopClicked = (clickedStopId: string) => {
     return activeStop?.id === clickedStopId;

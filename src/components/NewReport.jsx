@@ -8,7 +8,7 @@ import { Button, CircularProgress, Modal } from '@mui/material';
 import ConversationHeading from './ConversationHeading';
 import ConversationForm from './ConversationForm';
 import '../stylesheets/newReport.scss';
-import { Box } from '@mui/system';
+import { Box } from '@mui/material';
 import { modalStyle } from '../stylesheets/sharedStyles';
 
 const NewReport = () => {
@@ -28,6 +28,60 @@ const NewReport = () => {
   const { geoConversations, stopConversations, inputContent, setInputContent, openModal, setOpenModal } =
     useContext(ConversationContext);
   const { lat, lon } = newReportCoordinates;
+
+  const checkReportStatus = conv => {
+    if (conv) {
+      return !conv.status;
+    }
+    return false;
+  };
+
+  async function getGeoConversation() {
+    if (!lat && !lon) return;
+    const currentGeoConversation = geoConversations.filter(conv => conv.lat === lat && conv.lon === lon)[0];
+    setConversation(currentGeoConversation);
+    setReportActive(checkReportStatus(currentGeoConversation));
+  }
+
+  async function getStopConversation() {
+    if (activeStop) {
+      const currentStopConversation = stopConversations.filter(conv => conv.stopId === activeStop.id)[0];
+      setConversation(currentStopConversation);
+      setReportActive(checkReportStatus(currentStopConversation));
+    }
+  }
+
+  const handleOpenModal = () => setOpenModal(true);
+
+  const handleCloseReport = () => {
+    if (!inputContent) {
+      setActiveStop(null);
+      setNewReportCoordinates({ lat: null, lon: null });
+      displayPropertyGrid(null);
+      resetReportCoordinates();
+    } else {
+      handleOpenModal();
+    }
+  };
+
+  const handleLoader = value => {
+    setLoading(value);
+  };
+
+  const handleCloseModal = () => {
+    setInputContent('');
+    setOpenModal(false);
+    setActiveStop(null);
+    resetReportCoordinates();
+  };
+
+  const scrollToEnd = () => {
+    setTimeout(() => {
+      if (conversationWrapper.current) {
+        conversationWrapper.current.scrollTop = conversationWrapper.current.scrollHeight;
+      }
+    }, 100);
+  };
 
   useEffect(() => {
     getStopConversation();
@@ -55,59 +109,6 @@ const NewReport = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  async function getGeoConversation() {
-    if (!lat && !lon) return;
-    const currentGeoConversation = geoConversations.filter(conv => conv.lat === lat && conv.lon === lon)[0];
-    setConversation(currentGeoConversation);
-    setReportActive(checkReportStatus(currentGeoConversation));
-  }
-
-  async function getStopConversation() {
-    if (activeStop) {
-      const currentStopConversation = stopConversations.filter(conv => conv.stopId === activeStop.id)[0];
-      setConversation(currentStopConversation);
-      setReportActive(checkReportStatus(currentStopConversation));
-    }
-  }
-
-  const checkReportStatus = conv => {
-    if (conv) {
-      return !conv.status;
-    }
-    return false;
-  };
-
-  const handleCloseReport = () => {
-    if (!inputContent) {
-      setActiveStop(null);
-      setNewReportCoordinates({ lat: null, lon: null });
-      displayPropertyGrid(null);
-      resetReportCoordinates();
-    } else {
-      handleOpenModal();
-    }
-  };
-
-  const handleLoader = value => {
-    setLoading(value);
-  };
-
-  const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => {
-    setInputContent('');
-    setOpenModal(false);
-    setActiveStop(null);
-    resetReportCoordinates();
-  };
-
-  const scrollToEnd = () => {
-    setTimeout(() => {
-      if (conversationWrapper.current) {
-        conversationWrapper.current.scrollTop = conversationWrapper.current.scrollHeight;
-      }
-    }, 100);
-  };
 
   return (
     <div className="report">

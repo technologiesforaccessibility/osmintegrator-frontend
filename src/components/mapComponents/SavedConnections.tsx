@@ -53,12 +53,12 @@ const SavedConnections: FC<SavedConnectionsProps> = ({ stops }) => {
   };
 
   const closePopup = () => {
-    popupRef.current && (popupRef.current as unknown as Record<string, () => void>)._close();
+    if (popupRef.current) (popupRef.current as unknown as Record<string, () => void>)._close();
   };
 
   const getPathLineColor = (connection: Connection, gtfsStop: Stop, osmStop: Stop) => {
     if (connection.exported) {
-      const osmRefTags = osmStop.tags?.filter(t => t.key === 'ref') ?? [];
+      const osmRefTags = osmStop.tags?.filter(tag => tag.key === 'ref') ?? [];
       const osmRefTagValue = osmRefTags.length > 0 ? osmRefTags[0].value : null;
 
       return osmRefTagValue === gtfsStop.stopId?.toString()

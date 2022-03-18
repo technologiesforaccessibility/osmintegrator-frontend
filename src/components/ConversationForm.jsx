@@ -44,16 +44,24 @@ const ConversationForm = ({ lat, lon, isReportActive, conversation, handleLoader
       }
 
       if (conversation) {
-        approveReport ? approveConversation(reportText) : updateConversation(reportText);
+        if (approveReport) {
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
+          approveConversation(reportText);
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
+          updateConversation(reportText);
+        }
         return;
       }
 
       if (activeStop !== null) {
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         createStopConversation(reportText);
         return;
       }
 
       if (lat !== null && lon !== null) {
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         createGeoConversation(reportText);
         return;
       }

@@ -69,6 +69,45 @@ const getEmailFromPath = urlString => {
   }
 };
 
+const getStopIconProps = ({ outsideSelectedTile, stopType, hasReport, reportApproved }) => {
+  if (outsideSelectedTile) {
+    // OSM outside a tile
+    if (stopType === StopType.OSM) {
+      if (reportApproved) {
+        return { iconUrl: stopIcons.osmStopReportApprovedOutside, iconAnchor: [30, 55] };
+      }
+      if (hasReport) {
+        return { iconUrl: stopIcons.osmStopReportOutside, iconAnchor: [30, 55] };
+      }
+      return { iconUrl: stopIcons.osmStopOutside, iconAnchor: [30, 55] };
+    }
+  }
+  // OSM inside a tile
+  if (stopType === StopType.OSM) {
+    if (reportApproved) {
+      return { iconUrl: stopIcons.osmStopReportApproved, iconAnchor: [30, 55] };
+    }
+    if (hasReport) {
+      return { iconUrl: stopIcons.osmStopReport, iconAnchor: [30, 55] };
+    }
+    return { iconUrl: stopIcons.osmStop, iconAnchor: [30, 55] };
+  }
+  // GTFS inside a tile
+  if (reportApproved) {
+    return { iconUrl: stopIcons.gtfsStopReportApproved, iconAnchor: [0, 55] };
+  }
+  if (hasReport) {
+    return { iconUrl: stopIcons.gtfsStopReport, iconAnchor: [0, 55] };
+  }
+  return { iconUrl: stopIcons.gtfsStop, iconAnchor: [0, 55] };
+};
+
+const getShadowProps = ({ stopType }) => {
+  return stopType === StopType.OSM
+    ? { shadowUrl: shadowZTM, shadowAnchor: [34, 58] }
+    : { shadowUrl: shadowOSM, shadowAnchor: [3, 58] };
+};
+
 const getBusStopIcon = (busStopProperties, isActive) => {
   const iconProps = getStopIconProps(busStopProperties);
   const { iconUrl, iconAnchor } = iconProps;
@@ -89,6 +128,18 @@ const getBusStopIcon = (busStopProperties, isActive) => {
     iconAnchor,
   });
   return isActive ? activeIcon : inActiveIcon;
+};
+
+const getReportColor = status => {
+  switch (status) {
+    case 0:
+      return reportIcons.created;
+    case 1:
+      return reportIcons.approved;
+    default:
+      // 99
+      return reportIcons.initial;
+  }
 };
 
 const getReportIcon = (status, isActive) => {
@@ -140,55 +191,4 @@ export {
   getBusStopIcon,
   unsafeFormApiError,
   getReportIcon,
-};
-
-const getStopIconProps = ({ outsideSelectedTile, stopType, hasReport, reportApproved }) => {
-  if (outsideSelectedTile) {
-    // OSM outside a tile
-    if (stopType === StopType.OSM) {
-      if (reportApproved) {
-        return { iconUrl: stopIcons.osmStopReportApprovedOutside, iconAnchor: [30, 55] };
-      }
-      if (hasReport) {
-        return { iconUrl: stopIcons.osmStopReportOutside, iconAnchor: [30, 55] };
-      }
-      return { iconUrl: stopIcons.osmStopOutside, iconAnchor: [30, 55] };
-    }
-  }
-  // OSM inside a tile
-  if (stopType === StopType.OSM) {
-    if (reportApproved) {
-      return { iconUrl: stopIcons.osmStopReportApproved, iconAnchor: [30, 55] };
-    }
-    if (hasReport) {
-      return { iconUrl: stopIcons.osmStopReport, iconAnchor: [30, 55] };
-    }
-    return { iconUrl: stopIcons.osmStop, iconAnchor: [30, 55] };
-  }
-  // GTFS inside a tile
-  if (reportApproved) {
-    return { iconUrl: stopIcons.gtfsStopReportApproved, iconAnchor: [0, 55] };
-  }
-  if (hasReport) {
-    return { iconUrl: stopIcons.gtfsStopReport, iconAnchor: [0, 55] };
-  }
-  return { iconUrl: stopIcons.gtfsStop, iconAnchor: [0, 55] };
-};
-
-const getShadowProps = ({ stopType }) => {
-  return stopType === StopType.OSM
-    ? { shadowUrl: shadowZTM, shadowAnchor: [34, 58] }
-    : { shadowUrl: shadowOSM, shadowAnchor: [3, 58] };
-};
-
-const getReportColor = status => {
-  switch (status) {
-    case 0:
-      return reportIcons.created;
-    case 1:
-      return reportIcons.approved;
-    default:
-      // 99
-      return reportIcons.initial;
-  }
 };

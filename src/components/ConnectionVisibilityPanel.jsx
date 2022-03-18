@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Tooltip from '@mui/material/Tooltip';
-import { Button, Grid, Modal } from '@mui/material';
-import { Box } from '@mui/system';
+import { Button, Grid, Modal, Box } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 import { MapContext } from './contexts/MapContextProvider';

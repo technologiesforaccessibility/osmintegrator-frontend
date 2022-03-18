@@ -2,7 +2,7 @@ import React, { FC, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import Box from '@mui/system/Box';
+import Box from '@mui/material/Box';
 import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 import { useDispatch } from 'react-redux';
@@ -54,13 +54,13 @@ const SyncPanel: FC = () => {
 
         const tileExportInfo = await api.tilesExportChangesDetail(activeTile?.id, { headers: basicHeaders() });
 
-        var tags = Object.keys(tileExportInfo.data.tags!)
+        const remappedTags = Object.keys(tileExportInfo.data.tags!)
           .filter(k => k !== 'comment')
           .map(key => `${key}=${tileExportInfo.data.tags![key]}`);
 
         setChanges(tileExportInfo.data.changes ?? '');
-        setTags(tags);
-        setComment(tileExportInfo.data.tags!['comment'] ?? '');
+        setTags(remappedTags);
+        setComment(tileExportInfo.data.tags!.comment ?? '');
 
         setIsOsmExportModalOpen(true);
       } catch (error) {

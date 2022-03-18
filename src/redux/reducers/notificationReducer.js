@@ -24,7 +24,7 @@ export const NotificationReducer = createReducer(initialState, builder => {
       state.title = 'Error';
       state.message = action.payload.message;
     })
-    .addCase(NotificationActions.clear, (state, action) => {
+    .addCase(NotificationActions.clear, state => {
       state.class = undefined;
       state.title = undefined;
       state.message = undefined;

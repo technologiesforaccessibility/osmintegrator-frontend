@@ -26,13 +26,6 @@ function RoleAssignmentPanel() {
   const [selectedUserRoles, setSelectedUserRoles] = useState<RolePair[]>([]);
   const [showLoader, setShowLoader] = useState(true);
 
-  useEffect(() => {
-    getUserList().then(userList => {
-      setUserRoleList(userList || []);
-      setShowLoader(false);
-    });
-  }, []);
-
   async function getUserList() {
     try {
       const response = await api.rolesList({
@@ -44,9 +37,16 @@ function RoleAssignmentPanel() {
     }
   }
 
+  useEffect(() => {
+    getUserList().then(userList => {
+      setUserRoleList(userList || []);
+      setShowLoader(false);
+    });
+  }, []);
+
   const users = useMemo(
     () =>
-      userRoleList.map(({ id, userName, roles }) => {
+      userRoleList.map(({ userName }) => {
         return (
           <MenuItem key={userName} value={userName}>
             {userName}

@@ -19,12 +19,6 @@ const RegisterConfirm = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [activatedSuccessfully, setActivatedSuccessfully] = useState(false);
 
-  useEffect(() => {
-    if (isLoading) {
-      activateAccount();
-    }
-  }, [isLoading]);
-
   const activateAccount = async () => {
     try {
       const email = getEmailFromPath(window.location.href);
@@ -36,6 +30,12 @@ const RegisterConfirm = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (isLoading) {
+      activateAccount();
+    }
+  }, [isLoading]);
 
   return (
     <>

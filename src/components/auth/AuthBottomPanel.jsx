@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import '../../stylesheets/authBottomPanel.scss';
 import { Button, ButtonGroup } from '@mui/material';
 

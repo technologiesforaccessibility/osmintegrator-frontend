@@ -12,7 +12,7 @@ export function webError(response) {
     }
 
     // Other problems
-    error.errors.message[0] && store.dispatch(NotificationActions.error(error.errors.message[0]));
+    if (error.errors.message[0]) store.dispatch(NotificationActions.error(error.errors.message[0]));
   }
 
   function error403() {
@@ -23,8 +23,11 @@ export function webError(response) {
     store.dispatch(NotificationActions.error(i18n.t('error.authentication')));
   }
 
-  function error500(response) {
-    console.log(response);
+  function error500(res) {
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.log(res);
+    }
     store.dispatch(NotificationActions.error(i18n.t('error.internalServerError')));
   }
 

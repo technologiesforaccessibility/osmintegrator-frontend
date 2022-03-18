@@ -117,7 +117,7 @@ const Login = () => {
 
       {error && (
         <div className="auth-info-placeholder centered">
-          <span style={{ color: colors['colorMessageFail'] }}>{unsafeFormApiError(error, t, 'login')}</span>
+          <span style={{ color: colors.colorMessageFail }}>{unsafeFormApiError(error, t, 'login')}</span>
         </div>
       )}
     </AuthContainer>

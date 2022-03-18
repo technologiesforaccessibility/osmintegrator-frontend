@@ -15,15 +15,15 @@ const Logout = () => {
 
   const { resetMapContext } = useContext(MapContext);
 
+  const proceedLogOut = () => {
+    history.push(paths.LOGIN);
+  };
+
   useEffect(() => {
     setTimeout(() => proceedLogOut(), 2000);
     resetMapContext();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const proceedLogOut = () => {
-    history.push(paths.LOGIN);
-  };
 
   return (
     <AuthContainer>

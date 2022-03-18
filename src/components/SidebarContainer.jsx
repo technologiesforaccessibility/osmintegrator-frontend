@@ -3,7 +3,7 @@ import dots from './../assets/authDots.png';
 
 import './../stylesheets/dashboardSidebar.scss';
 
-const SidebarContainer = ({ navigation, children, isTileActive, userRoles, appRoles }) => {
+const SidebarContainer = ({ navigation, children }) => {
   return (
     <div className="sidebar">
       <img src={dots} className="sidebar__image" alt="BackgroundDots"></img>

@@ -32,17 +32,6 @@ const SetPassword = () => {
   const [loading, setLoading] = useState(false);
   const [isSend, setIsSend] = useState(false);
 
-  const formik = useFormik({
-    initialValues: {
-      newPassword1: '',
-      newPassword2: '',
-    },
-    onSubmit: ({ newPassword1, newPassword2 }) => {
-      setLoading(true);
-      runUpdatePassword(newPassword1, newPassword2);
-    },
-  });
-
   const runUpdatePassword = async (password1, password2) => {
     if (comparePasswords(password1, password2) && isPasswordStrong(password1)) {
       try {
@@ -61,15 +50,26 @@ const SetPassword = () => {
         setShouldRedirect(true);
         setIsSend(true);
       } catch (error) {
-        setMessageColor(colors['colorMessageFail']);
+        setMessageColor(colors.colorMessageFail);
         setMessage(unsafeFormApiError(error, t, 'setPassword'));
       }
       setLoading(false);
     } else {
-      setMessageColor(colors['colorMessageFail']);
+      setMessageColor(colors.colorMessageFail);
       setMessage(t('setPassword.invalidPasswords'));
     }
   };
+
+  const formik = useFormik({
+    initialValues: {
+      newPassword1: '',
+      newPassword2: '',
+    },
+    onSubmit: ({ newPassword1, newPassword2 }) => {
+      setLoading(true);
+      runUpdatePassword(newPassword1, newPassword2);
+    },
+  });
 
   return (
     <AuthContainer>

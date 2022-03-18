@@ -35,24 +35,24 @@ const BusMarker = ({
     return visibilityOptions.unconnected.value.opacityValue;
   }, [visibilityOptions, busStop.id, connectedStopIds]);
 
-  const handleViewModeStopClick = busStop => {
-    clickBusStop(busStop);
-    if (connectedStopIds.includes(busStop.id)) {
+  const handleViewModeStopClick = stop => {
+    clickBusStop(stop);
+    if (connectedStopIds.includes(stop.id)) {
       const connection =
-        busStop.stopType === StopType.OSM
-          ? importedConnections.find(stop => stop.osmStopId === busStop.id)
-          : importedConnections.find(stop => stop.gtfsStopId === busStop.id);
-      if (busStop.stopType === StopType.OSM) {
-        const gtfsStop = tileStops.find(stop => stop.id === connection.gtfsStopId);
+        stop.stopType === StopType.OSM
+          ? importedConnections.find(conn => conn.osmStopId === stop.id)
+          : importedConnections.find(conn => conn.gtfsStopId === stop.id);
+      if (stop.stopType === StopType.OSM) {
+        const gtfsStop = tileStops.find(tileStop => tileStop.id === connection.gtfsStopId);
         setConnectedStopPair({
-          markedStop: busStop,
+          markedStop: stop,
           connectedStop: gtfsStop,
           connection: { id: connection.id },
         });
       } else {
-        const osmStop = tileStops.find(stop => stop.id === connection.osmStopId);
+        const osmStop = tileStops.find(tileStop => tileStop.id === connection.osmStopId);
         setConnectedStopPair({
-          markedStop: busStop,
+          markedStop: stop,
           connectedStop: osmStop,
           connection: { id: connection.id },
         });
@@ -70,14 +70,14 @@ const BusMarker = ({
     setConnectedStopPair({ markedStop: null, connectedStop: null, connection: null });
   };
 
-  const getIcon = busStop => {
+  const getIcon = stop => {
     if (isViewMode || isReportMode) {
-      return getBusStopIcon(busStop, isActiveStopClicked(busStop.id));
+      return getBusStopIcon(stop, isActiveStopClicked(stop.id));
     } else if (isConnectionMode) {
-      const activeStopWithConnection = connectionData.filter(connection => connection.id === busStop.id);
-      return activeStopWithConnection.length > 0 ? getBusStopIcon(busStop, true) : getBusStopIcon(busStop, false);
+      const activeStopWithConnection = connectionData.filter(connection => connection.id === stop.id);
+      return activeStopWithConnection.length > 0 ? getBusStopIcon(stop, true) : getBusStopIcon(stop, false);
     } else {
-      return getBusStopIcon(busStop, false);
+      return getBusStopIcon(stop, false);
     }
   };
 
@@ -99,10 +99,18 @@ const BusMarker = ({
             if (connectionRadio === ConnectionRadio.ADD) {
               createConnection(busStop);
             } else if (connectionRadio === ConnectionRadio.EDIT) {
-              isActiveStopClicked(busStop.id) ? handleViewModeStopUnclick() : handleViewModeStopClick(busStop);
+              if (isActiveStopClicked(busStop.id)) {
+                handleViewModeStopUnclick();
+              } else {
+                handleViewModeStopClick(busStop);
+              }
             }
           } else if (isViewMode || isReportMode) {
-            isActiveStopClicked(busStop.id) ? clickBusStop() : clickBusStop(busStop);
+            if (isActiveStopClicked(busStop.id)) {
+              clickBusStop();
+            } else {
+              clickBusStop(busStop);
+            }
           }
         },
       }}>

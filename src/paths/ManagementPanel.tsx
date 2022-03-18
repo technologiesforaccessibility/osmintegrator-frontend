@@ -46,25 +46,6 @@ function ManagementPanel() {
     setDataLoaded(true);
   };
 
-  useEffect(() => {
-    const getInitialState = async () => {
-      initState();
-      try {
-        const t = await getTiles();
-        const u = await getEditors();
-
-        setTiles(t || []);
-        setEditors(u || []);
-      } catch (e) {
-        exception(e);
-      } finally {
-        readyState();
-      }
-    };
-
-    getInitialState();
-  }, []);
-
   const getEditors = async () => {
     try {
       const response = await api.rolesUsersDetail(roles.EDITOR, {
@@ -87,6 +68,25 @@ function ManagementPanel() {
     }
   };
 
+  useEffect(() => {
+    const getInitialState = async () => {
+      initState();
+      try {
+        const fetchedTiles = await getTiles();
+        const fetchedEditors = await getEditors();
+
+        setTiles(fetchedTiles || []);
+        setEditors(fetchedEditors || []);
+      } catch (e) {
+        exception(e);
+      } finally {
+        readyState();
+      }
+    };
+
+    getInitialState();
+  }, []);
+
   const getColor = useCallback(
     (tile: Tile | UncommittedTile) => {
       if (selectedTile?.id === tile.id) {
@@ -100,7 +100,7 @@ function ManagementPanel() {
 
   const handleTileSelected = useCallback(
     (tileId: string) => {
-      const tile = tiles.find(t => t.id === tileId);
+      const tile = tiles.find(currentTile => currentTile.id === tileId);
       const assignedEditor = editors.find(e => e.userName === tile?.assignedUserName);
 
       setSelectedTile(tile);
@@ -181,9 +181,9 @@ function ManagementPanel() {
       if (response.status === 200) {
         dispatch(NotificationActions.success((response.data as unknown as Record<string, string>).value));
 
-        const tiles = await getTiles();
+        const fetchedTiles = await getTiles();
 
-        setTiles(tiles || []);
+        setTiles(fetchedTiles || []);
       } else {
         dispatch(NotificationActions.error(t('unrecognizedProblem')));
       }
