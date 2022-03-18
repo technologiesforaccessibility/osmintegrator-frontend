@@ -6,6 +6,7 @@ import { NotificationActions } from '../redux/actions/notificationActions';
 import { logout } from '../redux/actions/authActions';
 
 export function exception(error) {
+  // eslint-disable-next-line no-console
   console.log(error);
   if (error instanceof Response) {
     webError(error);

@@ -162,11 +162,14 @@ const getReportIcon = (status, isActive) => {
 
 const unsafeApiError = (errorInstance, optionalUserMessage) => {
   if (errorInstance.status === 401) {
+    // eslint-disable-next-line no-console
     console.log('Authorization problem');
   }
   if (optionalUserMessage) {
+    // eslint-disable-next-line no-console
     console.log(optionalUserMessage);
   } else {
+    // eslint-disable-next-line no-console
     console.log('Unknown problem');
   }
 };

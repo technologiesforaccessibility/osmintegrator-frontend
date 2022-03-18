@@ -20,7 +20,10 @@ export const validateLogin = createAsyncThunk('auth/validateLogin', async (data,
   return api
     .accountIsTokenValidList({ headers: basicHeaders() })
     .then(response => {
-      console.log('Valid token');
+      if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
+        console.log('Valid token');
+      }
 
       return response.data;
     })

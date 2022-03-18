@@ -6,7 +6,10 @@ export function webError(response) {
   function error400(error) {
     // Validation problem
     if (error.title === 'One or more validation errors occurred.') {
-      console.log(error.errors);
+      if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
+        console.log(error.errors);
+      }
       store.dispatch(NotificationActions.error(i18n.t('error.validationError')));
       return;
     }
@@ -51,11 +54,17 @@ export function webError(response) {
         error500(response.error);
         break;
       default:
-        console.log(response);
+        if (process.env.NODE_ENV === 'development') {
+          // eslint-disable-next-line no-console
+          console.log(response);
+        }
         store.dispatch(NotificationActions.error(i18n.t('error.unrecognizedProblem')));
     }
   } catch (error) {
-    console.log(error);
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    }
     store.dispatch(NotificationActions.error(i18n.t('error.unableToShowErrorMessage')));
   }
 }
