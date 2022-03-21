@@ -9,7 +9,7 @@ const getPosition = (osmStop: Stop, gtfsStop: Stop): LatLngExpression[] => {
   ];
 };
 
-const generateConnectionData = (connection: any, tileId: any) => {
+const generateConnectionData = (connection: any, tileId?: any) => {
   if (connection[0].stopType === StopType.OSM && connection[1].stopType !== StopType.OSM) {
     return {
       osmStopId: connection[0].id.toString(),

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, ReactNode } from 'react';
 import Dashboard from './DashboardWrapper';
 import '../stylesheets/profileLayout.scss';
 import { useSelector } from 'react-redux';
@@ -8,7 +8,11 @@ import Button from '@mui/material/Button';
 
 const { REACT_APP_USER_MANUAL } = process.env;
 
-export default function ProfileLayout({ children }) {
+type TProfileLayoutProps = {
+  children: ReactNode;
+};
+
+const ProfileLayout: FC<TProfileLayoutProps> = ({ children }) => {
   const { t } = useTranslation();
   const authRoles = useSelector(selectLoggedInUserRoles);
   const name = useSelector(selectUserName);
@@ -41,4 +45,6 @@ export default function ProfileLayout({ children }) {
       </div>
     </Dashboard>
   );
-}
+};
+
+export default ProfileLayout;

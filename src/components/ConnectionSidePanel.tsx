@@ -49,7 +49,7 @@ const ConnectionSidePanel = () => {
         return;
       }
 
-      await api.connectionsUpdate(generateConnectionData(connectionData, activeTile.id), {
+      await api.connectionsUpdate(generateConnectionData(connectionData, activeTile?.id), {
         headers: basicHeaders(),
       });
       shouldRenderConnections(true);

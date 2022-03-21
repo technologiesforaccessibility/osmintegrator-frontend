@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button, Checkbox, FormControlLabel, FormGroup } from '@mui/material';
@@ -6,11 +6,15 @@ import '../stylesheets/welcomeModal.scss';
 
 const { REACT_APP_USER_MANUAL, REACT_APP_VIDEO_TUTORIAL } = process.env;
 
-const WelcomeModal = ({ handleClose }) => {
+type TWelcomeModalProps = {
+  handleClose: (value: boolean) => void;
+};
+
+const WelcomeModal: FC<TWelcomeModalProps> = ({ handleClose }) => {
   const [isChecked, setChecked] = useState(false);
   const { t } = useTranslation();
 
-  const handleChange = event => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
   return (
@@ -18,12 +22,12 @@ const WelcomeModal = ({ handleClose }) => {
       <h3 className="welcome-modal__title">{t('welcomeModal.title')}</h3>
       <p className="welcome-modal__content">{t('welcomeModal.content')}</p>
       <a href={REACT_APP_USER_MANUAL} rel="noopener noreferrer" target="_blank" className="welcome-modal__manual">
-        <Button color="primary" variant="outlined" clickable>
+        <Button color="primary" variant="outlined">
           {t('welcomeModal.button')}
         </Button>
       </a>
       <a href={REACT_APP_VIDEO_TUTORIAL} rel="noopener noreferrer" target="_blank" className="welcome-modal__manual">
-        <Button color="primary" variant="outlined" clickable>
+        <Button color="primary" variant="outlined">
           {t('welcomeModal.movie')}
         </Button>
       </a>

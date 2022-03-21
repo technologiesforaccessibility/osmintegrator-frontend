@@ -1,12 +1,24 @@
-import { useContext, useMemo } from 'react';
+import { FC, useContext, useMemo } from 'react';
 import { Marker, Tooltip } from 'react-leaflet';
 
 import { getBusStopIcon } from '../utilities/utilities';
 import { generateStopName } from '../utilities/mapUtilities';
 import { MapContext } from './contexts/MapContextProvider';
 import { ConnectionRadio, StopType } from '../types/enums';
+import { Stop } from '../api/apiClient';
+import { TBusStopProperties } from '../types/stops';
 
-const BusMarker = ({
+type TBusMarkerProps = {
+  busStop: Stop;
+  isConnectionMode: boolean;
+  createConnection: (stop: Stop) => void;
+  isViewMode: boolean;
+  isActiveStopClicked: (stopId: string) => boolean;
+  clickBusStop: (stop?: Stop) => void;
+  isReportMode: boolean;
+};
+
+const BusMarker: FC<TBusMarkerProps> = ({
   busStop,
   isConnectionMode,
   createConnection,
@@ -29,32 +41,32 @@ const BusMarker = ({
   } = useContext(MapContext);
 
   const opacity = useMemo(() => {
-    if (connectedStopIds.includes(busStop.id)) {
+    if (connectedStopIds.includes(busStop.id ?? '')) {
       return visibilityOptions.connected.value.opacityValue;
     }
     return visibilityOptions.unconnected.value.opacityValue;
   }, [visibilityOptions, busStop.id, connectedStopIds]);
 
-  const handleViewModeStopClick = stop => {
+  const handleViewModeStopClick = (stop: Stop) => {
     clickBusStop(stop);
-    if (connectedStopIds.includes(stop.id)) {
+    if (connectedStopIds.includes(stop.id ?? '')) {
       const connection =
         stop.stopType === StopType.OSM
           ? importedConnections.find(conn => conn.osmStopId === stop.id)
           : importedConnections.find(conn => conn.gtfsStopId === stop.id);
       if (stop.stopType === StopType.OSM) {
-        const gtfsStop = tileStops.find(tileStop => tileStop.id === connection.gtfsStopId);
+        const gtfsStop = tileStops.find(tileStop => tileStop.id === connection?.gtfsStopId);
         setConnectedStopPair({
           markedStop: stop,
           connectedStop: gtfsStop,
-          connection: { id: connection.id },
+          connection: { id: connection?.id },
         });
       } else {
-        const osmStop = tileStops.find(tileStop => tileStop.id === connection.osmStopId);
+        const osmStop = tileStops.find(tileStop => tileStop.id === connection?.osmStopId);
         setConnectedStopPair({
           markedStop: stop,
           connectedStop: osmStop,
-          connection: { id: connection.id },
+          connection: { id: connection?.id },
         });
       }
       setIsSidebarConnectionHandlerVisible(true);
@@ -70,27 +82,29 @@ const BusMarker = ({
     setConnectedStopPair({ markedStop: null, connectedStop: null, connection: null });
   };
 
-  const getIcon = stop => {
+  const getIcon = (stop: Stop) => {
     if (isViewMode || isReportMode) {
-      return getBusStopIcon(stop, isActiveStopClicked(stop.id));
+      return getBusStopIcon(stop as TBusStopProperties, isActiveStopClicked(stop.id ?? ''));
     } else if (isConnectionMode) {
       const activeStopWithConnection = connectionData.filter(connection => connection.id === stop.id);
-      return activeStopWithConnection.length > 0 ? getBusStopIcon(stop, true) : getBusStopIcon(stop, false);
+      return activeStopWithConnection.length > 0
+        ? getBusStopIcon(stop as TBusStopProperties, true)
+        : getBusStopIcon(stop as TBusStopProperties, false);
     } else {
-      return getBusStopIcon(stop, false);
+      return getBusStopIcon(stop as TBusStopProperties, false);
     }
   };
 
   return (
     <Marker
       key={busStop.id}
-      position={[busStop.lat, busStop.lon]}
+      position={[busStop.lat ?? 0, busStop.lon ?? 0]}
       icon={getIcon(busStop)}
       riseOnHover={true}
       opacity={opacity}
       pane="shadowPane"
       shadowPane="markerPane"
-      zIndexOffset={isActiveStopClicked(busStop.id) ? 1000 : 0}
+      zIndexOffset={isActiveStopClicked(busStop.id ?? '') ? 1000 : 0}
       eventHandlers={{
         click: () => {
           setActiveStop(busStop);
@@ -99,14 +113,14 @@ const BusMarker = ({
             if (connectionRadio === ConnectionRadio.ADD) {
               createConnection(busStop);
             } else if (connectionRadio === ConnectionRadio.EDIT) {
-              if (isActiveStopClicked(busStop.id)) {
+              if (isActiveStopClicked(busStop.id ?? '')) {
                 handleViewModeStopUnclick();
               } else {
                 handleViewModeStopClick(busStop);
               }
             }
           } else if (isViewMode || isReportMode) {
-            if (isActiveStopClicked(busStop.id)) {
+            if (isActiveStopClicked(busStop.id ?? '')) {
               clickBusStop();
             } else {
               clickBusStop(busStop);

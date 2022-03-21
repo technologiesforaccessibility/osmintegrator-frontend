@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import api from '../api/apiInstance';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -11,8 +11,17 @@ import { exception } from '../utilities/exceptionHelper';
 import { Button, Checkbox, FormControlLabel, TextareaAutosize } from '@mui/material';
 import '../stylesheets/conversationForm.scss';
 import useDebounce from '../hooks/useDebounce';
+import { Conversation } from '../api/apiClient';
 
-const ConversationForm = ({ lat, lon, isReportActive, conversation, handleLoader }) => {
+type TConversationFormProps = {
+  lat: number;
+  lon: number;
+  isReportActive: boolean;
+  conversation: Conversation;
+  handleLoader: (value: boolean) => void;
+};
+
+const ConversationForm: FC<TConversationFormProps> = ({ lat, lon, isReportActive, conversation, handleLoader }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [currentInputValue, setCurrentInputValue] = useState('');
@@ -68,11 +77,11 @@ const ConversationForm = ({ lat, lon, isReportActive, conversation, handleLoader
     },
   });
 
-  const createStopConversation = async text => {
+  const createStopConversation = async (text: string) => {
     handleLoader(true);
     try {
       await api.conversationCreate(
-        { text, stopId: activeStop.id, tileId: activeTile.id },
+        { text, stopId: activeStop?.id, tileId: activeTile?.id ?? '' },
         {
           headers: basicHeaders(),
         },
@@ -85,11 +94,11 @@ const ConversationForm = ({ lat, lon, isReportActive, conversation, handleLoader
     }
   };
 
-  const createGeoConversation = async text => {
+  const createGeoConversation = async (text: string) => {
     handleLoader(true);
     try {
       await api.conversationCreate(
-        { text, lat, lon, tileId: activeTile.id },
+        { text, lat, lon, tileId: activeTile?.id ?? '' },
         {
           headers: basicHeaders(),
         },
@@ -97,18 +106,18 @@ const ConversationForm = ({ lat, lon, isReportActive, conversation, handleLoader
       dispatch(NotificationActions.success(t('report.success')));
       formik.resetForm();
       // HACK: If user after creating new raport will switch to view mode, it will show Property grid without conversation id
-      displayPropertyGrid({ lat, lon, tileId: activeTile.id });
+      displayPropertyGrid({ lat, lon, tileId: activeTile?.id ?? '' });
       setRerenderReports(true);
     } catch (error) {
       exception(error);
     }
   };
 
-  const updateConversation = async text => {
+  const updateConversation = async (text: string) => {
     handleLoader(true);
     try {
       await api.conversationCreate(
-        { conversationId: conversation.id, text, tileId: activeTile.id },
+        { conversationId: conversation.id, text, tileId: activeTile?.id ?? '' },
         {
           headers: basicHeaders(),
         },
@@ -121,11 +130,11 @@ const ConversationForm = ({ lat, lon, isReportActive, conversation, handleLoader
     }
   };
 
-  const approveConversation = async text => {
+  const approveConversation = async (text: string) => {
     handleLoader(true);
     try {
       await api.conversationApproveUpdate(
-        { conversationId: conversation.id, text, tileId: activeTile.id },
+        { conversationId: conversation.id, text, tileId: activeTile?.id ?? '' },
         {
           headers: basicHeaders(),
         },
@@ -156,7 +165,6 @@ const ConversationForm = ({ lat, lon, isReportActive, conversation, handleLoader
         <div className="conversation-form__bottom">
           <FormControlLabel
             control={<Checkbox checked={formik.values.approveReport} disabled={!isReportActive} id="approveReport" />}
-            size="small"
             label={t('report.approve')}
             onChange={formik.handleChange}
           />

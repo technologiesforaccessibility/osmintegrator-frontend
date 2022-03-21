@@ -2,11 +2,16 @@ import PropertyGridRow from './PropertyGridRow';
 
 import '../stylesheets/propertyGrid.scss';
 import { Button } from '@mui/material';
-import { useContext } from 'react';
+import { FC, useContext } from 'react';
 import { MapContext } from './contexts/MapContextProvider';
 import { useTranslation } from 'react-i18next';
+import { Conversation, Stop } from '../api/apiClient';
 
-const PropertyGrid = ({ propertyGrid }) => {
+type TPropertyGridProps = {
+  propertyGrid: Stop | Conversation;
+};
+
+const PropertyGrid: FC<TPropertyGridProps> = ({ propertyGrid }) => {
   const grid = propertyGrid;
   const entries = grid ? Object.entries(grid) : null;
   const { t } = useTranslation();
@@ -23,7 +28,7 @@ const PropertyGrid = ({ propertyGrid }) => {
           entries.map(([key, value]) =>
             key === 'tags' ? (
               value &&
-              value.map(({ innerKey, innerValue }) => (
+              value.map(({ innerKey, innerValue }: any) => (
                 <PropertyGridRow key={innerKey} title={innerKey} value={innerValue} />
               ))
             ) : key === 'messages' ? null : (

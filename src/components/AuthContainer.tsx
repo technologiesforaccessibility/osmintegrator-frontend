@@ -7,10 +7,16 @@ import { ReactComponent as RDNLogo } from './../assets/logos/rozwiazania-logo.sv
 import ztmLogoPath from './../assets/logos/logo_ZTM.png';
 import { useLocation } from 'react-router-dom';
 import '../stylesheets/auth.scss';
+import { FC, ReactNode } from 'react';
 
-export default function AuthContainer({ children }) {
+type TAuthContainerProps = {
+  children: ReactNode;
+};
+
+const AuthContainer: FC<TAuthContainerProps> = ({ children }) => {
   const location = useLocation();
   const isLoginPage = location.pathname === paths.LOGIN;
+
   return (
     <div className="auth">
       <div className="auth-image-container">
@@ -51,4 +57,6 @@ export default function AuthContainer({ children }) {
       </div>
     </div>
   );
-}
+};
+
+export default AuthContainer;

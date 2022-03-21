@@ -3,7 +3,11 @@ import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
-const lngs = {
+type TLang = {
+  nativeName: string;
+};
+
+const lngs: Record<string, TLang> = {
   en: { nativeName: 'English' },
   pl: { nativeName: 'Polski' },
 };

@@ -10,11 +10,12 @@ import ConversationForm from './ConversationForm';
 import '../stylesheets/newReport.scss';
 import { Box } from '@mui/material';
 import { modalStyle } from '../stylesheets/sharedStyles';
+import { Conversation } from '../api/apiClient';
 
 const NewReport = () => {
   const [loading, setLoading] = useState(false);
   const [isReportActive, setReportActive] = useState(false);
-  const [conversation, setConversation] = useState(null);
+  const [conversation, setConversation] = useState<Conversation>();
   const conversationWrapper = useRef(null);
   const { t } = useTranslation();
   const {
@@ -29,7 +30,7 @@ const NewReport = () => {
     useContext(ConversationContext);
   const { lat, lon } = newReportCoordinates;
 
-  const checkReportStatus = conv => {
+  const checkReportStatus = (conv: Conversation) => {
     if (conv) {
       return !conv.status;
     }
@@ -64,7 +65,7 @@ const NewReport = () => {
     }
   };
 
-  const handleLoader = value => {
+  const handleLoader = (value: boolean) => {
     setLoading(value);
   };
 
@@ -78,7 +79,8 @@ const NewReport = () => {
   const scrollToEnd = () => {
     setTimeout(() => {
       if (conversationWrapper.current) {
-        conversationWrapper.current.scrollTop = conversationWrapper.current.scrollHeight;
+        const wrapper = conversationWrapper.current as HTMLElement;
+        wrapper.scrollTop = wrapper.scrollHeight;
       }
     }, 100);
   };
@@ -121,9 +123,9 @@ const NewReport = () => {
           )}
 
           <ConversationHeading
-            lat={lat}
-            lon={lon}
-            activeStop={activeStop}
+            lat={lat ?? 0}
+            lon={lon ?? 0}
+            activeStop={activeStop!}
             isReportActive={isReportActive}
             handleCloseReport={handleCloseReport}
           />
@@ -131,8 +133,8 @@ const NewReport = () => {
           <div className="report__content bordered-wrapper">
             <div ref={conversationWrapper} className="report__conversation">
               {conversation ? (
-                conversation.messages
-                  .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+                conversation?.messages
+                  ?.sort((a, b) => new Date(a.createdAt ?? '').getTime() - new Date(b.createdAt ?? '').getTime())
                   .map(message => <ConversationMessage key={message.id} data={message} />)
               ) : (
                 <p>{t('report.noReportFound')}</p>
@@ -140,10 +142,10 @@ const NewReport = () => {
             </div>
             <div className="report__form">
               <ConversationForm
-                lat={lat}
-                lon={lon}
+                lat={lat ?? 0}
+                lon={lon ?? 0}
                 isReportActive={isReportActive}
-                conversation={conversation}
+                conversation={conversation!}
                 handleLoader={handleLoader}
               />
             </div>

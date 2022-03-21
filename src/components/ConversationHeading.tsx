@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Chip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import '../stylesheets/conversationHeading.scss';
+import { Stop } from '../api/apiClient';
 
-const ConversationHeading = ({ lat, lon, activeStop, isReportActive, handleCloseReport }) => {
+type TConversationHeadingProps = {
+  lat: number;
+  lon: number;
+  activeStop: Stop;
+  isReportActive: boolean;
+  handleCloseReport: () => void;
+};
+
+const ConversationHeading: FC<TConversationHeadingProps> = ({
+  lat,
+  lon,
+  activeStop,
+  isReportActive,
+  handleCloseReport,
+}) => {
   const { t } = useTranslation();
   return (
     <div className="conversation-heading bordered-wrapper">

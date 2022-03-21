@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const PropertyGridRow = ({ title, value }) => {
+type TPropertyGridRowProps = {
+  title: string;
+  value: boolean | null | Record<string, unknown>;
+};
+
+const PropertyGridRow: FC<TPropertyGridRowProps> = ({ title, value }) => {
   return (
     <div className="propertyGrid-row">
       <div className="propertyGrid-key">{title}</div>
@@ -10,4 +15,5 @@ const PropertyGridRow = ({ title, value }) => {
     </div>
   );
 };
+
 export default PropertyGridRow;

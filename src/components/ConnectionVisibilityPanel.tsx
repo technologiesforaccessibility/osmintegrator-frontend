@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
@@ -12,23 +12,30 @@ import { connectionVisibility } from '../utilities/constants';
 import '../stylesheets/connectionVisibilityPanel.scss';
 import { modalStyle } from '../stylesheets/sharedStyles';
 
-const ConnectionVisibilityPanel = ({ handleClose }) => {
+type TConnectionVisibilityPanelProps = {
+  handleClose: () => void;
+};
+
+const ConnectionVisibilityPanel: FC<TConnectionVisibilityPanelProps> = ({ handleClose }) => {
   const { visibilityOptions, setVisibilityOptions, resetMapVisibility } = useContext(MapContext);
   const { t } = useTranslation();
   const [childModal, setChildModal] = useState(false);
 
-  const handleChange = (key, newValue, storageItem) => {
+  const handleChange = (key: string, newValue: any, storageItem: string) => {
     if (!newValue) {
       return;
     }
     localStorage.setItem(storageItem, JSON.stringify(newValue));
 
-    setVisibilityOptions({ ...visibilityOptions, [key]: { ...visibilityOptions[key], value: newValue } });
+    const valueForSelectedKey = (visibilityOptions as unknown as { [key: string]: object })[key];
+
+    setVisibilityOptions({ ...visibilityOptions, [key]: { ...valueForSelectedKey, value: newValue } });
   };
 
-  const handleModal = value => {
+  const handleModal = (value: boolean) => {
     setChildModal(value);
   };
+
   const handleReset = () => {
     resetMapVisibility();
     handleModal(false);

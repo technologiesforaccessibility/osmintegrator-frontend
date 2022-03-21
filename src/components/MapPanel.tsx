@@ -66,7 +66,7 @@ const MapPanel = () => {
     },
   ];
 
-  const handleChange = (_, value) => {
+  const handleChange = (_: unknown, value: string) => {
     toogleMapMode(value);
   };
 
@@ -88,7 +88,7 @@ const MapPanel = () => {
                 setActiveStop(null);
                 setRerenderTiles(true);
               }}>
-              <Tooltip title={t('tileModePrompts.back')}>
+              <Tooltip title={t('tileModePrompts.back') as string}>
                 <ArrowBackIcon />
               </Tooltip>
             </ToggleButton>

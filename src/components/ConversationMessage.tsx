@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { FC } from 'react';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import '../stylesheets/conversationMessage.scss';
 import dayjs from 'dayjs';
-const ConversationMessage = ({ data }) => {
+import { Message } from '../api/apiClient';
+
+type TConversationMessageProps = {
+  data: Message;
+};
+
+const ConversationMessage: FC<TConversationMessageProps> = ({ data }) => {
   const getMessageDate = () => dayjs(data.createdAt).format('DD.MM.YYYY HH:mm');
 
   const getIcon = () =>

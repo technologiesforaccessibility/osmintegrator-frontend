@@ -13,8 +13,8 @@ const RecentlySeenTileList = () => {
         </a>
       </h6>
       <ul className="nav flex-column mb-2">
-        <SidebarListItem name="Tile 1" dataFeather="file-text" link={paths.HOME} />
-        <SidebarListItem name="Tile 2" dataFeather="file-text" link={paths.HOME} />
+        <SidebarListItem name="Tile 1" link={paths.HOME} />
+        <SidebarListItem name="Tile 2" link={paths.HOME} />
       </ul>
     </Fragment>
   );

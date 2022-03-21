@@ -8,7 +8,7 @@ import { generateConnectionData } from '../utilities/mapUtilities';
 import { basicHeaders } from '../config/apiConfig';
 import { MapContext } from './contexts/MapContextProvider';
 import { NotificationActions } from '../redux/actions/notificationActions';
-import { selectLoggedInUserRoles } from './../redux/selectors/authSelector';
+import { selectLoggedInUserRoles } from '../redux/selectors/authSelector';
 import { exception } from '../utilities/exceptionHelper';
 import { roles } from '../utilities/constants';
 
@@ -52,12 +52,12 @@ const SidebarConnectionHandler = () => {
               <fieldset>
                 <legend>{t('connectionSidebarHandler.stopName')}</legend>
 
-                {connectedStopPair.markedStop.name || t('connectionSidebarHandler.noStopName')}
+                {connectedStopPair?.markedStop?.name || t('connectionSidebarHandler.noStopName')}
               </fieldset>
               <fieldset>
                 <legend>{t('connectionSidebarHandler.connectedWith')}</legend>
 
-                {connectedStopPair.connectedStop.name || t('connectionSidebarHandler.noStopName')}
+                {connectedStopPair?.connectedStop?.name || t('connectionSidebarHandler.noStopName')}
               </fieldset>
             </div>
 
@@ -65,7 +65,7 @@ const SidebarConnectionHandler = () => {
               {connectedStopPair.connection && (
                 <Button
                   variant="contained"
-                  sx={authRoles.includes(roles.SUPERVISOR) && { flexGrow: '2' }}
+                  sx={authRoles?.includes(roles.SUPERVISOR) ? { flexGrow: 2 } : undefined}
                   onClick={() => {
                     deleteConnection();
                   }}>
