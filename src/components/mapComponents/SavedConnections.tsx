@@ -40,7 +40,7 @@ const SavedConnections: FC<SavedConnectionsProps> = ({ stops }) => {
 
   const deleteConnection = async (osm: Stop, gtfs: Stop) => {
     try {
-      await api.connectionsRemoveCreate(generateConnectionData(checkStopType([osm, gtfs])), {
+      await api.connectionsRemoveCreate(generateConnectionData(checkStopType([osm, gtfs]), osm.tileId ?? gtfs.tileId), {
         headers: basicHeaders(),
       });
       shouldRenderConnections(true);
