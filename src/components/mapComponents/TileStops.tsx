@@ -5,7 +5,7 @@ import BusMarker from '../BusMarker';
 import { MapContext } from '../contexts/MapContextProvider';
 
 type TTileStopsProps = {
-  clickBusStop: (stop: Stop) => void;
+  clickBusStop: (stop?: Stop) => void;
   createConnection: (stop: Stop) => void;
   isActiveStopClicked: (stopId: string) => boolean;
   isConnectionMode: boolean;

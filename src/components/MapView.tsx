@@ -178,7 +178,7 @@ export const MapView = () => {
     return activeStop?.id === clickedStopId;
   };
 
-  const clickBusStop = (stop: Stop) => {
+  const clickBusStop = (stop?: Stop) => {
     setActiveStop(stop || null);
     displayPropertyGrid(stop || null);
     setOpenReportContent(null);
