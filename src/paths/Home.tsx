@@ -1,5 +1,5 @@
-import DashboardWrapper from 'components/DashboardWrapper';
-import HomeLayoutManager from 'components/HomeLayoutManager';
+import DashboardWrapper from 'components/DashboardWrapper/DashboardWrapper';
+import HomeLayoutManager from 'components/HomeLayoutManager/HomeLayoutManager';
 
 const Home = () => {
   return (

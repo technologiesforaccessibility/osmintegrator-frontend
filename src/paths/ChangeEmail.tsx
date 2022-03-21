@@ -1,4 +1,4 @@
-import ProfileLayout from 'components/ProfileLayout';
+import ProfileLayout from 'components/ProfileLayout/ProfileLayout';
 
 const ChangeEmail = () => {
   return (

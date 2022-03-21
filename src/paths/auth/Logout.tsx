@@ -1,5 +1,5 @@
 import { CircularProgress } from '@mui/material';
-import AuthContainer from 'components/AuthContainer';
+import AuthContainer from 'components/auth/AuthContainer/AuthContainer';
 import { MapContext } from 'components/contexts/MapContextProvider';
 import { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';

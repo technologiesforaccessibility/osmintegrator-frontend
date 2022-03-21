@@ -1,8 +1,8 @@
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import { Button, Chip, CircularProgress, Divider, InputAdornment, TextField, Tooltip } from '@mui/material';
 import api from 'api/apiInstance';
-import AuthBottomPanel from 'components/auth/AuthBottomPanel';
-import AuthContainer from 'components/AuthContainer';
+import AuthBottomPanel from 'components/auth/AuthBottomPanel/AuthBottomPanel';
+import AuthContainer from 'components/auth/AuthContainer/AuthContainer';
 import { noTokenHeaders } from 'config/apiConfig';
 import { useFormik } from 'formik';
 import { useState } from 'react';

@@ -12,7 +12,7 @@ import { exception } from 'utilities/exceptionHelper';
 import { generateConnectionData, getPosition } from 'utilities/mapUtilities';
 
 import { MapContext } from '../contexts/MapContextProvider';
-import EditConnectionPopup from './EditConnectionPopup';
+import EditConnectionPopup from './EditConnectionPopup/EditConnectionPopup';
 
 interface SavedConnectionsProps {
   stops: Stop[];

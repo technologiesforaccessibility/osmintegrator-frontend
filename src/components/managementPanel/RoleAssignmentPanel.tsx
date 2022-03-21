@@ -1,4 +1,4 @@
-import 'stylesheets/roleAssignmentPanel.scss';
+import './roleAssignmentPanel.scss';
 
 import { Checkbox, CircularProgress, TextField } from '@mui/material';
 import Button from '@mui/material/Button';

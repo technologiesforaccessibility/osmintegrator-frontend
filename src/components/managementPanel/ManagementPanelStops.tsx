@@ -1,4 +1,4 @@
-import 'stylesheets/stopsImportPanel.scss';
+import './stopsImportPanel.scss';
 
 import { Button } from '@mui/material';
 import api from 'api/apiInstance';
