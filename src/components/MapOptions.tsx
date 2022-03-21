@@ -1,9 +1,9 @@
+import '../stylesheets/mapPanel.scss';
+
 import SettingsIcon from '@mui/icons-material/Settings';
 import { ToggleButton } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import { FC } from 'react';
-
-import '../stylesheets/mapPanel.scss';
 
 type TMapOptionsProps = {
   handleClick: () => void;

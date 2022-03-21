@@ -1,9 +1,9 @@
-import { webError } from './messagesHelper';
+import { logout } from '../redux/actions/authActions';
+import { NotificationActions } from '../redux/actions/notificationActions';
+import store from '../redux/store';
 import i18n from '../translations/i18n';
 import { paths } from './constants';
-import store from '../redux/store';
-import { NotificationActions } from '../redux/actions/notificationActions';
-import { logout } from '../redux/actions/authActions';
+import { webError } from './messagesHelper';
 
 export function exception(error: any) {
   // eslint-disable-next-line no-console

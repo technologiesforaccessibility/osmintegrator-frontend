@@ -1,9 +1,9 @@
-import { useTranslation } from 'react-i18next';
-
-import { useHistory } from 'react-router-dom';
 import '../../stylesheets/authBottomPanel.scss';
+
 import { Button, ButtonGroup } from '@mui/material';
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 
 const { REACT_APP_CONTACT_FORM } = process.env;
 

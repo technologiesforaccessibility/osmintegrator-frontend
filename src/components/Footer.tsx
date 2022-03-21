@@ -1,7 +1,8 @@
-import VersionLabel from './VersionLabel';
+import './../stylesheets/footer.scss';
+
 import { useTranslation } from 'react-i18next';
 
-import './../stylesheets/footer.scss';
+import VersionLabel from './VersionLabel';
 
 const { REACT_APP_RDN_PAGE, REACT_APP_USER_MANUAL } = process.env;
 

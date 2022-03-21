@@ -1,11 +1,12 @@
-import React from 'react';
-import { Box, Button, Modal, Tab, Tabs } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import TabPanel from './TabContent';
-import TileExportOsmExportTab from './TileExportOsmExportTab';
-import TileExportOsmChangesTab from './TileExportOsmChangesTab';
-import TileExportOsmInfoTab from './TileExportOsmInfoTab';
+import { Box, Button, Modal, Tab, Tabs } from '@mui/material';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+
+import TabPanel from './TabContent';
+import TileExportOsmChangesTab from './TileExportOsmChangesTab';
+import TileExportOsmExportTab from './TileExportOsmExportTab';
+import TileExportOsmInfoTab from './TileExportOsmInfoTab';
 
 export interface TileExportModalProps {
   tileId: string;

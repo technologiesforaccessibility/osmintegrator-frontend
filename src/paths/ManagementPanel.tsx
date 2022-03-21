@@ -1,27 +1,27 @@
+import '../stylesheets/managementPanel.scss';
+
+import { CircularProgress, TextField } from '@mui/material';
+import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Rectangle, Tooltip } from 'react-leaflet';
 import TextPath from 'react-leaflet-textpath';
-import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import MenuItem from '@mui/material/MenuItem';
-import Button from '@mui/material/Button';
-import { CircularProgress, TextField } from '@mui/material';
 
+import { Tile, UncommittedTile, User } from '../api/apiClient';
 import api from '../api/apiInstance';
-import { Tile, User, UncommittedTile } from '../api/apiClient';
-import { basicHeaders } from '../config/apiConfig';
 import H3Title from '../components/customs/H3Title';
-import ManagementPanelMap from '../components/managementPanel/ManagementPanelMap';
-import DashboardWrapper from '../components/DashboardWrapper';
-import RoleAssignmentPanel from '../components/managementPanel/RoleAssignmentPanel';
 import H4Title from '../components/customs/H4Title';
-import { NotificationActions } from '../redux/actions/notificationActions';
-import { exception } from '../utilities/exceptionHelper';
-
-import colors from '../stylesheets/config/colors.module.scss';
-import '../stylesheets/managementPanel.scss';
-import { roles } from '../utilities/constants';
+import DashboardWrapper from '../components/DashboardWrapper';
+import ManagementPanelMap from '../components/managementPanel/ManagementPanelMap';
 import ManagementPanelStops from '../components/managementPanel/ManagementPanelStops';
+import RoleAssignmentPanel from '../components/managementPanel/RoleAssignmentPanel';
+import { basicHeaders } from '../config/apiConfig';
+import { NotificationActions } from '../redux/actions/notificationActions';
+import colors from '../stylesheets/config/colors.module.scss';
+import { roles } from '../utilities/constants';
+import { exception } from '../utilities/exceptionHelper';
 
 const NONE = 'none';
 const CURRENT_LOCATION = { lat: 50.29, lng: 19.01 };

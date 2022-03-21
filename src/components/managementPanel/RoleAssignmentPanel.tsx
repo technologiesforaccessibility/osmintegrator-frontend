@@ -1,20 +1,19 @@
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import '../../stylesheets/roleAssignmentPanel.scss';
 
-import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import MenuItem from '@mui/material/MenuItem';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import { Checkbox, CircularProgress, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import MenuItem from '@mui/material/MenuItem';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
-import H4Title from '../customs/H4Title';
+import { RolePair, RoleUser } from '../../api/apiClient';
 import api from '../../api/apiInstance';
-import { RoleUser, RolePair } from '../../api/apiClient';
 import { basicHeaders } from '../../config/apiConfig';
 import { NotificationActions } from '../../redux/actions/notificationActions';
 import { exception } from '../../utilities/exceptionHelper';
-
-import '../../stylesheets/roleAssignmentPanel.scss';
+import H4Title from '../customs/H4Title';
 
 function RoleAssignmentPanel() {
   const { t } = useTranslation();

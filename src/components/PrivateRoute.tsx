@@ -1,10 +1,10 @@
 import React, { ComponentType, FC } from 'react';
-import { Route, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { paths } from '../utilities/constants';
+import { Redirect, Route } from 'react-router-dom';
 
 import { selectAuthIsLoggedIn } from '../redux/selectors/authSelector';
 import { hasAccessToPath } from '../utilities/auth';
+import { paths } from '../utilities/constants';
 
 type TPrivateRouteProps = {
   component: ComponentType;

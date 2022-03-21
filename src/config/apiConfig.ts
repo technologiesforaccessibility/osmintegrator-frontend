@@ -20,4 +20,4 @@ const noContentTypeHeaders = () => ({
   'Accept-Language': 'pl-pl',
 });
 
-export { noTokenHeaders, basicHeaders, noContentTypeHeaders };
+export { basicHeaders, noContentTypeHeaders, noTokenHeaders };

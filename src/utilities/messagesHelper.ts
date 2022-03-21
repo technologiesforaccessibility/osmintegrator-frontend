@@ -1,6 +1,6 @@
+import { NotificationActions } from '../redux/actions/notificationActions';
 import store from '../redux/store';
 import i18n from '../translations/i18n';
-import { NotificationActions } from '../redux/actions/notificationActions';
 
 export function webError(response: any) {
   function error400(error: any) {

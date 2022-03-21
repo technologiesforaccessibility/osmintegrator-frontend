@@ -1,28 +1,27 @@
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Formik } from 'formik';
-import { Redirect } from 'react-router-dom';
+import '../../stylesheets/register.scss';
 
-import TextField from '@mui/material/TextField';
-import Tooltip from '@mui/material/Tooltip';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import InputAdornment from '@mui/material/InputAdornment';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import { FormControlLabel } from '@mui/material';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import { Formik } from 'formik';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Redirect } from 'react-router-dom';
 
+import api from '../../api/apiInstance';
+import AuthBottomPanel from '../../components/auth/AuthBottomPanel';
 import AuthContainer from '../../components/AuthContainer';
 import Loader from '../../components/Loader';
-import { paths } from '../../utilities/constants';
-import { RegisterSchema } from '../../utilities/validationSchema';
-import api from '../../api/apiInstance';
 import { basicHeaders } from '../../config/apiConfig';
-import AuthBottomPanel from '../../components/auth/AuthBottomPanel';
+import { paths } from '../../utilities/constants';
 import { exception } from '../../utilities/exceptionHelper';
-
-import '../../stylesheets/register.scss';
+import { RegisterSchema } from '../../utilities/validationSchema';
 
 const { REACT_APP_REGULATIONS } = process.env;
 

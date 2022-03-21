@@ -1,12 +1,14 @@
+import '../../stylesheets/stopsImportPanel.scss';
+
 import { Button } from '@mui/material';
 import { ChangeEvent, FC, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import api from '../../api/apiInstance';
 import { noContentTypeHeaders } from '../../config/apiConfig';
 import { exception } from '../../utilities/exceptionHelper';
 import { UserContext } from '../contexts/UserContextProvider';
 import ReportsModal from '../ReportsModal';
-import '../../stylesheets/stopsImportPanel.scss';
 
 const ManagementPanelStops: FC = () => {
   const { t } = useTranslation();

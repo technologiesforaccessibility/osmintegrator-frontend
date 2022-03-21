@@ -41,8 +41,11 @@ module.exports = {
     'no-unused-vars': process.env.NODE_ENV === 'development' ? 'warn' : 'error',
     '@typescript-eslint/no-unused-vars': [process.env.NODE_ENV === 'development' ? 'warn' : 'error'],
     'react/jsx-props-no-spreading': 'off',
-    'import/order': 'off',
     'import/prefer-default-export': 'off',
     'react/destructuring-assignment': [0, 'always', { ignoreClassFields: true }],
+    'simple-import-sort/imports': 'warn',
+    'simple-import-sort/exports': 'warn',
+    'sort-imports': 'off',
+    'import/order': 'off',
   },
 };

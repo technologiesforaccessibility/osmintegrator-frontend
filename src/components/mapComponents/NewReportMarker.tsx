@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { Marker, Tooltip } from 'react-leaflet';
 import { useTranslation } from 'react-i18next';
+import { Marker, Tooltip } from 'react-leaflet';
 
 import { getReportIcon } from '../../utilities/utilities';
 

@@ -1,6 +1,6 @@
-import { Button, Modal, TextField, Box } from '@mui/material';
-import { FC } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
+import { Box, Button, Modal, TextField } from '@mui/material';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type TReportsModalProps = {

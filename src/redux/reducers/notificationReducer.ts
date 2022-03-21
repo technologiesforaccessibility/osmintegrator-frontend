@@ -1,4 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
+
 import { NotificationActions } from '../actions/notificationActions';
 
 export type TNotificationState = {

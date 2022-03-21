@@ -1,4 +1,4 @@
-import { comparePasswords, isPasswordStrong, getTokenFromPath, getEmailFromPath } from './utilities';
+import { comparePasswords, getEmailFromPath, getTokenFromPath, isPasswordStrong } from './utilities';
 
 test('comparePassowrds', () => {
   expect(comparePasswords('randompass1', 'randompass1')).toBeTruthy();

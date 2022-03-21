@@ -1,17 +1,18 @@
+import '../stylesheets/syncPanel.scss';
+
+import Button from '@mui/material/Button';
 import React, { FC, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux';
 
 import api from '../api/apiInstance';
 import { basicHeaders } from '../config/apiConfig';
-import { MapContext } from './contexts/MapContextProvider';
-import { exception } from '../utilities/exceptionHelper';
 import { NotificationActions } from '../redux/actions/notificationActions';
+import { exception } from '../utilities/exceptionHelper';
+import { MapContext } from './contexts/MapContextProvider';
 import { UserContext } from './contexts/UserContextProvider';
-import TileExportModal from './TileExportModal';
-import '../stylesheets/syncPanel.scss';
 import ReportsModal from './ReportsModal';
+import TileExportModal from './TileExportModal';
 
 const SyncPanel: FC = () => {
   const { activeTile, setRerenderReports, setRerenderConnections } = useContext(MapContext);

@@ -1,9 +1,6 @@
 import { FC } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import { paths } from '../utilities/constants';
-import PrivateRoute from './PrivateRoute';
-
 import Login from '../paths/auth/Login';
 import Logout from '../paths/auth/Logout';
 import Recover from '../paths/auth/Recover';
@@ -13,12 +10,13 @@ import RegisterActivated from '../paths/auth/RegisterActivated';
 import RegisterConfirm from '../paths/auth/RegisterConfirm';
 import ResetConfirm from '../paths/auth/ResetConfirm';
 import SetPassword from '../paths/auth/SetPassword';
+import ChangeEmail from '../paths/ChangeEmail';
+import ChangePassword from '../paths/ChangePassword';
 import Home from '../paths/Home';
 import ManagementPanel from '../paths/ManagementPanel';
 import ProfilePanel from '../paths/ProfilePanel';
-
-import ChangeEmail from '../paths/ChangeEmail';
-import ChangePassword from '../paths/ChangePassword';
+import { paths } from '../utilities/constants';
+import PrivateRoute from './PrivateRoute';
 
 const Navigation: FC = () => {
   return (

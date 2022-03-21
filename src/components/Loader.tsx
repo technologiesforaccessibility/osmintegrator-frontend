@@ -1,7 +1,7 @@
+import '../stylesheets/loader.scss';
+
 import CircularProgress from '@mui/material/CircularProgress';
 import { FC } from 'react';
-
-import '../stylesheets/loader.scss';
 
 type TLoaderProps = {
   isLoading: boolean;

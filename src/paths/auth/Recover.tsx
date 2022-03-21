@@ -1,18 +1,17 @@
-import { useState } from 'react';
-import { Redirect } from 'react-router-dom';
-import { useFormik } from 'formik';
-import { useTranslation } from 'react-i18next';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import { Button, Chip, Divider, InputAdornment, TextField, Tooltip, CircularProgress } from '@mui/material';
+import { Button, Chip, CircularProgress, Divider, InputAdornment, TextField, Tooltip } from '@mui/material';
+import { useFormik } from 'formik';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Redirect } from 'react-router-dom';
 
-import { noTokenHeaders } from '../../config/apiConfig';
 import api from '../../api/apiInstance';
-import { unsafeFormApiError } from '../../utilities/utilities';
-import AuthContainer from '../../components/AuthContainer';
 import AuthBottomPanel from '../../components/auth/AuthBottomPanel';
-import { paths } from '../../utilities/constants';
-
+import AuthContainer from '../../components/AuthContainer';
+import { noTokenHeaders } from '../../config/apiConfig';
 import colors from '../../stylesheets/config/colors.module.scss';
+import { paths } from '../../utilities/constants';
+import { unsafeFormApiError } from '../../utilities/utilities';
 
 const Recover = () => {
   const { t } = useTranslation();

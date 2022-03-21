@@ -1,8 +1,8 @@
-import { ChangeEvent, FC, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import '../stylesheets/welcomeModal.scss';
 
 import { Button, Checkbox, FormControlLabel, FormGroup } from '@mui/material';
-import '../stylesheets/welcomeModal.scss';
+import { ChangeEvent, FC, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const { REACT_APP_USER_MANUAL, REACT_APP_VIDEO_TUTORIAL } = process.env;
 

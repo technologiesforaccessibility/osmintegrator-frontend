@@ -1,8 +1,9 @@
-import { FC, useContext } from 'react';
+import '../stylesheets/loader.scss';
+
 import CircularProgress from '@mui/material/CircularProgress';
+import { FC, useContext } from 'react';
 
 import { UserContext } from './contexts/UserContextProvider';
-import '../stylesheets/loader.scss';
 
 const GlobalLoader: FC = () => {
   const { loader: isLoading } = useContext(UserContext);

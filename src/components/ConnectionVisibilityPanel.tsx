@@ -1,16 +1,16 @@
-import { FC, useContext, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import '../stylesheets/connectionVisibilityPanel.scss';
+
+import CloseIcon from '@mui/icons-material/Close';
+import { Box, Button, Grid, Modal } from '@mui/material';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Tooltip from '@mui/material/Tooltip';
-import { Button, Grid, Modal, Box } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { FC, useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { MapContext } from './contexts/MapContextProvider';
-import { connectionVisibility } from '../utilities/constants';
-
-import '../stylesheets/connectionVisibilityPanel.scss';
 import { modalStyle } from '../stylesheets/sharedStyles';
+import { connectionVisibility } from '../utilities/constants';
+import { MapContext } from './contexts/MapContextProvider';
 
 type TConnectionVisibilityPanelProps = {
   handleClose: () => void;

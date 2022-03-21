@@ -1,7 +1,7 @@
-import { FC } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useCookies } from 'react-cookie';
 import { Button } from '@mui/material';
+import { FC } from 'react';
+import { useCookies } from 'react-cookie';
+import { useTranslation } from 'react-i18next';
 
 const CookiesBar: FC = () => {
   const [cookies, setCookie] = useCookies(['cookies_info']);

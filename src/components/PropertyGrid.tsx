@@ -1,11 +1,12 @@
-import PropertyGridRow from './PropertyGridRow';
-
 import '../stylesheets/propertyGrid.scss';
+
 import { Button } from '@mui/material';
 import { FC, useContext } from 'react';
-import { MapContext } from './contexts/MapContextProvider';
 import { useTranslation } from 'react-i18next';
+
 import { Conversation, Stop } from '../api/apiClient';
+import { MapContext } from './contexts/MapContextProvider';
+import PropertyGridRow from './PropertyGridRow';
 
 type TPropertyGridProps = {
   propertyGrid: Stop | Conversation;

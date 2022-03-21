@@ -1,10 +1,9 @@
 import { LeafletMouseEvent } from 'leaflet';
-import TextPath from 'react-leaflet-textpath';
 import React, { FC } from 'react';
 import { Rectangle, Tooltip } from 'react-leaflet';
+import TextPath from 'react-leaflet-textpath';
 
 import { Tile } from '../../api/apiClient';
-
 import colors from '../../stylesheets/config/colors.module.scss';
 
 interface MapTilesProps {

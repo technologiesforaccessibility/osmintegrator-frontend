@@ -1,8 +1,9 @@
 import React, { createContext, FC, ReactNode, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectAuthToken } from '../../redux/selectors/authSelector';
-import { validateLogin } from '../../redux/actions/authActions';
+
 import { getVersion } from '../../redux/actions/appActions';
+import { validateLogin } from '../../redux/actions/authActions';
+import { selectAuthToken } from '../../redux/selectors/authSelector';
 import { useAppDispatch } from '../../redux/store';
 
 type TUserContextValues = {

@@ -1,6 +1,6 @@
+import { Snackbar, SnackbarContent } from '@mui/material';
 import { FC, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Snackbar, SnackbarContent } from '@mui/material';
 
 import { NotificationActions } from '../redux/actions/notificationActions';
 

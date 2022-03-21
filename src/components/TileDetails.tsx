@@ -1,8 +1,9 @@
+import '../stylesheets/tileDetails.scss';
+
 import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { MapContext } from './contexts/MapContextProvider';
-import '../stylesheets/tileDetails.scss';
-import { useTranslation } from 'react-i18next';
 const TileDetails = () => {
   const { activeTile } = useContext(MapContext);
   const { t } = useTranslation();

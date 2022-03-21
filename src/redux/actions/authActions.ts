@@ -1,6 +1,6 @@
-import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
-import { LoginData } from '../../api/apiClient';
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 
+import { LoginData } from '../../api/apiClient';
 import api from '../../api/apiInstance';
 import { basicHeaders, noTokenHeaders } from '../../config/apiConfig';
 

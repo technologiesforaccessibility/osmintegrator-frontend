@@ -1,12 +1,12 @@
 import { FC, useContext, useMemo } from 'react';
 import { Marker, Tooltip } from 'react-leaflet';
 
-import { getBusStopIcon } from '../utilities/utilities';
-import { generateStopName } from '../utilities/mapUtilities';
-import { MapContext } from './contexts/MapContextProvider';
-import { ConnectionRadio, StopType } from '../types/enums';
 import { Stop } from '../api/apiClient';
+import { ConnectionRadio, StopType } from '../types/enums';
 import { TBusStopProperties } from '../types/stops';
+import { generateStopName } from '../utilities/mapUtilities';
+import { getBusStopIcon } from '../utilities/utilities';
+import { MapContext } from './contexts/MapContextProvider';
 
 type TBusMarkerProps = {
   busStop: Stop;

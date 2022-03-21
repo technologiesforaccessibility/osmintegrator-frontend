@@ -1,20 +1,18 @@
 import { FC, useContext, useRef } from 'react';
-import { Polyline, Tooltip, Popup } from 'react-leaflet';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { Polyline, Popup, Tooltip } from 'react-leaflet';
+import { useDispatch } from 'react-redux';
 
-import { generateConnectionData, getPosition } from '../../utilities/mapUtilities';
-import api from '../../api/apiInstance';
 import { Connection, Stop } from '../../api/apiClient';
+import api from '../../api/apiInstance';
 import { basicHeaders } from '../../config/apiConfig';
-import EditConnectionPopup from './EditConnectionPopup';
 import { NotificationActions } from '../../redux/actions/notificationActions';
-
 import colors from '../../stylesheets/config/colors.module.scss';
-import { exception } from '../../utilities/exceptionHelper';
-
-import { MapContext } from '../contexts/MapContextProvider';
 import { StopType } from '../../types/enums';
+import { exception } from '../../utilities/exceptionHelper';
+import { generateConnectionData, getPosition } from '../../utilities/mapUtilities';
+import { MapContext } from '../contexts/MapContextProvider';
+import EditConnectionPopup from './EditConnectionPopup';
 
 interface SavedConnectionsProps {
   stops: Stop[];

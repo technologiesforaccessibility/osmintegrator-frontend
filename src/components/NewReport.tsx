@@ -1,16 +1,17 @@
+import '../stylesheets/newReport.scss';
+
+import { Button, CircularProgress, Modal } from '@mui/material';
+import { Box } from '@mui/material';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { Conversation } from '../api/apiClient';
+import { modalStyle } from '../stylesheets/sharedStyles';
 import { ConversationContext } from './contexts/ConversationProvider';
 import { MapContext } from './contexts/MapContextProvider';
-
-import ConversationMessage from './ConversationMessage';
-import { Button, CircularProgress, Modal } from '@mui/material';
-import ConversationHeading from './ConversationHeading';
 import ConversationForm from './ConversationForm';
-import '../stylesheets/newReport.scss';
-import { Box } from '@mui/material';
-import { modalStyle } from '../stylesheets/sharedStyles';
-import { Conversation } from '../api/apiClient';
+import ConversationHeading from './ConversationHeading';
+import ConversationMessage from './ConversationMessage';
 
 const NewReport = () => {
   const [loading, setLoading] = useState(false);

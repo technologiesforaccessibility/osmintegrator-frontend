@@ -1,25 +1,27 @@
-import React, { useState } from 'react';
+import '../../stylesheets/legend.scss';
+
+import CloseIcon from '@mui/icons-material/Close';
 import { Button, IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import CloseIcon from '@mui/icons-material/Close';
-import tileUnsigned from '../../assets/unsigned.png';
-import tileSignedEditor from '../../assets/signed.png';
-import osmStop from '../../assets/angledIcons/osm_stop.png';
-import osmStopReport from '../../assets/angledIcons/osm_stop_report.png';
-import osmStopReportApproved from '../../assets/angledIcons/osm_stop_report_approved.png';
+
 import gtfsStop from '../../assets/angledIcons/gtfs_stop.png';
 import gtfsStopReport from '../../assets/angledIcons/gtfs_stop_report.png';
 import gtfsStopReportApproved from '../../assets/angledIcons/gtfs_stop_report_approved.png';
-import osmStopOutside from '../../assets/angledIcons/osm_stop-out.png';
-import osmStopReportOutside from '../../assets/angledIcons/osm_stop_report-out.png';
+import osmStop from '../../assets/angledIcons/osm_stop.png';
+import osmStopReport from '../../assets/angledIcons/osm_stop_report.png';
+import osmStopReportApproved from '../../assets/angledIcons/osm_stop_report_approved.png';
 import osmStopReportApprovedOutside from '../../assets/angledIcons/osm_stop_report_approved-out.png';
-import reportBlueIcon from '../../assets/report_blue.png';
-import reportGreenIcon from '../../assets/report_green.png';
-import reportGrayIcon from '../../assets/report_gray.png';
+import osmStopReportOutside from '../../assets/angledIcons/osm_stop_report-out.png';
+import osmStopOutside from '../../assets/angledIcons/osm_stop-out.png';
 import connectionNotApproved from '../../assets/connection_not_approved.png';
-import '../../stylesheets/legend.scss';
+import reportBlueIcon from '../../assets/report_blue.png';
+import reportGrayIcon from '../../assets/report_gray.png';
+import reportGreenIcon from '../../assets/report_green.png';
+import tileSignedEditor from '../../assets/signed.png';
+import tileUnsigned from '../../assets/unsigned.png';
 
 const Legend = () => {
   const [open, setOpen] = useState(false);

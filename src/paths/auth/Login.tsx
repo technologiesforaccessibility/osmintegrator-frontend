@@ -1,25 +1,25 @@
-import { Link, Redirect } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import TextField from '@mui/material/TextField';
-import { Formik } from 'formik';
-import Button from '@mui/material/Button';
-import InputAdornment from '@mui/material/InputAdornment';
+import '../../stylesheets/login.scss';
+
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import Tooltip from '@mui/material/Tooltip';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import { Chip, Divider } from '@mui/material';
+import Button from '@mui/material/Button';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import { Formik } from 'formik';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 
-import { unsafeFormApiError } from '../../utilities/utilities';
-import AuthContainer from '../../components/AuthContainer';
-import { LoginSchema } from '../../utilities/validationSchema';
-import { login } from '../../redux/actions/authActions';
-import { selectAuthIsLoggedIn, selectAuthLoading, selectAuthError } from '../../redux/selectors/authSelector';
-import { paths } from '../../utilities/constants';
 import AuthBottomPanel from '../../components/auth/AuthBottomPanel';
-
-import '../../stylesheets/login.scss';
+import AuthContainer from '../../components/AuthContainer';
+import { login } from '../../redux/actions/authActions';
+import { selectAuthError, selectAuthIsLoggedIn, selectAuthLoading } from '../../redux/selectors/authSelector';
 import colors from '../../stylesheets/config/colors.module.scss';
+import { paths } from '../../utilities/constants';
+import { unsafeFormApiError } from '../../utilities/utilities';
+import { LoginSchema } from '../../utilities/validationSchema';
 
 const Login = () => {
   const { t } = useTranslation();

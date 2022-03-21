@@ -1,24 +1,23 @@
-import { useContext, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import '../stylesheets/mapPanel.scss';
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CropSquareTwoToneIcon from '@mui/icons-material/CropSquareTwoTone';
+import ReportIcon from '@mui/icons-material/Report';
+import SyncIcon from '@mui/icons-material/Sync';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Tooltip from '@mui/material/Tooltip';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import ReportIcon from '@mui/icons-material/Report';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import CropSquareTwoToneIcon from '@mui/icons-material/CropSquareTwoTone';
-import SyncIcon from '@mui/icons-material/Sync';
+import { useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { ReactComponent as ConnectionIcon } from '../assets/connection-panel-icon.svg';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-
-import { MapContext, MapModes } from './contexts/MapContextProvider';
-import ConnectionVisibilityPanel from './ConnectionVisibilityPanel';
-import MapOptions from './MapOptions';
-
-import '../stylesheets/mapPanel.scss';
 import { modalStyle } from '../stylesheets/sharedStyles';
+import ConnectionVisibilityPanel from './ConnectionVisibilityPanel';
+import { MapContext, MapModes } from './contexts/MapContextProvider';
+import MapOptions from './MapOptions';
 
 const MapPanel = () => {
   const {

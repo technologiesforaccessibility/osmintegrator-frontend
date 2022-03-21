@@ -1,8 +1,10 @@
+import '../stylesheets/conversationHeading.scss';
+
+import CloseIcon from '@mui/icons-material/Close';
+import { Chip } from '@mui/material';
 import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Chip } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import '../stylesheets/conversationHeading.scss';
+
 import { Stop } from '../api/apiClient';
 
 type TConversationHeadingProps = {

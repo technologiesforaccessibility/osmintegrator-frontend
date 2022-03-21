@@ -1,7 +1,8 @@
-import { FC, ReactNode } from 'react';
-import dots from './../assets/authDots.png';
-
 import './../stylesheets/dashboardSidebar.scss';
+
+import { FC, ReactNode } from 'react';
+
+import dots from './../assets/authDots.png';
 
 type TSidebarContainerProps = {
   navigation: JSX.Element;

@@ -1,4 +1,5 @@
 import { LatLngExpression } from 'leaflet';
+
 import { Stop } from '../api/apiClient';
 import { StopType } from '../types/enums';
 
@@ -37,4 +38,4 @@ const generateStopName = (stop: Stop) => {
   return (result += `, ref: ${refTag?.value || '-'}`);
 };
 
-export { getPosition, generateConnectionData, generateStopName };
+export { generateConnectionData, generateStopName, getPosition };

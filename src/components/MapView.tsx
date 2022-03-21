@@ -1,29 +1,30 @@
 import 'leaflet/dist/leaflet.css';
 import '../stylesheets/mapView.scss';
-import { useCallback, useContext, useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Pane } from 'react-leaflet';
-import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 
-import api from '../api/apiInstance';
+import { Box, Modal } from '@mui/material';
+import { LeafletMouseEvent } from 'leaflet';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { useTranslation } from 'react-i18next';
+import { MapContainer, Pane, TileLayer } from 'react-leaflet';
+import { useDispatch } from 'react-redux';
+
 import { Connection, Conversation, Stop } from '../api/apiClient';
+import api from '../api/apiInstance';
 import { basicHeaders } from '../config/apiConfig';
 import { NotificationActions } from '../redux/actions/notificationActions';
-import { MapContext, MapModes } from './contexts/MapContextProvider';
-import SavedConnections from './mapComponents/SavedConnections';
-import ImportedReports from './mapComponents/ImportedReports';
-import MapTiles from './mapComponents/MapTiles';
-import DraftConnections from './mapComponents/DraftConnections';
-import NewReportMarker from './mapComponents/NewReportMarker';
-import TileStops from './mapComponents/TileStops';
 import { exception } from '../utilities/exceptionHelper';
-import Loader from './Loader';
-import { Modal, Box } from '@mui/material';
-import WelcomeModal from './WelcomeModal';
-import { useCookies } from 'react-cookie';
-import { LeafletMouseEvent } from 'leaflet';
 import { ConversationContext } from './contexts/ConversationProvider';
+import { MapContext, MapModes } from './contexts/MapContextProvider';
+import Loader from './Loader';
+import DraftConnections from './mapComponents/DraftConnections';
+import ImportedReports from './mapComponents/ImportedReports';
 import Legend from './mapComponents/Legend';
+import MapTiles from './mapComponents/MapTiles';
+import NewReportMarker from './mapComponents/NewReportMarker';
+import SavedConnections from './mapComponents/SavedConnections';
+import TileStops from './mapComponents/TileStops';
+import WelcomeModal from './WelcomeModal';
 
 export const MapView = () => {
   const { t } = useTranslation();

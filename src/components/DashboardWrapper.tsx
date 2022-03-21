@@ -1,8 +1,9 @@
+import '../stylesheets/dashboard.scss';
+
+import { FC, ReactNode } from 'react';
+
 import DashboardHeader from './DashboardHeader';
 import Footer from './Footer';
-
-import '../stylesheets/dashboard.scss';
-import { FC, ReactNode } from 'react';
 
 type TDashboardWrapperProps = {
   children: ReactNode;
