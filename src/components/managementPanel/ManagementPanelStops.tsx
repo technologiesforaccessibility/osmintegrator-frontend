@@ -1,12 +1,12 @@
-import '../../stylesheets/stopsImportPanel.scss';
+import 'stylesheets/stopsImportPanel.scss';
 
 import { Button } from '@mui/material';
+import api from 'api/apiInstance';
+import { noContentTypeHeaders } from 'config/apiConfig';
 import { ChangeEvent, FC, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { exception } from 'utilities/exceptionHelper';
 
-import api from '../../api/apiInstance';
-import { noContentTypeHeaders } from '../../config/apiConfig';
-import { exception } from '../../utilities/exceptionHelper';
 import { UserContext } from '../contexts/UserContextProvider';
 import ReportsModal from '../ReportsModal';
 

@@ -1,17 +1,17 @@
-import '../stylesheets/sidebarConnectionHandler.scss';
+import 'stylesheets/sidebarConnectionHandler.scss';
 
 import Button from '@mui/material/Button';
+import api from 'api/apiInstance';
+import { basicHeaders } from 'config/apiConfig';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { NotificationActions } from 'redux/actions/notificationActions';
+import { selectLoggedInUserRoles } from 'redux/selectors/authSelector';
+import { roles } from 'utilities/constants';
+import { exception } from 'utilities/exceptionHelper';
+import { generateConnectionData } from 'utilities/mapUtilities';
 
-import api from '../api/apiInstance';
-import { basicHeaders } from '../config/apiConfig';
-import { NotificationActions } from '../redux/actions/notificationActions';
-import { selectLoggedInUserRoles } from '../redux/selectors/authSelector';
-import { roles } from '../utilities/constants';
-import { exception } from '../utilities/exceptionHelper';
-import { generateConnectionData } from '../utilities/mapUtilities';
 import { MapContext } from './contexts/MapContextProvider';
 
 const SidebarConnectionHandler = () => {

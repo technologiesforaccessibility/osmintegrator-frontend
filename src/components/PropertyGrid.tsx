@@ -1,10 +1,10 @@
-import '../stylesheets/propertyGrid.scss';
+import 'stylesheets/propertyGrid.scss';
 
 import { Button } from '@mui/material';
+import { Conversation, Stop } from 'api/apiClient';
 import { FC, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Conversation, Stop } from '../api/apiClient';
 import { MapContext } from './contexts/MapContextProvider';
 import PropertyGridRow from './PropertyGridRow';
 

@@ -1,8 +1,8 @@
+import { Conversation, Stop } from 'api/apiClient';
 import { FC, useContext } from 'react';
 import { Marker, Tooltip } from 'react-leaflet';
+import { getReportIcon } from 'utilities/utilities';
 
-import { Conversation, Stop } from '../../api/apiClient';
-import { getReportIcon } from '../../utilities/utilities';
 import { MapContext, MapModes } from '../contexts/MapContextProvider';
 
 type TImportedReportsProps = {

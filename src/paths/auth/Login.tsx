@@ -1,4 +1,4 @@
-import '../../stylesheets/login.scss';
+import 'stylesheets/login.scss';
 
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
@@ -7,19 +7,18 @@ import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
+import AuthBottomPanel from 'components/auth/AuthBottomPanel';
+import AuthContainer from 'components/AuthContainer';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-
-import AuthBottomPanel from '../../components/auth/AuthBottomPanel';
-import AuthContainer from '../../components/AuthContainer';
-import { login } from '../../redux/actions/authActions';
-import { selectAuthError, selectAuthIsLoggedIn, selectAuthLoading } from '../../redux/selectors/authSelector';
-import colors from '../../stylesheets/config/colors.module.scss';
-import { paths } from '../../utilities/constants';
-import { unsafeFormApiError } from '../../utilities/utilities';
-import { LoginSchema } from '../../utilities/validationSchema';
+import { login } from 'redux/actions/authActions';
+import { selectAuthError, selectAuthIsLoggedIn, selectAuthLoading } from 'redux/selectors/authSelector';
+import colors from 'stylesheets/config/colors.module.scss';
+import { paths } from 'utilities/constants';
+import { unsafeFormApiError } from 'utilities/utilities';
+import { LoginSchema } from 'utilities/validationSchema';
 
 const Login = () => {
   const { t } = useTranslation();

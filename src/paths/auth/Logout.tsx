@@ -1,11 +1,10 @@
 import { CircularProgress } from '@mui/material';
+import AuthContainer from 'components/AuthContainer';
+import { MapContext } from 'components/contexts/MapContextProvider';
 import { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-
-import AuthContainer from '../../components/AuthContainer';
-import { MapContext } from '../../components/contexts/MapContextProvider';
-import { paths } from '../../utilities/constants';
+import { paths } from 'utilities/constants';
 
 const Logout = () => {
   const history = useHistory();

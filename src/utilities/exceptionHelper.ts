@@ -1,7 +1,8 @@
-import { logout } from '../redux/actions/authActions';
-import { NotificationActions } from '../redux/actions/notificationActions';
-import store from '../redux/store';
-import i18n from '../translations/i18n';
+import { logout } from 'redux/actions/authActions';
+import { NotificationActions } from 'redux/actions/notificationActions';
+import store from 'redux/store';
+import i18n from 'translations/i18n';
+
 import { paths } from './constants';
 import { webError } from './messagesHelper';
 

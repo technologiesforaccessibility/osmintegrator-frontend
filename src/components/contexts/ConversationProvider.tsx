@@ -1,6 +1,5 @@
+import { Conversation } from 'api/apiClient';
 import React, { createContext, FC, ReactNode, useState } from 'react';
-
-import { Conversation } from '../../api/apiClient';
 
 type TConversationContextValues = {
   stopConversations: Conversation[];

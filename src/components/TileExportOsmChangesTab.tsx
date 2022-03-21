@@ -1,10 +1,9 @@
 import { Button, Grid, TextField } from '@mui/material';
 import axios from 'axios';
+import { basicHeaders } from 'config/apiConfig';
 import FileDownload from 'js-file-download';
 import { useTranslation } from 'react-i18next';
-
-import { basicHeaders } from '../config/apiConfig';
-import { exception } from '../utilities/exceptionHelper';
+import { exception } from 'utilities/exceptionHelper';
 
 interface TileExportOsmChangesTabProps {
   tileId: string;

@@ -1,4 +1,4 @@
-import '../stylesheets/mapPanel.scss';
+import 'stylesheets/mapPanel.scss';
 
 import SettingsIcon from '@mui/icons-material/Settings';
 import { ToggleButton } from '@mui/material';

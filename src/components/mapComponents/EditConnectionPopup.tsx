@@ -1,9 +1,8 @@
-import '../../stylesheets/editConnectionPopup.scss';
+import 'stylesheets/editConnectionPopup.scss';
 
+import { Stop } from 'api/apiClient';
 import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-
-import { Stop } from '../../api/apiClient';
 
 type TEditConnectionsPopupProps = {
   closePopup: () => void;

@@ -1,9 +1,7 @@
-import React from 'react';
+import ProfileLayout from 'components/ProfileLayout';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-
-import ProfileLayout from '../components/ProfileLayout';
-import { paths } from '../utilities/constants';
+import { paths } from 'utilities/constants';
 
 const { REACT_APP_MVP_DISABLED } = process.env;
 

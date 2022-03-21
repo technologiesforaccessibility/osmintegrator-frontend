@@ -1,11 +1,10 @@
-import '../stylesheets/conversationHeading.scss';
+import 'stylesheets/conversationHeading.scss';
 
 import CloseIcon from '@mui/icons-material/Close';
 import { Chip } from '@mui/material';
+import { Stop } from 'api/apiClient';
 import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-
-import { Stop } from '../api/apiClient';
 
 type TConversationHeadingProps = {
   lat: number;

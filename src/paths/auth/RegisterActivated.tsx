@@ -1,16 +1,15 @@
-import '../../stylesheets/registerActivated.scss';
+import 'stylesheets/registerActivated.scss';
 
 import Button from '@mui/material/Button';
+import api from 'api/apiInstance';
+import { ReactComponent as Logo } from 'assets/accountLogo.svg';
+import AuthContainer from 'components/AuthContainer';
+import Loader from 'components/Loader';
+import { noTokenHeaders } from 'config/apiConfig';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-import api from '../../api/apiInstance';
-import AuthContainer from '../../components/AuthContainer';
-import Loader from '../../components/Loader';
-import { noTokenHeaders } from '../../config/apiConfig';
-import { paths } from '../../utilities/constants';
-import { getEmailFromPath, getTokenFromPath } from '../../utilities/utilities';
-import { ReactComponent as Logo } from './../../assets/accountLogo.svg';
+import { paths } from 'utilities/constants';
+import { getEmailFromPath, getTokenFromPath } from 'utilities/utilities';
 
 const { REACT_APP_CONTACT_FORM } = process.env;
 

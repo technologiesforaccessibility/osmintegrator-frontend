@@ -1,4 +1,4 @@
-import '../../stylesheets/register.scss';
+import 'stylesheets/register.scss';
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
@@ -9,19 +9,18 @@ import Checkbox from '@mui/material/Checkbox';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
+import api from 'api/apiInstance';
+import AuthBottomPanel from 'components/auth/AuthBottomPanel';
+import AuthContainer from 'components/AuthContainer';
+import Loader from 'components/Loader';
+import { basicHeaders } from 'config/apiConfig';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Redirect } from 'react-router-dom';
-
-import api from '../../api/apiInstance';
-import AuthBottomPanel from '../../components/auth/AuthBottomPanel';
-import AuthContainer from '../../components/AuthContainer';
-import Loader from '../../components/Loader';
-import { basicHeaders } from '../../config/apiConfig';
-import { paths } from '../../utilities/constants';
-import { exception } from '../../utilities/exceptionHelper';
-import { RegisterSchema } from '../../utilities/validationSchema';
+import { paths } from 'utilities/constants';
+import { exception } from 'utilities/exceptionHelper';
+import { RegisterSchema } from 'utilities/validationSchema';
 
 const { REACT_APP_REGULATIONS } = process.env;
 

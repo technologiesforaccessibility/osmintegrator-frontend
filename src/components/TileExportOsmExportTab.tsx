@@ -1,16 +1,16 @@
 import { AccountCircle } from '@mui/icons-material';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import { Backdrop, Button, CircularProgress, Grid, InputAdornment, TextField } from '@mui/material';
+import api from 'api/apiInstance';
+import { basicHeaders } from 'config/apiConfig';
 import { Formik } from 'formik';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import { NotificationActions } from 'redux/actions/notificationActions';
+import { exception } from 'utilities/exceptionHelper';
+import { ExportSchema } from 'utilities/validationSchema';
 
-import api from '../api/apiInstance';
-import { basicHeaders } from '../config/apiConfig';
-import { NotificationActions } from '../redux/actions/notificationActions';
-import { exception } from '../utilities/exceptionHelper';
-import { ExportSchema } from '../utilities/validationSchema';
 import { MapContext } from './contexts/MapContextProvider';
 
 interface TileExportOsmExportTabProps {

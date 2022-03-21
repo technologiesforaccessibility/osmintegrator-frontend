@@ -1,6 +1,4 @@
-import React from 'react';
-
-import ProfileLayout from '../components/ProfileLayout';
+import ProfileLayout from 'components/ProfileLayout';
 
 const ChangePassword = () => {
   return (

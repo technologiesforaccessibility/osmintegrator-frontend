@@ -1,4 +1,4 @@
-import { Stop } from '../api/apiClient';
+import { Stop } from 'api/apiClient';
 
 export interface ConnectedPairProps {
   markedStop: Stop | null;

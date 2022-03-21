@@ -1,4 +1,4 @@
-import '../stylesheets/dashboard.scss';
+import 'stylesheets/dashboard.scss';
 
 import { FC, ReactNode } from 'react';
 

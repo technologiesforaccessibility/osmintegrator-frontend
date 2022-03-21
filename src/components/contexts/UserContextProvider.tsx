@@ -1,10 +1,9 @@
 import React, { createContext, FC, ReactNode, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-
-import { getVersion } from '../../redux/actions/appActions';
-import { validateLogin } from '../../redux/actions/authActions';
-import { selectAuthToken } from '../../redux/selectors/authSelector';
-import { useAppDispatch } from '../../redux/store';
+import { getVersion } from 'redux/actions/appActions';
+import { validateLogin } from 'redux/actions/authActions';
+import { selectAuthToken } from 'redux/selectors/authSelector';
+import { useAppDispatch } from 'redux/store';
 
 type TUserContextValues = {
   isUnsafeAuthorized: boolean;

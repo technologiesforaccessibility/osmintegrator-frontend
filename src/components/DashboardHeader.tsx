@@ -1,4 +1,4 @@
-import './../stylesheets/dashboardHeader.scss';
+import 'stylesheets/dashboardHeader.scss';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import BuildIcon from '@mui/icons-material/Build';
@@ -7,16 +7,16 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import MapIcon from '@mui/icons-material/Map';
 import { Button, Chip, IconButton } from '@mui/material/';
 import Tooltip from '@mui/material/Tooltip';
+import logo from 'assets/OsmIntegrator.png';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { logout } from 'redux/actions/authActions';
+import { selectLoggedInUserRoles, selectUserName } from 'redux/selectors/authSelector';
+import { paths } from 'utilities/constants';
+import { roles } from 'utilities/constants';
 
-import { logout } from '../redux/actions/authActions';
-import { selectLoggedInUserRoles, selectUserName } from '../redux/selectors/authSelector';
-import { paths } from '../utilities/constants';
-import { roles } from '../utilities/constants';
-import logo from './../assets/OsmIntegrator.png';
 import { MapContext } from './contexts/MapContextProvider';
 
 const { REACT_APP_CONTACT_FORM } = process.env;

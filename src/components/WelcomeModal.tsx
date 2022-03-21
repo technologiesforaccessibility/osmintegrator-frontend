@@ -1,4 +1,4 @@
-import '../stylesheets/welcomeModal.scss';
+import 'stylesheets/welcomeModal.scss';
 
 import { Button, Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import { ChangeEvent, FC, useState } from 'react';

@@ -1,8 +1,7 @@
 import FullfilledDotIcon from '@mui/icons-material/FiberManualRecord';
 import OutlinedDotIcon from '@mui/icons-material/FiberManualRecordOutlined';
 import HalfFullfilledDotIcon from '@mui/icons-material/FiberManualRecordTwoTone';
-
-import i18n from '../translations/i18n';
+import i18n from 'translations/i18n';
 
 export const paths = {
   HOME: '/',

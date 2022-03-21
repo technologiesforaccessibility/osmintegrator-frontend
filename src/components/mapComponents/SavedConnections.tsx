@@ -1,16 +1,16 @@
+import { Connection, Stop } from 'api/apiClient';
+import api from 'api/apiInstance';
+import { basicHeaders } from 'config/apiConfig';
 import { FC, useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Polyline, Popup, Tooltip } from 'react-leaflet';
 import { useDispatch } from 'react-redux';
+import { NotificationActions } from 'redux/actions/notificationActions';
+import colors from 'stylesheets/config/colors.module.scss';
+import { StopType } from 'types/enums';
+import { exception } from 'utilities/exceptionHelper';
+import { generateConnectionData, getPosition } from 'utilities/mapUtilities';
 
-import { Connection, Stop } from '../../api/apiClient';
-import api from '../../api/apiInstance';
-import { basicHeaders } from '../../config/apiConfig';
-import { NotificationActions } from '../../redux/actions/notificationActions';
-import colors from '../../stylesheets/config/colors.module.scss';
-import { StopType } from '../../types/enums';
-import { exception } from '../../utilities/exceptionHelper';
-import { generateConnectionData, getPosition } from '../../utilities/mapUtilities';
 import { MapContext } from '../contexts/MapContextProvider';
 import EditConnectionPopup from './EditConnectionPopup';
 

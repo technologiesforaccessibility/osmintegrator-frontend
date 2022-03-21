@@ -1,11 +1,11 @@
 import './translations/i18n';
 import 'normalize.css';
-import './stylesheets/index.scss';
+import 'stylesheets/index.scss';
 
+import App from 'components/App';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(

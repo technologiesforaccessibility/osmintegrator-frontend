@@ -1,9 +1,8 @@
-import './../stylesheets/menuItem.scss';
+import 'stylesheets/menuItem.scss';
 
 import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
-
-import { hasAccessToPath } from '../utilities/auth';
+import { hasAccessToPath } from 'utilities/auth';
 
 const { REACT_APP_CONTACT_FORM } = process.env;
 

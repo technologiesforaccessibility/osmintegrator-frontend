@@ -9,8 +9,6 @@
  * ---------------------------------------------------------------
  */
 
-import { Form } from 'formik';
-
 export interface ConfirmEmail {
   /** @format email */
   newEmail: string;

@@ -1,8 +1,7 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-
-import { LoginData } from '../../api/apiClient';
-import api from '../../api/apiInstance';
-import { basicHeaders, noTokenHeaders } from '../../config/apiConfig';
+import { LoginData } from 'api/apiClient';
+import api from 'api/apiInstance';
+import { basicHeaders, noTokenHeaders } from 'config/apiConfig';
 
 export const login = createAsyncThunk('auth/login', async (data: LoginData, thunkAPI) => {
   return api

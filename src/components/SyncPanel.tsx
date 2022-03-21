@@ -1,14 +1,14 @@
-import '../stylesheets/syncPanel.scss';
+import 'stylesheets/syncPanel.scss';
 
 import Button from '@mui/material/Button';
+import api from 'api/apiInstance';
+import { basicHeaders } from 'config/apiConfig';
 import React, { FC, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import { NotificationActions } from 'redux/actions/notificationActions';
+import { exception } from 'utilities/exceptionHelper';
 
-import api from '../api/apiInstance';
-import { basicHeaders } from '../config/apiConfig';
-import { NotificationActions } from '../redux/actions/notificationActions';
-import { exception } from '../utilities/exceptionHelper';
 import { MapContext } from './contexts/MapContextProvider';
 import { UserContext } from './contexts/UserContextProvider';
 import ReportsModal from './ReportsModal';

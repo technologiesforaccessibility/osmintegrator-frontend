@@ -1,12 +1,12 @@
-import '../stylesheets/newReport.scss';
+import 'stylesheets/newReport.scss';
 
 import { Button, CircularProgress, Modal } from '@mui/material';
 import { Box } from '@mui/material';
+import { Conversation } from 'api/apiClient';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { modalStyle } from 'stylesheets/sharedStyles';
 
-import { Conversation } from '../api/apiClient';
-import { modalStyle } from '../stylesheets/sharedStyles';
 import { ConversationContext } from './contexts/ConversationProvider';
 import { MapContext } from './contexts/MapContextProvider';
 import ConversationForm from './ConversationForm';

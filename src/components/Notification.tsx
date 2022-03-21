@@ -1,8 +1,7 @@
 import { Snackbar, SnackbarContent } from '@mui/material';
 import { FC, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { NotificationActions } from '../redux/actions/notificationActions';
+import { NotificationActions } from 'redux/actions/notificationActions';
 
 interface NotificationObject {
   class: 'success-modal' | 'warning-modal' | 'error-modal' | undefined;

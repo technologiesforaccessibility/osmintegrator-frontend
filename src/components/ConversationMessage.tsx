@@ -1,11 +1,10 @@
-import '../stylesheets/conversationMessage.scss';
+import 'stylesheets/conversationMessage.scss';
 
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { Message } from 'api/apiClient';
 import dayjs from 'dayjs';
 import React, { FC } from 'react';
-
-import { Message } from '../api/apiClient';
 
 type TConversationMessageProps = {
   data: Message;

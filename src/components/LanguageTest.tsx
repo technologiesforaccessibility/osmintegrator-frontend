@@ -1,6 +1,5 @@
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 type TLang = {

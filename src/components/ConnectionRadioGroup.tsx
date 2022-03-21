@@ -4,8 +4,8 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import React, { FC, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ConnectionRadio } from 'types/enums';
 
-import { ConnectionRadio } from '../types/enums';
 import { MapContext } from './contexts/MapContextProvider';
 
 const ConnectionRadioGroup: FC = () => {

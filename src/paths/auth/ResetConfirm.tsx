@@ -1,13 +1,12 @@
-import '../../stylesheets/confirm.scss';
+import 'stylesheets/confirm.scss';
 
 import Button from '@mui/material/Button';
+import { ReactComponent as Logo } from 'assets/accountLogo.svg';
+import AuthContainer from 'components/AuthContainer';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, Redirect } from 'react-router-dom';
-
-import AuthContainer from '../../components/AuthContainer';
-import { paths } from '../../utilities/constants';
-import { ReactComponent as Logo } from './../../assets/accountLogo.svg';
+import { paths } from 'utilities/constants';
 
 const ResetConfirm = () => {
   const { t } = useTranslation();

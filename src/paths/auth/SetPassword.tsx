@@ -1,25 +1,24 @@
-import '../../stylesheets/setPassword.scss';
+import 'stylesheets/setPassword.scss';
 
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import { Button, Chip, CircularProgress, Divider, InputAdornment, TextField, Tooltip, Typography } from '@mui/material';
+import api from 'api/apiInstance';
+import AuthBottomPanel from 'components/auth/AuthBottomPanel';
+import AuthContainer from 'components/AuthContainer';
+import { noTokenHeaders } from 'config/apiConfig';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, Redirect } from 'react-router-dom';
-
-import api from '../../api/apiInstance';
-import AuthBottomPanel from '../../components/auth/AuthBottomPanel';
-import AuthContainer from '../../components/AuthContainer';
-import { noTokenHeaders } from '../../config/apiConfig';
-import colors from '../../stylesheets/config/colors.module.scss';
-import { paths } from '../../utilities/constants';
+import colors from 'stylesheets/config/colors.module.scss';
+import { paths } from 'utilities/constants';
 import {
   comparePasswords,
   getEmailFromPath,
   getTokenFromPath,
   isPasswordStrong,
   unsafeFormApiError,
-} from '../../utilities/utilities';
+} from 'utilities/utilities';
 
 const SetPassword = () => {
   const { t } = useTranslation();

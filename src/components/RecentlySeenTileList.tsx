@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
+import { paths } from 'utilities/constants';
 
-import { paths } from '../utilities/constants';
 import SidebarListItem from './MenuItem';
 
 const RecentlySeenTileList = () => {

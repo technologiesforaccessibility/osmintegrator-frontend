@@ -1,18 +1,18 @@
-import '../../stylesheets/roleAssignmentPanel.scss';
+import 'stylesheets/roleAssignmentPanel.scss';
 
 import { Checkbox, CircularProgress, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import MenuItem from '@mui/material/MenuItem';
+import { RolePair, RoleUser } from 'api/apiClient';
+import api from 'api/apiInstance';
+import { basicHeaders } from 'config/apiConfig';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import { NotificationActions } from 'redux/actions/notificationActions';
+import { exception } from 'utilities/exceptionHelper';
 
-import { RolePair, RoleUser } from '../../api/apiClient';
-import api from '../../api/apiInstance';
-import { basicHeaders } from '../../config/apiConfig';
-import { NotificationActions } from '../../redux/actions/notificationActions';
-import { exception } from '../../utilities/exceptionHelper';
 import H4Title from '../customs/H4Title';
 
 function RoleAssignmentPanel() {

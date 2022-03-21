@@ -1,17 +1,17 @@
-import '../stylesheets/conversationForm.scss';
+import 'stylesheets/conversationForm.scss';
 
 import { Button, Checkbox, FormControlLabel, TextareaAutosize } from '@mui/material';
+import { Conversation } from 'api/apiClient';
+import api from 'api/apiInstance';
+import { basicHeaders } from 'config/apiConfig';
 import { useFormik } from 'formik';
+import useDebounce from 'hooks/useDebounce';
 import { FC, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import { NotificationActions } from 'redux/actions/notificationActions';
+import { exception } from 'utilities/exceptionHelper';
 
-import { Conversation } from '../api/apiClient';
-import api from '../api/apiInstance';
-import { basicHeaders } from '../config/apiConfig';
-import useDebounce from '../hooks/useDebounce';
-import { NotificationActions } from '../redux/actions/notificationActions';
-import { exception } from '../utilities/exceptionHelper';
 import { ConversationContext } from './contexts/ConversationProvider';
 import { MapContext } from './contexts/MapContextProvider';
 

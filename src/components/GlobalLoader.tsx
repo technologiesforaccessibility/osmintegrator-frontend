@@ -1,4 +1,4 @@
-import '../stylesheets/loader.scss';
+import 'stylesheets/loader.scss';
 
 import CircularProgress from '@mui/material/CircularProgress';
 import { FC, useContext } from 'react';

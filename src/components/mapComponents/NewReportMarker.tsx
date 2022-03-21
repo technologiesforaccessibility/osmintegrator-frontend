@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Marker, Tooltip } from 'react-leaflet';
-
-import { getReportIcon } from '../../utilities/utilities';
+import { getReportIcon } from 'utilities/utilities';
 
 type TReportMarkers = {
   newReportCoordinates: { lat: number | null; lon: number | null };

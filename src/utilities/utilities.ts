@@ -1,23 +1,22 @@
+import gtfsStopIcon from 'assets/angledIcons/gtfs_stop.png';
+import gtfsStopReportIcon from 'assets/angledIcons/gtfs_stop_report.png';
+import gtfsStopReportApprovedIcon from 'assets/angledIcons/gtfs_stop_report_approved.png';
+import osmStopIcon from 'assets/angledIcons/osm_stop.png';
+import osmStopReportIcon from 'assets/angledIcons/osm_stop_report.png';
+import osmStopReportApprovedIcon from 'assets/angledIcons/osm_stop_report_approved.png';
+import osmStopReportApprovedOutsideIcon from 'assets/angledIcons/osm_stop_report_approved-out.png';
+import osmStopReportOutsideIcon from 'assets/angledIcons/osm_stop_report-out.png';
+import osmStopOutsideIcon from 'assets/angledIcons/osm_stop-out.png';
+import shadowOSM from 'assets/angledIcons/shadow_osm.png';
+import shadowZTM from 'assets/angledIcons/shadow_ztm.png';
+import reportBlueIcon from 'assets/report_blue.png';
+import shadowReport from 'assets/report_frame.png';
+import reportGrayIcon from 'assets/report_gray.png';
+import reportGreenIcon from 'assets/report_green.png';
 import { Icon } from 'leaflet';
 import { useTranslation } from 'react-i18next';
-
-import gtfsStopIcon from '../assets/angledIcons/gtfs_stop.png';
-import gtfsStopReportIcon from '../assets/angledIcons/gtfs_stop_report.png';
-import gtfsStopReportApprovedIcon from '../assets/angledIcons/gtfs_stop_report_approved.png';
-import osmStopIcon from '../assets/angledIcons/osm_stop.png';
-import osmStopReportIcon from '../assets/angledIcons/osm_stop_report.png';
-import osmStopReportApprovedIcon from '../assets/angledIcons/osm_stop_report_approved.png';
-import osmStopReportApprovedOutsideIcon from '../assets/angledIcons/osm_stop_report_approved-out.png';
-import osmStopReportOutsideIcon from '../assets/angledIcons/osm_stop_report-out.png';
-import osmStopOutsideIcon from '../assets/angledIcons/osm_stop-out.png';
-import shadowOSM from '../assets/angledIcons/shadow_osm.png';
-import shadowZTM from '../assets/angledIcons/shadow_ztm.png';
-import reportBlueIcon from '../assets/report_blue.png';
-import shadowReport from '../assets/report_frame.png';
-import reportGrayIcon from '../assets/report_gray.png';
-import reportGreenIcon from '../assets/report_green.png';
-import { StopType } from '../types/enums';
-import { TBusStopProperties, TStopIconProperties, TStopShadowProperties } from '../types/stops';
+import { StopType } from 'types/enums';
+import { TBusStopProperties, TStopIconProperties, TStopShadowProperties } from 'types/stops';
 
 export const reportIcons = {
   initial: reportGrayIcon,

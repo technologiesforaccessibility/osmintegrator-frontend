@@ -1,7 +1,6 @@
+import { Stop } from 'api/apiClient';
 import { LatLngExpression } from 'leaflet';
-
-import { Stop } from '../api/apiClient';
-import { StopType } from '../types/enums';
+import { StopType } from 'types/enums';
 
 const getPosition = (osmStop: Stop, gtfsStop: Stop): LatLngExpression[] => {
   return [

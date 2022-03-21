@@ -1,15 +1,15 @@
-import '../stylesheets/connectionPrompt.scss';
+import 'stylesheets/connectionPrompt.scss';
 
 import Button from '@mui/material/Button';
+import api from 'api/apiInstance';
+import { basicHeaders } from 'config/apiConfig';
 import { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import { NotificationActions } from 'redux/actions/notificationActions';
+import { exception } from 'utilities/exceptionHelper';
+import { generateConnectionData, generateStopName } from 'utilities/mapUtilities';
 
-import api from '../api/apiInstance';
-import { basicHeaders } from '../config/apiConfig';
-import { NotificationActions } from '../redux/actions/notificationActions';
-import { exception } from '../utilities/exceptionHelper';
-import { generateConnectionData, generateStopName } from '../utilities/mapUtilities';
 import { MapContext } from './contexts/MapContextProvider';
 
 const ConnectionSidePanel = () => {

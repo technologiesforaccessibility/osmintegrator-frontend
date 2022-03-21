@@ -1,4 +1,4 @@
-import './../stylesheets/footer.scss';
+import 'stylesheets/footer.scss';
 
 import { useTranslation } from 'react-i18next';
 

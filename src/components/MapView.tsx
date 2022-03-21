@@ -1,19 +1,19 @@
 import 'leaflet/dist/leaflet.css';
-import '../stylesheets/mapView.scss';
+import 'stylesheets/mapView.scss';
 
 import { Box, Modal } from '@mui/material';
+import { Connection, Conversation, Stop } from 'api/apiClient';
+import api from 'api/apiInstance';
+import { basicHeaders } from 'config/apiConfig';
 import { LeafletMouseEvent } from 'leaflet';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
 import { MapContainer, Pane, TileLayer } from 'react-leaflet';
 import { useDispatch } from 'react-redux';
+import { NotificationActions } from 'redux/actions/notificationActions';
+import { exception } from 'utilities/exceptionHelper';
 
-import { Connection, Conversation, Stop } from '../api/apiClient';
-import api from '../api/apiInstance';
-import { basicHeaders } from '../config/apiConfig';
-import { NotificationActions } from '../redux/actions/notificationActions';
-import { exception } from '../utilities/exceptionHelper';
 import { ConversationContext } from './contexts/ConversationProvider';
 import { MapContext, MapModes } from './contexts/MapContextProvider';
 import Loader from './Loader';

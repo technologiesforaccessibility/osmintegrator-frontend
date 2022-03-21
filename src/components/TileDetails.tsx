@@ -1,4 +1,4 @@
-import '../stylesheets/tileDetails.scss';
+import 'stylesheets/tileDetails.scss';
 
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';

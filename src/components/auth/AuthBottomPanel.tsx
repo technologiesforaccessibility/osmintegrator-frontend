@@ -1,4 +1,4 @@
-import '../../stylesheets/authBottomPanel.scss';
+import 'stylesheets/authBottomPanel.scss';
 
 import { Button, ButtonGroup } from '@mui/material';
 import { FC } from 'react';

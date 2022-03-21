@@ -1,27 +1,26 @@
-import '../stylesheets/managementPanel.scss';
+import 'stylesheets/managementPanel.scss';
 
 import { CircularProgress, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
+import { Tile, UncommittedTile, User } from 'api/apiClient';
+import api from 'api/apiInstance';
+import H3Title from 'components/customs/H3Title';
+import H4Title from 'components/customs/H4Title';
+import DashboardWrapper from 'components/DashboardWrapper';
+import ManagementPanelMap from 'components/managementPanel/ManagementPanelMap';
+import ManagementPanelStops from 'components/managementPanel/ManagementPanelStops';
+import RoleAssignmentPanel from 'components/managementPanel/RoleAssignmentPanel';
+import { basicHeaders } from 'config/apiConfig';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Rectangle, Tooltip } from 'react-leaflet';
 import TextPath from 'react-leaflet-textpath';
 import { useDispatch } from 'react-redux';
-
-import { Tile, UncommittedTile, User } from '../api/apiClient';
-import api from '../api/apiInstance';
-import H3Title from '../components/customs/H3Title';
-import H4Title from '../components/customs/H4Title';
-import DashboardWrapper from '../components/DashboardWrapper';
-import ManagementPanelMap from '../components/managementPanel/ManagementPanelMap';
-import ManagementPanelStops from '../components/managementPanel/ManagementPanelStops';
-import RoleAssignmentPanel from '../components/managementPanel/RoleAssignmentPanel';
-import { basicHeaders } from '../config/apiConfig';
-import { NotificationActions } from '../redux/actions/notificationActions';
-import colors from '../stylesheets/config/colors.module.scss';
-import { roles } from '../utilities/constants';
-import { exception } from '../utilities/exceptionHelper';
+import { NotificationActions } from 'redux/actions/notificationActions';
+import colors from 'stylesheets/config/colors.module.scss';
+import { roles } from 'utilities/constants';
+import { exception } from 'utilities/exceptionHelper';
 
 const NONE = 'none';
 const CURRENT_LOCATION = { lat: 50.29, lng: 19.01 };

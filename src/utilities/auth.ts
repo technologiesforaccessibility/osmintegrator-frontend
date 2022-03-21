@@ -1,4 +1,5 @@
-import store from '../redux/store';
+import store from 'redux/store';
+
 import { paths, roles } from './constants';
 
 const { ADMIN, COORDINATOR, SUPERVISOR, EDITOR } = roles;

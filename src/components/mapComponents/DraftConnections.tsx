@@ -1,8 +1,7 @@
+import { Stop } from 'api/apiClient';
 import React, { FC, Fragment } from 'react';
 import { Polyline } from 'react-leaflet';
-
-import { Stop } from '../../api/apiClient';
-import colors from '../../stylesheets/config/colors.module.scss';
+import colors from 'stylesheets/config/colors.module.scss';
 
 type TDraftConnectionsProps = {
   connections: Stop[];

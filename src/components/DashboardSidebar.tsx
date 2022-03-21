@@ -1,9 +1,9 @@
-import './../stylesheets/dashboardSidebar.scss';
+import 'stylesheets/dashboardSidebar.scss';
 
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ConnectionRadio } from 'types/enums';
 
-import { ConnectionRadio } from '../types/enums';
 import ConnectionRadioGroup from './ConnectionRadioGroup';
 import ConnectionSidePanel from './ConnectionSidePanel';
 import { MapContext, MapModes } from './contexts/MapContextProvider';

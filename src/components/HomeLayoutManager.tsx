@@ -1,4 +1,4 @@
-import '../stylesheets/mapManager.scss';
+import 'stylesheets/mapManager.scss';
 
 import { FC, useContext } from 'react';
 
