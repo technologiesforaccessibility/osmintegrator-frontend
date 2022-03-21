@@ -1,9 +1,17 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Stop } from '../../api/apiClient';
 
 import '../../stylesheets/editConnectionPopup.scss';
 
-const EditConnectionPopup = ({ closePopup, deleteConnection, osm, gtfs }) => {
+type TEditConnectionsPopupProps = {
+  closePopup: () => void;
+  deleteConnection: (osm: Stop, gtfs: Stop) => void;
+  osm: Stop;
+  gtfs: Stop;
+};
+
+const EditConnectionPopup: FC<TEditConnectionsPopupProps> = ({ closePopup, deleteConnection, osm, gtfs }) => {
   const { t } = useTranslation();
 
   return (

@@ -1,8 +1,18 @@
-import { useContext, useMemo } from 'react';
+import { FC, useContext, useMemo } from 'react';
+import { Stop } from '../../api/apiClient';
 import BusMarker from '../BusMarker';
 import { MapContext } from '../contexts/MapContextProvider';
 
-const TileStops = ({
+type TTileStopsProps = {
+  clickBusStop: (stop: Stop) => void;
+  createConnection: (stop: Stop) => void;
+  isActiveStopClicked: (stopId: string) => boolean;
+  isConnectionMode: boolean;
+  isViewMode: boolean;
+  isReportMode: boolean;
+};
+
+const TileStops: FC<TTileStopsProps> = ({
   clickBusStop,
   createConnection,
   isActiveStopClicked,
@@ -16,12 +26,12 @@ const TileStops = ({
     () =>
       stops.filter(stop => {
         if (!visibilityOptions.connected.value.opacityValue) {
-          if (connectedStopIds.includes(stop.id)) {
+          if (connectedStopIds.includes(stop.id ?? '')) {
             return false;
           }
         }
         if (!visibilityOptions.unconnected.value.opacityValue) {
-          if (!connectedStopIds.includes(stop.id)) {
+          if (!connectedStopIds.includes(stop.id ?? '')) {
             return false;
           }
         }

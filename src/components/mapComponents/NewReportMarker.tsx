@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Marker, Tooltip } from 'react-leaflet';
 import { useTranslation } from 'react-i18next';
 
 import { getReportIcon } from '../../utilities/utilities';
 
-const ReportMarkers = ({ newReportCoordinates }) => {
+type TReportMarkers = {
+  newReportCoordinates: { lat: number | null; lon: number | null };
+};
+
+const ReportMarkers: FC<TReportMarkers> = ({ newReportCoordinates }) => {
   const { t } = useTranslation();
   const { lat, lon } = newReportCoordinates || {};
 

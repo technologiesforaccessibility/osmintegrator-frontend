@@ -1,11 +1,16 @@
-import { useContext } from 'react';
-import PropTypes, { shape, string, number } from 'prop-types';
+import { FC, useContext } from 'react';
 import { Marker, Tooltip } from 'react-leaflet';
 
 import { getReportIcon } from '../../utilities/utilities';
 import { MapContext, MapModes } from '../contexts/MapContextProvider';
+import { Conversation, Stop } from '../../api/apiClient';
 
-const ImportedReports = ({ reports, resetActiveStop }) => {
+type TImportedReportsProps = {
+  reports: Conversation[];
+  resetActiveStop: () => void;
+};
+
+const ImportedReports: FC<TImportedReportsProps> = ({ reports, resetActiveStop }) => {
   const {
     mapMode,
     newReportCoordinates,
@@ -15,11 +20,11 @@ const ImportedReports = ({ reports, resetActiveStop }) => {
     displayPropertyGrid,
   } = useContext(MapContext);
 
-  const handleReportClick = data => {
+  const handleReportClick = (data: Stop | Conversation | null) => {
     displayPropertyGrid(data);
   };
 
-  const isActive = iconCord => {
+  const isActive = (iconCord: any) => {
     return JSON.stringify(iconCord) === JSON.stringify(newReportCoordinates);
   };
 
@@ -29,8 +34,8 @@ const ImportedReports = ({ reports, resetActiveStop }) => {
         return (
           <Marker
             key={index}
-            position={[lat, lon]}
-            icon={getReportIcon(status, isActive({ lat, lon }))}
+            position={[lat ?? 0, lon ?? 0]}
+            icon={getReportIcon(status ?? 99, isActive({ lat, lon }))}
             pane="markerPane"
             shadowPane="tooltipPane"
             opacity={visibilityOptions.mapReport.value.opacityValue}
@@ -38,7 +43,7 @@ const ImportedReports = ({ reports, resetActiveStop }) => {
             eventHandlers={{
               click: () => {
                 if (mapMode !== MapModes.connection) {
-                  setNewReportCoordinates({ lat, lon });
+                  setNewReportCoordinates({ lat: lat ?? 0, lon: lon ?? 0 });
                   setActiveStop(null);
                   resetActiveStop();
                   if (isActive({ lat, lon }) && newReportCoordinates.lat && newReportCoordinates.lon) {
@@ -51,24 +56,13 @@ const ImportedReports = ({ reports, resetActiveStop }) => {
               },
             }}>
             <Tooltip direction="top" offset={[0, -55]}>
-              {lat.toString().slice(0, 6)} {lon.toString().slice(0, 6)}
+              {lat?.toString().slice(0, 6)} {lon?.toString().slice(0, 6)}
             </Tooltip>
           </Marker>
         );
       })}
     </>
   );
-};
-
-PropTypes.ImportedReports = {
-  reports: shape({
-    lat: number,
-    lon: number,
-    text: string,
-    id: number,
-    tileId: string,
-    status: number,
-  }),
 };
 
 export default ImportedReports;

@@ -149,7 +149,7 @@ const getReportColor = (status: number) => {
   }
 };
 
-const getReportIcon = (status: number, isActive: boolean) => {
+const getReportIcon = (status: number, isActive: boolean = false) => {
   const activeIcon = new Icon({
     iconUrl: getReportColor(status),
     iconSize: [30, 55],
