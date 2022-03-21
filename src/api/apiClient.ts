@@ -1063,9 +1063,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name TileUpdateGtfs
      * @request PUT:/api/Tile/UpdateGtfsStops
      */
-    tileUpdateGtfs: (data: unknown, params: RequestParams = {}) =>
+    updateGtfsStops: (data: unknown, params: RequestParams = {}) =>
       this.request<Report, ProblemDetails>({
-        path: `/api/Tile/UpdateGtfsStops`,
+        path: `/api/Gtfs/UpdateStops`,
         method: 'PUT',
         format: 'json',
         type: ContentType.FormData,

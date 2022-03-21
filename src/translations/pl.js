@@ -218,7 +218,7 @@ export const pl = {
     },
     sync: {
       importOSM: 'Pobierz z OSM',
-      importNotOSM: 'Wgraj z ZTM',
+      importNotOSM: 'Wgraj przystanki z ZTM',
       exportOSM: 'Wyślij do OSM',
       generateNotOsm: 'Wygeneruj bazę ZTM',
       success: 'Synchronizacja przxebiegła pomyślnie!',
