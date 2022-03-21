@@ -345,7 +345,7 @@ const MapContextProvider: FC = ({ children }) => {
   return (
     <MapContext.Provider
       value={{
-        authRoles,
+        authRoles: authRoles ?? [],
         isTileActive,
         mapMode,
         isMapActive,

@@ -20,6 +20,8 @@ import shadowZTM from '../assets/angledIcons/shadow_ztm.png';
 import shadowOSM from '../assets/angledIcons/shadow_osm.png';
 import shadowReport from '../assets/report_frame.png';
 import { StopType } from '../types/enums';
+import { useTranslation } from 'react-i18next';
+import { TBusStopProperties, TStopIconProperties, TStopShadowProperties } from '../types/stops';
 
 export const reportIcons = {
   initial: reportGrayIcon,
@@ -41,35 +43,40 @@ const stopIcons = {
   osmStopReportApprovedOutside: osmStopReportApprovedOutsideIcon,
 };
 
-const comparePasswords = (pass1, pass2) => {
+const comparePasswords = (pass1: string, pass2: string) => {
   return pass1 === pass2;
 };
 
-const isPasswordStrong = password => {
+const isPasswordStrong = (password: string) => {
   const pattern = /^\S{8,}$/g;
   return password.match(pattern);
 };
 
-const getTokenFromPath = urlString => {
+const getTokenFromPath = (urlString: string) => {
   try {
     const url = new URL(urlString);
     const rawToken = url.searchParams.get('token');
-    return rawToken.split(' ').join('+');
-  } catch (err) {
+    return rawToken?.split(' ').join('+');
+  } catch (err: any) {
     return err.message;
   }
 };
 
-const getEmailFromPath = urlString => {
+const getEmailFromPath = (urlString: string) => {
   try {
     const url = new URL(urlString);
     return url.searchParams.get('email');
-  } catch (err) {
+  } catch (err: any) {
     return err.message;
   }
 };
 
-const getStopIconProps = ({ outsideSelectedTile, stopType, hasReport, reportApproved }) => {
+const getStopIconProps = ({
+  outsideSelectedTile,
+  stopType,
+  hasReport,
+  reportApproved,
+}: TBusStopProperties): TStopIconProperties => {
   if (outsideSelectedTile) {
     // OSM outside a tile
     if (stopType === StopType.OSM) {
@@ -102,13 +109,13 @@ const getStopIconProps = ({ outsideSelectedTile, stopType, hasReport, reportAppr
   return { iconUrl: stopIcons.gtfsStop, iconAnchor: [0, 55] };
 };
 
-const getShadowProps = ({ stopType }) => {
+const getShadowProps = ({ stopType }: TBusStopProperties): TStopShadowProperties => {
   return stopType === StopType.OSM
     ? { shadowUrl: shadowZTM, shadowAnchor: [34, 58] }
     : { shadowUrl: shadowOSM, shadowAnchor: [3, 58] };
 };
 
-const getBusStopIcon = (busStopProperties, isActive) => {
+const getBusStopIcon = (busStopProperties: TBusStopProperties, isActive: boolean) => {
   const iconProps = getStopIconProps(busStopProperties);
   const { iconUrl, iconAnchor } = iconProps;
   const shadowProps = getShadowProps(busStopProperties);
@@ -130,7 +137,7 @@ const getBusStopIcon = (busStopProperties, isActive) => {
   return isActive ? activeIcon : inActiveIcon;
 };
 
-const getReportColor = status => {
+const getReportColor = (status: number) => {
   switch (status) {
     case 0:
       return reportIcons.created;
@@ -142,7 +149,7 @@ const getReportColor = status => {
   }
 };
 
-const getReportIcon = (status, isActive) => {
+const getReportIcon = (status: number, isActive: boolean) => {
   const activeIcon = new Icon({
     iconUrl: getReportColor(status),
     iconSize: [30, 55],
@@ -160,7 +167,7 @@ const getReportIcon = (status, isActive) => {
   return isActive ? activeIcon : inActiveIcon;
 };
 
-const unsafeApiError = (errorInstance, optionalUserMessage) => {
+const unsafeApiError = (errorInstance: any, optionalUserMessage: string) => {
   if (errorInstance.status === 401) {
     // eslint-disable-next-line no-console
     console.log('Authorization problem');
@@ -174,12 +181,12 @@ const unsafeApiError = (errorInstance, optionalUserMessage) => {
   }
 };
 
-const unsafeFormApiError = (error, translate, option) => {
+const unsafeFormApiError = (error: any, translate: typeof useTranslation, option: string) => {
   if (error.status === 401) {
     return translate(`${option}.401`);
   }
   if (error.status === 400) {
-    return translate(400);
+    return translate('400');
   } else {
     return translate('unrecognizedProblem');
   }

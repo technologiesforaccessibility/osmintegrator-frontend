@@ -2,8 +2,8 @@ import store from '../redux/store';
 import i18n from '../translations/i18n';
 import { NotificationActions } from '../redux/actions/notificationActions';
 
-export function webError(response) {
-  function error400(error) {
+export function webError(response: any) {
+  function error400(error: any) {
     // Validation problem
     if (error.title === 'One or more validation errors occurred.') {
       if (process.env.NODE_ENV === 'development') {
@@ -26,7 +26,7 @@ export function webError(response) {
     store.dispatch(NotificationActions.error(i18n.t('error.authentication')));
   }
 
-  function error500(res) {
+  function error500(res: unknown) {
     if (process.env.NODE_ENV === 'development') {
       // eslint-disable-next-line no-console
       console.log(res);
