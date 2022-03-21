@@ -161,8 +161,8 @@ export const MapView = () => {
         const response = await api.conversationDetail(tileID, {
           headers: basicHeaders(),
         });
-        setGeoConversations(response.data.geoConversations);
-        setStopConversations(response.data.stopConversations);
+        setGeoConversations(response.data.geoConversations ?? []);
+        setStopConversations(response.data.stopConversations ?? []);
         if (response.data.geoConversations) {
           setImportedReports(response.data.geoConversations);
         }

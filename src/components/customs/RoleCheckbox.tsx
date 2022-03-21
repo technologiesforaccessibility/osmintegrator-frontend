@@ -1,5 +1,12 @@
-function RoleCheckbox(props) {
-  const checkValue = !!props.hasRole ? 'checked' : '';
+import { FC } from 'react';
+
+type TRoleCheckboxProps = {
+  hasRole: boolean;
+};
+
+const RoleCheckbox: FC<TRoleCheckboxProps> = ({ hasRole }) => {
+  const checkValue = !!hasRole;
+
   return (
     <div className="d-inline-block form-check management-panel__check-box">
       <input
@@ -12,6 +19,6 @@ function RoleCheckbox(props) {
       />
     </div>
   );
-}
+};
 
 export default RoleCheckbox;

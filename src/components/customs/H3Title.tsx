@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-function H4Title({ title, borderBottom = false }) {
+type TH3TitleProps = {
+  title: string;
+  borderBottom?: boolean;
+};
+
+const H3Title: FC<TH3TitleProps> = ({ title, borderBottom = false }) => {
   return (
     <React.Fragment>
       {borderBottom === true ? (
@@ -14,7 +19,7 @@ function H4Title({ title, borderBottom = false }) {
                     pb-2
                     mb-3
                     border-bottom">
-          <h4>{title}</h4>
+          <h3>{title}</h3>
         </div>
       ) : (
         <div
@@ -26,11 +31,11 @@ function H4Title({ title, borderBottom = false }) {
                     pt-3
                     pb-2
                     mb-3">
-          <h4>{title}</h4>
+          <h3>{title}</h3>
         </div>
       )}
     </React.Fragment>
   );
-}
+};
 
-export default H4Title;
+export default H3Title;

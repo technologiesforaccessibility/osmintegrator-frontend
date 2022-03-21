@@ -3,10 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import '../../stylesheets/authBottomPanel.scss';
 import { Button, ButtonGroup } from '@mui/material';
+import { FC } from 'react';
 
 const { REACT_APP_CONTACT_FORM } = process.env;
 
-const AuthBottomPanel = ({ linkText, link }) => {
+type TAuthBottomPanelProps = {
+  linkText: string;
+  link: string;
+};
+
+const AuthBottomPanel: FC<TAuthBottomPanelProps> = ({ linkText, link }) => {
   const { t } = useTranslation();
   const history = useHistory();
   return (

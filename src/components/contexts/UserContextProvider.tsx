@@ -1,16 +1,35 @@
-import React, { createContext, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { createContext, FC, ReactNode, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { selectAuthToken } from '../../redux/selectors/authSelector';
 import { validateLogin } from '../../redux/actions/authActions';
 import { getVersion } from '../../redux/actions/appActions';
+import { useAppDispatch } from '../../redux/store';
 
-export const UserContext = createContext();
+type TUserContextValues = {
+  isUnsafeAuthorized: boolean;
+  setIsUnsafeAuthorized: React.Dispatch<React.SetStateAction<boolean>>;
+  loader: boolean;
+  setLoader: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-const UserContextProvider = ({ children }) => {
+type TUserContextProps = {
+  children: ReactNode;
+};
+
+const defaultValue: TUserContextValues = {
+  isUnsafeAuthorized: false,
+  setIsUnsafeAuthorized: () => {},
+  loader: false,
+  setLoader: () => {},
+};
+
+export const UserContext = createContext(defaultValue);
+
+const UserContextProvider: FC<TUserContextProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [loader, setLoader] = useState(false);
   const token = useSelector(selectAuthToken);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (token) {

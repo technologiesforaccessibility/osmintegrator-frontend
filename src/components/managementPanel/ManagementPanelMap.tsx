@@ -1,11 +1,19 @@
+import { LatLngExpression } from 'leaflet';
+import { CSSProperties, FC } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 
-const mapStyle = {
+type TManagementPanelMapProps = {
+  startPoint: LatLngExpression;
+  tiles: JSX.Element[];
+  zoom: number;
+};
+
+const mapStyle: CSSProperties = {
   position: 'relative',
   height: 'calc(100vh - 5rem)',
 };
 
-const ManagementPanelMap = ({ startPoint, tiles, zoom }) => {
+const ManagementPanelMap: FC<TManagementPanelMapProps> = ({ startPoint, tiles, zoom }) => {
   return (
     <div>
       <MapContainer style={mapStyle} center={startPoint} zoom={zoom} maxZoom={19}>
