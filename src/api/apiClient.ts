@@ -9,6 +9,8 @@
  * ---------------------------------------------------------------
  */
 
+import { Form } from 'formik';
+
 export interface ConfirmEmail {
   /** @format email */
   newEmail: string;
@@ -1052,6 +1054,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: 'PUT',
         format: 'json',
         ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tile
+     * @name TileUpdateGtfs
+     * @request PUT:/api/Tile/UpdateGtfsStops
+     */
+    updateGtfsStops: (data: unknown, params: RequestParams = {}) =>
+      this.request<Report, ProblemDetails>({
+        path: `/api/Gtfs/UpdateStops`,
+        method: 'PUT',
+        format: 'json',
+        type: ContentType.FormData,
+        ...params,
+        body: data,
       }),
 
     /**

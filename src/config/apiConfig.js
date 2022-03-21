@@ -17,4 +17,13 @@ const basicHeaders = () => {
   };
 };
 
-export { noTokenHeaders, basicHeaders };
+const noContentTypeHeaders = () => {
+  return {
+    'Authorization': 'Bearer ' + localStorage.token,
+    'Cache-Control': 'no-cache',
+    'Access-Control-Allow-Origin': '*',
+    'Accept-Language': 'pl-pl',
+  };
+};
+
+export { noTokenHeaders, basicHeaders, noContentTypeHeaders };
