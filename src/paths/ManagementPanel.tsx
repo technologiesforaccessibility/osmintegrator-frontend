@@ -12,7 +12,7 @@ import ManagementPanelMap from 'components/managementPanel/ManagementPanelMap';
 import ManagementPanelStops from 'components/managementPanel/ManagementPanelStops';
 import RoleAssignmentPanel from 'components/managementPanel/RoleAssignmentPanel';
 import { basicHeaders } from 'config/apiConfig';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Rectangle, Tooltip } from 'react-leaflet';
 import TextPath from 'react-leaflet-textpath';
@@ -112,7 +112,7 @@ function ManagementPanel() {
   const mapTiles = useMemo(
     () =>
       tiles.map(x => (
-        <>
+        <React.Fragment key={x.id}>
           <TextPath
             positions={[
               [x.minLat + (x.maxLat - x.minLat) / 2, x.minLon],
@@ -141,7 +141,7 @@ function ManagementPanel() {
               {t('managementPanel.assigned')}: {x.assignedUserName ? x.assignedUserName : '-'} <br />
             </Tooltip>
           </Rectangle>
-        </>
+        </React.Fragment>
       )),
     [tiles, getColor, handleTileSelected, t],
   );
