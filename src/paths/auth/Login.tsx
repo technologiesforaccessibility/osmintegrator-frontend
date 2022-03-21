@@ -29,7 +29,7 @@ const Login = () => {
   const isLoading = useSelector(selectAuthLoading);
   const error = useSelector(selectAuthError);
 
-  const runLogin = async (email, password) => {
+  const runLogin = async (email: string, password: string) => {
     dispatch(login({ email, password }));
   };
 
@@ -61,7 +61,7 @@ const Login = () => {
                 onChange={handleChange('email')}
                 value={values.email}
                 disabled={isLoading}
-                error={errors.email && touched.email}
+                error={touched.email && !!errors.email}
                 variant={'standard'}
                 fullWidth
                 InputProps={{
@@ -71,7 +71,7 @@ const Login = () => {
                     </InputAdornment>
                   ),
                 }}
-                helperText={errors.email && touched.email && errors.email}
+                helperText={touched.email && errors.email}
               />
             </div>
             <div className="content-container__text-field">
@@ -82,13 +82,13 @@ const Login = () => {
                 onChange={handleChange('password')}
                 value={values.password}
                 disabled={isLoading}
-                error={errors.password && touched.password}
+                error={touched.password && !!errors.password}
                 variant={'standard'}
                 fullWidth
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Tooltip title={t('register.passwordPrompt')}>
+                      <Tooltip title={t('register.passwordPrompt') as string}>
                         <VpnKeyIcon />
                       </Tooltip>
                     </InputAdornment>

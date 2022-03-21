@@ -181,14 +181,14 @@ const unsafeApiError = (errorInstance: any, optionalUserMessage: string) => {
   }
 };
 
-const unsafeFormApiError = (error: any, translate: typeof useTranslation, option: string) => {
+const unsafeFormApiError = (error: any, translate: typeof useTranslation, option: string): string => {
   if (error.status === 401) {
-    return translate(`${option}.401`);
+    return translate(`${option}.401`).toString();
   }
   if (error.status === 400) {
-    return translate('400');
+    return translate('400').toString();
   } else {
-    return translate('unrecognizedProblem');
+    return translate('unrecognizedProblem').toString();
   }
 };
 

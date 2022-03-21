@@ -17,13 +17,13 @@ import colors from '../../stylesheets/config/colors.module.scss';
 const Recover = () => {
   const { t } = useTranslation();
 
-  const [message, setMessage] = useState(null);
-  const [messageColor, setMessageColor] = useState(null);
+  const [message, setMessage] = useState<string>();
+  const [messageColor, setMessageColor] = useState<string>();
   const [loading, setLoading] = useState(false);
   const [isSend, setIsSend] = useState(false);
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
-  const runRecover = async email => {
+  const runRecover = async (email: string) => {
     try {
       await api.accountForgotPasswordCreate(
         {
@@ -76,7 +76,7 @@ const Recover = () => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <Tooltip title={t('register.passwordPrompt')}>
+                  <Tooltip title={t('register.passwordPrompt') as string}>
                     <AlternateEmailIcon />
                   </Tooltip>
                 </InputAdornment>

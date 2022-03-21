@@ -33,7 +33,7 @@ const Register = () => {
   const [checked, setChecked] = useState(false);
   const [registered, setRegistered] = useState(false);
 
-  const register = async (username, email, password1) => {
+  const register = async (username: string, email: string, password1: string) => {
     try {
       await api.accountRegisterCreate({ email, username, password: password1 }, { headers: basicHeaders() });
       setRegistered(true);
@@ -80,19 +80,19 @@ const Register = () => {
                     onChange={handleChange('username')}
                     value={values.username}
                     disabled={isLoading}
-                    error={errors.username && touched.username}
+                    error={touched.username && !!errors.username}
                     variant={'standard'}
                     fullWidth
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <Tooltip title={t('register.usernamePrompt')}>
+                          <Tooltip title={t('register.usernamePrompt') as string}>
                             <AccountCircle />
                           </Tooltip>
                         </InputAdornment>
                       ),
                     }}
-                    helperText={errors.username && touched.username && errors.username}
+                    helperText={touched.username && errors.username}
                   />
                 </div>
                 <div className="content-container__text-field">
@@ -103,7 +103,7 @@ const Register = () => {
                     onChange={handleChange('email')}
                     value={values.email}
                     disabled={isLoading}
-                    error={errors.email && touched.email}
+                    error={touched.email && !!errors.email}
                     variant={'standard'}
                     fullWidth
                     InputProps={{
@@ -113,7 +113,7 @@ const Register = () => {
                         </InputAdornment>
                       ),
                     }}
-                    helperText={errors.email && touched.email && errors.email}
+                    helperText={touched.email && errors.email}
                   />
                 </div>
                 <div className="content-container__text-field">
@@ -124,19 +124,19 @@ const Register = () => {
                     onChange={handleChange('password1')}
                     value={values.password1}
                     disabled={isLoading}
-                    error={errors.password1 && touched.password1}
+                    error={touched.password1 && !!errors.password1}
                     variant={'standard'}
                     fullWidth
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <Tooltip title={t('register.passwordPrompt')}>
+                          <Tooltip title={t('register.passwordPrompt') as string}>
                             <VpnKeyIcon />
                           </Tooltip>
                         </InputAdornment>
                       ),
                     }}
-                    helperText={errors.password1 && touched.password1 && errors.password1}
+                    helperText={touched.password1 && errors.password1}
                   />
                 </div>
                 <div className="content-container__text-field">
@@ -147,19 +147,19 @@ const Register = () => {
                     onChange={handleChange('password2')}
                     value={values.password2}
                     disabled={isLoading}
-                    error={errors.password2 && touched.password2}
+                    error={touched.password2 && !!errors.password2}
                     variant={'standard'}
                     fullWidth
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <Tooltip title={t('register.passwordPrompt')}>
+                          <Tooltip title={t('register.passwordPrompt') as string}>
                             <VpnKeyIcon />
                           </Tooltip>
                         </InputAdornment>
                       ),
                     }}
-                    helperText={errors.password2 && touched.password2 && errors.password2}
+                    helperText={touched.password2 && errors.password2}
                   />
                 </div>
                 <FormControlLabel

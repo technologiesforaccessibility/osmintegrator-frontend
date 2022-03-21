@@ -25,14 +25,14 @@ import colors from '../../stylesheets/config/colors.module.scss';
 const SetPassword = () => {
   const { t } = useTranslation();
 
-  const [message, setMessage] = useState(null);
-  const [messageColor, setMessageColor] = useState(null);
+  const [message, setMessage] = useState<string>();
+  const [messageColor, setMessageColor] = useState<string>();
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [isSend, setIsSend] = useState(false);
 
-  const runUpdatePassword = async (password1, password2) => {
+  const runUpdatePassword = async (password1: string, password2: string) => {
     if (comparePasswords(password1, password2) && isPasswordStrong(password1)) {
       try {
         await api.accountResetPasswordCreate(
@@ -112,7 +112,7 @@ const SetPassword = () => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <Tooltip title={t('register.passwordPrompt')}>
+                  <Tooltip title={t('register.passwordPrompt') as string}>
                     <VpnKeyIcon />
                   </Tooltip>
                 </InputAdornment>
@@ -132,7 +132,7 @@ const SetPassword = () => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <Tooltip title={t('register.passwordPrompt')}>
+                  <Tooltip title={t('register.passwordPrompt') as string}>
                     <VpnKeyIcon />
                   </Tooltip>
                 </InputAdornment>
