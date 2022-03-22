@@ -56,7 +56,7 @@ export const initialMapContextState: IMapContext = {
   authRoles: [],
   draggableStopId: null,
   movedStops: [],
-  markerRef: null,
+  markerReference: null,
   resetPositionFunction: null,
   setResetPositionFunction: () => null,
   setMarkerReference: () => null,

@@ -50,7 +50,7 @@ export interface IMapContext {
   connectedStopPair: ConnectedPairProps;
   draggableStopId: string | null;
   movedStops: MovedStop[];
-  markerRef: null | typeof Marker;
+  markerReference: null | typeof Marker;
   resetPositionFunction: null | Function;
   setResetPositionFunction: (arg: null | Function) => void;
   setMarkerReference: (arg: null | typeof Marker) => void;

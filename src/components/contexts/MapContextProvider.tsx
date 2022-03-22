@@ -53,7 +53,7 @@ const MapContextProvider: FC = ({ children }) => {
   const [propertyGrid, setPropertyGrid] = useState<Stop | Conversation | null>(null);
 
   const [draggableStopId, setDraggableStopId] = useState<string | null>(null);
-  const [markerRef, setMarkerReference] = useState<null | typeof Marker>(null);
+  const [markerReference, setMarkerReference] = useState<null | typeof Marker>(null);
   const [resetPositionFunction, setResetPositionFunction] = useState<null | Function>(null);
 
   const temporaryMovedStopsReducer = (state: MovedStop[], action: MovedStopAction): MovedStop[] => {
@@ -189,7 +189,7 @@ const MapContextProvider: FC = ({ children }) => {
         tileStops,
         draggableStopId,
         movedStops: movedStopsState,
-        markerRef,
+        markerReference,
         resetPositionFunction,
         setResetPositionFunction,
         setMarkerReference,
