@@ -11,8 +11,8 @@ import { exception } from 'utilities/exceptionHelper';
 
 import { MapContext } from '../../contexts/MapContextProvider';
 import { UserContext } from '../../contexts/UserContextProvider';
-import ReportsModal from '../../reports/ReportsModal';
-import TileExportModal from '../../tiles/TileExportModal';
+import ReportsModal from '../../reports/ReportsModal/ReportsModal';
+import TileExportModal from '../../tiles/TileExportModal/TileExportModal';
 
 const SyncPanel: FC = () => {
   const { activeTile, setRerenderReports, setRerenderConnections } = useContext(MapContext);

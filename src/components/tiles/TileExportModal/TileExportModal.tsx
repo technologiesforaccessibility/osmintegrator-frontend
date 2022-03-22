@@ -1,12 +1,14 @@
+import './tileExportModal.scss';
+
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, Button, Modal, Tab, Tabs } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import TabPanel from '../extra/TabContent';
-import TileExportOsmChangesTab from './TileExportOsmChangesTab';
-import TileExportOsmExportTab from './TileExportOsmExportTab';
-import TileExportOsmInfoTab from './TileExportOsmInfoTab';
+import TabPanel from '../../extra/TabContent';
+import TileExportOsmChangesTab from '../TileExportOsmChangesTab';
+import TileExportOsmExportTab from '../TileExportOsmExportTab';
+import TileExportOsmInfoTab from '../TileExportOsmInfoTab';
 
 export interface TileExportModalProps {
   tileId: string;
@@ -32,15 +34,8 @@ const TileExportModal = (props: TileExportModalProps) => {
   return (
     <Modal open={open}>
       <Box
+        className="tile-export-modal"
         sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 600,
-          minHeight: 550,
-          bgcolor: 'white',
-          border: '2px solid #000',
           boxShadow: 24,
           p: 3,
         }}>

@@ -312,14 +312,8 @@ export const MapView = () => {
       {modal && !welcomeModalCookie.welcome_modal && (
         <Modal open={modal} onClose={closeModal}>
           <Box
+            className="map-welcome-modal"
             sx={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: 600,
-              bgcolor: 'white',
-              border: '0px solid #000',
               boxShadow: 24,
               p: 4,
             }}>

@@ -1,3 +1,5 @@
+import './reportsModal.scss';
+
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, Button, Modal, TextField } from '@mui/material';
 import { FC } from 'react';
@@ -15,14 +17,8 @@ const ReportsModal: FC<TReportsModalProps> = ({ isOpen, data, onClose }) => {
   return (
     <Modal open={isOpen}>
       <Box
+        className="reports-modal"
         sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 800,
-          bgcolor: 'white',
-          border: '2px solid #000',
           boxShadow: 24,
           p: 4,
         }}>

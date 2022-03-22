@@ -69,21 +69,7 @@ const Legend = () => {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 'calc(100% - 40px)',
-            maxWidth: '678px',
-            bgcolor: 'white',
-            borderRadius: '10px',
-            boxShadow: 24,
-            overflowY: 'auto',
-            height: 'calc(100% - 40px)',
-            maxHeight: '720px',
-          }}>
+        <Box className="legend-wrapper" sx={{ boxShadow: 24 }}>
           <div className="legend">
             <div className="legend__close">
               <IconButton onClick={handleClose} color="primary">

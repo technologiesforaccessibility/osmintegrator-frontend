@@ -1,15 +1,11 @@
-.leaflet-connections-pane {
-  z-index: 660;
-}
-
-.map-welcome-modal {
+.reports-modal {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 
-  width: 600px;
+  width: 800px;
 
   background-color: white;
-  border: '0px solid #000';
+  border: 2px solid #000;
 }
