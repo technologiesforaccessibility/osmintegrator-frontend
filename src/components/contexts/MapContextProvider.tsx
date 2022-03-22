@@ -1,9 +1,10 @@
 import { Connection, Conversation, Stop, Tile } from 'api/apiClient';
-import { createContext, FC, useCallback, useState } from 'react';
+import { createContext, FC, useCallback, useReducer, useState } from 'react';
+import { Marker } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { selectLoggedInUserRoles } from 'redux/selectors/authSelector';
 import { ConnectionRadio } from 'types/enums';
-import { ConnectedPairProps } from 'types/interfaces';
+import { ConnectedPairProps, MovedStop, MovedStopAction } from 'types/interfaces';
 import { TCoordinates, TMapReportContent } from 'types/map';
 import { IMapContext } from 'types/map-context';
 import { localStorageStopTypes } from 'utilities/constants';
@@ -50,6 +51,36 @@ const MapContextProvider: FC = ({ children }) => {
   const [areStopsVisible, setAreStopsVisible] = useState(false);
   const [activeStop, setActiveStop] = useState<Stop | null>(null);
   const [propertyGrid, setPropertyGrid] = useState<Stop | Conversation | null>(null);
+
+  const [draggableStopId, setDraggableStopId] = useState<string | null>(null);
+  const [markerRef, setMarkerReference] = useState<null | typeof Marker>(null);
+  const [resetPositionFunction, setResetPositionFunction] = useState<null | Function>(null);
+
+  const temporaryMovedStopsReducer = (state: MovedStop[], action: MovedStopAction): MovedStop[] => {
+    const { payload } = action;
+    const index = state.findIndex(({ id }) => id === payload.id);
+    switch (action.type) {
+      case 'ADD':
+        if (!payload.position) {
+          return state;
+        }
+
+        if (index >= 0) {
+          state[index] = { id: state[index].id, externalId: state[index].externalId, position: payload.position };
+          return state;
+        } else {
+          const myObj = { id: payload.id, externalId: payload.externalId, position: payload.position };
+          return state.concat([myObj]);
+        }
+      case 'REMOVE':
+        const output = state.splice(index, 1);
+        return output;
+      default:
+        throw new Error();
+    }
+  };
+
+  const [movedStopsState, movedStopsDispatch] = useReducer(temporaryMovedStopsReducer, []);
 
   const authRoles = useSelector(selectLoggedInUserRoles);
 
@@ -156,6 +187,14 @@ const MapContextProvider: FC = ({ children }) => {
         isSidebarConnectionHandlerVisible,
         connectedStopPair,
         tileStops,
+        draggableStopId,
+        movedStops: movedStopsState,
+        markerRef,
+        resetPositionFunction,
+        setResetPositionFunction,
+        setMarkerReference,
+        movedStopsDispatch,
+        setDraggableStopId,
         setRerenderConnections,
         setTileStops,
         setConnectedStopPair,
