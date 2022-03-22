@@ -813,6 +813,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
+     * @tags Gtfs
+     * @name GtfsUpdateStopsUpdate
+     * @request PUT:/api/Gtfs/UpdateStops
+     */
+    gtfsUpdateStopsUpdate: (data: { file?: File }, params: RequestParams = {}) =>
+      this.request<Report, ProblemDetails>({
+        path: `/api/Gtfs/UpdateStops`,
+        method: 'PUT',
+        body: data,
+        type: ContentType.FormData,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags OsmExport
      * @name TilesExportChangesDetail
      * @request GET:/api/tiles/{tileId}/export/changes
@@ -1052,23 +1069,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: 'PUT',
         format: 'json',
         ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Tile
-     * @name TileUpdateGtfs
-     * @request PUT:/api/Tile/UpdateGtfsStops
-     */
-    updateGtfsStops: (data: unknown, params: RequestParams = {}) =>
-      this.request<Report, ProblemDetails>({
-        path: `/api/Gtfs/UpdateStops`,
-        method: 'PUT',
-        format: 'json',
-        type: ContentType.FormData,
-        ...params,
-        body: data,
       }),
 
     /**
