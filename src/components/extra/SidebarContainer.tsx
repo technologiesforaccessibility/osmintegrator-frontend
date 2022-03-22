@@ -1,4 +1,4 @@
-import './dashboard/DashboardSidebar/dashboardSidebar.scss';
+import '../dashboard/DashboardSidebar/dashboardSidebar.scss';
 
 import dots from 'assets/authDots.png';
 import { FC, ReactNode } from 'react';
