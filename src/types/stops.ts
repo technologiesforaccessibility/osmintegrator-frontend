@@ -1,3 +1,5 @@
+import { Stop } from 'api/apiClient';
+
 export type TBusStopProperties = {
   outsideSelectedTile: boolean;
   stopType: number;
@@ -14,3 +16,5 @@ export type TStopShadowProperties = {
   shadowUrl: string;
   shadowAnchor: [number, number];
 };
+
+export type TConnectionData = Stop | null;

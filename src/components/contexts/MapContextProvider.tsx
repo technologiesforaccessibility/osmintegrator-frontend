@@ -1,28 +1,29 @@
-import { Connection, Conversation, NoteStatus, Stop, Tile } from 'api/apiClient';
+import { Connection, Conversation, Stop, Tile } from 'api/apiClient';
 import { createContext, FC, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectLoggedInUserRoles } from 'redux/selectors/authSelector';
 import i18n from 'translations/i18n';
 import { ConnectionRadio } from 'types/enums';
 import { ConnectedPairProps } from 'types/interfaces';
+import { TCoordinates, TMapReportContent } from 'types/map';
 import { connectionVisibility, localStorageStopTypes } from 'utilities/constants';
 
+interface OptionValue {
+  text: string;
+  opacityValue: number;
+  icon: () => JSX.Element;
+}
+
+interface Option {
+  localStorageName: string;
+  name: string;
+  value: OptionValue;
+}
+
 interface VisibilityOptions {
-  connected: {
-    localStorageName: string;
-    name: string;
-    value: { text: string; opacityValue: number; icon: () => JSX.Element };
-  };
-  unconnected: {
-    localStorageName: string;
-    name: string;
-    value: { text: string; opacityValue: number; icon: () => JSX.Element };
-  };
-  mapReport: {
-    localStorageName: string;
-    name: string;
-    value: { text: string; opacityValue: number; icon: () => JSX.Element };
-  };
+  connected: Option;
+  unconnected: Option;
+  mapReport: Option;
 }
 
 interface IMapContext {
@@ -33,13 +34,13 @@ interface IMapContext {
   propertyGrid: Stop | Conversation | null;
   connectionData: Stop[];
   rerenderConnections: boolean;
-  newReportCoordinates: { lat: number | null; lon: number | null };
+  newReportCoordinates: TCoordinates;
   activeTile: Tile | null;
   rerenderReports: boolean;
   importedConnections: Array<Connection>;
   importedReports: Array<Conversation>;
   isEditingReportMode: boolean;
-  openReportContent: null | { lat: number; lon: number; text: string; id: string; tileId: string; status: NoteStatus };
+  openReportContent: null | TMapReportContent;
   rerenderTiles: boolean;
   tiles: Array<Tile>;
   connectedStopIds: Array<string>;
@@ -65,7 +66,7 @@ interface IMapContext {
   reset: () => void;
   shouldRenderConnections: (arg: boolean) => void;
   toogleMapMode: (arg: string) => void;
-  setNewReportCoordinates: React.Dispatch<React.SetStateAction<{ lat: number | null; lon: number | null }>>;
+  setNewReportCoordinates: React.Dispatch<React.SetStateAction<TCoordinates>>;
   resetReportCoordinates: () => void;
   setActiveTile: React.Dispatch<React.SetStateAction<Tile | null>>;
   setRerenderReports: React.Dispatch<React.SetStateAction<boolean>>;
@@ -73,16 +74,7 @@ interface IMapContext {
   setImportedReports: React.Dispatch<React.SetStateAction<Array<Conversation>>>;
   hideTileElements: () => void;
   setIsEditingReportMode: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpenReportContent: React.Dispatch<
-    React.SetStateAction<null | {
-      lat: number;
-      lon: number;
-      text: string;
-      id: string;
-      tileId: string;
-      status: NoteStatus;
-    }>
-  >;
+  setOpenReportContent: React.Dispatch<React.SetStateAction<null | TMapReportContent>>;
   resetMapContext: () => void;
   setIsTileActive: React.Dispatch<React.SetStateAction<boolean>>;
   closeTile: () => void;
@@ -242,14 +234,7 @@ const MapContextProvider: FC = ({ children }) => {
   const [activeTile, setActiveTile] = useState<Tile | null>(null);
   const [importedConnections, setImportedConnections] = useState<Array<Connection>>([]);
   const [importedReports, setImportedReports] = useState<Array<Conversation>>([]);
-  const [openReportContent, setOpenReportContent] = useState<null | {
-    lat: number;
-    lon: number;
-    text: string;
-    id: string;
-    tileId: string;
-    status: NoteStatus;
-  }>(null);
+  const [openReportContent, setOpenReportContent] = useState<null | TMapReportContent>(null);
   const [tiles, setTiles] = useState<Array<Tile>>([]);
   const [rerenderTiles, setRerenderTiles] = useState(false);
   const [connectedStopIds, setConnectedStopIds] = useState<Array<string>>([]);
@@ -258,7 +243,7 @@ const MapContextProvider: FC = ({ children }) => {
   const [activeStop, setActiveStop] = useState<Stop | null>(null);
   const [tileStops, setTileStops] = useState<Stop[]>([]);
   const [isSidebarConnectionHandlerVisible, setIsSidebarConnectionHandlerVisible] = useState(false);
-  const [connectedStopPair, setConnectedStopPair] = useState({
+  const [connectedStopPair, setConnectedStopPair] = useState<ConnectedPairProps>({
     markedStop: null,
     connectedStop: null,
     connection: null,
