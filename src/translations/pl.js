@@ -293,7 +293,12 @@ export const pl = {
       connection: 'Stwórz nowe połączenie',
       tile: 'Szczegóły kafelka',
       sync: 'Synchronizacja',
+      move: 'Przesuwanie przystanków',
       back: 'Ukryj kafelek',
+    },
+    pan: {
+      header: 'Panel przesuwania przystanków',
+      selectPrompt: 'Wybierz przystanek GTFS aby zmnienić jego lokalizację',
     },
     error: {
       unrecognizedProblem: 'Coś poszło nie tak. Skontaktuj się z administratorem.',

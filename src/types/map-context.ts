@@ -1,7 +1,9 @@
 import { Connection, Conversation, Stop, Tile } from 'api/apiClient';
+import React from 'react';
+import { Marker } from 'react-leaflet';
 import { ConnectionRadio } from 'types/enums';
 
-import { ConnectedPairProps } from './interfaces';
+import { ConnectedPairProps, MovedStop, MovedStopAction } from './interfaces';
 import { TCoordinates, TMapReportContent } from './map';
 
 interface OptionValue {
@@ -46,6 +48,14 @@ export interface IMapContext {
   isSidebarConnectionHandlerVisible: boolean;
   tileStops: Stop[];
   connectedStopPair: ConnectedPairProps;
+  draggableStopId: string | null;
+  movedStops: MovedStop[];
+  markerRef: null | typeof Marker;
+  resetPositionFunction: null | Function;
+  setResetPositionFunction: (arg: null | Function) => void;
+  setMarkerReference: (arg: null | typeof Marker) => void;
+  movedStopsDispatch: (action: MovedStopAction) => void;
+  setDraggableStopId: (stop: string | null) => void;
   setRerenderConnections: (arg: boolean) => void;
   setConnectedStopPair: (arg: any) => void;
   setTileStops: (arg: Stop[]) => void;

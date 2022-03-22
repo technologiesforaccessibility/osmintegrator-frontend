@@ -293,7 +293,12 @@ export const en = {
       connection: 'Create new connection',
       tile: 'Tile details',
       sync: 'Sync',
+      move: 'Pan tool',
       back: 'Hide tile',
+    },
+    pan: {
+      header: 'Pan tool',
+      selectPrompt: 'Select GTFS stop to change its location',
     },
     error: {
       unrecognizedProblem: 'Something went wrong. Please contact administrator.',

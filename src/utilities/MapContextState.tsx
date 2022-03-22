@@ -10,6 +10,7 @@ export const MapModes = {
   connection: 'Connection',
   tile: 'Tile',
   sync: 'Sync',
+  pan: 'Pan',
 };
 
 export const initialMapContextState: IMapContext = {

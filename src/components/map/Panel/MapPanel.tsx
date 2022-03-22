@@ -2,6 +2,7 @@ import './mapPanel.scss';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CropSquareTwoToneIcon from '@mui/icons-material/CropSquareTwoTone';
+import PanToolIcon from '@mui/icons-material/PanTool';
 import ReportIcon from '@mui/icons-material/Report';
 import SyncIcon from '@mui/icons-material/Sync';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -63,6 +64,11 @@ const MapPanel = () => {
       title: t('tileModePrompts.sync'),
       name: MapModes.sync,
       icon: () => <SyncIcon />,
+    },
+    {
+      title: t('tileModePrompts.pan'),
+      name: MapModes.pan,
+      icon: () => <PanToolIcon />,
     },
   ];
 
