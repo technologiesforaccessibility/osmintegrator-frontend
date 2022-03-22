@@ -1,5 +1,5 @@
 import {Button} from '@mui/material';
-import {ChangeEvent, FC, useContext, useState} from 'react';
+import {ChangeEvent, FC, useContext, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import api from '../../api/apiInstance';
 import {noContentTypeHeaders} from '../../config/apiConfig';
@@ -9,6 +9,7 @@ import ReportsModal from '../ReportsModal';
 import '../../stylesheets/stopsImportPanel.scss';
 
 const ManagementPanelStops: FC = () => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const {t} = useTranslation();
   const {setLoader} = useContext(UserContext);
   const [importData, setImportData] = useState<string | null>();
@@ -21,7 +22,10 @@ const ManagementPanelStops: FC = () => {
         return;
       }
 
-      const response = await api.updateGtfsStops({file: event.target.files[0]}, {headers: noContentTypeHeaders()});
+      const response = await api.gtfsUpdateStopsUpdate(
+        {file: event.target.files[0]},
+        {headers: noContentTypeHeaders()},
+      );
       const {value}: {value?: string | null} = response.data || {};
       setImportData(value || null);
       setModalOpen(true);
@@ -29,19 +33,20 @@ const ManagementPanelStops: FC = () => {
       exception(error);
     } finally {
       setLoader(false);
-      const input = document.querySelector('input[name="gtfs_import"]');
+      const input = fileInputRef.current;
       if (input) (input as HTMLInputElement).value = '';
     }
   };
 
   const handleInputClick = () => {
-    const input = document.querySelector('input[name="gtfs_import"]');
+    const input = fileInputRef.current;
     if (input) (input as HTMLElement).click();
   };
 
   return (
     <div className="stops-importPanel mt-3">
       <input
+        ref={fileInputRef}
         type="file"
         name="gtfs_import"
         onChange={handleImportGtfs}
