@@ -12,7 +12,7 @@ import Tooltip from '@mui/material/Tooltip';
 import api from 'api/apiInstance';
 import AuthBottomPanel from 'components/auth/AuthBottomPanel/AuthBottomPanel';
 import AuthContainer from 'components/auth/AuthContainer/AuthContainer';
-import Loader from 'components/Loader/Loader';
+import Loader from 'components/extra/Loader/Loader';
 import { basicHeaders } from 'config/apiConfig';
 import { Formik } from 'formik';
 import { useState } from 'react';

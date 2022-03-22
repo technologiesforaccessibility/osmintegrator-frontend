@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import api from 'api/apiInstance';
 import { ReactComponent as Logo } from 'assets/accountLogo.svg';
 import AuthContainer from 'components/auth/AuthContainer/AuthContainer';
-import Loader from 'components/Loader/Loader';
+import Loader from 'components/extra/Loader/Loader';
 import { noTokenHeaders } from 'config/apiConfig';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';

@@ -1,4 +1,4 @@
-import ProfileLayout from 'components/ProfileLayout/ProfileLayout';
+import ProfileLayout from 'components/layout/ProfileLayout/ProfileLayout';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { paths } from 'utilities/constants';

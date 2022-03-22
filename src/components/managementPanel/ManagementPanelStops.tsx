@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { exception } from 'utilities/exceptionHelper';
 
 import { UserContext } from '../contexts/UserContextProvider';
-import ReportsModal from '../ReportsModal';
+import ReportsModal from '../reports/ReportsModal';
 
 const ManagementPanelStops: FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);

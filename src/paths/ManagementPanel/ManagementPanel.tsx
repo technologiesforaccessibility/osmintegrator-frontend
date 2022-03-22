@@ -7,7 +7,7 @@ import { Tile, UncommittedTile, User } from 'api/apiClient';
 import api from 'api/apiInstance';
 import H3Title from 'components/customs/H3Title';
 import H4Title from 'components/customs/H4Title';
-import DashboardWrapper from 'components/DashboardWrapper/DashboardWrapper';
+import DashboardWrapper from 'components/dashboard/DashboardWrapper/DashboardWrapper';
 import ManagementPanelMap from 'components/managementPanel/ManagementPanelMap';
 import ManagementPanelStops from 'components/managementPanel/ManagementPanelStops';
 import RoleAssignmentPanel from 'components/managementPanel/RoleAssignmentPanel';

@@ -8,10 +8,10 @@ import store from 'redux/store';
 import ConversationContextProvider from '../contexts/ConversationProvider';
 import MapContextProvider from '../contexts/MapContextProvider';
 import UserContextProvider from '../contexts/UserContextProvider';
-import CookiesBar from '../CookiesBar';
-import GlobalLoader from '../Loader/GlobalLoader';
-import Navigation from '../Navigation';
-import Notification from '../Notification';
+import CookiesBar from '../extra/CookiesBar';
+import GlobalLoader from '../extra/Loader/GlobalLoader';
+import Notification from '../extra/Notification';
+import Navigation from '../routes/Navigation';
 
 const App = () => {
   return (
