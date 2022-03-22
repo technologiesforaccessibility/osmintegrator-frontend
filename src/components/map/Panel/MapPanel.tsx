@@ -14,9 +14,10 @@ import { ReactComponent as ConnectionIcon } from 'assets/connection-panel-icon.s
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { modalStyle } from 'stylesheets/sharedStyles';
+import { MapModes } from 'utilities/MapContextState';
 
 import ConnectionVisibilityPanel from '../../connections/ConnectionVisibilityPanel/ConnectionVisibilityPanel';
-import { MapContext, MapModes } from '../../contexts/MapContextProvider';
+import { MapContext } from '../../contexts/MapContextProvider';
 import MapOptions from './MapOptions';
 
 const MapPanel = () => {

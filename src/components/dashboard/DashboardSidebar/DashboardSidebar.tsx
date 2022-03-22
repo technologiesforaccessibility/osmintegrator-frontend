@@ -3,10 +3,11 @@ import './dashboardSidebar.scss';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ConnectionRadio } from 'types/enums';
+import { MapModes } from 'utilities/MapContextState';
 
 import ConnectionRadioGroup from '../../connections/ConnectionRadioGroup';
 import ConnectionSidePanel from '../../connections/ConnectionSidePanel/ConnectionSidePanel';
-import { MapContext, MapModes } from '../../contexts/MapContextProvider';
+import { MapContext } from '../../contexts/MapContextProvider';
 import SidebarConnectionHandler from '../../extra/SidebarConnectionHandler/SidebarConnectionHandler';
 import SidebarContainer from '../../extra/SidebarContainer';
 import MapPanel from '../../map/Panel/MapPanel';

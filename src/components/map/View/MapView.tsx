@@ -13,9 +13,10 @@ import { MapContainer, Pane, TileLayer } from 'react-leaflet';
 import { useDispatch } from 'react-redux';
 import { NotificationActions } from 'redux/actions/notificationActions';
 import { exception } from 'utilities/exceptionHelper';
+import { MapModes } from 'utilities/MapContextState';
 
 import { ConversationContext } from '../../contexts/ConversationProvider';
-import { MapContext, MapModes } from '../../contexts/MapContextProvider';
+import { MapContext } from '../../contexts/MapContextProvider';
 import Loader from '../../extra/Loader/Loader';
 import WelcomeModal from '../../extra/WelcomeModal/WelcomeModal';
 import DraftConnections from '../DraftConnections';

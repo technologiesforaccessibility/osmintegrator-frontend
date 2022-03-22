@@ -1,9 +1,10 @@
 import { Conversation, Stop } from 'api/apiClient';
 import { FC, useContext } from 'react';
 import { Marker, Tooltip } from 'react-leaflet';
+import { MapModes } from 'utilities/MapContextState';
 import { getReportIcon } from 'utilities/utilities';
 
-import { MapContext, MapModes } from '../contexts/MapContextProvider';
+import { MapContext } from '../contexts/MapContextProvider';
 
 type TImportedReportsProps = {
   reports: Conversation[];

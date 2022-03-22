@@ -18,6 +18,8 @@ import { useTranslation } from 'react-i18next';
 import { StopType } from 'types/enums';
 import { TBusStopProperties, TStopIconProperties, TStopShadowProperties } from 'types/stops';
 
+import { connectionVisibility } from './constants';
+
 export const reportIcons = {
   initial: reportGrayIcon,
   created: reportBlueIcon,
@@ -187,12 +189,37 @@ const unsafeFormApiError = (error: any, translate: typeof useTranslation, option
   }
 };
 
+const getVisibilityValueFromStateOrReturn = (itemKey: string, reset: boolean) => {
+  const storageItem = localStorage.getItem(itemKey);
+
+  if (storageItem && !reset) {
+    //good for now - can be rafactored later
+    const connectionVisibilityKey = Object.entries(connectionVisibility).filter(
+      el => el[1].text === JSON.parse(storageItem).text,
+    )[0][0];
+
+    switch (connectionVisibilityKey) {
+      case 'hidden':
+        return connectionVisibility.hidden;
+      case 'semiTransparent':
+        return connectionVisibility.semiTransparent;
+      case 'visible':
+        return connectionVisibility.visible;
+      default:
+        return connectionVisibility.visible;
+    }
+  } else {
+    return connectionVisibility.visible;
+  }
+};
+
 export {
   comparePasswords,
   getBusStopIcon,
   getEmailFromPath,
   getReportIcon,
   getTokenFromPath,
+  getVisibilityValueFromStateOrReturn,
   isPasswordStrong,
   unsafeApiError,
   unsafeFormApiError,

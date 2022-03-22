@@ -2,174 +2,54 @@ import { Connection, Conversation, Stop, Tile } from 'api/apiClient';
 import { createContext, FC, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectLoggedInUserRoles } from 'redux/selectors/authSelector';
-import i18n from 'translations/i18n';
 import { ConnectionRadio } from 'types/enums';
 import { ConnectedPairProps } from 'types/interfaces';
 import { TCoordinates, TMapReportContent } from 'types/map';
 import { IMapContext } from 'types/map-context';
-import { connectionVisibility, localStorageStopTypes } from 'utilities/constants';
+import { localStorageStopTypes } from 'utilities/constants';
 
-export const MapModes = {
-  view: 'View',
-  report: 'Report',
-  connection: 'Connection',
-  tile: 'Tile',
-  sync: 'Sync',
-};
+import {
+  initialMapContextState,
+  initialMapContextVisibility,
+  initialReportCoords,
+  MapModes,
+} from '../../utilities/MapContextState';
 
-const init: IMapContext = {
-  isTileActive: false,
-  mapMode: MapModes.view,
-  isMapActive: false,
-  areStopsVisible: false,
-  propertyGrid: null,
-  connectionData: [],
-  rerenderConnections: false,
-  newReportCoordinates: { lat: null, lon: null },
-  activeTile: null,
-  rerenderReports: false,
-  importedConnections: [],
-  importedReports: [],
-  isEditingReportMode: false,
-  openReportContent: null,
-  rerenderTiles: false,
-  tiles: [],
-  connectedStopIds: [],
-  areManageReportButtonsVisible: false,
-  visibilityOptions: {
-    connected: {
-      localStorageName: 'string',
-      name: 'string',
-      value: { text: 'string', opacityValue: 0, icon: () => <span /> },
-    },
-    unconnected: {
-      localStorageName: 'string',
-      name: 'string',
-      value: { text: 'string', opacityValue: 0, icon: () => <span /> },
-    },
-    mapReport: {
-      localStorageName: 'string',
-      name: 'string',
-      value: { text: 'string', opacityValue: 0, icon: () => <span /> },
-    },
-  },
-  activeStop: null,
-  tileStops: [],
-  isSidebarConnectionHandlerVisible: false,
-  connectedStopPair: { markedStop: null, connectedStop: null, connection: null },
-  authRoles: [],
-  setRerenderConnections: () => null,
-  setConnectedStopPair: () => null,
-  setIsSidebarConnectionHandlerVisible: () => null,
-  setAreManageReportButtonsVisible: () => null,
-  resetMapSettings: () => null,
-  setConnectedStopIds: () => null,
-  setTiles: () => null,
-  setRerenderTiles: () => null,
-  singleTileToggle: () => null,
-  activeMapToggle: () => null,
-  displayPropertyGrid: () => null,
-  updateConnectionData: () => null,
-  reset: () => null,
-  shouldRenderConnections: () => null,
-  toggleMapMode: () => null,
-  setNewReportCoordinates: () => null,
-  resetReportCoordinates: () => null,
-  setActiveTile: () => null,
-  setRerenderReports: () => null,
-  setImportedConnections: () => null,
-  setImportedReports: () => null,
-  hideTileElements: () => null,
-  setIsEditingReportMode: () => null,
-  setOpenReportContent: () => null,
-  resetMapContext: () => null,
-  setIsTileActive: () => null,
-  closeTile: () => null,
-  setVisibilityOptions: () => null,
-  resetMapVisibility: () => null,
-  setActiveStop: () => null,
-  setTileStops: () => null,
-  connectionRadio: ConnectionRadio.ADD,
-  setConnectionRadio: () => null,
-};
-
-export const MapContext = createContext<IMapContext>(init);
-
-const initialReportCoords = { lat: null, lon: null };
-
-const getValueFromStateOrReturn = (itemKey: string, reset: boolean) => {
-  const storageItem = localStorage.getItem(itemKey);
-
-  if (storageItem && !reset) {
-    //good for now - can be rafactored later
-    const connectionVisibilityKey = Object.entries(connectionVisibility).filter(
-      el => el[1].text === JSON.parse(storageItem).text,
-    )[0][0];
-
-    switch (connectionVisibilityKey) {
-      case 'hidden':
-        return connectionVisibility.hidden;
-      case 'semiTransparent':
-        return connectionVisibility.semiTransparent;
-      case 'visible':
-        return connectionVisibility.visible;
-      default:
-        return connectionVisibility.visible;
-    }
-  } else {
-    return connectionVisibility.visible;
-  }
-};
-
-const initialVisibility = (reset = false) => {
-  return {
-    connected: {
-      localStorageName: localStorageStopTypes.connected,
-      name: i18n.t('connectionVisibility.nameConnected'),
-      value: getValueFromStateOrReturn(localStorageStopTypes.connected, reset),
-    },
-    unconnected: {
-      localStorageName: localStorageStopTypes.unconnected,
-      name: i18n.t('connectionVisibility.nameUnconnected'),
-      value: getValueFromStateOrReturn(localStorageStopTypes.unconnected, reset),
-    },
-    mapReport: {
-      localStorageName: localStorageStopTypes.unconnected,
-      name: i18n.t('connectionVisibility.mapReport'),
-      value: getValueFromStateOrReturn(localStorageStopTypes.unconnected, reset),
-    },
-  };
-};
+export const MapContext = createContext<IMapContext>(initialMapContextState);
 
 const MapContextProvider: FC = ({ children }) => {
-  const [connectionRadio, setConnectionRadio] = useState<ConnectionRadio>(ConnectionRadio.ADD);
-  const [isTileActive, setIsTileActive] = useState(false);
-  const [isMapActive, setIsMapActive] = useState(false);
-  const [areStopsVisible, setAreStopsVisible] = useState(false);
-  const [propertyGrid, setPropertyGrid] = useState<Stop | Conversation | null>(null);
   const [rerenderConnections, setRerenderConnections] = useState(false);
   const [connectionData, setConnectionData] = useState<Stop[]>([]);
-  const [mapMode, setMapMode] = useState(MapModes.view);
-  const [isEditingReportMode, setIsEditingReportMode] = useState(false);
-  const [newReportCoordinates, setNewReportCoordinates] = useState<TCoordinates>(initialReportCoords);
-  const [rerenderReports, setRerenderReports] = useState(false);
-  const [activeTile, setActiveTile] = useState<Tile | null>(null);
-  const [importedConnections, setImportedConnections] = useState<Array<Connection>>([]);
-  const [importedReports, setImportedReports] = useState<Array<Conversation>>([]);
-  const [openReportContent, setOpenReportContent] = useState<null | TMapReportContent>(null);
-  const [tiles, setTiles] = useState<Array<Tile>>([]);
-  const [rerenderTiles, setRerenderTiles] = useState(false);
-  const [connectedStopIds, setConnectedStopIds] = useState<Array<string>>([]);
-  const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);
-  const [visibilityOptions, setVisibilityOptions] = useState(initialVisibility());
-  const [activeStop, setActiveStop] = useState<Stop | null>(null);
-  const [tileStops, setTileStops] = useState<Stop[]>([]);
+  const [connectionRadio, setConnectionRadio] = useState<ConnectionRadio>(ConnectionRadio.ADD);
+  const [importedConnections, setImportedConnections] = useState<Connection[]>([]);
+  const [connectedStopIds, setConnectedStopIds] = useState<string[]>([]);
   const [isSidebarConnectionHandlerVisible, setIsSidebarConnectionHandlerVisible] = useState(false);
   const [connectedStopPair, setConnectedStopPair] = useState<ConnectedPairProps>({
     markedStop: null,
     connectedStop: null,
     connection: null,
   });
+
+  const [tiles, setTiles] = useState<Tile[]>([]);
+  const [isTileActive, setIsTileActive] = useState(false);
+  const [activeTile, setActiveTile] = useState<Tile | null>(null);
+  const [tileStops, setTileStops] = useState<Stop[]>([]);
+  const [rerenderTiles, setRerenderTiles] = useState(false);
+
+  const [newReportCoordinates, setNewReportCoordinates] = useState<TCoordinates>(initialReportCoords);
+  const [isEditingReportMode, setIsEditingReportMode] = useState(false);
+  const [rerenderReports, setRerenderReports] = useState(false);
+  const [importedReports, setImportedReports] = useState<Conversation[]>([]);
+  const [openReportContent, setOpenReportContent] = useState<null | TMapReportContent>(null);
+  const [areManageReportButtonsVisible, setAreManageReportButtonsVisible] = useState(false);
+
+  const [isMapActive, setIsMapActive] = useState(false);
+  const [mapMode, setMapMode] = useState(MapModes.view);
+
+  const [visibilityOptions, setVisibilityOptions] = useState(initialMapContextVisibility());
+  const [areStopsVisible, setAreStopsVisible] = useState(false);
+  const [activeStop, setActiveStop] = useState<Stop | null>(null);
+  const [propertyGrid, setPropertyGrid] = useState<Stop | Conversation | null>(null);
 
   const authRoles = useSelector(selectLoggedInUserRoles);
 
@@ -241,11 +121,11 @@ const MapContextProvider: FC = ({ children }) => {
 
   const resetMapSettings = useCallback(() => {
     setConnectedStopIds([]);
-    setVisibilityOptions(initialVisibility());
+    setVisibilityOptions(initialMapContextVisibility());
   }, []);
 
   const resetMapVisibility = useCallback(() => {
-    setVisibilityOptions(initialVisibility(true));
+    setVisibilityOptions(initialMapContextVisibility(true));
     Object.values(localStorageStopTypes).forEach(item => localStorage.removeItem(item));
   }, []);
 
