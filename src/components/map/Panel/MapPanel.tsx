@@ -24,7 +24,7 @@ const MapPanel = () => {
     isTileActive,
     singleTileToggle,
     mapMode,
-    toogleMapMode,
+    toggleMapMode,
     hideTileElements,
     resetMapSettings,
     setNewReportCoordinates,
@@ -66,7 +66,7 @@ const MapPanel = () => {
   ];
 
   const handleChange = (_: unknown, value: string) => {
-    toogleMapMode(value);
+    toggleMapMode(value);
   };
 
   return (

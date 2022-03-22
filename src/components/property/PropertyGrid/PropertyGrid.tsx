@@ -17,11 +17,11 @@ const PropertyGrid: FC<TPropertyGridProps> = ({ propertyGrid }) => {
   const entries = grid ? Object.entries(grid) : null;
   const { t } = useTranslation();
 
-  const { toogleMapMode } = useContext(MapContext);
+  const { toggleMapMode } = useContext(MapContext);
 
   return (
     <>
-      <Button fullWidth variant="contained" onClick={() => toogleMapMode('Report')} sx={{ marginBottom: '1rem' }}>
+      <Button fullWidth variant="contained" onClick={() => toggleMapMode('Report')} sx={{ marginBottom: '1rem' }}>
         {t('report.edit')}
       </Button>
       <div className="propertyGrid-frame">
