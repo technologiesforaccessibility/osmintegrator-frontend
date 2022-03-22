@@ -228,8 +228,7 @@ const MapContextProvider: FC = ({ children }) => {
   const [connectionData, setConnectionData] = useState<Stop[]>([]);
   const [mapMode, setMapMode] = useState(MapModes.view);
   const [isEditingReportMode, setIsEditingReportMode] = useState(false);
-  const [newReportCoordinates, setNewReportCoordinates] =
-    useState<{ lat: number | null; lon: number | null }>(initialReportCoords);
+  const [newReportCoordinates, setNewReportCoordinates] = useState<TCoordinates>(initialReportCoords);
   const [rerenderReports, setRerenderReports] = useState(false);
   const [activeTile, setActiveTile] = useState<Tile | null>(null);
   const [importedConnections, setImportedConnections] = useState<Array<Connection>>([]);
