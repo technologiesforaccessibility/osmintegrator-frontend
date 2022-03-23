@@ -1,6 +1,5 @@
 import { Connection, Conversation, Stop, Tile } from 'api/apiClient';
 import React from 'react';
-import { Marker } from 'react-leaflet';
 import { ConnectionRadio } from 'types/enums';
 
 import { ConnectedPairProps, MovedStop, MovedStopAction } from './interfaces';
@@ -50,10 +49,8 @@ export interface IMapContext {
   connectedStopPair: ConnectedPairProps;
   draggableStopId: string | null;
   movedStops: MovedStop[];
-  markerReference: null | typeof Marker;
-  resetPositionFunction: null | Function;
-  setResetPositionFunction: (arg: null | Function) => void;
-  setMarkerReference: (arg: null | typeof Marker) => void;
+  markerReference: null | React.MutableRefObject<null>;
+  setMarkerReference: (arg: null | React.MutableRefObject<null>) => void;
   movedStopsDispatch: (action: MovedStopAction) => void;
   setDraggableStopId: (stop: string | null) => void;
   setRerenderConnections: (arg: boolean) => void;

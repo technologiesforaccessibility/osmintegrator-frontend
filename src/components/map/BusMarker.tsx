@@ -44,9 +44,7 @@ const BusMarker: FC<TBusMarkerProps> = ({
     draggableStopId,
     setDraggableStopId,
     movedStopsDispatch,
-    markerReference,
     setMarkerReference,
-    setResetPositionFunction,
     mapMode,
   } = useContext(MapContext);
 
@@ -120,6 +118,7 @@ const BusMarker: FC<TBusMarkerProps> = ({
   const handleClick = () => {
     setActiveStop(busStop);
     setDraggableStopId(busStop.id ?? '');
+    setMarkerReference(markerRef.current);
     setNewReportCoordinates({ lat: null, lon: null });
     if (isConnectionMode) {
       if (connectionRadio === ConnectionRadio.ADD) {
@@ -138,17 +137,6 @@ const BusMarker: FC<TBusMarkerProps> = ({
         clickBusStop(busStop);
       }
     }
-  };
-
-  const handleDblClick = () => {
-    if (draggableStopId === id) {
-      setResetPositionFunction(null);
-    } else {
-      setResetPositionFunction(() => () => setMarkerPosition(originalCoordinates));
-    }
-
-    setDraggableStopId(draggableStopId === id ? null : id ?? '');
-    setMarkerReference(markerReference === markerRef.current ? null : markerRef.current);
   };
 
   const handleDragEnd = () => {
@@ -175,7 +163,6 @@ const BusMarker: FC<TBusMarkerProps> = ({
       zIndexOffset={isActiveStopClicked(busStop.id ?? '') ? 1000 : 0}
       eventHandlers={{
         click: handleClick,
-        dblclick: handleDblClick,
         dragend: handleDragEnd,
       }}>
       <Tooltip direction="bottom">{generateStopName(busStop)}</Tooltip>

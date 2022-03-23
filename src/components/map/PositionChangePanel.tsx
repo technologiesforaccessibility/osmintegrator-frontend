@@ -2,18 +2,33 @@ import { Button, Divider, FormControl, Input, InputLabel, Stack, Typography } fr
 import { MapContext } from 'components/contexts/MapContextProvider';
 import { FC, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StopType } from 'types/enums';
+import { MovedStopActionType, StopType } from 'types/enums';
 
 const PositionChangePanel: FC = () => {
   const { t } = useTranslation();
-  const { activeStop, movedStops, resetPositionFunction } = useContext(MapContext);
+  const { activeStop, markerReference, movedStops, movedStopsDispatch } = useContext(MapContext);
 
   const currentMovedStopCoordinates = movedStops.find(item => item.id === activeStop?.id);
 
   const resetPosition = () => {
     if (!activeStop) return;
 
-    if (resetPositionFunction) resetPositionFunction();
+    movedStopsDispatch({
+      type: MovedStopActionType.REMOVE,
+      payload: {
+        id: activeStop.id!,
+        externalId: activeStop.stopId!,
+      },
+    });
+
+    const marker = markerReference as unknown as { setLatLng: (coordinates: { lat: number; lng: number }) => void };
+
+    if (marker) {
+      marker.setLatLng({
+        lat: activeStop.initLat ?? activeStop.lat ?? 0,
+        lng: activeStop.initLon ?? activeStop.lon ?? 0,
+      });
+    }
   };
 
   return (

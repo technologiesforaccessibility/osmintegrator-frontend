@@ -1,6 +1,5 @@
 import { Connection, Conversation, Stop, Tile } from 'api/apiClient';
-import { createContext, FC, useCallback, useReducer, useState } from 'react';
-import { Marker } from 'react-leaflet';
+import React, { createContext, FC, useCallback, useReducer, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectLoggedInUserRoles } from 'redux/selectors/authSelector';
 import { ConnectionRadio } from 'types/enums';
@@ -53,8 +52,7 @@ const MapContextProvider: FC = ({ children }) => {
   const [propertyGrid, setPropertyGrid] = useState<Stop | Conversation | null>(null);
 
   const [draggableStopId, setDraggableStopId] = useState<string | null>(null);
-  const [markerReference, setMarkerReference] = useState<null | typeof Marker>(null);
-  const [resetPositionFunction, setResetPositionFunction] = useState<null | Function>(null);
+  const [markerReference, setMarkerReference] = useState<null | React.MutableRefObject<null>>(null);
 
   const movedStopsReducer = (state: MovedStop[], action: MovedStopAction): MovedStop[] => {
     const { payload } = action;
@@ -190,8 +188,6 @@ const MapContextProvider: FC = ({ children }) => {
         draggableStopId,
         movedStops: movedStopsState,
         markerReference,
-        resetPositionFunction,
-        setResetPositionFunction,
         setMarkerReference,
         movedStopsDispatch,
         setDraggableStopId,

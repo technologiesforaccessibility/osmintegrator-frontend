@@ -57,8 +57,6 @@ export const initialMapContextState: IMapContext = {
   draggableStopId: null,
   movedStops: [],
   markerReference: null,
-  resetPositionFunction: null,
-  setResetPositionFunction: () => null,
   setMarkerReference: () => null,
   movedStopsDispatch: () => null,
   setDraggableStopId: () => null,
