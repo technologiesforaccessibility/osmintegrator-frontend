@@ -1,12 +1,14 @@
 import './connectionPrompt.scss';
 
 import Button from '@mui/material/Button';
+import { NewConnection } from 'api/apiClient';
 import api from 'api/apiInstance';
 import { basicHeaders } from 'config/apiConfig';
 import { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { NotificationActions } from 'redux/actions/notificationActions';
+import { StopType } from 'types/enums';
 import { exception } from 'utilities/exceptionHelper';
 import { generateConnectionData, generateStopName } from 'utilities/mapUtilities';
 
@@ -16,7 +18,7 @@ const ConnectionSidePanel = () => {
   const {
     connectionData,
     reset,
-    shouldRenderConnections,
+    setImportedConnections,
     activeTile,
     setNewReportCoordinates,
     setActiveStop,
@@ -49,10 +51,16 @@ const ConnectionSidePanel = () => {
         return;
       }
 
-      await api.connectionsUpdate(generateConnectionData(connectionData, activeTile?.id), {
+      const response = await api.connectionsUpdate(generateConnectionData(connectionData, activeTile?.id), {
         headers: basicHeaders(),
       });
-      shouldRenderConnections(true);
+      const { connectionId }: NewConnection = response.data || {};
+      const gtfsStopId = connectionData.find(s => s.stopType === StopType.GTFS)?.id;
+      const osmStopId = connectionData.find(s => s.stopType === StopType.OSM)?.id;
+      setImportedConnections(oldConnections => [
+        ...oldConnections,
+        { id: connectionId, exported: false, gtfsStopId, osmStopId },
+      ]);
       resetConnection();
       dispatch(NotificationActions.success(t('connection.createSuccessMessage')));
       setActiveStop(null);
