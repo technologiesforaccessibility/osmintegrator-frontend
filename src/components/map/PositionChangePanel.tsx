@@ -16,7 +16,7 @@ const PositionChangePanel: FC = () => {
   const { activeStop, markerReference, movedStops, movedStopsDispatch } = useContext(MapContext);
   const dispatch = useAppDispatch();
 
-  const currentMovedStopCoordinates = movedStops.find(item => item.id === activeStop?.id);
+  const currentMovedStop = movedStops.find(item => item.id === activeStop?.id);
 
   const updatePosition = async () => {
     if (!movedStops?.length) return;
@@ -25,9 +25,9 @@ const PositionChangePanel: FC = () => {
       setLoader(true);
       await api.stopChangePositionUpdate(
         {
-          lat: currentMovedStopCoordinates?.position?.lat!,
-          lon: currentMovedStopCoordinates?.position?.lng!,
-          stopId: currentMovedStopCoordinates?.id!,
+          lat: currentMovedStop?.position?.lat!,
+          lon: currentMovedStop?.position?.lng!,
+          stopId: currentMovedStop?.id!,
         },
         { headers: basicHeaders() },
       );
@@ -50,19 +50,22 @@ const PositionChangePanel: FC = () => {
       },
     });
 
+    const newLat = activeStop?.lat!;
+    const newLng = activeStop?.lon!;
+
     const marker = markerReference as unknown as { setLatLng: (coordinates: { lat: number; lng: number }) => void };
 
     if (marker) {
       marker.setLatLng({
-        lat: activeStop.initLat ?? activeStop.lat ?? 0,
-        lng: activeStop.initLon ?? activeStop.lon ?? 0,
+        lat: newLat,
+        lng: newLng,
       });
     }
   };
 
   const isPositionTheSameAsInitial =
-    (activeStop?.lat ?? activeStop?.initLat) === currentMovedStopCoordinates?.position?.lat &&
-    (activeStop?.lon ?? activeStop?.initLon) === currentMovedStopCoordinates?.position?.lng;
+    (activeStop?.lat ?? activeStop?.initLat) === currentMovedStop?.position?.lat &&
+    (activeStop?.lon ?? activeStop?.initLon) === currentMovedStop?.position?.lng;
 
   return (
     <div className="position-change-panel">
@@ -78,7 +81,7 @@ const PositionChangePanel: FC = () => {
             </Button>
             <Button
               variant="contained"
-              disabled={isPositionTheSameAsInitial || !currentMovedStopCoordinates}
+              disabled={isPositionTheSameAsInitial || !currentMovedStop}
               onClick={resetPosition}>
               {t('pan.resetPosition')}
             </Button>
@@ -91,17 +94,11 @@ const PositionChangePanel: FC = () => {
               <Typography variant="subtitle2">{t('pan.position')}</Typography>
               <FormControl>
                 <InputLabel htmlFor="initialLat">Latitude</InputLabel>
-                <Input
-                  id="initialLat"
-                  value={(currentMovedStopCoordinates?.position?.lat ?? activeStop.lat)?.toFixed(6)}
-                />
+                <Input id="initialLat" value={(currentMovedStop?.position?.lat ?? activeStop.lat)?.toFixed(6)} />
               </FormControl>
               <FormControl>
                 <InputLabel htmlFor="initialLng">Longitude</InputLabel>
-                <Input
-                  id="initialLng"
-                  value={(currentMovedStopCoordinates?.position?.lng ?? activeStop.lat)?.toFixed(6)}
-                />
+                <Input id="initialLng" value={(currentMovedStop?.position?.lng ?? activeStop.lat)?.toFixed(6)} />
               </FormControl>
             </Stack>
             <Divider />

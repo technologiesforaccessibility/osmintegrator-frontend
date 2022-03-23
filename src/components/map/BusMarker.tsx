@@ -46,6 +46,7 @@ const BusMarker: FC<TBusMarkerProps> = ({
     connectionData,
     connectionRadio,
 
+    movedStops,
     markerReference,
     draggableStopId,
     setDraggableStopId,
@@ -59,6 +60,7 @@ const BusMarker: FC<TBusMarkerProps> = ({
 
   const originalCoordinates: LatLngLiteral = useMemo(() => ({ lat: lat ?? 0, lng: lon ?? 0 }), [lat, lon]);
   const [markerPosition, setMarkerPosition] = useState<LatLngLiteral>(originalCoordinates);
+  const currentMovedStop = movedStops.find(item => item.id === activeStop?.id);
 
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -163,11 +165,26 @@ const BusMarker: FC<TBusMarkerProps> = ({
         },
       });
 
+      let newLat = 0,
+        newLng = 0;
+
+      if (!currentMovedStop) {
+        newLat = activeStop?.lat!;
+        newLng = activeStop?.lon!;
+      } else {
+        newLat = currentMovedStop?.position?.lat!;
+        newLng = currentMovedStop?.position?.lng!;
+      }
+
       const marker = markerReference as unknown as { setLatLng: (coordinates: { lat: number; lng: number }) => void };
       if (marker) {
         marker.setLatLng({
-          lat: activeStop?.initLat ?? activeStop?.lat ?? 0,
-          lng: activeStop?.initLon ?? activeStop?.lon ?? 0,
+          lat: newLat,
+          lng: newLng,
+        });
+        movedStopsDispatch({
+          type: MovedStopActionType.ADD,
+          payload: { id: id ?? '', externalId: stopId ?? 0, position: { lat: newLat, lng: newLng } },
         });
       }
 
