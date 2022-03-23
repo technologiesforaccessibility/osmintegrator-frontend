@@ -1,10 +1,6 @@
 import React, {FC, useContext, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/system/Box';
-import CloseIcon from '@mui/icons-material/Close';
-import TextField from '@mui/material/TextField';
 import {useDispatch} from 'react-redux';
 
 import api from '../api/apiInstance';
@@ -15,6 +11,7 @@ import {NotificationActions} from '../redux/actions/notificationActions';
 import {UserContext} from './contexts/UserContextProvider';
 import TileExportModal from './TileExportModal';
 import '../stylesheets/syncPanel.scss';
+import ReportsModal from './ReportsModal';
 
 const SyncPanel: FC = () => {
   const {activeTile, setRerenderReports, setRerenderConnections} = useContext(MapContext);
@@ -76,9 +73,6 @@ const SyncPanel: FC = () => {
       <Button className="sync_button" variant="contained" onClick={handleImportOSM} sx={{marginTop: '5px'}}>
         {t('sync.importOSM')}
       </Button>
-      <Button variant="contained" onClick={() => {}} disabled sx={{marginTop: '5px'}}>
-        {t('sync.importNotOSM')}
-      </Button>
       <Button variant="contained" onClick={openExportModal} sx={{marginTop: '5px'}}>
         {t('sync.exportOSM')}
       </Button>
@@ -97,52 +91,15 @@ const SyncPanel: FC = () => {
         />
       )}
 
-      <Modal open={isOsmImportModalOpen}>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 800,
-            bgcolor: 'white',
-            border: '2px solid #000',
-            boxShadow: 24,
-            p: 4,
-          }}>
-          <div>
-            <h4>{t('sync.stopsUpdated')}</h4>
-            {updateData ? (
-              <TextField
-                id="outlined-multiline-static"
-                label={null}
-                multiline
-                rows={20}
-                defaultValue={updateData}
-                sx={{
-                  width: '100%',
-                  margin: '0px 5px',
-                  bgcolor: 'white',
-                }}
-                disabled={true}
-              />
-            ) : (
-              <p>{t('sync.noChanges')}</p>
-            )}
-
-            <Button
-              onClick={() => {
-                setRerenderConnections(true);
-                setIsOsmImportModalOpen(false);
-                setUpdateData(null);
-              }}
-              style={{position: 'absolute', top: '20px', right: '20px'}}
-              variant="outlined">
-              <CloseIcon color="primary" />
-            </Button>
-          </div>
-        </Box>
-      </Modal>
+      <ReportsModal
+        isOpen={isOsmImportModalOpen}
+        data={updateData ?? ''}
+        onClose={() => {
+          setRerenderConnections(true);
+          setIsOsmImportModalOpen(false);
+          setUpdateData(null);
+        }}
+      />
     </div>
   );
 };

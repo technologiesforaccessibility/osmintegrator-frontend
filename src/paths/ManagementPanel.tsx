@@ -21,6 +21,7 @@ import {exception} from '../utilities/exceptionHelper';
 import colors from '../stylesheets/config/colors.module.scss';
 import '../stylesheets/managementPanel.scss';
 import {roles} from '../utilities/constants';
+import ManagementPanelStops from '../components/managementPanel/ManagementPanelStops';
 
 const NONE = 'none';
 const CURRENT_LOCATION = {lat: 50.29, lng: 19.01};
@@ -245,6 +246,7 @@ function ManagementPanel() {
             </Button>
           </div>
           <RoleAssignmentPanel />
+          <ManagementPanelStops />
         </div>
         <div className="management-panel__map">
           <ManagementPanelMap startPoint={CURRENT_LOCATION} zoom={ZOOM} tiles={mapTiles} />
