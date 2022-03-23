@@ -31,6 +31,10 @@ const PositionChangePanel: FC = () => {
     }
   };
 
+  const isPositionTheSameAsInitial =
+    (activeStop?.lat ?? activeStop?.initLat) === currentMovedStopCoordinates?.position?.lat &&
+    (activeStop?.lon ?? activeStop?.initLon) === currentMovedStopCoordinates?.position?.lng;
+
   return (
     <div className="position-change-panel">
       <Typography variant="subtitle1" gutterBottom>
@@ -43,7 +47,10 @@ const PositionChangePanel: FC = () => {
             <Button variant="contained" onClick={() => {}}>
               {t('pan.updatePosition')}
             </Button>
-            <Button variant="contained" onClick={resetPosition}>
+            <Button
+              variant="contained"
+              disabled={isPositionTheSameAsInitial || !currentMovedStopCoordinates}
+              onClick={resetPosition}>
               {t('pan.resetPosition')}
             </Button>
             <Divider />
