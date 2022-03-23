@@ -305,6 +305,7 @@ export const pl = {
       position: 'Pozycja',
       initialPosition: 'Pozycja początkowa',
       stopCannotBeMovedOutsideOfTile: 'Przystanek nie może być przesunięty poza obszar kafelka',
+      osmStopCannotBeMoved: 'Wybrany przystanek jest przystankiem OSM i nie może być przesunięty',
     },
     error: {
       unrecognizedProblem: 'Coś poszło nie tak. Skontaktuj się z administratorem.',

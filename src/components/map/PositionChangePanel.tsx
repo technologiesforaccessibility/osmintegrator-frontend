@@ -116,6 +116,12 @@ const PositionChangePanel: FC = () => {
           </Stack>
         </>
       )}
+      {activeStop && activeStop.stopType === StopType.OSM && (
+        <Stack spacing={2} sx={{ mt: 2 }}>
+          <Typography variant="subtitle1">{`${t('pan.chosenStop')}: ${activeStop.name}`}</Typography>
+          <Typography variant="subtitle2">{t('pan.osmStopCannotBeMoved')}</Typography>
+        </Stack>
+      )}
     </div>
   );
 };
