@@ -1,14 +1,43 @@
 import { Button, Divider, FormControl, Input, InputLabel, Stack, Typography } from '@mui/material';
+import api from 'api/apiInstance';
 import { MapContext } from 'components/contexts/MapContextProvider';
+import { UserContext } from 'components/contexts/UserContextProvider';
+import { basicHeaders } from 'config/apiConfig';
 import { FC, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { NotificationActions } from 'redux/actions/notificationActions';
+import { useAppDispatch } from 'redux/store';
 import { MovedStopActionType, StopType } from 'types/enums';
+import { exception } from 'utilities/exceptionHelper';
 
 const PositionChangePanel: FC = () => {
   const { t } = useTranslation();
+  const { setLoader } = useContext(UserContext);
   const { activeStop, markerReference, movedStops, movedStopsDispatch } = useContext(MapContext);
+  const dispatch = useAppDispatch();
 
   const currentMovedStopCoordinates = movedStops.find(item => item.id === activeStop?.id);
+
+  const updatePosition = async () => {
+    if (!movedStops?.length) return;
+
+    try {
+      setLoader(true);
+      await api.stopChangePositionUpdate(
+        {
+          lat: currentMovedStopCoordinates?.position?.lat!,
+          lon: currentMovedStopCoordinates?.position?.lng!,
+          stopId: currentMovedStopCoordinates?.id!,
+        },
+        { headers: basicHeaders() },
+      );
+      dispatch(NotificationActions.success(t('report.success')));
+    } catch (error) {
+      exception(error);
+    } finally {
+      setLoader(false);
+    }
+  };
 
   const resetPosition = () => {
     if (!activeStop) return;
@@ -44,7 +73,7 @@ const PositionChangePanel: FC = () => {
       {activeStop && activeStop.stopType === StopType.GTFS && (
         <>
           <Stack spacing={1}>
-            <Button variant="contained" onClick={() => {}}>
+            <Button variant="contained" onClick={updatePosition}>
               {t('pan.updatePosition')}
             </Button>
             <Button
