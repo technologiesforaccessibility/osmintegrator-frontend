@@ -502,7 +502,7 @@ export class HttpClient<SecurityDataType = unknown> {
     return fetch(`${baseUrl || this.baseUrl || ''}${path}${queryString ? `?${queryString}` : ''}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? {'Content-Type': type} : {}),
+        ...(type && type !== ContentType.FormData ? { 'Content-Type': type } : {}),
         ...(requestParams.headers || {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
@@ -563,7 +563,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name AccountLogoutCreate
      * @request POST:/api/Account/Logout
      */
-    accountLogoutCreate: (query?: {returnUrl?: string}, params: RequestParams = {}) =>
+    accountLogoutCreate: (query?: { returnUrl?: string }, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Account/Logout`,
         method: 'POST',
@@ -817,7 +817,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name GtfsUpdateStopsUpdate
      * @request PUT:/api/Gtfs/UpdateStops
      */
-    gtfsUpdateStopsUpdate: (data: {file?: File}, params: RequestParams = {}) =>
+    gtfsUpdateStopsUpdate: (data: { file?: File }, params: RequestParams = {}) =>
       this.request<Report, ProblemDetails>({
         path: `/api/Gtfs/UpdateStops`,
         method: 'PUT',
@@ -1108,7 +1108,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name UsersList
      * @request GET:/api/Users
      */
-    usersList: (query?: {role?: string}, params: RequestParams = {}) =>
+    usersList: (query?: { role?: string }, params: RequestParams = {}) =>
       this.request<User[], ProblemDetails>({
         path: `/api/Users`,
         method: 'GET',

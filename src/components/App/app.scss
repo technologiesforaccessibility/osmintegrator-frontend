@@ -1,0 +1,66 @@
+@import '../../../node_modules/bootstrap/scss/bootstrap';
+
+// For custom elements styling
+
+.custom-elements__button-wrapper {
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-bottom: 15px;
+}
+
+.custom-elements__button-wrapper--15p {
+  width: 15%;
+}
+
+.custom-elements__button--use-all-width {
+  width: 100%;
+}
+
+.custom-elements__scrollable-dropdown-menu {
+  height: auto;
+  max-height: 300px;
+  overflow-x: hidden;
+}
+
+.custom-elements__checkbox-wrapper {
+  display: block;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.custom-elements__checkbox-label {
+  padding-left: 10px;
+}
+
+.bordered-wrapper {
+  border: 1px solid #1976d2;
+  border-radius: 5px;
+  padding: 0.625rem;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 0.75rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 5px;
+  transition: 0.2s;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #efefef;
+}

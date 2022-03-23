@@ -1,0 +1,27 @@
+.connection-visibility-panel__container {
+  margin: 0;
+  padding: 0;
+}
+
+.connection-visibility-panel__toggle-group-container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.connection-visibility-panel__toggle-group {
+  background-color: white;
+}
+
+.connection-visibility-panel__header {
+  font-weight: 700;
+  text-align: center;
+}
+
+.connection-visibility-panel__close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}

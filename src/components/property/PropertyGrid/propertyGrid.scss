@@ -1,0 +1,38 @@
+.propertyGrid-key,
+.propertyGrid-value {
+  display: inline-block;
+  border: solid 2px darkgray;
+  border-radius: 5px;
+  padding: 3px 7px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  height: 2rem;
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  background-color: white;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.propertyGrid-key::-webkit-scrollbar,
+.propertyGrid-value::-webkit-scrollbar {
+  display: none;
+}
+
+.propertyGrid-frame {
+  flex: 1;
+  border: solid 1px black;
+  padding: 5px;
+  border-radius: 5px;
+  overflow-y: auto;
+}
+
+.propertyGrid-key {
+  width: 30%;
+  font-weight: bold;
+}
+
+.propertyGrid-value {
+  width: 70%;
+}
