@@ -299,6 +299,11 @@ export const en = {
     pan: {
       header: 'Pan tool',
       selectPrompt: 'Select GTFS stop to change its location',
+      updatePosition: 'Update stop position',
+      resetPosition: 'Reset stop to original position',
+      chosenStop: 'Chosen stop',
+      position: 'Position',
+      initialPosition: 'InitialPosition',
     },
     error: {
       unrecognizedProblem: 'Something went wrong. Please contact administrator.',

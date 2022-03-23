@@ -1,7 +1,8 @@
 import { Stop } from 'api/apiClient';
+import { LatLngLiteral } from 'leaflet';
 import { FC, useContext, useMemo, useRef, useState } from 'react';
 import { Marker, Tooltip } from 'react-leaflet';
-import { ConnectionRadio, StopType } from 'types/enums';
+import { ConnectionRadio, MovedStopActionType, StopType } from 'types/enums';
 import { TBusStopProperties } from 'types/stops';
 import { MapModes } from 'utilities/MapContextState';
 import { generateStopName } from 'utilities/mapUtilities';
@@ -41,19 +42,19 @@ const BusMarker: FC<TBusMarkerProps> = ({
     connectionRadio,
 
     draggableStopId,
-    // setDraggableStopId,
-    // movedStopsDispatch,
-    // markerReference,
-    // setMarkerReference,
-    // setResetPositionFunction,
+    setDraggableStopId,
+    movedStopsDispatch,
+    markerReference,
+    setMarkerReference,
+    setResetPositionFunction,
     mapMode,
   } = useContext(MapContext);
 
   const markerRef = useRef(null);
-  const { lat, lon, id } = busStop;
+  const { lat, lon, id, stopId } = busStop;
 
-  const originalCoordinates: [number, number] = useMemo(() => [lat ?? 0, lon ?? 0], [lat, lon]);
-  const [markerPosition] = useState<[number, number]>(originalCoordinates);
+  const originalCoordinates: LatLngLiteral = useMemo(() => ({ lat: lat ?? 0, lng: lon ?? 0 }), [lat, lon]);
+  const [markerPosition, setMarkerPosition] = useState<LatLngLiteral>(originalCoordinates);
 
   const opacity = useMemo(() => {
     if (connectedStopIds.includes(id ?? '')) {
@@ -118,6 +119,7 @@ const BusMarker: FC<TBusMarkerProps> = ({
 
   const handleClick = () => {
     setActiveStop(busStop);
+    setDraggableStopId(busStop.id ?? '');
     setNewReportCoordinates({ lat: null, lon: null });
     if (isConnectionMode) {
       if (connectionRadio === ConnectionRadio.ADD) {
@@ -138,10 +140,26 @@ const BusMarker: FC<TBusMarkerProps> = ({
     }
   };
 
-  // const handleDragEnd = () => {
-  //   const currentMarker: typeof Marker | null = markerRef.current;
-  //   if (!!currentMarker) setMarkerPosition(currentMarker.getLatLng());
-  // };
+  const handleDblClick = () => {
+    if (draggableStopId === id) {
+      setResetPositionFunction(null);
+    } else {
+      setResetPositionFunction(() => () => setMarkerPosition(originalCoordinates));
+    }
+
+    setDraggableStopId(draggableStopId === id ? null : id ?? '');
+    setMarkerReference(markerReference === markerRef.current ? null : markerRef.current);
+  };
+
+  const handleDragEnd = () => {
+    const currentMarker = markerRef.current as unknown as { getLatLng: () => LatLngLiteral };
+    if (!!currentMarker) setMarkerPosition(currentMarker.getLatLng());
+
+    movedStopsDispatch({
+      type: MovedStopActionType.ADD,
+      payload: { id: id ?? '', externalId: stopId ?? 0, position: currentMarker.getLatLng() },
+    });
+  };
 
   return (
     <Marker
@@ -157,6 +175,8 @@ const BusMarker: FC<TBusMarkerProps> = ({
       zIndexOffset={isActiveStopClicked(busStop.id ?? '') ? 1000 : 0}
       eventHandlers={{
         click: handleClick,
+        dblclick: handleDblClick,
+        dragend: handleDragEnd,
       }}>
       <Tooltip direction="bottom">{generateStopName(busStop)}</Tooltip>
     </Marker>

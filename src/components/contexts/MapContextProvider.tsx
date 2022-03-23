@@ -56,7 +56,7 @@ const MapContextProvider: FC = ({ children }) => {
   const [markerReference, setMarkerReference] = useState<null | typeof Marker>(null);
   const [resetPositionFunction, setResetPositionFunction] = useState<null | Function>(null);
 
-  const temporaryMovedStopsReducer = (state: MovedStop[], action: MovedStopAction): MovedStop[] => {
+  const movedStopsReducer = (state: MovedStop[], action: MovedStopAction): MovedStop[] => {
     const { payload } = action;
     const index = state.findIndex(({ id }) => id === payload.id);
     switch (action.type) {
@@ -80,7 +80,7 @@ const MapContextProvider: FC = ({ children }) => {
     }
   };
 
-  const [movedStopsState, movedStopsDispatch] = useReducer(temporaryMovedStopsReducer, []);
+  const [movedStopsState, movedStopsDispatch] = useReducer(movedStopsReducer, []);
 
   const authRoles = useSelector(selectLoggedInUserRoles);
 

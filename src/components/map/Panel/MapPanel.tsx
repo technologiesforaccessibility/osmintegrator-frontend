@@ -66,7 +66,7 @@ const MapPanel = () => {
       icon: () => <SyncIcon />,
     },
     {
-      title: t('tileModePrompts.pan'),
+      title: t('tileModePrompts.move'),
       name: MapModes.pan,
       icon: () => <PanToolIcon />,
     },
