@@ -1,12 +1,15 @@
 import { Stop } from 'api/apiClient';
 import { LatLngLiteral } from 'leaflet';
 import { FC, useContext, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Marker, Tooltip } from 'react-leaflet';
+import { NotificationActions } from 'redux/actions/notificationActions';
+import { useAppDispatch } from 'redux/store';
 import { ConnectionRadio, MovedStopActionType, StopType } from 'types/enums';
 import { TBusStopProperties } from 'types/stops';
 import { MapModes } from 'utilities/MapContextState';
 import { generateStopName } from 'utilities/mapUtilities';
-import { getBusStopIcon } from 'utilities/utilities';
+import { areCoordinatesOnTile, getBusStopIcon } from 'utilities/utilities';
 
 import { MapContext } from '../contexts/MapContextProvider';
 
@@ -36,11 +39,14 @@ const BusMarker: FC<TBusMarkerProps> = ({
     setConnectedStopPair,
     importedConnections,
     tileStops,
+    activeTile,
+    activeStop,
     setActiveStop,
     setNewReportCoordinates,
     connectionData,
     connectionRadio,
 
+    markerReference,
     draggableStopId,
     setDraggableStopId,
     movedStopsDispatch,
@@ -53,6 +59,9 @@ const BusMarker: FC<TBusMarkerProps> = ({
 
   const originalCoordinates: LatLngLiteral = useMemo(() => ({ lat: lat ?? 0, lng: lon ?? 0 }), [lat, lon]);
   const [markerPosition, setMarkerPosition] = useState<LatLngLiteral>(originalCoordinates);
+
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const opacity = useMemo(() => {
     if (connectedStopIds.includes(id ?? '')) {
@@ -143,10 +152,32 @@ const BusMarker: FC<TBusMarkerProps> = ({
     const currentMarker = markerRef.current as unknown as { getLatLng: () => LatLngLiteral };
     if (!!currentMarker) setMarkerPosition(currentMarker.getLatLng());
 
-    movedStopsDispatch({
-      type: MovedStopActionType.ADD,
-      payload: { id: id ?? '', externalId: stopId ?? 0, position: currentMarker.getLatLng() },
-    });
+    const coordinates = currentMarker.getLatLng();
+
+    if (!areCoordinatesOnTile(coordinates.lat, coordinates.lng, activeTile!)) {
+      movedStopsDispatch({
+        type: MovedStopActionType.REMOVE,
+        payload: {
+          id: activeStop?.id!,
+          externalId: activeStop?.stopId!,
+        },
+      });
+
+      const marker = markerReference as unknown as { setLatLng: (coordinates: { lat: number; lng: number }) => void };
+      if (marker) {
+        marker.setLatLng({
+          lat: activeStop?.initLat ?? activeStop?.lat ?? 0,
+          lng: activeStop?.initLon ?? activeStop?.lon ?? 0,
+        });
+      }
+
+      dispatch(NotificationActions.warning(t('pan.stopCannotBeMovedOutsideOfTile')));
+    } else {
+      movedStopsDispatch({
+        type: MovedStopActionType.ADD,
+        payload: { id: id ?? '', externalId: stopId ?? 0, position: coordinates },
+      });
+    }
   };
 
   return (

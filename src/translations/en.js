@@ -304,6 +304,7 @@ export const en = {
       chosenStop: 'Chosen stop',
       position: 'Position',
       initialPosition: 'InitialPosition',
+      stopCannotBeMovedOutsideOfTile: 'Stop cannot be moved outside of its tile',
     },
     error: {
       unrecognizedProblem: 'Something went wrong. Please contact administrator.',

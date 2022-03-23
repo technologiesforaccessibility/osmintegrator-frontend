@@ -304,6 +304,7 @@ export const pl = {
       chosenStop: 'Wybrany przystanek',
       position: 'Pozycja',
       initialPosition: 'Pozycja początkowa',
+      stopCannotBeMovedOutsideOfTile: 'Przystanek nie może być przesunięty poza obszar kafelka',
     },
     error: {
       unrecognizedProblem: 'Coś poszło nie tak. Skontaktuj się z administratorem.',
