@@ -143,7 +143,7 @@ const BusMarker: FC<TBusMarkerProps> = ({
           handleViewModeStopClick(busStop);
         }
       }
-    } else if (isViewMode || isReportMode) {
+    } else if (isViewMode || isReportMode || isPanMode) {
       if (isActiveStopClicked(busStop.id ?? '')) {
         clickBusStop();
       } else {
