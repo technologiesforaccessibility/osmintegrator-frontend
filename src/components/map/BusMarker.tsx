@@ -21,6 +21,7 @@ type TBusMarkerProps = {
   isActiveStopClicked: (stopId: string) => boolean;
   clickBusStop: (stop?: Stop) => void;
   isReportMode: boolean;
+  isPanMode: boolean;
 };
 
 const BusMarker: FC<TBusMarkerProps> = ({
@@ -31,6 +32,7 @@ const BusMarker: FC<TBusMarkerProps> = ({
   isActiveStopClicked,
   clickBusStop,
   isReportMode,
+  isPanMode,
 }) => {
   const {
     visibilityOptions,
@@ -108,7 +110,7 @@ const BusMarker: FC<TBusMarkerProps> = ({
   };
 
   const getIcon = (stop: Stop) => {
-    if (isViewMode || isReportMode) {
+    if (isViewMode || isReportMode || isPanMode) {
       return getBusStopIcon(stop as TBusStopProperties, isActiveStopClicked(stop.id ?? ''));
     } else if (isConnectionMode) {
       const activeStopWithConnection = connectionData.filter(connection => connection.id === stop.id);

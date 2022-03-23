@@ -11,6 +11,7 @@ type TTileStopsProps = {
   isConnectionMode: boolean;
   isViewMode: boolean;
   isReportMode: boolean;
+  isPanMode: boolean;
 };
 
 const TileStops: FC<TTileStopsProps> = ({
@@ -20,6 +21,7 @@ const TileStops: FC<TTileStopsProps> = ({
   isConnectionMode,
   isViewMode,
   isReportMode,
+  isPanMode,
 }) => {
   const { areStopsVisible, connectedStopIds, visibilityOptions, tileStops: stops } = useContext(MapContext);
 
@@ -51,6 +53,7 @@ const TileStops: FC<TTileStopsProps> = ({
             isReportMode={isReportMode}
             createConnection={createConnection}
             isViewMode={isViewMode}
+            isPanMode={isPanMode}
             isActiveStopClicked={isActiveStopClicked}
             clickBusStop={clickBusStop}
             key={`bust_stop_${index}`}
