@@ -34,7 +34,7 @@ const WelcomeModal: FC<TWelcomeModalProps> = ({ handleClose }) => {
       <FormGroup className="welcome-modal__form">
         <FormControlLabel
           control={<Checkbox checked={isChecked} onChange={handleChange} size="small" />}
-          label={t('welcomeModal.checkbox')}
+          label={t('welcomeModal.checkbox') as string}
         />
         <Button variant="contained" onClick={() => handleClose(isChecked)}>
           {t('welcomeModal.hide')}

@@ -19,11 +19,15 @@ const ConnectionRadioGroup: FC = () => {
   return (
     <FormControl component="fieldset">
       <RadioGroup name="controlled-radio-buttons-group" value={connectionRadio} onChange={handleChange}>
-        <FormControlLabel value={ConnectionRadio.ADD} control={<Radio />} label={t('connectionRadioGroup.addLabel')} />
+        <FormControlLabel
+          value={ConnectionRadio.ADD}
+          control={<Radio />}
+          label={t('connectionRadioGroup.addLabel') as string}
+        />
         <FormControlLabel
           value={ConnectionRadio.EDIT}
           control={<Radio />}
-          label={t('connectionRadioGroup.editLabel')}
+          label={t('connectionRadioGroup.editLabel') as string}
         />
       </RadioGroup>
     </FormControl>

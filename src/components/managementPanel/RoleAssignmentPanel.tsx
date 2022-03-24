@@ -79,7 +79,7 @@ function RoleAssignmentPanel() {
                 name={name || undefined}
               />
             }
-            label={name}
+            label={name ?? ''}
           />
         ))) || <p>{t('managementPanel.selectUserMessage')}</p>,
     [selectedUserRoles, handleCheckboxChanged, t],
