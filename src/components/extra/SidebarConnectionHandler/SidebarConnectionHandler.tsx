@@ -17,8 +17,8 @@ import { MapContext } from '../../contexts/MapContextProvider';
 const SidebarConnectionHandler = () => {
   const {
     connectedStopPair,
-    shouldRenderConnections,
     setIsSidebarConnectionHandlerVisible,
+    setImportedConnections,
     setConnectedStopPair,
     isSidebarConnectionHandlerVisible,
     activeStop,
@@ -34,7 +34,11 @@ const SidebarConnectionHandler = () => {
       await api.connectionsRemoveCreate(connectionData, {
         headers: basicHeaders(),
       });
-      shouldRenderConnections(true);
+      setImportedConnections(oldConnections =>
+        oldConnections.filter(
+          c => c.gtfsStopId !== connectionData.gtfsStopId && c.osmStopId !== connectionData.osmStopId,
+        ),
+      );
       setIsSidebarConnectionHandlerVisible(false);
       setConnectedStopPair({ markedStop: null, connectedStop: null, connection: null });
       dispatch(NotificationActions.success(t('connection.deleteSuccessMessage')));
