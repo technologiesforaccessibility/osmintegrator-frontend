@@ -306,6 +306,10 @@ export const en = {
       initialPosition: 'InitialPosition',
       stopCannotBeMovedOutsideOfTile: 'Stop cannot be moved outside of its tile',
       osmStopCannotBeMoved: 'Chosen stop is of OSM type and it cannot be moved',
+      lat: 'Lat:',
+      long: 'Long:',
+      initLat: 'Init lat:',
+      initLong: 'Init long:',
     },
     error: {
       unrecognizedProblem: 'Something went wrong. Please contact administrator.',

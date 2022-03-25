@@ -1,6 +1,6 @@
 import './dashboardSidebar.scss';
 
-import PositionChangePanel from 'components/map/PositionChangePanel';
+import PositionChangePanel from 'components/map/PositionChangePanel/PositionChangePanel';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ConnectionRadio } from 'types/enums';

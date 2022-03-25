@@ -1,4 +1,6 @@
-import { Button, Divider, FormControl, Input, InputLabel, Stack, Typography } from '@mui/material';
+import './positionChangePanel.scss';
+
+import { Button, Divider, Stack, Typography } from '@mui/material';
 import api from 'api/apiInstance';
 import { MapContext } from 'components/contexts/MapContextProvider';
 import { UserContext } from 'components/contexts/UserContextProvider';
@@ -88,27 +90,23 @@ const PositionChangePanel: FC = () => {
                 isReportActive={false}
                 hasReport={false}
               />
-              <Typography variant="subtitle2">{t('pan.position')}</Typography>
-              <FormControl>
-                <InputLabel htmlFor="initialLat">Latitude</InputLabel>
-                <Input id="initialLat" value={(currentMovedStop?.position?.lat ?? activeStop.lat)?.toFixed(6)} />
-              </FormControl>
-              <FormControl>
-                <InputLabel htmlFor="initialLng">Longitude</InputLabel>
-                <Input id="initialLng" value={(currentMovedStop?.position?.lng ?? activeStop.lat)?.toFixed(6)} />
-              </FormControl>
-            </Stack>
-            <Divider />
-            <Stack spacing={3}>
-              <Typography variant="subtitle2">{t('pan.initialPosition')}</Typography>
-              <FormControl>
-                <InputLabel htmlFor="initialLat">Latitude</InputLabel>
-                <Input id="initialLat" value={(activeStop.initLat ?? activeStop.lat)?.toFixed(6)} />
-              </FormControl>
-              <FormControl>
-                <InputLabel htmlFor="initialLng">Longitude</InputLabel>
-                <Input id="initialLng" value={(activeStop.initLon ?? activeStop.lon)?.toFixed(6)} />
-              </FormControl>
+              <fieldset className="position-change-panel__details">
+                <legend className="position-change-panel__heading">{t('tileDetails.coordinates')}</legend>
+                <div className="position-change-panel__body">
+                  <span>
+                    {t('pan.lat')} {(currentMovedStop?.position?.lat ?? activeStop.lat)?.toFixed(6)}
+                  </span>
+                  <span>
+                    {t('pan.long')} {(currentMovedStop?.position?.lng ?? activeStop.lon)?.toFixed(6)}
+                  </span>
+                  <span>
+                    {t('pan.initLat')} {(activeStop.initLat ?? activeStop.lat)?.toFixed(6)}
+                  </span>
+                  <span>
+                    {t('pan.initLong')} {(activeStop.initLon ?? activeStop.lat)?.toFixed(6)}
+                  </span>
+                </div>
+              </fieldset>
             </Stack>
           </Stack>
         </>
