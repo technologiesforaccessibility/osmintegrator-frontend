@@ -62,9 +62,11 @@ const PositionChangePanel: FC = () => {
 
   return (
     <div className="position-change-panel">
-      <Typography variant="subtitle2" gutterBottom>
-        {t('pan.selectPrompt')}
-      </Typography>
+      {!activeStop && (
+        <Typography variant="subtitle2" gutterBottom>
+          {t('pan.selectPrompt')}
+        </Typography>
+      )}
       {activeStop && activeStop.stopType === StopType.GTFS && (
         <>
           <Stack spacing={1}>
