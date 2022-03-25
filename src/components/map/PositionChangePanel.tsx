@@ -2,6 +2,7 @@ import { Button, Divider, FormControl, Input, InputLabel, Stack, Typography } fr
 import api from 'api/apiInstance';
 import { MapContext } from 'components/contexts/MapContextProvider';
 import { UserContext } from 'components/contexts/UserContextProvider';
+import ConversationHeading from 'components/conversation/ConversationHeading/ConversationHeading';
 import { basicHeaders } from 'config/apiConfig';
 import { FC, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,24 +14,15 @@ import { exception } from 'utilities/exceptionHelper';
 const PositionChangePanel: FC = () => {
   const { t } = useTranslation();
   const { setLoader } = useContext(UserContext);
-  const { activeStop, markerReference, movedStops, movedStopsDispatch } = useContext(MapContext);
+  const { activeStop, setActiveStop, markerReference, movedStops, movedStopsDispatch } = useContext(MapContext);
   const dispatch = useAppDispatch();
 
   const currentMovedStop = movedStops.find(item => item.id === activeStop?.id);
 
-  const updatePosition = async () => {
-    if (!movedStops?.length) return;
-
+  const updatePosition = async (data: { lat: number; lon: number; stopId: string }) => {
     try {
       setLoader(true);
-      await api.stopChangePositionUpdate(
-        {
-          lat: currentMovedStop?.position?.lat!,
-          lon: currentMovedStop?.position?.lng!,
-          stopId: currentMovedStop?.id!,
-        },
-        { headers: basicHeaders() },
-      );
+      await api.stopChangePositionUpdate(data, { headers: basicHeaders() });
       dispatch(NotificationActions.success(t('report.success')));
     } catch (error) {
       exception(error);
@@ -60,6 +52,7 @@ const PositionChangePanel: FC = () => {
         lat: newLat,
         lng: newLng,
       });
+      updatePosition({ lat: newLat, lon: newLng, stopId: activeStop.id! });
     }
   };
 
@@ -69,16 +62,12 @@ const PositionChangePanel: FC = () => {
 
   return (
     <div className="position-change-panel">
-      <Typography variant="subtitle1" gutterBottom>
-        {t('pan.header')}
+      <Typography variant="subtitle2" gutterBottom>
+        {t('pan.selectPrompt')}
       </Typography>
-      <Typography variant="subtitle2">{t('pan.selectPrompt')}</Typography>
       {activeStop && activeStop.stopType === StopType.GTFS && (
         <>
           <Stack spacing={1}>
-            <Button variant="contained" onClick={updatePosition}>
-              {t('pan.updatePosition')}
-            </Button>
             <Button
               variant="contained"
               disabled={isPositionTheSameAsInitial || !currentMovedStop}
@@ -88,9 +77,15 @@ const PositionChangePanel: FC = () => {
             <Divider />
           </Stack>
           <Stack spacing={2} sx={{ mt: 2 }}>
-            <Typography variant="subtitle1">{`${t('pan.chosenStop')}: ${activeStop.name}`}</Typography>
-            <Divider />
             <Stack spacing={3}>
+              <ConversationHeading
+                activeStop={activeStop}
+                lat={0}
+                lon={0}
+                handleCloseReport={() => setActiveStop(null)}
+                isReportActive={false}
+                hasReport={false}
+              />
               <Typography variant="subtitle2">{t('pan.position')}</Typography>
               <FormControl>
                 <InputLabel htmlFor="initialLat">Latitude</InputLabel>
@@ -118,7 +113,14 @@ const PositionChangePanel: FC = () => {
       )}
       {activeStop && activeStop.stopType === StopType.OSM && (
         <Stack spacing={2} sx={{ mt: 2 }}>
-          <Typography variant="subtitle1">{`${t('pan.chosenStop')}: ${activeStop.name}`}</Typography>
+          <ConversationHeading
+            activeStop={activeStop}
+            lat={0}
+            lon={0}
+            handleCloseReport={() => setActiveStop(null)}
+            isReportActive={false}
+            hasReport={false}
+          />
           <Typography variant="subtitle2">{t('pan.osmStopCannotBeMoved')}</Typography>
         </Stack>
       )}

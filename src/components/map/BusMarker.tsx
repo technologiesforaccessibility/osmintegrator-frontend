@@ -1,4 +1,7 @@
 import { Stop } from 'api/apiClient';
+import api from 'api/apiInstance';
+import { UserContext } from 'components/contexts/UserContextProvider';
+import { basicHeaders } from 'config/apiConfig';
 import { LatLngLiteral } from 'leaflet';
 import { FC, useContext, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +10,7 @@ import { NotificationActions } from 'redux/actions/notificationActions';
 import { useAppDispatch } from 'redux/store';
 import { ConnectionRadio, MovedStopActionType, StopType } from 'types/enums';
 import { TBusStopProperties } from 'types/stops';
+import { exception } from 'utilities/exceptionHelper';
 import { MapModes } from 'utilities/MapContextState';
 import { generateStopName } from 'utilities/mapUtilities';
 import { areCoordinatesOnTile, getBusStopIcon } from 'utilities/utilities';
@@ -56,6 +60,7 @@ const BusMarker: FC<TBusMarkerProps> = ({
     setMarkerReference,
     mapMode,
   } = useContext(MapContext);
+  const { setLoader } = useContext(UserContext);
 
   const markerRef = useRef(null);
   const { lat, lon, id, stopId } = busStop;
@@ -119,6 +124,18 @@ const BusMarker: FC<TBusMarkerProps> = ({
         : getBusStopIcon(stop as TBusStopProperties, false);
     } else {
       return getBusStopIcon(stop as TBusStopProperties, false);
+    }
+  };
+
+  const updatePosition = async (data: { lat: number; lon: number; stopId: string }) => {
+    try {
+      setLoader(true);
+      await api.stopChangePositionUpdate(data, { headers: basicHeaders() });
+      dispatch(NotificationActions.success(t('report.success')));
+    } catch (error) {
+      exception(error);
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -196,6 +213,7 @@ const BusMarker: FC<TBusMarkerProps> = ({
         type: MovedStopActionType.ADD,
         payload: { id: id ?? '', externalId: stopId ?? 0, position: coordinates },
       });
+      updatePosition({ stopId: id ?? '', lat: coordinates.lat, lon: coordinates.lng });
     }
   };
 
