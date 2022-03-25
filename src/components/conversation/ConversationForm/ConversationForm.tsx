@@ -167,7 +167,7 @@ const ConversationForm: FC<TConversationFormProps> = ({ lat, lon, isReportActive
         <div className="conversation-form__bottom">
           <FormControlLabel
             control={<Checkbox checked={formik.values.approveReport} disabled={!isReportActive} id="approveReport" />}
-            label={t('report.approve')}
+            label={t('report.approve') as string}
             onChange={formik.handleChange}
           />
 
