@@ -300,7 +300,7 @@ export const pl = {
       header: 'Panel przesuwania przystanków',
       selectPrompt: 'Wybierz przystanek GTFS aby zmnienić jego lokalizację',
       updatePosition: 'Aktualizuj pozycję przystanku',
-      resetPosition: 'Przywróć początkową pozycję przystanku',
+      resetPosition: 'Resetuj pozycję przystanku',
       chosenStop: 'Wybrany przystanek',
       position: 'Pozycja',
       initialPosition: 'Pozycja początkowa',
