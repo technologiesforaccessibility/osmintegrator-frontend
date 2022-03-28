@@ -310,6 +310,7 @@ export const en = {
       long: 'Long:',
       initLat: 'Init lat:',
       initLong: 'Init long:',
+      confirmResetText: 'Are you sure you want to reset this stop to its original position?',
     },
     error: {
       unrecognizedProblem: 'Something went wrong. Please contact administrator.',

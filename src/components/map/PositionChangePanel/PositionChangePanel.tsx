@@ -5,8 +5,9 @@ import api from 'api/apiInstance';
 import { MapContext } from 'components/contexts/MapContextProvider';
 import { UserContext } from 'components/contexts/UserContextProvider';
 import ConversationHeading from 'components/conversation/ConversationHeading/ConversationHeading';
+import ConfirmPopup from 'components/extra/ConfirmPopup';
 import { basicHeaders } from 'config/apiConfig';
-import { FC, useContext } from 'react';
+import { FC, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NotificationActions } from 'redux/actions/notificationActions';
 import { useAppDispatch } from 'redux/store';
@@ -19,6 +20,7 @@ const PositionChangePanel: FC = () => {
   const { activeStop, setActiveStop, markerReference, movedStops, movedStopsDispatch, tileStops, setTileStops } =
     useContext(MapContext);
   const dispatch = useAppDispatch();
+  const [isPopupOpen, setPopupOpen] = useState(false);
 
   const currentMovedStop = movedStops.find(item => item.id === activeStop?.id);
 
@@ -127,9 +129,17 @@ const PositionChangePanel: FC = () => {
           </Stack>
 
           {!isPositionTheSameAsInitial && (
-            <Button variant="contained" onClick={resetPosition}>
-              {t('pan.resetPosition')}
-            </Button>
+            <>
+              <Button variant="contained" onClick={() => setPopupOpen(true)}>
+                {t('pan.resetPosition')}
+              </Button>
+              <ConfirmPopup
+                text={t('pan.confirmResetText')}
+                isOpen={isPopupOpen}
+                onClose={() => setPopupOpen(false)}
+                onClick={resetPosition}
+              />
+            </>
           )}
         </Stack>
       )}

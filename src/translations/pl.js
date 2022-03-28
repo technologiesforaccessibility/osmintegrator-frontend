@@ -310,6 +310,7 @@ export const pl = {
       long: 'Dł:',
       initLat: 'Początkowa szer:',
       initLong: 'Początkowa dł:',
+      confirmResetText: 'Czy na pewno chcesz zresetować pozycję tego przystanku?',
     },
     error: {
       unrecognizedProblem: 'Coś poszło nie tak. Skontaktuj się z administratorem.',
