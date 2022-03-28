@@ -137,6 +137,10 @@ const BusMarker: FC<TBusMarkerProps> = ({
       const newTileStops = [...tileStops];
       newTileStops.forEach(stop => {
         if (stop.id === data.stopId) {
+          if (!stop.initLat && !stop.initLon) {
+            stop.initLat = stop.lat;
+            stop.initLon = stop.lon;
+          }
           stop.lat = data.lat;
           stop.lon = data.lon;
         }

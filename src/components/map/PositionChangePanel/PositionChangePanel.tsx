@@ -31,8 +31,10 @@ const PositionChangePanel: FC = () => {
       const newTileStops = [...tileStops];
       newTileStops.forEach(stop => {
         if (stop.id === data.stopId) {
-          stop.initLat = stop.lat;
-          stop.initLon = stop.lon;
+          if (!stop.initLat && !stop.initLon) {
+            stop.initLat = stop.lat;
+            stop.initLon = stop.lon;
+          }
           stop.lat = data.lat;
           stop.lon = data.lon;
         }
