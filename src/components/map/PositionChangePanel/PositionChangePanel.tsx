@@ -31,6 +31,8 @@ const PositionChangePanel: FC = () => {
       const newTileStops = [...tileStops];
       newTileStops.forEach(stop => {
         if (stop.id === data.stopId) {
+          stop.initLat = stop.lat;
+          stop.initLon = stop.lon;
           stop.lat = data.lat;
           stop.lon = data.lon;
         }
@@ -54,8 +56,8 @@ const PositionChangePanel: FC = () => {
       },
     });
 
-    const newLat = activeStop?.lat!;
-    const newLng = activeStop?.lon!;
+    const newLat = activeStop?.initLat!;
+    const newLng = activeStop?.initLon!;
 
     const marker = markerReference as unknown as { setLatLng: (coordinates: { lat: number; lng: number }) => void };
 
@@ -69,8 +71,7 @@ const PositionChangePanel: FC = () => {
   };
 
   const isPositionTheSameAsInitial =
-    (activeStop?.lat ?? activeStop?.initLat) === currentMovedStop?.position?.lat &&
-    (activeStop?.lon ?? activeStop?.initLon) === currentMovedStop?.position?.lng;
+    activeStop?.initLat === currentMovedStop?.position?.lat && activeStop?.initLon === currentMovedStop?.position?.lng;
 
   return (
     <div className="position-change-panel">
