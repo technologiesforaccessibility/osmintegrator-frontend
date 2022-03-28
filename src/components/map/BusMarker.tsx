@@ -45,6 +45,7 @@ const BusMarker: FC<TBusMarkerProps> = ({
     setConnectedStopPair,
     importedConnections,
     tileStops,
+    setTileStops,
     activeTile,
     activeStop,
     setActiveStop,
@@ -132,6 +133,15 @@ const BusMarker: FC<TBusMarkerProps> = ({
       setLoader(true);
       await api.stopChangePositionUpdate(data, { headers: basicHeaders() });
       dispatch(NotificationActions.success(t('report.success')));
+
+      const newTileStops = [...tileStops];
+      newTileStops.forEach(stop => {
+        if (stop.id === data.stopId) {
+          stop.lat = data.lat;
+          stop.lon = data.lon;
+        }
+      });
+      setTileStops(newTileStops);
     } catch (error) {
       exception(error);
     } finally {

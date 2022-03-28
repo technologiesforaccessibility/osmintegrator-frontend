@@ -16,7 +16,8 @@ import { exception } from 'utilities/exceptionHelper';
 const PositionChangePanel: FC = () => {
   const { t } = useTranslation();
   const { setLoader } = useContext(UserContext);
-  const { activeStop, setActiveStop, markerReference, movedStops, movedStopsDispatch } = useContext(MapContext);
+  const { activeStop, setActiveStop, markerReference, movedStops, movedStopsDispatch, tileStops, setTileStops } =
+    useContext(MapContext);
   const dispatch = useAppDispatch();
 
   const currentMovedStop = movedStops.find(item => item.id === activeStop?.id);
@@ -26,6 +27,15 @@ const PositionChangePanel: FC = () => {
       setLoader(true);
       await api.stopChangePositionUpdate(data, { headers: basicHeaders() });
       dispatch(NotificationActions.success(t('report.success')));
+
+      const newTileStops = [...tileStops];
+      newTileStops.forEach(stop => {
+        if (stop.id === data.stopId) {
+          stop.lat = data.lat;
+          stop.lon = data.lon;
+        }
+      });
+      setTileStops(newTileStops);
     } catch (error) {
       exception(error);
     } finally {
