@@ -72,8 +72,9 @@ const PositionChangePanel: FC = () => {
     }
   };
 
-  const isPositionTheSameAsInitial =
-    activeStop?.initLat === currentMovedStop?.position?.lat && activeStop?.initLon === currentMovedStop?.position?.lng;
+  const isPositionTheSameAsInitial = currentMovedStop
+    ? activeStop?.initLat === currentMovedStop?.position?.lat && activeStop?.initLon === currentMovedStop?.position?.lng
+    : activeStop?.initLat === activeStop?.lat && activeStop?.initLon == activeStop?.lon;
 
   return (
     <div className="position-change-panel">
@@ -96,27 +97,40 @@ const PositionChangePanel: FC = () => {
             <fieldset className="position-change-panel__details">
               <legend className="position-change-panel__heading">{t('tileDetails.coordinates')}</legend>
               <div className="position-change-panel__body">
-                <span>
-                  {t('pan.lat')} {(currentMovedStop?.position?.lat ?? activeStop.lat)?.toFixed(6)}
-                </span>
-                <span>
-                  {t('pan.long')} {(currentMovedStop?.position?.lng ?? activeStop.lon)?.toFixed(6)}
-                </span>
-                <span>
-                  {t('pan.initLat')} {(activeStop.initLat ?? activeStop.lat)?.toFixed(6)}
-                </span>
-                <span>
-                  {t('pan.initLong')} {(activeStop.initLon ?? activeStop.lat)?.toFixed(6)}
-                </span>
+                {!isPositionTheSameAsInitial ? (
+                  <>
+                    <span>
+                      {t('pan.lat')} {(currentMovedStop?.position?.lat ?? activeStop.lat)?.toFixed(6)}
+                    </span>
+                    <span>
+                      {t('pan.long')} {(currentMovedStop?.position?.lng ?? activeStop.lon)?.toFixed(6)}
+                    </span>
+                    <span>
+                      {t('pan.initLat')} {(activeStop.initLat ?? activeStop.lat)?.toFixed(6)}
+                    </span>
+                    <span>
+                      {t('pan.initLong')} {(activeStop.initLon ?? activeStop.lat)?.toFixed(6)}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span>
+                      {t('pan.lat')} {(activeStop.initLat ?? activeStop.lat)?.toFixed(6)}
+                    </span>
+                    <span>
+                      {t('pan.long')} {(activeStop.initLon ?? activeStop.lon)?.toFixed(6)}
+                    </span>
+                  </>
+                )}
               </div>
             </fieldset>
           </Stack>
-          <Button
-            variant="contained"
-            disabled={isPositionTheSameAsInitial || !currentMovedStop}
-            onClick={resetPosition}>
-            {t('pan.resetPosition')}
-          </Button>
+
+          {!isPositionTheSameAsInitial && (
+            <Button variant="contained" onClick={resetPosition}>
+              {t('pan.resetPosition')}
+            </Button>
+          )}
         </Stack>
       )}
       {activeStop && activeStop.stopType === StopType.OSM && (
