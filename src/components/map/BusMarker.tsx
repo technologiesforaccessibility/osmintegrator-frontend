@@ -2,7 +2,7 @@ import { Stop } from 'api/apiClient';
 import api from 'api/apiInstance';
 import { UserContext } from 'components/contexts/UserContextProvider';
 import { basicHeaders } from 'config/apiConfig';
-import { LatLngLiteral } from 'leaflet';
+import { LatLngLiteral, LeafletEvent, LeafletMouseEvent } from 'leaflet';
 import { FC, useContext, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Marker, Tooltip } from 'react-leaflet';
@@ -159,7 +159,9 @@ const BusMarker: FC<TBusMarkerProps> = ({
     return mapMode === MapModes.pan && draggableStopId === stop.id;
   };
 
-  const handleClick = () => {
+  const handleClick = (event: LeafletEvent) => {
+    const mouseEvent = event as LeafletMouseEvent;
+
     setActiveStop(busStop);
     setDraggableStopId(busStop.id ?? '');
     setMarkerReference(markerRef.current);
@@ -174,7 +176,11 @@ const BusMarker: FC<TBusMarkerProps> = ({
           handleViewModeStopClick(busStop);
         }
       }
-    } else if (isViewMode || isReportMode) {
+    } else if (
+      isViewMode ||
+      isReportMode ||
+      (isPanMode && mouseEvent.latlng.lat === activeStop?.lat && mouseEvent.latlng.lng === activeStop.lon)
+    ) {
       if (isActiveStopClicked(busStop.id ?? '')) {
         clickBusStop();
       } else {
