@@ -32,6 +32,7 @@ const MapPanel = () => {
     setNewReportCoordinates,
     setActiveStop,
     setRerenderTiles,
+    reset,
   } = useContext(MapContext);
   const { t } = useTranslation();
 
@@ -74,6 +75,7 @@ const MapPanel = () => {
 
   const handleChange = (_: unknown, value: string) => {
     toggleMapMode(value);
+    reset();
   };
 
   return (
