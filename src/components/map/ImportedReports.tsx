@@ -1,6 +1,9 @@
 import { Conversation, Stop } from 'api/apiClient';
+// import api from 'api/apiInstance';
+// import { UserContext } from 'components/contexts/UserContextProvider';
 import { FC, useContext } from 'react';
 import { Marker, Tooltip } from 'react-leaflet';
+// import { exception } from 'utilities/exceptionHelper';
 import { MapModes } from 'utilities/MapContextState';
 import { getReportIcon } from 'utilities/utilities';
 
@@ -20,6 +23,18 @@ const ImportedReports: FC<TImportedReportsProps> = ({ reports, resetActiveStop }
     setActiveStop,
     displayPropertyGrid,
   } = useContext(MapContext);
+  // const { setLoader } = useContext(UserContext);
+
+  // const updatePosition = async (data: { lat: number; lon: number; conversationId: string }) => {
+  //   try {
+  //     setLoader(true);
+  //     await api.conversationChangePositionUpdate(data);
+  //   } catch (error) {
+  //     exception(error);
+  //   } finally {
+  //     setLoader(false);
+  //   }
+  // };
 
   const handleReportClick = (data: Stop | Conversation | null) => {
     displayPropertyGrid(data);
@@ -35,6 +50,7 @@ const ImportedReports: FC<TImportedReportsProps> = ({ reports, resetActiveStop }
         return (
           <Marker
             key={index}
+            draggable={mapMode === MapModes.pan && isActive({ lat, lon })}
             position={[lat ?? 0, lon ?? 0]}
             icon={getReportIcon(status ?? 99, isActive({ lat, lon }))}
             pane="markerPane"
