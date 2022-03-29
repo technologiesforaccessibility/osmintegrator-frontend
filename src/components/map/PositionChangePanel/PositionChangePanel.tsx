@@ -74,9 +74,10 @@ const PositionChangePanel: FC = () => {
     }
   };
 
-  const isPositionTheSameAsInitial = currentMovedStop
+  const isPositionTheSameAsInitial = !!currentMovedStop
     ? activeStop?.initLat === currentMovedStop?.position?.lat && activeStop?.initLon === currentMovedStop?.position?.lng
-    : activeStop?.initLat === activeStop?.lat && activeStop?.initLon == activeStop?.lon;
+    : (!activeStop?.initLat && !activeStop?.initLon) ||
+      (activeStop?.initLat === activeStop?.lat && activeStop?.initLon == activeStop?.lon);
 
   return (
     <div className="position-change-panel">
