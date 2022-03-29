@@ -7,7 +7,7 @@ import { UserContext } from 'components/contexts/UserContextProvider';
 import ConversationHeading from 'components/conversation/ConversationHeading/ConversationHeading';
 import ConfirmPopup from 'components/extra/ConfirmPopup';
 import { basicHeaders } from 'config/apiConfig';
-import { FC, useContext, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NotificationActions } from 'redux/actions/notificationActions';
 import { useAppDispatch } from 'redux/store';
@@ -78,6 +78,12 @@ const PositionChangePanel: FC = () => {
     ? activeStop?.initLat === currentMovedStop?.position?.lat && activeStop?.initLon === currentMovedStop?.position?.lng
     : (!activeStop?.initLat && !activeStop?.initLon) ||
       (activeStop?.initLat === activeStop?.lat && activeStop?.initLon == activeStop?.lon);
+
+  useEffect(() => {
+    if (activeStop?.stopType === StopType.OSM) {
+      dispatch(NotificationActions.info(t('pan.stopIsOsm')));
+    }
+  }, [activeStop]);
 
   return (
     <div className="position-change-panel">
@@ -154,7 +160,6 @@ const PositionChangePanel: FC = () => {
             isReportActive={false}
             hasReport={false}
           />
-          <Typography variant="subtitle2">{t('pan.osmStopCannotBeMoved')}</Typography>
         </Stack>
       )}
     </div>

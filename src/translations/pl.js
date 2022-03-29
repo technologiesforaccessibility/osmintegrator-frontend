@@ -312,9 +312,10 @@ export const pl = {
       initLong: 'Początkowa dł:',
       confirmResetText: 'Czy na pewno chcesz zresetować pozycję tego przystanku?',
       stopWasMoved: 'Przystanek został przesunięty',
+      stopIsOsm: 'Przystanki OSM mogą być przesuwane wyłącznie za pomocą aplikacji OpenStreetMap',
     },
     error: {
-      unrecognizedProblem: 'Coś poszło nie tak. Skontaktuj się z administratorem.',
+      unrecognizedProblem: 'Coś poszło nie tak. Skontaktuj się z administrator§em.',
       unknownStatusError: 'Nieznany status błędu. Skontaktuj się z administratorem.',
       unableToShowErrorMessage: 'Problem z wyświetleniem informacji o błędzie. Skontaktuj się z administratorem.',
       validationError: 'Problem z walidacją. Skontaktuj się z administratorem.',
