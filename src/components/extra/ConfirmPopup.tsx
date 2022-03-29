@@ -25,7 +25,7 @@ const ConfirmPopup: FC<TConfirmPopupProps> = ({ isOpen, text, onClose, onClick }
           <Close />
         </IconButton>
       </Box>
-      <DialogContent>
+      <DialogContent style={{ marginTop: '0.75rem' }}>
         <Typography>{text}</Typography>
       </DialogContent>
       <DialogActions>
