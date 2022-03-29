@@ -115,6 +115,12 @@ export interface MessageInput {
   tileId: string;
 }
 
+export interface NewConnection {
+  /** @format uuid */
+  connectionId?: string;
+  message?: string | null;
+}
+
 export interface NewConnectionAction {
   /** @format uuid */
   tileId: string;
@@ -709,11 +715,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/api/Connections
      */
     connectionsUpdate: (data: NewConnectionAction, params: RequestParams = {}) =>
-      this.request<void, ProblemDetails>({
+      this.request<NewConnection, ProblemDetails>({
         path: `/api/Connections`,
         method: 'PUT',
         body: data,
         type: ContentType.Json,
+        format: 'json',
         ...params,
       }),
 

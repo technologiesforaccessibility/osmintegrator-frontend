@@ -2,7 +2,7 @@ import './translations/i18n';
 import 'normalize.css';
 import 'stylesheets/index.scss';
 
-import App from 'components/app/App';
+import App from 'components/App/App';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 
