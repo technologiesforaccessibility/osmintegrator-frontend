@@ -1,0 +1,26 @@
+.position-change-panel {
+  color: #666;
+
+  &__details {
+    margin-bottom: 0.625rem;
+    border: 1px solid #0000001f;
+    border-radius: 5px;
+    margin-bottom: 0.625rem;
+    padding: 0.5rem;
+  }
+
+  &__heading {
+    float: none;
+    font-size: 0.75rem;
+    width: auto;
+    padding: 0 0.3rem;
+    margin: 0;
+  }
+
+  &__body {
+    span {
+      display: block;
+      font-size: 0.875rem;
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import './dashboardSidebar.scss';
 
+import PositionChangePanel from 'components/map/PositionChangePanel/PositionChangePanel';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ConnectionRadio } from 'types/enums';
@@ -36,6 +37,7 @@ const DashboardSidebar = () => {
         {mapMode === MapModes.connection && connectionRadio === ConnectionRadio.EDIT && <SidebarConnectionHandler />}
         {mapMode === MapModes.tile && <TileDetails />}
         {mapMode === MapModes.sync && <SyncPanel />}
+        {mapMode === MapModes.pan && <PositionChangePanel />}
       </>
     </SidebarContainer>
   );

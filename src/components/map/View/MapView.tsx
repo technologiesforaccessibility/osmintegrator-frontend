@@ -305,6 +305,7 @@ export const MapView = () => {
           isConnectionMode={mapMode === MapModes.connection}
           isViewMode={mapMode === MapModes.view}
           isReportMode={mapMode === MapModes.report}
+          isPanMode={mapMode === MapModes.pan}
         />
         <NewReportMarker newReportCoordinates={newReportCoordinates} />
         <ImportedReports reports={importedReports} resetActiveStop={() => setActiveStop(null)} />
