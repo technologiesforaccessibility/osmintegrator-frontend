@@ -204,6 +204,7 @@ const MapContextProvider: FC = ({ children }) => {
         activeMapToggle: setIsMapActive,
         displayPropertyGrid: setPropertyGrid,
         updateConnectionData,
+        setConnectionData,
         reset,
         shouldRenderConnections: setRerenderConnections,
         toggleMapMode,
