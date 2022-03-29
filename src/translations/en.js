@@ -311,6 +311,7 @@ export const en = {
       initLat: 'Init lat:',
       initLong: 'Init long:',
       confirmResetText: 'Are you sure you want to reset this stop to its original position?',
+      stopWasMoved: 'Stop was moved successfully',
     },
     error: {
       unrecognizedProblem: 'Something went wrong. Please contact administrator.',

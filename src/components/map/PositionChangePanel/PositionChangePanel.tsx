@@ -28,7 +28,7 @@ const PositionChangePanel: FC = () => {
     try {
       setLoader(true);
       await api.stopChangePositionUpdate(data, { headers: basicHeaders() });
-      dispatch(NotificationActions.success(t('report.success')));
+      dispatch(NotificationActions.success(t('pan.stopWasMoved')));
 
       const newTileStops = [...tileStops];
       newTileStops.forEach(stop => {
