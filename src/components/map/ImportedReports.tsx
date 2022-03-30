@@ -46,6 +46,7 @@ const ImportedReports: FC<TImportedReportsProps> = ({ reports, resetActiveStop }
 
         return newReports;
       });
+      setNewReportCoordinates({ lat: data.lat, lon: data.lon });
     } catch (error) {
       exception(error);
     } finally {
