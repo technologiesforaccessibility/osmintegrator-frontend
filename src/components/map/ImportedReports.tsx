@@ -1,9 +1,11 @@
 import { Conversation, Stop } from 'api/apiClient';
-// import api from 'api/apiInstance';
-// import { UserContext } from 'components/contexts/UserContextProvider';
-import { FC, useContext } from 'react';
+import api from 'api/apiInstance';
+import { UserContext } from 'components/contexts/UserContextProvider';
+import { basicHeaders } from 'config/apiConfig';
+import { LatLngLiteral } from 'leaflet';
+import { FC, useContext, useRef } from 'react';
 import { Marker, Tooltip } from 'react-leaflet';
-// import { exception } from 'utilities/exceptionHelper';
+import { exception } from 'utilities/exceptionHelper';
 import { MapModes } from 'utilities/MapContextState';
 import { getReportIcon } from 'utilities/utilities';
 
@@ -22,19 +24,40 @@ const ImportedReports: FC<TImportedReportsProps> = ({ reports, resetActiveStop }
     setNewReportCoordinates,
     setActiveStop,
     displayPropertyGrid,
+    setImportedReports,
   } = useContext(MapContext);
-  // const { setLoader } = useContext(UserContext);
+  const { setLoader } = useContext(UserContext);
 
-  // const updatePosition = async (data: { lat: number; lon: number; conversationId: string }) => {
-  //   try {
-  //     setLoader(true);
-  //     await api.conversationChangePositionUpdate(data);
-  //   } catch (error) {
-  //     exception(error);
-  //   } finally {
-  //     setLoader(false);
-  //   }
-  // };
+  const markerRef = useRef(null);
+
+  const updatePosition = async (data: { lat: number; lon: number; conversationId: string }) => {
+    try {
+      setLoader(true);
+      await api.conversationChangePositionUpdate(data, { headers: basicHeaders() });
+      setImportedReports(prevReports => {
+        const newReports = [...prevReports];
+        newReports.forEach(r => {
+          if (r.id === data.conversationId) {
+            r.lat = data.lat;
+            r.lon = data.lon;
+          }
+        });
+
+        return newReports;
+      });
+    } catch (error) {
+      exception(error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  const handleDragEnd = (id: string) => {
+    const currentMarker = markerRef.current as unknown as { getLatLng: () => LatLngLiteral };
+    const coordinates = currentMarker.getLatLng();
+
+    if (coordinates) updatePosition({ lat: coordinates.lat, lon: coordinates.lng, conversationId: id });
+  };
 
   const handleReportClick = (data: Stop | Conversation | null) => {
     displayPropertyGrid(data);
@@ -50,6 +73,7 @@ const ImportedReports: FC<TImportedReportsProps> = ({ reports, resetActiveStop }
         return (
           <Marker
             key={index}
+            ref={markerRef}
             draggable={mapMode === MapModes.pan && isActive({ lat, lon })}
             position={[lat ?? 0, lon ?? 0]}
             icon={getReportIcon(status ?? 99, isActive({ lat, lon }))}
@@ -71,6 +95,7 @@ const ImportedReports: FC<TImportedReportsProps> = ({ reports, resetActiveStop }
                   }
                 }
               },
+              dragend: () => handleDragEnd(id!),
             }}>
             <Tooltip direction="top" offset={[0, -55]}>
               {lat?.toString().slice(0, 6)} {lon?.toString().slice(0, 6)}
