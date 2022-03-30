@@ -17,8 +17,17 @@ import { exception } from 'utilities/exceptionHelper';
 const PositionChangePanel: FC = () => {
   const { t } = useTranslation();
   const { setLoader } = useContext(UserContext);
-  const { activeStop, setActiveStop, markerReference, movedStops, movedStopsDispatch, tileStops, setTileStops } =
-    useContext(MapContext);
+  const {
+    activeStop,
+    setActiveStop,
+    markerReference,
+    movedStops,
+    movedStopsDispatch,
+    tileStops,
+    setTileStops,
+    newReportCoordinates,
+    setNewReportCoordinates,
+  } = useContext(MapContext);
   const dispatch = useAppDispatch();
   const [isPopupOpen, setPopupOpen] = useState(false);
 
@@ -74,6 +83,11 @@ const PositionChangePanel: FC = () => {
     }
   };
 
+  const handleDeselect = () => {
+    setActiveStop(null);
+    setNewReportCoordinates({ lat: null, lon: null });
+  };
+
   const isPositionTheSameAsInitial = !!currentMovedStop
     ? activeStop?.initLat === currentMovedStop?.position?.lat && activeStop?.initLon === currentMovedStop?.position?.lng
     : (!activeStop?.initLat && !activeStop?.initLon) ||
@@ -92,64 +106,67 @@ const PositionChangePanel: FC = () => {
           {t('pan.selectPrompt')}
         </Typography>
       )}
-      {activeStop && activeStop.stopType === StopType.GTFS && (
-        <Stack spacing={2} sx={{ mt: 2 }}>
-          <Stack spacing={3}>
-            <ConversationHeading
-              activeStop={activeStop}
-              lat={0}
-              lon={0}
-              handleCloseReport={() => setActiveStop(null)}
-              isReportActive={false}
-              hasReport={false}
-            />
-            <fieldset className="position-change-panel__details">
-              <legend className="position-change-panel__heading">{t('tileDetails.coordinates')}</legend>
-              <div className="position-change-panel__body">
-                {!isPositionTheSameAsInitial ? (
-                  <>
-                    <span>
-                      {t('pan.lat')} {(currentMovedStop?.position?.lat ?? activeStop.lat)?.toFixed(6)}
-                    </span>
-                    <span>
-                      {t('pan.long')} {(currentMovedStop?.position?.lng ?? activeStop.lon)?.toFixed(6)}
-                    </span>
-                    <span>
-                      {t('pan.initLat')} {(activeStop.initLat ?? activeStop.lat)?.toFixed(6)}
-                    </span>
-                    <span>
-                      {t('pan.initLong')} {(activeStop.initLon ?? activeStop.lat)?.toFixed(6)}
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <span>
-                      {t('pan.lat')} {(activeStop.initLat ?? activeStop.lat)?.toFixed(6)}
-                    </span>
-                    <span>
-                      {t('pan.long')} {(activeStop.initLon ?? activeStop.lon)?.toFixed(6)}
-                    </span>
-                  </>
-                )}
-              </div>
-            </fieldset>
-          </Stack>
-
-          {!isPositionTheSameAsInitial && (
-            <>
-              <Button variant="contained" onClick={() => setPopupOpen(true)}>
-                {t('pan.resetPosition')}
-              </Button>
-              <ConfirmPopup
-                text={t('pan.confirmResetText')}
-                isOpen={isPopupOpen}
-                onClose={() => setPopupOpen(false)}
-                onClick={resetPosition}
+      {(activeStop && activeStop.stopType === StopType.GTFS) ||
+        (newReportCoordinates.lat && newReportCoordinates.lon && (
+          <Stack spacing={2} sx={{ mt: 2 }}>
+            <Stack spacing={3}>
+              <ConversationHeading
+                activeStop={activeStop}
+                lat={newReportCoordinates.lat}
+                lon={newReportCoordinates.lon}
+                handleCloseReport={handleDeselect}
+                isReportActive={false}
+                hasReport={false}
               />
-            </>
-          )}
-        </Stack>
-      )}
+              {activeStop && (
+                <fieldset className="position-change-panel__details">
+                  <legend className="position-change-panel__heading">{t('tileDetails.coordinates')}</legend>
+                  <div className="position-change-panel__body">
+                    {!isPositionTheSameAsInitial ? (
+                      <>
+                        <span>
+                          {t('pan.lat')} {(currentMovedStop?.position?.lat ?? activeStop.lat)?.toFixed(6)}
+                        </span>
+                        <span>
+                          {t('pan.long')} {(currentMovedStop?.position?.lng ?? activeStop.lon)?.toFixed(6)}
+                        </span>
+                        <span>
+                          {t('pan.initLat')} {(activeStop.initLat ?? activeStop.lat)?.toFixed(6)}
+                        </span>
+                        <span>
+                          {t('pan.initLong')} {(activeStop.initLon ?? activeStop.lat)?.toFixed(6)}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span>
+                          {t('pan.lat')} {(activeStop.initLat ?? activeStop.lat)?.toFixed(6)}
+                        </span>
+                        <span>
+                          {t('pan.long')} {(activeStop.initLon ?? activeStop.lon)?.toFixed(6)}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                </fieldset>
+              )}
+            </Stack>
+
+            {!isPositionTheSameAsInitial && (
+              <>
+                <Button variant="contained" onClick={() => setPopupOpen(true)}>
+                  {t('pan.resetPosition')}
+                </Button>
+                <ConfirmPopup
+                  text={t('pan.confirmResetText')}
+                  isOpen={isPopupOpen}
+                  onClose={() => setPopupOpen(false)}
+                  onClick={resetPosition}
+                />
+              </>
+            )}
+          </Stack>
+        ))}
       {activeStop && activeStop.stopType === StopType.OSM && (
         <Stack spacing={2} sx={{ mt: 2 }}>
           <ConversationHeading

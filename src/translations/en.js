@@ -298,7 +298,7 @@ export const en = {
     },
     pan: {
       header: 'Pan tool',
-      selectPrompt: 'Select GTFS stop to change its location',
+      selectPrompt: 'Select GTFS stop or report to change its location',
       updatePosition: 'Update stop position',
       resetPosition: 'Reset stop position',
       chosenStop: 'Chosen stop',

@@ -298,7 +298,7 @@ export const pl = {
     },
     pan: {
       header: 'Panel przesuwania przystanków',
-      selectPrompt: 'Wybierz przystanek GTFS aby zmnienić jego lokalizację',
+      selectPrompt: 'Wybierz przystanek GTFS lub raport aby zmienić jego lokalizację',
       updatePosition: 'Aktualizuj pozycję przystanku',
       resetPosition: 'Resetuj pozycję przystanku',
       chosenStop: 'Wybrany przystanek',
