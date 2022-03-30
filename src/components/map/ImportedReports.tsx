@@ -3,7 +3,7 @@ import api from 'api/apiInstance';
 import { UserContext } from 'components/contexts/UserContextProvider';
 import { basicHeaders } from 'config/apiConfig';
 import { LatLngLiteral } from 'leaflet';
-import { FC, useContext, useRef } from 'react';
+import { FC, useContext, useRef, useState } from 'react';
 import { Marker, Tooltip } from 'react-leaflet';
 import { exception } from 'utilities/exceptionHelper';
 import { MapModes } from 'utilities/MapContextState';
@@ -29,6 +29,7 @@ const ImportedReports: FC<TImportedReportsProps> = ({ reports, resetActiveStop }
   const { setLoader } = useContext(UserContext);
 
   const markerRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const updatePosition = async (data: { lat: number; lon: number; conversationId: string }) => {
     try {
@@ -52,19 +53,34 @@ const ImportedReports: FC<TImportedReportsProps> = ({ reports, resetActiveStop }
     }
   };
 
-  const handleDragEnd = (id: string) => {
-    const currentMarker = markerRef.current as unknown as { getLatLng: () => LatLngLiteral };
-    const coordinates = currentMarker.getLatLng();
-
-    if (coordinates) updatePosition({ lat: coordinates.lat, lon: coordinates.lng, conversationId: id });
-  };
-
   const handleReportClick = (data: Stop | Conversation | null) => {
     displayPropertyGrid(data);
   };
 
   const isActive = (iconCord: any) => {
     return JSON.stringify(iconCord) === JSON.stringify(newReportCoordinates);
+  };
+
+  const handleClick = ({ lat, lon, id, tileId, messages }: Conversation) => {
+    if (mapMode !== MapModes.connection) {
+      setNewReportCoordinates({ lat: lat ?? 0, lon: lon ?? 0 });
+      setActiveStop(null);
+      resetActiveStop();
+
+      if (isActive({ lat, lon }) && newReportCoordinates.lat && newReportCoordinates.lon && !isDragging) {
+        setNewReportCoordinates({ lat: null, lon: null });
+        handleReportClick(null);
+      } else {
+        handleReportClick({ lat, lon, id, tileId, messages });
+      }
+    }
+  };
+
+  const handleDragEnd = (id: string) => {
+    const currentMarker = markerRef.current as unknown as { getLatLng: () => LatLngLiteral };
+    const coordinates = currentMarker.getLatLng();
+
+    if (coordinates) updatePosition({ lat: coordinates.lat, lon: coordinates.lng, conversationId: id });
   };
 
   return (
@@ -82,19 +98,8 @@ const ImportedReports: FC<TImportedReportsProps> = ({ reports, resetActiveStop }
             opacity={visibilityOptions.mapReport.value.opacityValue}
             zIndexOffset={isActive({ lat, lon }) ? 1000 : 0}
             eventHandlers={{
-              click: () => {
-                if (mapMode !== MapModes.connection) {
-                  setNewReportCoordinates({ lat: lat ?? 0, lon: lon ?? 0 });
-                  setActiveStop(null);
-                  resetActiveStop();
-                  if (isActive({ lat, lon }) && newReportCoordinates.lat && newReportCoordinates.lon) {
-                    setNewReportCoordinates({ lat: null, lon: null });
-                    handleReportClick(null);
-                  } else {
-                    handleReportClick({ lat, lon, id, tileId, messages });
-                  }
-                }
-              },
+              click: () => handleClick({ lat, lon, id, tileId, messages }),
+              dragstart: () => setIsDragging(true),
               dragend: () => handleDragEnd(id!),
             }}>
             <Tooltip direction="top" offset={[0, -55]}>
