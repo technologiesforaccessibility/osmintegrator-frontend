@@ -1,10 +1,19 @@
 import { Stop } from 'api/apiClient';
-import { FC, useContext, useMemo } from 'react';
+import api from 'api/apiInstance';
+import { UserContext } from 'components/contexts/UserContextProvider';
+import { basicHeaders } from 'config/apiConfig';
+import { LatLngLiteral, LeafletEvent, LeafletMouseEvent } from 'leaflet';
+import { FC, useContext, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Marker, Tooltip } from 'react-leaflet';
-import { ConnectionRadio, StopType } from 'types/enums';
+import { NotificationActions } from 'redux/actions/notificationActions';
+import { useAppDispatch } from 'redux/store';
+import { ConnectionRadio, MovedStopActionType, StopType } from 'types/enums';
 import { TBusStopProperties } from 'types/stops';
+import { exception } from 'utilities/exceptionHelper';
+import { MapModes } from 'utilities/MapContextState';
 import { generateStopName } from 'utilities/mapUtilities';
-import { getBusStopIcon } from 'utilities/utilities';
+import { areCoordinatesOnTile, getBusStopIcon } from 'utilities/utilities';
 
 import { MapContext } from '../contexts/MapContextProvider';
 
@@ -16,6 +25,7 @@ type TBusMarkerProps = {
   isActiveStopClicked: (stopId: string) => boolean;
   clickBusStop: (stop?: Stop) => void;
   isReportMode: boolean;
+  isPanMode: boolean;
 };
 
 const BusMarker: FC<TBusMarkerProps> = ({
@@ -26,6 +36,7 @@ const BusMarker: FC<TBusMarkerProps> = ({
   isActiveStopClicked,
   clickBusStop,
   isReportMode,
+  isPanMode,
 }) => {
   const {
     visibilityOptions,
@@ -34,18 +45,40 @@ const BusMarker: FC<TBusMarkerProps> = ({
     setConnectedStopPair,
     importedConnections,
     tileStops,
+    setTileStops,
+    activeTile,
+    activeStop,
     setActiveStop,
     setNewReportCoordinates,
     connectionData,
     connectionRadio,
+
+    movedStops,
+    markerReference,
+    draggableStopId,
+    setDraggableStopId,
+    movedStopsDispatch,
+    setMarkerReference,
+    mapMode,
   } = useContext(MapContext);
+  const { setLoader } = useContext(UserContext);
+
+  const markerRef = useRef(null);
+  const { lat, lon, id, stopId } = busStop;
+
+  const originalCoordinates: LatLngLiteral = useMemo(() => ({ lat: lat ?? 0, lng: lon ?? 0 }), [lat, lon]);
+  const [markerPosition, setMarkerPosition] = useState<LatLngLiteral>(originalCoordinates);
+  const currentMovedStop = movedStops.find(item => item.id === activeStop?.id);
+
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const opacity = useMemo(() => {
-    if (connectedStopIds.includes(busStop.id ?? '')) {
+    if (connectedStopIds.includes(id ?? '')) {
       return visibilityOptions.connected.value.opacityValue;
     }
     return visibilityOptions.unconnected.value.opacityValue;
-  }, [visibilityOptions, busStop.id, connectedStopIds]);
+  }, [visibilityOptions, id, connectedStopIds]);
 
   const handleViewModeStopClick = (stop: Stop) => {
     clickBusStop(stop);
@@ -83,7 +116,7 @@ const BusMarker: FC<TBusMarkerProps> = ({
   };
 
   const getIcon = (stop: Stop) => {
-    if (isViewMode || isReportMode) {
+    if (isViewMode || isReportMode || isPanMode) {
       return getBusStopIcon(stop as TBusStopProperties, isActiveStopClicked(stop.id ?? ''));
     } else if (isConnectionMode) {
       const activeStopWithConnection = connectionData.filter(connection => connection.id === stop.id);
@@ -95,10 +128,121 @@ const BusMarker: FC<TBusMarkerProps> = ({
     }
   };
 
+  const updatePosition = async (data: { lat: number; lon: number; stopId: string }) => {
+    try {
+      setLoader(true);
+      await api.stopChangePositionUpdate(data, { headers: basicHeaders() });
+      dispatch(NotificationActions.success(t('pan.stopWasMoved')));
+
+      const newTileStops = [...tileStops];
+      newTileStops.forEach(stop => {
+        if (stop.id === data.stopId) {
+          if (!stop.initLat && !stop.initLon) {
+            stop.initLat = stop.lat;
+            stop.initLon = stop.lon;
+          }
+          stop.lat = data.lat;
+          stop.lon = data.lon;
+        }
+      });
+      setTileStops(newTileStops);
+    } catch (error) {
+      exception(error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  const checkIfDraggable = (stop: Stop) => {
+    if (stop.stopType !== StopType.GTFS) return false;
+
+    return mapMode === MapModes.pan && draggableStopId === stop.id;
+  };
+
+  const handleClick = (event: LeafletEvent) => {
+    const mouseEvent = event as LeafletMouseEvent;
+
+    setActiveStop(busStop);
+    setDraggableStopId(busStop.id ?? '');
+    setMarkerReference(markerRef.current);
+    setNewReportCoordinates({ lat: null, lon: null });
+    if (isConnectionMode) {
+      if (connectionRadio === ConnectionRadio.ADD) {
+        createConnection(busStop);
+      } else if (connectionRadio === ConnectionRadio.EDIT) {
+        if (isActiveStopClicked(busStop.id ?? '')) {
+          handleViewModeStopUnclick();
+        } else {
+          handleViewModeStopClick(busStop);
+        }
+      }
+    } else if (
+      isViewMode ||
+      isReportMode ||
+      (isPanMode && mouseEvent.latlng.lat === activeStop?.lat && mouseEvent.latlng.lng === activeStop.lon)
+    ) {
+      if (isActiveStopClicked(busStop.id ?? '')) {
+        clickBusStop();
+      } else {
+        clickBusStop(busStop);
+      }
+    }
+  };
+
+  const handleDragEnd = () => {
+    const currentMarker = markerRef.current as unknown as { getLatLng: () => LatLngLiteral };
+    if (!!currentMarker) setMarkerPosition(currentMarker.getLatLng());
+
+    const coordinates = currentMarker.getLatLng();
+
+    if (!areCoordinatesOnTile(coordinates.lat, coordinates.lng, activeTile!)) {
+      movedStopsDispatch({
+        type: MovedStopActionType.REMOVE,
+        payload: {
+          id: activeStop?.id!,
+          externalId: activeStop?.stopId!,
+        },
+      });
+
+      let newLat = 0,
+        newLng = 0;
+
+      if (!currentMovedStop) {
+        newLat = activeStop?.lat!;
+        newLng = activeStop?.lon!;
+      } else {
+        newLat = currentMovedStop?.position?.lat!;
+        newLng = currentMovedStop?.position?.lng!;
+      }
+
+      const marker = markerReference as unknown as { setLatLng: (coordinates: { lat: number; lng: number }) => void };
+      if (marker) {
+        marker.setLatLng({
+          lat: newLat,
+          lng: newLng,
+        });
+        movedStopsDispatch({
+          type: MovedStopActionType.ADD,
+          payload: { id: id ?? '', externalId: stopId ?? 0, position: { lat: newLat, lng: newLng } },
+        });
+      }
+
+      dispatch(NotificationActions.warning(t('pan.stopCannotBeMovedOutsideOfTile')));
+    } else {
+      movedStopsDispatch({
+        type: MovedStopActionType.ADD,
+        payload: { id: id ?? '', externalId: stopId ?? 0, position: coordinates },
+      });
+      updatePosition({ stopId: id ?? '', lat: coordinates.lat, lon: coordinates.lng });
+    }
+  };
+
   return (
     <Marker
       key={busStop.id}
-      position={[busStop.lat ?? 0, busStop.lon ?? 0]}
+      ref={markerRef}
+      draggable={checkIfDraggable(busStop)}
+      position={markerPosition}
       icon={getIcon(busStop)}
       riseOnHover={true}
       opacity={opacity}
@@ -106,27 +250,8 @@ const BusMarker: FC<TBusMarkerProps> = ({
       shadowPane="markerPane"
       zIndexOffset={isActiveStopClicked(busStop.id ?? '') ? 1000 : 0}
       eventHandlers={{
-        click: () => {
-          setActiveStop(busStop);
-          setNewReportCoordinates({ lat: null, lon: null });
-          if (isConnectionMode) {
-            if (connectionRadio === ConnectionRadio.ADD) {
-              createConnection(busStop);
-            } else if (connectionRadio === ConnectionRadio.EDIT) {
-              if (isActiveStopClicked(busStop.id ?? '')) {
-                handleViewModeStopUnclick();
-              } else {
-                handleViewModeStopClick(busStop);
-              }
-            }
-          } else if (isViewMode || isReportMode) {
-            if (isActiveStopClicked(busStop.id ?? '')) {
-              clickBusStop();
-            } else {
-              clickBusStop(busStop);
-            }
-          }
-        },
+        click: handleClick,
+        dragend: handleDragEnd,
       }}>
       <Tooltip direction="bottom">{generateStopName(busStop)}</Tooltip>
     </Marker>

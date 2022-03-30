@@ -10,6 +10,7 @@ export const MapModes = {
   connection: 'Connection',
   tile: 'Tile',
   sync: 'Sync',
+  pan: 'Pan',
 };
 
 export const initialMapContextState: IMapContext = {
@@ -53,6 +54,12 @@ export const initialMapContextState: IMapContext = {
   isSidebarConnectionHandlerVisible: false,
   connectedStopPair: { markedStop: null, connectedStop: null, connection: null },
   authRoles: [],
+  draggableStopId: null,
+  movedStops: [],
+  markerReference: null,
+  setMarkerReference: () => null,
+  movedStopsDispatch: () => null,
+  setDraggableStopId: () => null,
   setRerenderConnections: () => null,
   setConnectedStopPair: () => null,
   setIsSidebarConnectionHandlerVisible: () => null,

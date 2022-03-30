@@ -31,6 +31,11 @@ export const NotificationReducer = createReducer(initialState, builder => {
       state.title = 'Error';
       state.message = action.payload.message;
     })
+    .addCase(NotificationActions.info, (state, action) => {
+      state.class = 'info-modal';
+      state.title = 'Info';
+      state.message = action.payload.message;
+    })
     .addCase(NotificationActions.clear, state => {
       state.class = undefined;
       state.title = undefined;

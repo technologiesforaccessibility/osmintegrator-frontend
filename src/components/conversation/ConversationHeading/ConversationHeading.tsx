@@ -12,6 +12,7 @@ type TConversationHeadingProps = {
   activeStop: Stop;
   isReportActive: boolean;
   handleCloseReport: () => void;
+  hasReport?: boolean;
 };
 
 const ConversationHeading: FC<TConversationHeadingProps> = ({
@@ -20,6 +21,7 @@ const ConversationHeading: FC<TConversationHeadingProps> = ({
   activeStop,
   isReportActive,
   handleCloseReport,
+  hasReport = true,
 }) => {
   const { t } = useTranslation();
   return (
@@ -40,16 +42,18 @@ const ConversationHeading: FC<TConversationHeadingProps> = ({
         </button>
       </div>
 
-      <div className="conversation-heading__status">
-        <span>{t('report.status')}</span>
-        <Chip
-          sx={{ borderRadius: '5px', textTransform: 'uppercase', fontWeight: 700, marginLeft: '0.625rem' }}
-          label={isReportActive ? t('report.active') : t('report.inactive')}
-          size="medium"
-          variant="outlined"
-          color={isReportActive ? 'error' : 'success'}
-        />{' '}
-      </div>
+      {hasReport && (
+        <div className="conversation-heading__status">
+          <span>{t('report.status')}</span>
+          <Chip
+            sx={{ borderRadius: '5px', textTransform: 'uppercase', fontWeight: 700, marginLeft: '0.625rem' }}
+            label={isReportActive ? t('report.active') : t('report.inactive')}
+            size="medium"
+            variant="outlined"
+            color={isReportActive ? 'error' : 'success'}
+          />{' '}
+        </div>
+      )}
     </div>
   );
 };

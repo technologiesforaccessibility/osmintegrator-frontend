@@ -1,7 +1,8 @@
 import { Connection, Conversation, Stop, Tile } from 'api/apiClient';
+import React from 'react';
 import { ConnectionRadio } from 'types/enums';
 
-import { ConnectedPairProps } from './interfaces';
+import { ConnectedPairProps, MovedStop, MovedStopAction } from './interfaces';
 import { TCoordinates, TMapReportContent } from './map';
 
 interface OptionValue {
@@ -46,6 +47,12 @@ export interface IMapContext {
   isSidebarConnectionHandlerVisible: boolean;
   tileStops: Stop[];
   connectedStopPair: ConnectedPairProps;
+  draggableStopId: string | null;
+  movedStops: MovedStop[];
+  markerReference: null | React.MutableRefObject<null>;
+  setMarkerReference: (arg: null | React.MutableRefObject<null>) => void;
+  movedStopsDispatch: (action: MovedStopAction) => void;
+  setDraggableStopId: (stop: string | null) => void;
   setRerenderConnections: (arg: boolean) => void;
   setConnectedStopPair: (arg: any) => void;
   setTileStops: (arg: Stop[]) => void;

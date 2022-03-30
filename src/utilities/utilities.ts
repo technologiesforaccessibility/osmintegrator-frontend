@@ -1,3 +1,4 @@
+import { Tile } from 'api/apiClient';
 import gtfsStopIcon from 'assets/angledIcons/gtfs_stop.png';
 import gtfsStopReportIcon from 'assets/angledIcons/gtfs_stop_report.png';
 import gtfsStopReportApprovedIcon from 'assets/angledIcons/gtfs_stop_report_approved.png';
@@ -213,7 +214,11 @@ const getVisibilityValueFromStateOrReturn = (itemKey: string, reset: boolean) =>
   }
 };
 
+const areCoordinatesOnTile = (lat: number, lon: number, tile: Tile) =>
+  lat >= tile.minLat && lat <= tile.maxLat && lon >= tile.minLon && lon <= tile.maxLon;
+
 export {
+  areCoordinatesOnTile,
   comparePasswords,
   getBusStopIcon,
   getEmailFromPath,
