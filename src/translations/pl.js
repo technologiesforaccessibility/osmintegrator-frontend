@@ -313,6 +313,7 @@ export const pl = {
       confirmResetText: 'Czy na pewno chcesz zresetować pozycję tego przystanku?',
       stopWasMoved: 'Przystanek został przesunięty',
       stopIsOsm: 'Przystanki OSM mogą być przesuwane wyłącznie za pomocą aplikacji OpenStreetMap',
+      reportCannotBeMovedOutsideOfTile: 'Raport nie może być przesunięty poza obszar kafelka',
     },
     error: {
       unrecognizedProblem: 'Coś poszło nie tak. Skontaktuj się z administrator§em.',

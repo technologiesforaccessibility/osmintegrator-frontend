@@ -313,6 +313,7 @@ export const en = {
       confirmResetText: 'Are you sure you want to reset this stop to its original position?',
       stopWasMoved: 'Stop was moved successfully',
       stopIsOsm: 'OSM stops can only be moved using OpenStreetMap.',
+      reportCannotBeMovedOutsideOfTile: 'Report cannot be moved outside of its tile',
     },
     error: {
       unrecognizedProblem: 'Something went wrong. Please contact administrator.',

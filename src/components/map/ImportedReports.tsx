@@ -4,10 +4,13 @@ import { UserContext } from 'components/contexts/UserContextProvider';
 import { basicHeaders } from 'config/apiConfig';
 import { LatLngLiteral } from 'leaflet';
 import { FC, useContext, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Marker, Tooltip } from 'react-leaflet';
+import { NotificationActions } from 'redux/actions/notificationActions';
+import { useAppDispatch } from 'redux/store';
 import { exception } from 'utilities/exceptionHelper';
 import { MapModes } from 'utilities/MapContextState';
-import { getReportIcon } from 'utilities/utilities';
+import { areCoordinatesOnTile, getReportIcon } from 'utilities/utilities';
 
 import { MapContext } from '../contexts/MapContextProvider';
 
@@ -21,6 +24,7 @@ const ImportedReports: FC<TImportedReportsProps> = ({ reports, resetActiveStop }
     mapMode,
     newReportCoordinates,
     visibilityOptions,
+    activeTile,
     setNewReportCoordinates,
     setActiveStop,
     displayPropertyGrid,
@@ -30,6 +34,8 @@ const ImportedReports: FC<TImportedReportsProps> = ({ reports, resetActiveStop }
 
   const markerRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const updatePosition = async (data: { lat: number; lon: number; conversationId: string }) => {
     try {
@@ -78,10 +84,20 @@ const ImportedReports: FC<TImportedReportsProps> = ({ reports, resetActiveStop }
   };
 
   const handleDragEnd = (id: string) => {
-    const currentMarker = markerRef.current as unknown as { getLatLng: () => LatLngLiteral };
+    const currentMarker = markerRef.current as unknown as {
+      getLatLng: () => LatLngLiteral;
+      setLatLng: (coordinates: { lat: number; lng: number }) => void;
+    };
     const coordinates = currentMarker.getLatLng();
 
-    if (coordinates) updatePosition({ lat: coordinates.lat, lon: coordinates.lng, conversationId: id });
+    if (coordinates) {
+      if (!areCoordinatesOnTile(coordinates.lat, coordinates.lng, activeTile!)) {
+        currentMarker.setLatLng({ lat: newReportCoordinates.lat!, lng: newReportCoordinates.lon! });
+        dispatch(NotificationActions.warning(t('pan.reportCannotBeMovedOutsideOfTile')));
+      } else {
+        updatePosition({ lat: coordinates.lat, lon: coordinates.lng, conversationId: id });
+      }
+    }
   };
 
   return (
