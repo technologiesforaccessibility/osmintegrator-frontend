@@ -1,8 +1,16 @@
 import { Conversation, Stop } from 'api/apiClient';
-import { FC, useContext } from 'react';
+import api from 'api/apiInstance';
+import { UserContext } from 'components/contexts/UserContextProvider';
+import { basicHeaders } from 'config/apiConfig';
+import { LatLngLiteral } from 'leaflet';
+import { FC, useContext, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Marker, Tooltip } from 'react-leaflet';
+import { NotificationActions } from 'redux/actions/notificationActions';
+import { useAppDispatch } from 'redux/store';
+import { exception } from 'utilities/exceptionHelper';
 import { MapModes } from 'utilities/MapContextState';
-import { getReportIcon } from 'utilities/utilities';
+import { areCoordinatesOnTile, getReportIcon } from 'utilities/utilities';
 
 import { MapContext } from '../contexts/MapContextProvider';
 
@@ -16,10 +24,41 @@ const ImportedReports: FC<TImportedReportsProps> = ({ reports, resetActiveStop }
     mapMode,
     newReportCoordinates,
     visibilityOptions,
+    activeTile,
     setNewReportCoordinates,
     setActiveStop,
     displayPropertyGrid,
+    setImportedReports,
   } = useContext(MapContext);
+  const { setLoader } = useContext(UserContext);
+
+  const markerRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+
+  const updatePosition = async (data: { lat: number; lon: number; conversationId: string }) => {
+    try {
+      setLoader(true);
+      await api.conversationChangePositionUpdate(data, { headers: basicHeaders() });
+      setImportedReports(prevReports => {
+        const newReports = [...prevReports];
+        newReports.forEach(r => {
+          if (r.id === data.conversationId) {
+            r.lat = data.lat;
+            r.lon = data.lon;
+          }
+        });
+
+        return newReports;
+      });
+      setNewReportCoordinates({ lat: data.lat, lon: data.lon });
+    } catch (error) {
+      exception(error);
+    } finally {
+      setLoader(false);
+    }
+  };
 
   const handleReportClick = (data: Stop | Conversation | null) => {
     displayPropertyGrid(data);
@@ -29,12 +68,46 @@ const ImportedReports: FC<TImportedReportsProps> = ({ reports, resetActiveStop }
     return JSON.stringify(iconCord) === JSON.stringify(newReportCoordinates);
   };
 
+  const handleClick = ({ lat, lon, id, tileId, messages }: Conversation) => {
+    if (mapMode !== MapModes.connection) {
+      setNewReportCoordinates({ lat: lat ?? 0, lon: lon ?? 0 });
+      setActiveStop(null);
+      resetActiveStop();
+
+      if (isActive({ lat, lon }) && newReportCoordinates.lat && newReportCoordinates.lon && !isDragging) {
+        setNewReportCoordinates({ lat: null, lon: null });
+        handleReportClick(null);
+      } else {
+        handleReportClick({ lat, lon, id, tileId, messages });
+      }
+    }
+  };
+
+  const handleDragEnd = (id: string) => {
+    const currentMarker = markerRef.current as unknown as {
+      getLatLng: () => LatLngLiteral;
+      setLatLng: (coordinates: { lat: number; lng: number }) => void;
+    };
+    const coordinates = currentMarker.getLatLng();
+
+    if (coordinates) {
+      if (!areCoordinatesOnTile(coordinates.lat, coordinates.lng, activeTile!)) {
+        currentMarker.setLatLng({ lat: newReportCoordinates.lat!, lng: newReportCoordinates.lon! });
+        dispatch(NotificationActions.warning(t('pan.reportCannotBeMovedOutsideOfTile')));
+      } else {
+        updatePosition({ lat: coordinates.lat, lon: coordinates.lng, conversationId: id });
+      }
+    }
+  };
+
   return (
     <>
       {reports.map(({ lat, lon, id, tileId, messages, status }, index) => {
         return (
           <Marker
             key={index}
+            ref={markerRef}
+            draggable={mapMode === MapModes.pan && isActive({ lat, lon })}
             position={[lat ?? 0, lon ?? 0]}
             icon={getReportIcon(status ?? 99, isActive({ lat, lon }))}
             pane="markerPane"
@@ -42,19 +115,9 @@ const ImportedReports: FC<TImportedReportsProps> = ({ reports, resetActiveStop }
             opacity={visibilityOptions.mapReport.value.opacityValue}
             zIndexOffset={isActive({ lat, lon }) ? 1000 : 0}
             eventHandlers={{
-              click: () => {
-                if (mapMode !== MapModes.connection) {
-                  setNewReportCoordinates({ lat: lat ?? 0, lon: lon ?? 0 });
-                  setActiveStop(null);
-                  resetActiveStop();
-                  if (isActive({ lat, lon }) && newReportCoordinates.lat && newReportCoordinates.lon) {
-                    setNewReportCoordinates({ lat: null, lon: null });
-                    handleReportClick(null);
-                  } else {
-                    handleReportClick({ lat, lon, id, tileId, messages });
-                  }
-                }
-              },
+              click: () => handleClick({ lat, lon, id, tileId, messages }),
+              dragstart: () => setIsDragging(true),
+              dragend: () => handleDragEnd(id!),
             }}>
             <Tooltip direction="top" offset={[0, -55]}>
               {lat?.toString().slice(0, 6)} {lon?.toString().slice(0, 6)}

@@ -298,7 +298,7 @@ export const en = {
     },
     pan: {
       header: 'Pan tool',
-      selectPrompt: 'Select GTFS stop to change its location',
+      selectPrompt: 'Select GTFS stop or report to change its location',
       updatePosition: 'Update stop position',
       resetPosition: 'Reset stop position',
       chosenStop: 'Chosen stop',
@@ -313,6 +313,7 @@ export const en = {
       confirmResetText: 'Are you sure you want to reset this stop to its original position?',
       stopWasMoved: 'Stop was moved successfully',
       stopIsOsm: 'OSM stops can only be moved using OpenStreetMap.',
+      reportCannotBeMovedOutsideOfTile: 'Report cannot be moved outside of its tile',
     },
     error: {
       unrecognizedProblem: 'Something went wrong. Please contact administrator.',

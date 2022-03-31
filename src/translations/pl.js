@@ -298,7 +298,7 @@ export const pl = {
     },
     pan: {
       header: 'Panel przesuwania przystanków',
-      selectPrompt: 'Wybierz przystanek GTFS aby zmnienić jego lokalizację',
+      selectPrompt: 'Wybierz przystanek GTFS lub raport aby zmienić jego lokalizację',
       updatePosition: 'Aktualizuj pozycję przystanku',
       resetPosition: 'Resetuj pozycję przystanku',
       chosenStop: 'Wybrany przystanek',
@@ -313,6 +313,7 @@ export const pl = {
       confirmResetText: 'Czy na pewno chcesz zresetować pozycję tego przystanku?',
       stopWasMoved: 'Przystanek został przesunięty',
       stopIsOsm: 'Przystanki OSM mogą być przesuwane wyłącznie za pomocą aplikacji OpenStreetMap',
+      reportCannotBeMovedOutsideOfTile: 'Raport nie może być przesunięty poza obszar kafelka',
     },
     error: {
       unrecognizedProblem: 'Coś poszło nie tak. Skontaktuj się z administrator§em.',

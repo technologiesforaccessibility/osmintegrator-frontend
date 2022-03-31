@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 type TConversationHeadingProps = {
   lat: number;
   lon: number;
-  activeStop: Stop;
+  activeStop: Stop | null;
   isReportActive: boolean;
   handleCloseReport: () => void;
   hasReport?: boolean;

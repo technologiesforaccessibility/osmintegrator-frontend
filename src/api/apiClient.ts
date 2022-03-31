@@ -63,6 +63,17 @@ export interface Conversation {
   status?: NoteStatus;
 }
 
+export interface ConversationPositionData {
+  /** @format double */
+  lat: number;
+
+  /** @format double */
+  lon: number;
+
+  /** @format uuid */
+  conversationId: string;
+}
+
 export interface ConversationResponse {
   stopConversations?: Conversation[] | null;
   geoConversations?: Conversation[] | null;
@@ -797,6 +808,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ConversationResponse, ProblemDetails>({
         path: `/api/Conversation/${tileId}`,
         method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conversation
+     * @name ConversationChangePositionUpdate
+     * @request PUT:/api/Conversation/ChangePosition
+     */
+    conversationChangePositionUpdate: (data: ConversationPositionData, params: RequestParams = {}) =>
+      this.request<Conversation, ProblemDetails>({
+        path: `/api/Conversation/ChangePosition`,
+        method: 'PUT',
+        body: data,
+        type: ContentType.Json,
         format: 'json',
         ...params,
       }),
