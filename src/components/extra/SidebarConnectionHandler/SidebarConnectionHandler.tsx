@@ -10,7 +10,7 @@ import { NotificationActions } from 'redux/actions/notificationActions';
 import { selectLoggedInUserRoles } from 'redux/selectors/authSelector';
 import { roles } from 'utilities/constants';
 import { exception } from 'utilities/exceptionHelper';
-import { generateConnectionData } from 'utilities/mapUtilities';
+import { generateConnectionData, generateStopName } from 'utilities/mapUtilities';
 
 import { MapContext } from '../../contexts/MapContextProvider';
 
@@ -56,12 +56,12 @@ const SidebarConnectionHandler = () => {
               <fieldset>
                 <legend>{t('connectionSidebarHandler.stopName')}</legend>
 
-                {connectedStopPair?.markedStop?.name || t('connectionSidebarHandler.noStopName')}
+                {generateStopName(connectedStopPair?.markedStop) || t('connectionSidebarHandler.noStopName')}
               </fieldset>
               <fieldset>
                 <legend>{t('connectionSidebarHandler.connectedWith')}</legend>
 
-                {connectedStopPair?.connectedStop?.name || t('connectionSidebarHandler.noStopName')}
+                {generateStopName(connectedStopPair?.connectedStop) || t('connectionSidebarHandler.noStopName')}
               </fieldset>
             </div>
 

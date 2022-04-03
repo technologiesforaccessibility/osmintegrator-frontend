@@ -110,11 +110,14 @@ const MapContextProvider: FC = ({ children }) => {
     }
   }, []);
 
-  const reset = useCallback(() => {
+  const reset = useCallback((value: string | null) => {
     setConnectionData([]);
-    setPropertyGrid(null);
-    setActiveStop(null);
     setConnectionRadio(ConnectionRadio.ADD);
+
+    if (value === MapModes.tile || value === MapModes.sync || value === MapModes.connection) {
+      setPropertyGrid(null);
+      setActiveStop(null);
+    }
   }, []);
 
   const hideTileElements = useCallback(() => {

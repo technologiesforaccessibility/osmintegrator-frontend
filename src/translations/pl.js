@@ -12,6 +12,9 @@ export const pl = {
       delete: 'Usuń',
       approve: 'Zatwierdź',
     },
+    viewMode: {
+      tagsTitle: 'Tagi',
+    },
     cookies: {
       title: 'Szanowny Kliencie',
       content:

@@ -87,7 +87,7 @@ export const MapView = () => {
   }, [setTiles, welcomeModalCookie.welcome_modal]);
 
   const addReportMarker = (e: LeafletMouseEvent) => {
-    const coords = { lat: e.latlng.lat, lon: e.latlng.lng };
+    const coords = { lat: e.coordinates.lat, lon: e.coordinates.lon };
     setNewReportCoordinates(coords);
     setActiveStop(null);
   };
