@@ -1,0 +1,23 @@
+.dashboard {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: grid;
+  grid-template-areas: 'header' 'content' 'footer';
+  grid-template-rows: 3.5rem auto 1.5rem;
+
+  &__header {
+    grid-area: header;
+  }
+
+  &__footer {
+    grid-area: footer;
+  }
+
+  &__content {
+    grid-area: content;
+  }
+}

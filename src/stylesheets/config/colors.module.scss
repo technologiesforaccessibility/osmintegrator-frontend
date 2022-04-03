@@ -9,6 +9,7 @@ $color-message-fail: red;
 $color-tile-all: black;
 $color-tile-active: olivedrab;
 $color-tile-active-explicit: purple;
+$color-tile-completed: #04471c;
 $color-connection-draft: blue;
 $color-connection-created: yellow;
 $color-connection-exported: green;
@@ -17,14 +18,15 @@ $color-tile-assigned: aqua;
 $color-blue-link: blue;
 
 :export {
-    colorMessageFail: $color-message-fail;
-    colorMessageSuccess: $color-message-success;
-    colorTileAll: $color-tile-all;
-    colorTileActive: $color-tile-active;
-    colorTileActiveExplicit: $color-tile-active-explicit;
-    colorConnectionDraft: $color-connection-draft;
-    colorConnectionCreated: $color-connection-created;
-    colorConnectionExported: $color-connection-exported;
-    colorConnectionMismatch: $color-connection-mismatch;
-    colorTileAssigned: $color-tile-assigned;
+  colorMessageFail: $color-message-fail;
+  colorMessageSuccess: $color-message-success;
+  colorTileAll: $color-tile-all;
+  colorTileActive: $color-tile-active;
+  colorTileActiveExplicit: $color-tile-active-explicit;
+  colorTileCompleted: $color-tile-completed;
+  colorConnectionDraft: $color-connection-draft;
+  colorConnectionCreated: $color-connection-created;
+  colorConnectionExported: $color-connection-exported;
+  colorConnectionMismatch: $color-connection-mismatch;
+  colorTileAssigned: $color-tile-assigned;
 }

@@ -12,6 +12,9 @@ export const en = {
       delete: 'Delete',
       approve: 'Approve',
     },
+    viewMode: {
+      tagsTitle: 'Tags',
+    },
     cookies: {
       title: 'Dear Customer',
       content:
@@ -293,7 +296,26 @@ export const en = {
       connection: 'Create new connection',
       tile: 'Tile details',
       sync: 'Sync',
+      move: 'Pan tool',
       back: 'Hide tile',
+    },
+    pan: {
+      header: 'Pan tool',
+      selectPrompt: 'Select GTFS stop to change its location',
+      updatePosition: 'Update stop position',
+      resetPosition: 'Reset stop position',
+      chosenStop: 'Chosen stop',
+      position: 'Position',
+      initialPosition: 'InitialPosition',
+      stopCannotBeMovedOutsideOfTile: 'Stop cannot be moved outside of its tile',
+      osmStopCannotBeMoved: 'Chosen stop is of OSM type and it cannot be moved',
+      lat: 'Lat:',
+      long: 'Long:',
+      initLat: 'Init lat:',
+      initLong: 'Init long:',
+      confirmResetText: 'Are you sure you want to reset this stop to its original position?',
+      stopWasMoved: 'Stop was moved successfully',
+      stopIsOsm: 'OSM stops can only be moved using OpenStreetMap.',
     },
     error: {
       unrecognizedProblem: 'Something went wrong. Please contact administrator.',

@@ -1,12 +1,12 @@
-import React, {Suspense} from 'react';
-import ReactDOM from 'react-dom';
 import './translations/i18n';
-
-import App from './components/App';
-import reportWebVitals from './reportWebVitals';
 import 'normalize.css';
+import 'stylesheets/index.scss';
 
-import './stylesheets/index.scss';
+import App from 'components/App/App';
+import React, { Suspense } from 'react';
+import ReactDOM from 'react-dom';
+
+import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>

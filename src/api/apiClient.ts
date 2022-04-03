@@ -115,6 +115,12 @@ export interface MessageInput {
   tileId: string;
 }
 
+export interface NewConnection {
+  /** @format uuid */
+  connectionId?: string;
+  message?: string | null;
+}
+
 export interface NewConnectionAction {
   /** @format uuid */
   tileId: string;
@@ -502,7 +508,7 @@ export class HttpClient<SecurityDataType = unknown> {
     return fetch(`${baseUrl || this.baseUrl || ''}${path}${queryString ? `?${queryString}` : ''}`, {
       ...requestParams,
       headers: {
-        ...(type && type !== ContentType.FormData ? {'Content-Type': type} : {}),
+        ...(type && type !== ContentType.FormData ? { 'Content-Type': type } : {}),
         ...(requestParams.headers || {}),
       },
       signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
@@ -563,7 +569,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name AccountLogoutCreate
      * @request POST:/api/Account/Logout
      */
-    accountLogoutCreate: (query?: {returnUrl?: string}, params: RequestParams = {}) =>
+    accountLogoutCreate: (query?: { returnUrl?: string }, params: RequestParams = {}) =>
       this.request<void, ProblemDetails>({
         path: `/api/Account/Logout`,
         method: 'POST',
@@ -709,11 +715,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/api/Connections
      */
     connectionsUpdate: (data: NewConnectionAction, params: RequestParams = {}) =>
-      this.request<void, ProblemDetails>({
+      this.request<NewConnection, ProblemDetails>({
         path: `/api/Connections`,
         method: 'PUT',
         body: data,
         type: ContentType.Json,
+        format: 'json',
         ...params,
       }),
 
@@ -807,6 +814,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: 'PUT',
         body: data,
         type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Gtfs
+     * @name GtfsUpdateStopsUpdate
+     * @request PUT:/api/Gtfs/UpdateStops
+     */
+    gtfsUpdateStopsUpdate: (data: { file?: File }, params: RequestParams = {}) =>
+      this.request<Report, ProblemDetails>({
+        path: `/api/Gtfs/UpdateStops`,
+        method: 'PUT',
+        body: data,
+        type: ContentType.FormData,
+        format: 'json',
         ...params,
       }),
 
@@ -1091,7 +1115,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name UsersList
      * @request GET:/api/Users
      */
-    usersList: (query?: {role?: string}, params: RequestParams = {}) =>
+    usersList: (query?: { role?: string }, params: RequestParams = {}) =>
       this.request<User[], ProblemDetails>({
         path: `/api/Users`,
         method: 'GET',
