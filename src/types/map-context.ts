@@ -40,7 +40,7 @@ export interface IMapContext {
   openReportContent: null | TMapReportContent;
   rerenderTiles: boolean;
   tiles: Array<Tile>;
-  connectedStopIds: Array<string>;
+  connectedStopIds: string[];
   areManageReportButtonsVisible: boolean;
   visibilityOptions: VisibilityOptions;
   activeStop: Stop | null;
@@ -59,7 +59,7 @@ export interface IMapContext {
   setIsSidebarConnectionHandlerVisible: (arg: boolean) => void;
   setAreManageReportButtonsVisible: (arg: boolean) => void;
   resetMapSettings: () => void;
-  setConnectedStopIds: (arg: Array<string>) => void;
+  setConnectedStopIds: (arg: string[]) => void;
   setTiles: (arg: Array<Tile>) => void;
   setRerenderTiles: (arg: boolean) => void;
   singleTileToggle: (arg: boolean) => void;
