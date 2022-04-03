@@ -12,6 +12,9 @@ export const en = {
       delete: 'Delete',
       approve: 'Approve',
     },
+    viewMode: {
+      tagsTitle: 'Tags',
+    },
     cookies: {
       title: 'Dear Customer',
       content:
@@ -73,7 +76,8 @@ export const en = {
     legend: {
       title: 'Legend',
       tileUnsigned: 'Tile not assigned',
-      tileSignedEditor: 'Tile assigned to the editor',
+      tileSigned: 'Tile assigned to the editor',
+      tileCompleted: 'All GTFS stops on this tile contains connections',
       stopOSM: 'OSM stop',
       stopOSMReport: 'OSM stop with report',
       stopOSMReportApprove: 'OSM stop with approved report',
@@ -86,7 +90,10 @@ export const en = {
       reportNew: 'Report pin',
       reportActive: 'Active report pin',
       reportInactive: 'Inactive report pin',
-      connectionNew: 'New connection',
+      connectionNotExported: 'New connection, not sent to the OSM',
+      connectionNotCreated: 'Connection not created',
+      connectionExported: 'Connection exported but not confirmed',
+      connectionExportedAndImported: 'Connection exported and confirmed',
     },
     login: {
       password: 'Password',
@@ -293,7 +300,26 @@ export const en = {
       connection: 'Create new connection',
       tile: 'Tile details',
       sync: 'Sync',
+      move: 'Pan tool',
       back: 'Hide tile',
+    },
+    pan: {
+      header: 'Pan tool',
+      selectPrompt: 'Select GTFS stop to change its location',
+      updatePosition: 'Update stop position',
+      resetPosition: 'Reset stop position',
+      chosenStop: 'Chosen stop',
+      position: 'Position',
+      initialPosition: 'InitialPosition',
+      stopCannotBeMovedOutsideOfTile: 'Stop cannot be moved outside of its tile',
+      osmStopCannotBeMoved: 'Chosen stop is of OSM type and it cannot be moved',
+      lat: 'Lat:',
+      long: 'Long:',
+      initLat: 'Init lat:',
+      initLong: 'Init long:',
+      confirmResetText: 'Are you sure you want to reset this stop to its original position?',
+      stopWasMoved: 'Stop was moved successfully',
+      stopIsOsm: 'OSM stops can only be moved using OpenStreetMap.',
     },
     error: {
       unrecognizedProblem: 'Something went wrong. Please contact administrator.',
