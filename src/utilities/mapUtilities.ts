@@ -30,7 +30,9 @@ const generateConnectionData = (connection: TConnectionData[], tileId?: any) => 
   throw new Error();
 };
 
-const generateStopName = (stop: Stop) => {
+const generateStopName = (stop: Stop | null) => {
+  if (!stop) return '-';
+
   let result = stop.name || stop.id;
   if (stop.number) {
     result += ' ' + stop.number;

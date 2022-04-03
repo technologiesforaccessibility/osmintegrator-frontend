@@ -13,7 +13,7 @@ import SidebarConnectionHandler from '../../extra/SidebarConnectionHandler/Sideb
 import SidebarContainer from '../../extra/SidebarContainer';
 import MapPanel from '../../map/Panel/MapPanel';
 import SyncPanel from '../../map/SyncPanel/SyncPanel';
-import PropertyGrid from '../../property/PropertyGrid/PropertyGrid';
+import ViewPanel from '../../property/PropertyGrid/ViewPanel';
 import NewReport from '../../reports/NewReport/NewReport';
 import TileDetails from '../../tiles/TileDetails/TileDetails';
 
@@ -26,18 +26,18 @@ const DashboardSidebar = () => {
       <>
         {mapMode === MapModes.view ? (
           propertyGrid ? (
-            <PropertyGrid propertyGrid={propertyGrid} />
+            <ViewPanel propertyGrid={propertyGrid} />
           ) : (
             <p>{t('sidebar.viewPlaceholder')}</p>
           )
         ) : null}
         {mapMode === MapModes.report && <NewReport />}
+        {mapMode === MapModes.pan && <PositionChangePanel />}
         {mapMode === MapModes.connection && <ConnectionRadioGroup />}
         {mapMode === MapModes.connection && connectionRadio === ConnectionRadio.ADD && <ConnectionSidePanel />}
         {mapMode === MapModes.connection && connectionRadio === ConnectionRadio.EDIT && <SidebarConnectionHandler />}
         {mapMode === MapModes.tile && <TileDetails />}
         {mapMode === MapModes.sync && <SyncPanel />}
-        {mapMode === MapModes.pan && <PositionChangePanel />}
       </>
     </SidebarContainer>
   );

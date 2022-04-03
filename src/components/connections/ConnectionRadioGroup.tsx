@@ -9,11 +9,13 @@ import { ConnectionRadio } from 'types/enums';
 import { MapContext } from '../contexts/MapContextProvider';
 
 const ConnectionRadioGroup: FC = () => {
-  const { connectionRadio, setConnectionRadio } = useContext(MapContext);
+  const { connectionRadio, setConnectionRadio, setConnectionData, setActiveStop } = useContext(MapContext);
   const { t } = useTranslation();
 
   const handleChange = (event: any) => {
     setConnectionRadio(event.target.value);
+    setConnectionData([]);
+    setActiveStop(null);
   };
 
   return (

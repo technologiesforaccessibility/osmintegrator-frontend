@@ -66,7 +66,8 @@ export interface IMapContext {
   activeMapToggle: (arg: boolean) => void;
   displayPropertyGrid: (arg: Stop | Conversation | null) => void;
   updateConnectionData: (arg: Stop) => void;
-  reset: () => void;
+  setConnectionData: React.Dispatch<React.SetStateAction<Stop[]>>;
+  reset: (arg: string) => void;
   shouldRenderConnections: (arg: boolean) => void;
   toggleMapMode: (arg: string) => void;
   setNewReportCoordinates: React.Dispatch<React.SetStateAction<TCoordinates>>;

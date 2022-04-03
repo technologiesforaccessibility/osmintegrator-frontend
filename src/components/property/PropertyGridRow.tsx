@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 
 type TPropertyGridRowProps = {
-  title: string;
-  value: boolean | null | Record<string, unknown>;
+  title: string | undefined | null;
+  value: boolean | null | Record<string, unknown> | string | undefined;
 };
 
 const PropertyGridRow: FC<TPropertyGridRowProps> = ({ title, value }) => {

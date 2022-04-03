@@ -120,9 +120,11 @@ const BusMarker: FC<TBusMarkerProps> = ({
       return getBusStopIcon(stop as TBusStopProperties, isActiveStopClicked(stop.id ?? ''));
     } else if (isConnectionMode) {
       const activeStopWithConnection = connectionData.filter(connection => connection.id === stop.id);
-      return activeStopWithConnection.length > 0
-        ? getBusStopIcon(stop as TBusStopProperties, true)
-        : getBusStopIcon(stop as TBusStopProperties, false);
+      return getBusStopIcon(
+        stop as TBusStopProperties,
+        activeStopWithConnection.length > 0 ||
+          (isActiveStopClicked(stop.id ?? '') && activeStopWithConnection.length === 0),
+      );
     } else {
       return getBusStopIcon(stop as TBusStopProperties, false);
     }
@@ -166,6 +168,7 @@ const BusMarker: FC<TBusMarkerProps> = ({
     setDraggableStopId(busStop.id ?? '');
     setMarkerReference(markerRef.current);
     setNewReportCoordinates({ lat: null, lon: null });
+
     if (isConnectionMode) {
       if (connectionRadio === ConnectionRadio.ADD) {
         createConnection(busStop);
@@ -176,10 +179,12 @@ const BusMarker: FC<TBusMarkerProps> = ({
           handleViewModeStopClick(busStop);
         }
       }
-    } else if (
+    }
+
+    if (
       isViewMode ||
       isReportMode ||
-      (isPanMode && mouseEvent.latlng.lat === activeStop?.lat && mouseEvent.latlng.lng === activeStop.lon)
+      (isPanMode && mouseEvent.coordinates.lat === activeStop?.lat && mouseEvent.coordinates.lon === activeStop.lon)
     ) {
       if (isActiveStopClicked(busStop.id ?? '')) {
         clickBusStop();

@@ -32,14 +32,16 @@ const MapPanel = () => {
     setNewReportCoordinates,
     setActiveStop,
     setRerenderTiles,
+    reset,
   } = useContext(MapContext);
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [lastSelectedMenuItem, setLastMenuItem] = useState<string>(MapModes.view);
 
-  const radios = [
+  const menuItems = [
     {
       title: t('tileModePrompts.view'),
       name: MapModes.view,
@@ -49,6 +51,11 @@ const MapPanel = () => {
       title: t('tileModePrompts.report'),
       name: MapModes.report,
       icon: () => <ReportIcon />,
+    },
+    {
+      title: t('tileModePrompts.move'),
+      name: MapModes.pan,
+      icon: () => <PanToolIcon />,
     },
     {
       title: t('tileModePrompts.connection'),
@@ -65,15 +72,12 @@ const MapPanel = () => {
       name: MapModes.sync,
       icon: () => <SyncIcon />,
     },
-    {
-      title: t('tileModePrompts.move'),
-      name: MapModes.pan,
-      icon: () => <PanToolIcon />,
-    },
   ];
 
-  const handleChange = (_: unknown, value: string) => {
-    toggleMapMode(value);
+  const handleChange = (_: unknown, currentMenuItem: string) => {
+    toggleMapMode(currentMenuItem);
+    reset(lastSelectedMenuItem);
+    setLastMenuItem(currentMenuItem);
   };
 
   return (
@@ -105,7 +109,7 @@ const MapPanel = () => {
               size="small"
               color="primary"
               onChange={handleChange}>
-              {radios.map(({ title, name, icon }, index) => (
+              {menuItems.map(({ title, name, icon }, index) => (
                 <ToggleButton className="map-panel__toggle--modes" key={index} value={name} color="primary">
                   <Tooltip title={title}>{icon()}</Tooltip>
                 </ToggleButton>

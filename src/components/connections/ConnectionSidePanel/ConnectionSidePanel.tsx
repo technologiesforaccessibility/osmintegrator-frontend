@@ -8,7 +8,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { NotificationActions } from 'redux/actions/notificationActions';
-import { StopType } from 'types/enums';
+import { ConnectionRadio, StopType } from 'types/enums';
 import { exception } from 'utilities/exceptionHelper';
 import { generateConnectionData, generateStopName } from 'utilities/mapUtilities';
 
@@ -17,7 +17,8 @@ import { MapContext } from '../../contexts/MapContextProvider';
 const ConnectionSidePanel = () => {
   const {
     connectionData,
-    reset,
+    setConnectionData,
+    setConnectionRadio,
     setImportedConnections,
     activeTile,
     setNewReportCoordinates,
@@ -39,7 +40,10 @@ const ConnectionSidePanel = () => {
   }, []);
 
   const resetConnection = () => {
-    reset();
+    setConnectionData([]);
+    setConnectionRadio(ConnectionRadio.ADD);
+    setActiveStop(null);
+
     setError(false);
   };
 

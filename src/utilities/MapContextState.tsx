@@ -72,6 +72,7 @@ export const initialMapContextState: IMapContext = {
   activeMapToggle: () => null,
   displayPropertyGrid: () => null,
   updateConnectionData: () => null,
+  setConnectionData: () => null,
   reset: () => null,
   shouldRenderConnections: () => null,
   toggleMapMode: () => null,
