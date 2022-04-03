@@ -74,7 +74,8 @@ export const pl = {
     legend: {
       title: 'Legenda',
       tileUnsigned: 'Kafelek nie przypisany',
-      tileSignedEditor: 'Kafelek przypisany do edytora',
+      tileSigned: 'Kafelek przypisany do edytora',
+      tileCompleted: 'Wszystkie przystanki ZTM na tym kafelku posiadają połączenia',
       stopOSM: 'Przystanek OSM',
       stopOSMReport: 'Przystanek OSM z zgłoszeniem',
       stopOSMReportApprove: 'Przystanek OSM z zatwierdzonym zgłoszeniem',
@@ -87,7 +88,10 @@ export const pl = {
       reportNew: 'Pinezka zgłoszenia',
       reportActive: 'Pinezka aktywnego zgłoszenia',
       reportInactive: 'Pinezka nieaktywnego zgłoszenia',
-      connectionNew: 'Nowe połączenie',
+      connectionNotExported: 'Nowe połączenie, nie wysłane do OSM',
+      connectionNotCreated: 'Połączenie jeszcze nie utworzone',
+      connectionExported: 'Połączenie wysłane do OSM, ale przed pobraniem danych z OSM',
+      connectionExportedAndImported: 'Połączone wysłane oraz po pobraniu najnowszej wersji z systemu OSM',
     },
     login: {
       password: 'Hasło',

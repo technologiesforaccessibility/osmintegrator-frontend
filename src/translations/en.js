@@ -76,7 +76,8 @@ export const en = {
     legend: {
       title: 'Legend',
       tileUnsigned: 'Tile not assigned',
-      tileSignedEditor: 'Tile assigned to the editor',
+      tileSigned: 'Tile assigned to the editor',
+      tileCompleted: 'All GTFS stops on this tile contains connections',
       stopOSM: 'OSM stop',
       stopOSMReport: 'OSM stop with report',
       stopOSMReportApprove: 'OSM stop with approved report',
@@ -89,7 +90,10 @@ export const en = {
       reportNew: 'Report pin',
       reportActive: 'Active report pin',
       reportInactive: 'Inactive report pin',
-      connectionNew: 'New connection',
+      connectionNotExported: 'New connection, not sent to the OSM',
+      connectionNotCreated: 'Connection not created',
+      connectionExported: 'Connection exported but not confirmed',
+      connectionExportedAndImported: 'Connection exported and confirmed',
     },
     login: {
       password: 'Password',
