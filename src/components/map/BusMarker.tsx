@@ -184,7 +184,7 @@ const BusMarker: FC<TBusMarkerProps> = ({
     if (
       isViewMode ||
       isReportMode ||
-      (isPanMode && mouseEvent.coordinates.lat === activeStop?.lat && mouseEvent.coordinates.lon === activeStop.lon)
+      (isPanMode && mouseEvent.latlng.lat === activeStop?.lat && mouseEvent.latlng.lng === activeStop.lon)
     ) {
       if (isActiveStopClicked(busStop.id ?? '')) {
         clickBusStop();
