@@ -20,6 +20,8 @@ const SidebarConnectionHandler = () => {
     setIsSidebarConnectionHandlerVisible,
     setImportedConnections,
     setConnectedStopPair,
+    connectedStopIds,
+    setConnectedStopIds,
     isSidebarConnectionHandlerVisible,
     activeStop,
   } = useContext(MapContext);
@@ -38,6 +40,9 @@ const SidebarConnectionHandler = () => {
         oldConnections.filter(
           c => c.gtfsStopId !== connectionData.gtfsStopId && c.osmStopId !== connectionData.osmStopId,
         ),
+      );
+      setConnectedStopIds(
+        connectedStopIds.filter(s => s !== connectionData.gtfsStopId && s !== connectionData.osmStopId),
       );
       setIsSidebarConnectionHandlerVisible(false);
       setConnectedStopPair({ markedStop: null, connectedStop: null, connection: null });

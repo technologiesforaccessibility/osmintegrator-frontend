@@ -13,13 +13,17 @@ import osmStopReportApproved from 'assets/angledIcons/osm_stop_report_approved.p
 import osmStopReportApprovedOutside from 'assets/angledIcons/osm_stop_report_approved-out.png';
 import osmStopReportOutside from 'assets/angledIcons/osm_stop_report-out.png';
 import osmStopOutside from 'assets/angledIcons/osm_stop-out.png';
-import connectionNotApproved from 'assets/connection_not_approved.png';
+import tileCompleted from 'assets/completed.png';
+import connectionExported from 'assets/connection_exported.png';
+import connectionExportedAndImported from 'assets/connection_exported_and_imported.png';
+import connectionNotCreated from 'assets/connection_not_created.png';
+import connectionNotExported from 'assets/connection_not_exported.png';
 import reportBlueIcon from 'assets/report_blue.png';
 import reportGrayIcon from 'assets/report_gray.png';
 import reportGreenIcon from 'assets/report_green.png';
-import tileSignedEditor from 'assets/signed.png';
+import tileSigned from 'assets/signed.png';
 import tileUnsigned from 'assets/unsigned.png';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const Legend = () => {
@@ -30,7 +34,8 @@ const Legend = () => {
 
   const icons = [
     { src: tileUnsigned, text: t('legend.tileUnsigned') },
-    { src: tileSignedEditor, text: t('legend.tileSignedEditor') },
+    { src: tileSigned, text: t('legend.tileSigned') },
+    { src: tileCompleted, text: t('legend.tileCompleted') },
     { src: osmStop, text: t('legend.stopOSM') },
     { src: osmStopReport, text: t('legend.stopOSMReport') },
     { src: osmStopReportApproved, text: t('legend.stopOSMReportApprove') },
@@ -43,7 +48,10 @@ const Legend = () => {
     { src: reportGrayIcon, text: t('legend.reportNew') },
     { src: reportBlueIcon, text: t('legend.reportActive') },
     { src: reportGreenIcon, text: t('legend.reportInactive') },
-    { src: connectionNotApproved, text: t('legend.connectionNew') },
+    { src: connectionNotCreated, text: t('legend.connectionNotCreated') },
+    { src: connectionNotExported, text: t('legend.connectionNotExported') },
+    { src: connectionExported, text: t('legend.connectionExported') },
+    { src: connectionExportedAndImported, text: t('legend.connectionExportedAndImported') },
   ];
 
   const getIcons = icons.map(({ src, text }, id) => (

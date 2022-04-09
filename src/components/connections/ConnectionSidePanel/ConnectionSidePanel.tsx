@@ -16,6 +16,8 @@ import { MapContext } from '../../contexts/MapContextProvider';
 
 const ConnectionSidePanel = () => {
   const {
+    setConnectedStopIds,
+    connectedStopIds,
     connectionData,
     setConnectionData,
     setConnectionRadio,
@@ -65,6 +67,12 @@ const ConnectionSidePanel = () => {
         ...oldConnections,
         { id: connectionId, exported: false, gtfsStopId, osmStopId },
       ]);
+
+      const connectedStops: string[] = [...connectedStopIds];
+      if (gtfsStopId) connectedStops.push(gtfsStopId);
+      if (osmStopId) connectedStops.push(osmStopId);
+      setConnectedStopIds(connectedStops);
+
       resetConnection();
       dispatch(NotificationActions.success(t('connection.createSuccessMessage')));
       setActiveStop(null);
