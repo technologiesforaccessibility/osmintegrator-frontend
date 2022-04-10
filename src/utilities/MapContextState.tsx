@@ -108,9 +108,9 @@ export const initialMapContextVisibility = (reset = false) => ({
     value: getVisibilityValueFromStateOrReturn(localStorageStopTypes.unconnected, reset),
   },
   mapReport: {
-    localStorageName: localStorageStopTypes.unconnected,
+    localStorageName: localStorageStopTypes.mapReport,
     name: i18n.t('connectionVisibility.mapReport'),
-    value: getVisibilityValueFromStateOrReturn(localStorageStopTypes.unconnected, reset),
+    value: getVisibilityValueFromStateOrReturn(localStorageStopTypes.mapReport, reset),
   },
 });
 

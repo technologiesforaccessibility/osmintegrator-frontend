@@ -46,7 +46,7 @@ const TileStops: FC<TTileStopsProps> = ({
   return (
     <>
       {areStopsVisible &&
-        stopsToRender.map((busStop, index) => (
+        stopsToRender.map(busStop => (
           <BusMarker
             busStop={busStop}
             isConnectionMode={isConnectionMode}
@@ -56,7 +56,7 @@ const TileStops: FC<TTileStopsProps> = ({
             isPanMode={isPanMode}
             isActiveStopClicked={isActiveStopClicked}
             clickBusStop={clickBusStop}
-            key={`bust_stop_${index}`}
+            key={`bust_stop_${busStop.id}`}
           />
         ))}
     </>
