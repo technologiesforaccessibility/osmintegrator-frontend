@@ -49,5 +49,5 @@ export const connectionVisibility = {
 export const localStorageStopTypes = {
   connected: 'connectedStopVisibility',
   unconnected: 'unconnectedStopVisibility',
-  approved: 'stopWithApprovedConnectionVisibility',
+  mapReport: 'mapReportVisibility',
 };

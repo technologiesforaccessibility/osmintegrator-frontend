@@ -72,13 +72,13 @@ const SavedConnections: FC<SavedConnectionsProps> = ({ stops }) => {
       {stops.length > 0 &&
         importedConnections
           .filter(({ id }) => !!id)
-          .map((connection, index) => {
+          .map(connection => {
             const foundOSM = stops.find(stop => stop.id === connection.osmStopId);
             const foundGTFS = stops.find(stop => stop.id === connection.gtfsStopId);
             if (foundOSM && foundGTFS) {
               return (
                 <Polyline
-                  key={index}
+                  key={connection.id}
                   pathOptions={{
                     color: getPathLineColor(connection, foundGTFS, foundOSM),
                     opacity: visibilityOptions.connected.value.opacityValue,
@@ -88,7 +88,7 @@ const SavedConnections: FC<SavedConnectionsProps> = ({ stops }) => {
                   {
                     <>
                       <Tooltip direction="bottom">{t('connection.deleteConnectionInfo')}</Tooltip>
-                      <Popup ref={popupRef} key={`popup_${index}`} closeButton={false}>
+                      <Popup ref={popupRef} key={`popup_${connection.id}`} closeButton={false}>
                         <EditConnectionPopup
                           closePopup={closePopup}
                           deleteConnection={deleteConnection}
