@@ -39,8 +39,8 @@ const generateStopName = (stop: Stop | null) => {
   }
   if (stop.stopType === StopType.GTFS) return result;
 
-  const refTag = stop.tags?.find(x => x.key === 'ref');
-  return (result += `, ref: ${refTag?.value || '-'}`);
+  const refTag = stop.tags?.find(x => x.key === 'ref:metropolia');
+  return (result += `, ref:metropolia: ${refTag?.value || '-'}`);
 };
 
 export { generateConnectionData, generateStopName, getPosition };
