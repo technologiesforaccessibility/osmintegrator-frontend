@@ -56,7 +56,7 @@ const SavedConnections: FC<SavedConnectionsProps> = ({ stops }) => {
 
   const getPathLineColor = (connection: Connection, gtfsStop: Stop, osmStop: Stop) => {
     if (connection.exported) {
-      const osmRefTags = osmStop.tags?.filter(tag => tag.key === 'ref:metropolia') ?? [];
+      const osmRefTags = osmStop.tags?.filter(tag => tag.key === 'ref:metropoliaztm') ?? [];
       const osmRefTagValue = osmRefTags.length > 0 ? osmRefTags[0].value : null;
 
       return osmRefTagValue === gtfsStop.stopId?.toString()
