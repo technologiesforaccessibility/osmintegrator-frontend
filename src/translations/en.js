@@ -73,6 +73,10 @@ export const en = {
       supervisorConfirmation: 'Are you sure you want to approve all connections on the selected tile?',
       successMessage: 'Tile has been sent',
     },
+    mapLink: {
+      openInOsmTooltip: 'Open in OSM',
+      openInGoogleMapTooltip: 'Open in Google Map',
+    },
     legend: {
       title: 'Legend',
       tileUnsigned: 'Tile not assigned',

@@ -5,7 +5,7 @@ import { Box, Modal } from '@mui/material';
 import { Connection, Conversation, Stop } from 'api/apiClient';
 import api from 'api/apiInstance';
 import { basicHeaders } from 'config/apiConfig';
-import { LeafletMouseEvent } from 'leaflet';
+import { LeafletMouseEvent, Map } from 'leaflet';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
@@ -22,6 +22,7 @@ import WelcomeModal from '../../extra/WelcomeModal/WelcomeModal';
 import DraftConnections from '../DraftConnections';
 import ImportedReports from '../ImportedReports';
 import Legend from '../Legend/Legend';
+import MapLink from '../MapLink/MapLink';
 import MapTiles from '../MapTiles';
 import NewReportMarker from '../NewReportMarker';
 import SavedConnections from '../SavedConnections';
@@ -34,8 +35,10 @@ export const MapView = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
 
+  const [map, setMap] = useState<Map | null>(null);
+
   const currentLocation = { lat: 50.29, lng: 19.01 };
-  const zoom = 10;
+  const initialZoom = 10;
   const maxZoom = 19;
 
   const {
@@ -275,8 +278,9 @@ export const MapView = () => {
       <Loader isLoading={isLoading} />
       <MapContainer
         center={currentLocation}
-        zoom={zoom}
+        zoom={initialZoom}
         maxZoom={maxZoom}
+        whenCreated={setMap}
         style={{
           position: 'relative',
           height: 'calc(100vh - 5rem)',
@@ -309,6 +313,7 @@ export const MapView = () => {
         />
         <NewReportMarker newReportCoordinates={newReportCoordinates} />
         <ImportedReports reports={importedReports} resetActiveStop={() => setActiveStop(null)} />
+        {map ? <MapLink map={map} /> : null}
         <Legend />
       </MapContainer>
       {modal && !welcomeModalCookie.welcome_modal && (

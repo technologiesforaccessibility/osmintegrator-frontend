@@ -71,6 +71,10 @@ export const pl = {
       supervisorConfirmation: 'Czy jesteś pewien, że chcesz zatwierdzić wszystkie połączenia na wybranym kafelku?',
       successMessage: 'Kafelek został wysłany',
     },
+    mapLink: {
+      openInOsmTooltip: 'Otwórz w OSM',
+      openInGoogleMapTooltip: 'Otwórz w Google Map',
+    },
     legend: {
       title: 'Legenda',
       tileUnsigned: 'Kafelek nie przypisany',
