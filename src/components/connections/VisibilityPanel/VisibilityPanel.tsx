@@ -1,4 +1,4 @@
-import './connectionVisibilityPanel.scss';
+import './visibilityPanel.scss';
 
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, Button, Grid, Modal } from '@mui/material';
@@ -8,15 +8,15 @@ import Tooltip from '@mui/material/Tooltip';
 import { FC, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { modalStyle } from 'stylesheets/sharedStyles';
-import { connectionVisibility } from 'utilities/constants';
+import { visibilityIcons } from 'utilities/constants';
 
 import { MapContext } from '../../contexts/MapContextProvider';
 
-type TConnectionVisibilityPanelProps = {
+type TVisibilityPanelProps = {
   handleClose: () => void;
 };
 
-const ConnectionVisibilityPanel: FC<TConnectionVisibilityPanelProps> = ({ handleClose }) => {
+const VisibilityPanel: FC<TVisibilityPanelProps> = ({ handleClose }) => {
   const { visibilityOptions, setVisibilityOptions, resetMapVisibility } = useContext(MapContext);
   const { t } = useTranslation();
   const [childModal, setChildModal] = useState(false);
@@ -55,7 +55,7 @@ const ConnectionVisibilityPanel: FC<TConnectionVisibilityPanelProps> = ({ handle
               exclusive
               color="primary"
               onChange={(_, newValue) => handleChange(key, newValue, value.localStorageName)}>
-              {Object.values(connectionVisibility).map((val, index) => (
+              {Object.values(visibilityIcons).map((val, index) => (
                 <ToggleButton
                   className="connection-visibility-panel__toggle--modes"
                   value={val}
@@ -69,13 +69,13 @@ const ConnectionVisibilityPanel: FC<TConnectionVisibilityPanelProps> = ({ handle
         ))}
         <Grid container justifyContent="flex-end" pt={1}>
           <Button onClick={() => handleModal(true)} variant="contained">
-            {t('connectionVisibility.resetButton')}
+            {t('visibilityPanel.resetButton')}
           </Button>
         </Grid>
 
         <Modal open={childModal}>
           <Box sx={modalStyle}>
-            <p>{t('connectionVisibility.resetInfo')}</p>
+            <p>{t('visibilityPanel.resetInfo')}</p>
             <Grid container justifyContent="space-evenly" pt={2}>
               <Button onClick={() => handleModal(false)} variant="outlined">
                 {t('no')}
@@ -91,4 +91,4 @@ const ConnectionVisibilityPanel: FC<TConnectionVisibilityPanelProps> = ({ handle
   );
 };
 
-export default ConnectionVisibilityPanel;
+export default VisibilityPanel;

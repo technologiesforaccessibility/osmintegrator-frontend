@@ -48,10 +48,11 @@ export const en = {
       addLabel: 'New connection',
       editLabel: 'Edit stop connection',
     },
-    connectionVisibility: {
+    visibilityPanel: {
       nameConnected: 'Connected stops',
       nameUnconnected: 'Unconnected stops',
-      mapReport: 'Map reports',
+      mapReportActive: 'Active reports',
+      mapReportApproved: 'Inactive reports',
       nameApproved: 'Approved stops',
       visible: 'Visible',
       semiTransparent: 'Semi transparent',
