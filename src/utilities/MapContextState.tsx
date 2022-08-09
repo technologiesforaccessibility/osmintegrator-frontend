@@ -43,7 +43,12 @@ export const initialMapContextState: IMapContext = {
       name: 'string',
       value: { text: 'string', opacityValue: 0, icon: () => <span /> },
     },
-    mapReport: {
+    mapReportActive: {
+      localStorageName: 'string',
+      name: 'string',
+      value: { text: 'string', opacityValue: 0, icon: () => <span /> },
+    },
+    mapReportApproved: {
       localStorageName: 'string',
       name: 'string',
       value: { text: 'string', opacityValue: 0, icon: () => <span /> },
@@ -99,18 +104,23 @@ export const initialMapContextState: IMapContext = {
 export const initialMapContextVisibility = (reset = false) => ({
   connected: {
     localStorageName: localStorageStopTypes.connected,
-    name: i18n.t('connectionVisibility.nameConnected'),
+    name: i18n.t('visibilityPanel.nameConnected'),
     value: getVisibilityValueFromStateOrReturn(localStorageStopTypes.connected, reset),
   },
   unconnected: {
     localStorageName: localStorageStopTypes.unconnected,
-    name: i18n.t('connectionVisibility.nameUnconnected'),
+    name: i18n.t('visibilityPanel.nameUnconnected'),
     value: getVisibilityValueFromStateOrReturn(localStorageStopTypes.unconnected, reset),
   },
-  mapReport: {
-    localStorageName: localStorageStopTypes.mapReport,
-    name: i18n.t('connectionVisibility.mapReport'),
-    value: getVisibilityValueFromStateOrReturn(localStorageStopTypes.mapReport, reset),
+  mapReportActive: {
+    localStorageName: localStorageStopTypes.mapReportActive,
+    name: i18n.t('visibilityPanel.mapReportActive'),
+    value: getVisibilityValueFromStateOrReturn(localStorageStopTypes.mapReportActive, reset),
+  },
+  mapReportApproved: {
+    localStorageName: localStorageStopTypes.mapReportApproved,
+    name: i18n.t('visibilityPanel.mapReportApproved'),
+    value: getVisibilityValueFromStateOrReturn(localStorageStopTypes.mapReportApproved, reset),
   },
 });
 

@@ -28,19 +28,19 @@ export const roles = {
   USER: 'User',
 };
 
-export const connectionVisibility = {
+export const visibilityIcons = {
   hidden: {
-    text: i18n.t('connectionVisibility.hidden'),
+    text: i18n.t('visibilityPanel.hidden'),
     opacityValue: 0,
     icon: () => <OutlinedDotIcon />,
   },
   semiTransparent: {
-    text: i18n.t('connectionVisibility.semiTransparent'),
+    text: i18n.t('visibilityPanel.semiTransparent'),
     opacityValue: 0.5,
     icon: () => <HalfFullfilledDotIcon />,
   },
   visible: {
-    text: i18n.t('connectionVisibility.visible'),
+    text: i18n.t('visibilityPanel.visible'),
     opacityValue: 1,
     icon: () => <FullfilledDotIcon />,
   },
@@ -49,5 +49,6 @@ export const connectionVisibility = {
 export const localStorageStopTypes = {
   connected: 'connectedStopVisibility',
   unconnected: 'unconnectedStopVisibility',
-  mapReport: 'mapReportVisibility',
+  mapReportActive: 'mapReportActiveVisibility',
+  mapReportApproved: 'mapReportApprovedVisibility',
 };

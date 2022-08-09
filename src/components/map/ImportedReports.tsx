@@ -29,6 +29,12 @@ const ImportedReports: FC<TImportedReportsProps> = ({ reports, resetActiveStop }
     return JSON.stringify(iconCord) === JSON.stringify(newReportCoordinates);
   };
 
+  const markerOpacity = (status: undefined | number) => {
+    if (status === 0) return visibilityOptions.mapReportActive.value.opacityValue;
+    if (status === 1) return visibilityOptions.mapReportApproved.value.opacityValue;
+    return 1; // fully visible
+  };
+
   return (
     <>
       {reports.map(({ lat, lon, id, tileId, messages, status }, index) => {
@@ -39,7 +45,7 @@ const ImportedReports: FC<TImportedReportsProps> = ({ reports, resetActiveStop }
             icon={getReportIcon(status ?? 99, isActive({ lat, lon }))}
             pane="markerPane"
             shadowPane="tooltipPane"
-            opacity={visibilityOptions.mapReport.value.opacityValue}
+            opacity={markerOpacity(status)}
             zIndexOffset={isActive({ lat, lon }) ? 1000 : 0}
             eventHandlers={{
               click: () => {
