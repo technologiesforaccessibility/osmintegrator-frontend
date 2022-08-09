@@ -47,10 +47,11 @@ export const pl = {
       addLabel: 'Nowe połączenie',
       editLabel: 'Edytuj połączenie dla przystanku',
     },
-    connectionVisibility: {
+    visibilityPanel: {
       nameConnected: 'Połączone przystanki',
       nameUnconnected: 'Niepołączone przystanki',
-      mapReport: 'Pinezki z raportami',
+      mapReportActive: 'Aktywne Raporty',
+      mapReportApproved: 'Nieaktywne raporty',
       nameApproved: 'Zatwierdzone przystanki',
       visible: 'Pełna widoczność',
       semiTransparent: 'Częściowo przeźroczyste',

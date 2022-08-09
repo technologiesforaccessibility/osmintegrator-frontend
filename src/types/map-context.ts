@@ -20,7 +20,8 @@ interface Option {
 interface VisibilityOptions {
   connected: Option;
   unconnected: Option;
-  mapReport: Option;
+  mapReportActive: Option;
+  mapReportApproved: Option;
 }
 
 export interface IMapContext {

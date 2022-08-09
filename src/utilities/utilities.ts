@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { StopType } from 'types/enums';
 import { TBusStopProperties, TStopIconProperties, TStopShadowProperties } from 'types/stops';
 
-import { connectionVisibility } from './constants';
+import { visibilityIcons } from './constants';
 
 export const reportIcons = {
   initial: reportGrayIcon,
@@ -195,22 +195,22 @@ const getVisibilityValueFromStateOrReturn = (itemKey: string, reset: boolean) =>
 
   if (storageItem && !reset) {
     //good for now - can be rafactored later
-    const connectionVisibilityKey = Object.entries(connectionVisibility).filter(
+    const connectionVisibilityKey = Object.entries(visibilityIcons).filter(
       el => el[1].text === JSON.parse(storageItem).text,
     )[0][0];
 
     switch (connectionVisibilityKey) {
       case 'hidden':
-        return connectionVisibility.hidden;
+        return visibilityIcons.hidden;
       case 'semiTransparent':
-        return connectionVisibility.semiTransparent;
+        return visibilityIcons.semiTransparent;
       case 'visible':
-        return connectionVisibility.visible;
+        return visibilityIcons.visible;
       default:
-        return connectionVisibility.visible;
+        return visibilityIcons.visible;
     }
   } else {
-    return connectionVisibility.visible;
+    return visibilityIcons.visible;
   }
 };
 

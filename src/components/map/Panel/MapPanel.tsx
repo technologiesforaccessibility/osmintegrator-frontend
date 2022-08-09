@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { modalStyle } from 'stylesheets/sharedStyles';
 import { MapModes } from 'utilities/MapContextState';
 
-import ConnectionVisibilityPanel from '../../connections/ConnectionVisibilityPanel/ConnectionVisibilityPanel';
+import VisibilityPanel from '../../connections/VisibilityPanel/VisibilityPanel';
 import { MapContext } from '../../contexts/MapContextProvider';
 import MapOptions from './MapOptions';
 
@@ -122,7 +122,7 @@ const MapPanel = () => {
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description">
               <Box sx={modalStyle}>
-                <ConnectionVisibilityPanel handleClose={handleClose} />
+                <VisibilityPanel handleClose={handleClose} />
               </Box>
             </Modal>
           </div>
